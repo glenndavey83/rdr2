@@ -1,0 +1,337 @@
+
+
+// MIXINS
+
+
+// Font-size
+
+@mixin font-size($size) {
+  $pxValue: ($size * 10);
+  font-size: $pxValue+px; 
+  font-size: $size+rem;
+}
+
+
+// Placeholder 
+
+@mixin placeholder {
+	&::-webkit-input-placeholder {@content}
+	&:-moz-placeholder           {@content}
+	&::-moz-placeholder          {@content}
+	&:-ms-input-placeholder      {@content}  
+}
+
+
+// Hyphens
+
+@mixin hyphens($value) {
+	@if ($value == "") {
+		$value : "auto";
+	}
+	-webkit-hyphens: $value;
+	-moz-hyphens:    $value;
+	-ms-hyphens:     $value;
+	hyphens:         $value;
+}
+
+
+// Clearfix
+
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+.clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+
+// Triangle
+
+@mixin triangle( $pos, $x, $y, $color) {
+	content: ' ';
+	height: 0px;
+	border-style: solid;
+	width: 0px;
+	position: absolute;
+
+
+	@if ( $pos == 'top' ) {
+		border-width: 0 $x/2 $y $x/2;
+		border-color: transparent transparent $color transparent;
+	} @else if ( $pos == 'right' ) {
+		border-width: $x/2 0 $x/2 $y;
+		border-color: transparent transparent transparent $color;
+	} @else if ( $pos == 'bottom' ) {
+		border-width: $y $x/2 0 $x/2;
+		border-color: $color transparent transparent transparent;
+	} @else if ( $pos == 'left' ) {
+		border-width: $x/2 $y $x/2 0;
+		border-color: transparent $color transparent transparent;
+	}
+}
+
+
+// Border Radius
+
+@mixin border-radius($radius) {
+	-webkit-border-radius: $radius;
+	border-radius: $radius;
+}
+
+
+// Box Sizing
+
+@mixin box-sizing($sizing: 'border') {
+	-webkit-box-sizing: #{$sizing}-box;
+	-moz-box-sizing: #{$sizing}-box;
+	box-sizing: #{$sizing}-box;
+}
+
+
+// Box Shadow
+
+@mixin box-shadow($inset: false, $horizontal: 0, $vertical: 0, $blur: 0, $spread: 0, $color: '') {
+	$inset_value: null;
+	
+	@if ($inset == 'true') {
+		$inset_value: inset;
+	}
+	
+	-webkit-box-shadow:$inset_value #{$horizontal}px #{$vertical}px #{$blur}px #{$spread}px $color;
+	box-shadow:$inset_value #{$horizontal}px #{$vertical}px #{$blur}px #{$spread}px $color;
+}
+
+// Highlight 
+
+@mixin highlight {
+	background: $color-secondary-main;
+	display: inline;
+	@include Lane;
+	@include font-size( 1.93 );
+	line-height: 140%;
+	text-transform: uppercase;
+}
+
+
+// Keyframes
+
+@mixin keyframes($animation-name) {
+    @-webkit-keyframes #{$animation-name} {
+        @content;
+    }
+    @-moz-keyframes #{$animation-name} {
+        @content;
+    }  
+    @-ms-keyframes #{$animation-name} {
+        @content;
+    }
+    @-o-keyframes #{$animation-name} {
+        @content;
+    }  
+    @keyframes #{$animation-name} {
+        @content;
+    }
+}
+
+
+// Gridd
+
+@mixin gridd($unit: 1, $total: 4, $gapsize: 0) {
+	min-width: 0;
+	margin-right: $gapsize;
+	margin-bottom: $gapsize;
+	display: block;
+	float: left;
+	clear: none;
+
+	$gaps: $total - 1;
+		
+	@if ($gapsize > 0) {
+		$gapminus: (#{$gapsize} * #{$gaps});
+		
+		@if ($unit == 1) {
+			width: calc( (100% - (#{$gapminus})) / #{$total} );
+		} @else {
+			width: calc( (100% - (#{$gapminus})) / #{$total} * #{$unit} );
+		}
+		
+	} @else {
+		
+		@if ($unit == 1) {
+			width: calc( 100% / #{$total} );
+		} @else {
+			width: calc( 100% / #{$total} * #{$unit} );
+		}
+		
+	}
+	
+	margin-right: $gapsize !important;
+	
+	&:nth-of-type(#{$total}n+#{$total}), &:last-child {
+		margin-right: 0 !important;
+	}
+
+}
+
+
+
+// Animation
+
+@mixin animation($str) {
+  -webkit-animation: #{$str};
+  -moz-animation: #{$str};
+  -ms-animation: #{$str};
+  -o-animation: #{$str};
+  animation: #{$str};      
+}
+
+
+// Transition
+
+@mixin transition($args...) {
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  transition: $args;
+  
+  @include accelerate();
+}
+
+
+// Accelerate
+
+@mixin accelerate() {
+	-webkit-transform: translateZ(0);
+	box-shadow: 0 0 0 #000;
+	transform: translate3d(0,0,0);
+}
+
+.accelerate {
+	-webkit-transform: translateZ(0);
+	box-shadow: 0 0 0 #000;
+	transform: translate3d(0,0,0);
+}
+
+
+// Visually Hidden
+
+%visuallyhidden {
+  margin: -1px;
+  padding: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip: rect(0, 0, 0, 0);
+  position: absolute;
+}
+
+.hide {
+  position: fixed !important;
+  left: -9999px;
+  visibility: hidden;  
+}
+
+.show {
+  position: relative;
+  left: auto;
+  visibility: visible;
+}
+
+.square {
+	width: 100%;
+	height: 0;
+	padding-bottom: 100%;
+}
+
+
+// Media Queries
+
+@mixin mq($media) {
+  @if $media == 'mobile' {
+    @media only screen and ( max-width: $size-container-tablet - 1 ) { @content; }
+	} @else if $media == 'mobile-small' {
+    @media only screen and ( max-width: $size-container-mobile-large ) { @content; }
+	} @else if $media == 'mobile-large+' {
+    @media only screen and ( min-width: $size-container-mobile-large ) { @content; }
+  } @else if $media == 'tablet' {
+    @media only screen and ( min-width: $size-container-tablet ) and ( max-width: $size-container-desktop - 1 ) { @content; }
+  } @else if $media == 'tablet+' {
+    @media only screen and ( min-width: $size-container-tablet ) { @content; }
+  } @else if $media == 'tablet-small' {
+    @media only screen and ( max-width: $size-container-tablet-large ) { @content; }
+  } @else if $media == 'desktop' {
+    @media only screen and ( min-width: $size-container-desktop ) and ( max-width: $size-container-widescreen - 1 ) { @content; }
+  } @else if $media == 'desktop+' {
+    @media only screen and ( min-width: $size-container-desktop ) { @content; }
+  } @else if $media == 'widescreen+' {
+    @media only screen and ( min-width: $size-container-widescreen ) { @content; }
+  } @else if $media == 'retina' {
+    @media ( -webkit-min-device-pixel-ratio: 2 ), ( min-resolution: 192dpi ) { @content; } 
+  } @else if $media == 'content-limit' {
+     @media only screen and ( min-width: ($size-content-limit + $spacing) ) { @content; }
+  } @else if $media == 'landscape' {
+     @media only screen and ( orientation: landscape ) { @content; }
+  } @else if $media == 'portrait' {
+     @media only screen and ( orientation: portrait ) { @content; }
+  }
+}
+
+
+// Orientation
+
+@mixin orientation($orientation) {
+  @if $orientation {
+    @media only screen and ( orientation: $orientation ) { @content; }
+  }
+}
+
+
+// Icons
+
+@mixin icon($name) {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'bright' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+	
+	content: $name;
+}
+
+
+// Font Smoothing
+
+.font-smoothing {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+} 
+
+
+
+.hide {
+  position: fixed !important;
+  left: -9999px;
+  visibility: hidden;  
+}
+
+.screen-reader-text {
+	@extend .hide;
+}

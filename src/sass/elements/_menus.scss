@@ -1,0 +1,128 @@
+
+// SASS
+// MENUS
+
+
+ul.accordion-menu {
+
+	li {
+		margin-bottom: 0;
+		
+		&.disabled {
+			@extend .hide;
+		}
+	}
+
+	a {
+		display: block;
+		position: relative;
+		padding: $spacing-half;
+		padding-left: $spacing-three-quarters;
+		padding-right: $spacing-three-quarters;
+		background-color: $color-dark-grey;
+		color: white;
+		border-bottom: 2px solid $color-darkest-grey;
+		
+		&:hover {
+			background-color: $color-wp-red;
+			border-bottom: 2px solid $color-wp-red-dark;
+		}
+	}
+
+	> li {
+		
+		&.active {
+			> a {
+				background-color: $color-wp-red;
+				border-bottom: 2px solid $color-wp-red-dark;
+			}
+			
+			&.menu-item-has-children {
+				> a {
+					&:after, &:before {
+						top: 100%;
+						left: $spacing;
+						border: solid transparent;
+						content: " ";
+						height: 0;
+						width: 0;
+						position: absolute;
+						pointer-events: none;
+						z-index: 1;
+					}
+					
+					&:after {
+						border-color: rgba(136, 183, 213, 0);
+						border-top-color: $color-wp-red;
+						border-width: 8px;
+						margin-left: -8px;
+					}
+					
+					&:before {
+						border-color: rgba(194, 225, 245, 0);
+						border-top-color: $color-wp-red-dark;
+						border-width: 11px;
+						margin-left: -11px;
+					}
+				}
+			}
+			
+			&:last-child {
+				> a {
+					border-radius: 0 !important;
+				}
+			}
+			
+			.sub-menu {
+				display: block;
+			}
+		}
+		
+		
+		&:first-child {
+			> a {
+				border-radius: 7px 7px 0 0;
+			}
+		}
+		
+		&:last-child {
+			> a {
+				border-radius: 0 0 7px 7px;
+			}
+			
+			.sub-menu {
+				> li {
+					&:last-child {
+						> a {
+							border-radius: 0 0 7px 7px;
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	.sub-menu {
+		display: none;
+		
+		li {
+			a {
+				background-color: #F7F7F7;
+				color: $color-darkest-grey;				
+				background-color: $color-darkest-grey;
+				color: white;
+				padding-left: $spacing + $spacing-half;
+				border-color: #F7F7F7;
+				border-width: 1px;
+				border: none;
+				
+				&:hover {
+					background-color: $color-dark-grey;
+					color: white;
+					border-color: #AAA;
+				}
+			}
+		}
+	}
+	
+}

@@ -1,0 +1,193 @@
+
+// SASS
+// FORMS
+
+
+form {
+	@extend .clearfix;
+
+	input, select:not(.gfield_select), textarea {
+		font-weight: normal;
+		display: inline-block;
+		margin-left: $spacing-quarter;
+		margin-right: $spacing-quarter;
+	}
+	
+	input[type="number"] {
+		width: 3em;
+	}
+	
+	label {
+		font-weight: bold;
+		margin-right: $spacing-half;
+	}
+	
+
+	
+	&.SlickForm {
+		
+		> div {
+			@include box-sizing();
+			width: 100%;
+			margin-bottom: $spacing-half;
+			
+			@include mq("widescreen+") {
+				@include gridd(1, 2, $spacing);
+			}
+			
+			//@include mq("widescreen+") {
+			//	@include gridd(1, 3, $spacing);
+			//}
+			
+		}
+		
+		label {
+			display: inline-block;
+			background-color: $color-dark-grey;
+			color: white;
+			padding: $spacing-half;
+			margin: 0;
+			margin-right: -4px;
+			margin-top: 0;
+			width: 40%;
+			@include box-sizing();
+			text-align: right;
+		}
+		
+		input[type="text"], input[type="number"] {
+			background-color: white;
+			padding: $spacing-half;
+			margin: 0;
+			border: 0;
+			border-color: $color-dark-grey;
+			outline-color: $color-dark-grey;
+			color: $color-dark-grey;
+			width: 60% !important;
+			@include box-sizing();
+		}
+		
+	}
+	
+	
+	&.DeadForm {
+		
+		font-size: 20px;
+		
+		input[type="checkbox"] {
+			
+		}
+		
+		label {
+			font-weight: normal;
+			display: inline-block;
+			font-size: 18px;
+			line-height: 2em;
+			
+			&.DeadCheckbox {
+				border: 3px solid;
+				width: 1.2em;
+				height: 1.2em;
+				vertical-align: middle;
+				text-align: center;
+				font-size: 30px;
+				position: relative;
+				
+				input, span {
+					display: none;
+				}
+				
+				span.dashicons {
+					width: 100%;
+					height: 100%;
+					vertical-align: text-bottom;
+					font-size: 32px;
+					line-height: 1.2em;
+					position: absolute;
+					left: 0;
+					right: 0;
+					bottom: 0;
+					top: 0;
+				}
+				
+				&.checked {
+					span.dashicons {
+						display: inline-block;	
+					}
+				}
+			}
+		}
+		
+		ul {
+			list-style: none;
+			
+			li {
+				vertical-align: middle;
+			}
+		}
+	}
+	
+}
+
+
+fieldset {
+	margin-bottom: $spacing;
+  margin-top: $spacing;
+  
+	legend {
+		margin-bottom: $spacing;
+    padding-left: 0;
+    font-weight: bold;
+    padding-right: 0;
+    
+		> * {
+			margin-bottom: 0;
+		}
+	}
+}
+
+input {
+	vertical-align: middle;
+}
+
+label {
+	cursor: pointer;
+}
+
+
+.pills {
+	
+	label {
+		border: 2px solid $color-admin-green;
+		border-right: none;
+		background-color: $color-admin-green-light;
+		margin-right: 0;
+		margin-left: 0;	
+		padding: $spacing-half;
+		padding-left: $spacing;
+		padding-right: $spacing;
+		//color: $color-admin-green;
+		font-weight: normal;
+		
+		display: table-cell;
+		
+		input {
+			@extend .screen-reader-text;
+		}
+		
+		&.checked {
+			background-color: $color-admin-green;
+			color: white;
+		}
+		
+		
+		&:first-child {
+			@include border-radius($spacing-quarter 0px 0px $spacing-quarter);
+		}
+		
+		&:last-child {
+			@include border-radius(0px $spacing-quarter $spacing-quarter 0px);
+			border-right: 2px solid $color-admin-green;
+		}
+	}
+	
+}

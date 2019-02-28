@@ -1,0 +1,123 @@
+
+// SASS
+// TABLES
+
+table {
+
+	th {
+		text-align: left;
+		word-wrap: normal !important;
+		text-transform: initial;
+		vertical-align: middle;
+	}
+	
+	td, th {
+		text-align: left;
+	}
+
+	&.updating {
+		tbody {
+			opacity: 0.5;
+		}
+	}
+	
+	&.fixed {
+		position: static;
+	}
+
+}
+
+
+
+
+
+// LuckyBuys Customizations
+
+
+.tablenav {
+	.actions {
+		display: none;
+	}
+	
+	.tablenav-pages {
+		//width: 100%;
+		
+		span.pagination-links {
+			//display: block;
+			//float: right;
+		}	
+	}
+	
+	.displaying-num {
+		line-height: 2.0em;
+		font-size: 16px;
+		
+		@include mq("tablet+") {
+			display: inline !important;
+			font-size: 14px;
+		}
+	}
+	
+	&.top {
+		.displaying-num {
+			display: block;
+		}
+	}
+	
+	&.bottom {
+		.displaying-num {
+			position: relative;
+			display: block;
+			margin-bottom: $spacing-half;
+			top: auto;
+			right: auto;
+		}
+	}
+}
+
+
+table.wp-list-table {
+	margin-bottom: $spacing-double;
+	
+	th, td {
+		&.column-primary {
+			//white-space: nowrap;
+		}
+		
+		&.column-StoreName {
+			width: 300px;
+		}
+		
+		&.column-CardNo, 
+		&.column-SalePrice, 
+		&.column-Name 
+		{
+			width: $spacing-oct;
+		}
+		
+		&.column-ProductCode,
+		&.column-AccountCode,
+		&.column-PointsAllocated
+		{
+			width: $spacing-sept;
+		}
+		
+		&.column-SiteGroup,
+		&.column-DateCreated,
+		&.column-DateOfSale,
+		&.column-MerchantID,
+		&.column-StoreNo, 
+		&.column-RecNo, 
+		{
+			width: $spacing-sext;
+		}
+		
+		&.column-Status, 
+		&.column-Locations, 
+		&.column-MemberNumber
+		{
+			width: $spacing-quint;
+		}
+	}
+}
+

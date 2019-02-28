@@ -1,0 +1,231 @@
+
+// SASS
+// ADMIN
+
+
+// Compass
+@import "compass";
+@import "compass/css3/user-interface";
+
+
+// Includes
+@import "includes/_variables.scss";
+@import "includes/_misc-mixins.scss";
+
+
+// Menus
+@import "elements/_menus.scss";
+	
+
+// ProgressTracker Admin PAGE Styles
+
+.wrap.progresstracker-admin {
+	@extend .font-smoothing;
+	font-size: 14px;
+	padding-top: 0;
+	margin-top: 0;
+	font-family: Arial, Helvetica, san-serif;
+		
+	p {
+		font-size: 14px;
+	}
+	
+	// Base
+	@import "elements/_base.scss";
+	
+	// Tables
+	@import "elements/_tables.scss";
+
+	// Reports
+	@import "elements/_reports.scss";
+
+	// Forms
+	@import "elements/_forms.scss";
+	
+	// Buttons
+	@import "elements/_buttons.scss";
+	
+
+	
+	
+	
+	// Forms
+	
+	select:not(.gfield_select), input {
+		width: auto;	
+	}
+	
+		
+	
+	// Dashboard
+	
+	
+	.postbox {
+		
+		&#players_dashboard_widget,
+		&#merchants_dashboard_widget {
+			table {
+				width: 100%;
+			}
+		}
+	}
+	
+	
+
+	
+	
+
+	
+	.admin-header {
+		background-color: $color-darkest-grey;
+		color: $color-off-white;
+		padding: $spacing-half;
+		padding-top: $spacing;
+		
+		h1 {
+			padding: 0;
+			color: $color-off-white;
+			font-weight: bold;
+			display: inline-block;
+
+			&::before {
+				font-family: "dashicons";
+				margin-right: $spacing-half;
+				padding: $spacing-quarter;
+				vertical-align: text-bottom;
+				font-weight: normal;
+			}
+		}
+		
+		#message {
+			color: $color-darkest-grey;
+		}
+		
+		@include mq("desktop+") {
+			span.buttons {
+				float: right;
+			}
+		}
+	}
+	
+	
+	
+	.admin-info-grid {
+		> div {
+			@include box-sizing();
+			width: 100%;
+			margin-bottom: $spacing-half;
+			
+			@include mq("desktop+") {
+				@include gridd(1, 2, $spacing);
+			}
+		}
+	}
+	
+	.admin-map {
+		background-color: #CCC;
+		padding: $spacing;
+	}
+
+
+	&.merchant,
+	&.merchants,
+	&.player,
+	&.players 
+	{
+		
+		position: relative;
+		
+		.admin-header {
+			@include box-sizing();
+			width: 100%;
+
+			
+			padding-right: $spacing !important;
+			//padding-top: 
+			
+			h1 {
+				padding-right: $spacing;
+			}
+		}
+
+
+		@include mq("tablet+") {
+			padding-top: $spacing-trip;
+			
+			.admin-header {
+				padding-left: $spacing;
+				width: calc(100% - 32px);
+				position: fixed;
+				z-index: 1000;
+				top: 32px;
+			}
+		}
+		
+		@include mq("desktop+") {
+			.admin-header {
+				width: calc(100% - 190px);
+				left: 176px;
+				//padding-left: 176px;
+				padding-left: $spacing;
+			}
+		}
+	}
+
+	&.player,
+	&.players
+	{
+		.admin-header {
+			h1 {
+				&::before {
+					content: "\f233";
+				}
+			}
+		}
+	}
+
+	&.merchant,
+	&.merchants
+	{
+		.admin-header {
+			h1 {
+				&::before {
+					content: "\f513";
+				}
+			}
+		}
+	}
+	
+
+	#adminmenu {
+		#menu-users div.wp-menu-image:before {
+			 content: '\f112';
+		}
+	}
+	
+	
+}
+
+
+
+
+// ProgressTracker Admin Sidebar and Toolbar Styles
+
+/*
+#wpadminbar,
+#adminmenu, 
+#adminmenu .wp-submenu, 
+#adminmenuback,
+#adminmenuwrap {
+	background-color: #BE1613;
+}
+
+#adminmenu .wp-has-current-submenu .wp-submenu, 
+#adminmenu .wp-has-current-submenu.opensub .wp-submenu, 
+#adminmenu .wp-submenu, 
+#adminmenu a.wp-has-current-submenu:focus+.wp-submenu, 
+.folded #adminmenu .wp-has-current-submenu .wp-submenu {
+	background-color: #961d1b;
+	background-color: #6b0b0b !important;
+}
+*/

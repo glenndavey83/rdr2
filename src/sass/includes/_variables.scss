@@ -1,0 +1,56 @@
+
+// LUCKYBUYS 
+// SASS
+// VARIABLES
+
+// Colors
+
+$color-brand-red: #f00300;
+$color-brand-orange: #ff600a;
+$color-brand-navy: #232B3F;
+$color-brand-raspberry: #ED1F80;
+$color-brand-blue: #009ff5;
+$color-light-grey: #F7F7F7;
+$color-dark-grey: #363b3f;
+$color-darkest-grey: #26292C;
+$color-off-white: #f1f2f3;
+
+$color-admin-orange: #FFCD56;
+$color-admin-orange-light: #FFE6AA;
+
+$color-admin-green: #4BC0C0;
+$color-admin-green-light: #A5DFDF;
+
+$color-wp-red: #e14d43;
+$color-wp-red-dark: #912922;
+
+$body-link: $color-brand-red;
+$body-link-hover: $color-brand-red;
+$body-link-active: $color-brand-red;
+
+// Spacing
+
+$spacing									: 20px;
+$spacing-half							: $spacing / 2;
+$spacing-quarter					: $spacing / 4;
+$spacing-three-quarters		: $spacing-half + $spacing-quarter;
+$spacing-and-a-half				: $spacing + $spacing-half;
+$spacing-double						: $spacing * 2;
+$spacing-trip							: $spacing * 3;
+$spacing-quad							: $spacing * 4;
+$spacing-quint						: $spacing * 5;
+$spacing-sext							: $spacing * 6;
+$spacing-sept							: $spacing * 7;
+$spacing-oct							: $spacing * 8;
+$spacing-nona							: $spacing * 9;
+$spacing-deca							: $spacing * 10;
+
+
+
+// Breakpoints
+
+$size-container-mobile-large : 			430px;
+$size-container-tablet : 						782px;
+$size-container-tablet-large : 			960px;
+$size-container-desktop						: 1024px;
+$size-container-widescreen				: 1366px;

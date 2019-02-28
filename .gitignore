@@ -1,0 +1,7 @@
+node_modules/
+.sass-cache/
+www/wp-content/uploads/wp-migrate-db/
+www/wp-content/uploads/mk_assets/
+www/wp-content/cache/
+www/wp-content/uploads/wp-statistics/
+www/wp-content/uploads/mk_backups/

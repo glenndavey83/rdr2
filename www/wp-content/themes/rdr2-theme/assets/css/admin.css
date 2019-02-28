@@ -1,0 +1,413 @@
+.clearfix:after, .wrap.luckybuys-admin .luckytabs.sidetabs:after, .wrap.luckybuys-admin form:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.accelerate {
+  -webkit-transform: translateZ(0);
+  box-shadow: 0 0 0 #000;
+  transform: translate3d(0, 0, 0);
+}
+
+.hide, .screen-reader-text, .wrap.luckybuys-admin .pills label input, .wrap.luckybuys-admin #DateRangeFilters label input {
+  position: fixed !important;
+  left: -9999px;
+  visibility: hidden;
+}
+
+.show {
+  position: relative;
+  left: auto;
+  visibility: visible;
+}
+
+.square {
+  width: 100%;
+  height: 0;
+  padding-bottom: 100%;
+}
+
+.font-smoothing, .wrap.luckybuys-admin {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.hide, .screen-reader-text, .wrap.luckybuys-admin .pills label input, .wrap.luckybuys-admin #DateRangeFilters label input {
+  position: fixed !important;
+  left: -9999px;
+  visibility: hidden;
+}
+
+.wrap.luckybuys-admin {
+  font-size: 14px;
+  padding-top: 0;
+  margin-top: 0;
+}
+.wrap.luckybuys-admin p {
+  font-size: 14px;
+}
+.wrap.luckybuys-admin details, .wrap.luckybuys-admin summary {
+  display: block;
+}
+.wrap.luckybuys-admin .no-details summary:hover, .wrap.luckybuys-admin .no-details summary:focus {
+  background: #ddd;
+}
+.wrap.luckybuys-admin .no-details details > * {
+  display: none;
+}
+.wrap.luckybuys-admin .no-details details summary {
+  display: block;
+}
+.wrap.luckybuys-admin summary {
+  cursor: pointer;
+}
+.wrap.luckybuys-admin .message.success, .wrap.luckybuys-admin .status.success {
+  color: green;
+}
+.wrap.luckybuys-admin .luckytabs .luckyswitcher li {
+  display: inline-block;
+  border-bottom: 0;
+  margin-bottom: 0;
+  padding: 0;
+}
+.wrap.luckybuys-admin .luckytabs .luckyswitcher li a {
+  text-decoration: none !important;
+  padding: 10px;
+  padding-right: 25px;
+  padding-left: 10px;
+  text-align: left;
+  display: inline-block;
+}
+.wrap.luckybuys-admin .luckytabs .luckyswitcher li a span.dashicons {
+  margin-right: 10px;
+  vertical-align: text-bottom;
+}
+.wrap.luckybuys-admin .luckytabs .luckyswitcher li.nav-tab-active {
+  background-color: white;
+}
+.wrap.luckybuys-admin .luckytabs .luckyswitcher li.nav-tab-active a {
+  background-color: white;
+  border-bottom: none;
+}
+.wrap.luckybuys-admin .luckytabs .luckytab {
+  padding: 20px;
+  display: none;
+  background-color: white;
+}
+.wrap.luckybuys-admin .luckytabs.sidetabs ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: #ccc;
+  float: left;
+  width: 160px;
+  min-height: 1000px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.wrap.luckybuys-admin .luckytabs.sidetabs ul li {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  float: none;
+  display: block;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.wrap.luckybuys-admin .luckytabs.sidetabs ul li a {
+  display: block;
+  padding: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+  outline: none;
+}
+.wrap.luckybuys-admin .luckytabs.sidetabs .panel-container {
+  background: #fff;
+  padding-left: 160px;
+}
+.wrap.luckybuys-admin .luckytabs.sidetabs .luckytab {
+  padding-top: 0;
+}
+.wrap.luckybuys-admin table th {
+  text-align: left;
+  word-wrap: normal !important;
+}
+.wrap.luckybuys-admin table.updating tbody {
+  opacity: 0.5;
+}
+.wrap.luckybuys-admin .tablenav .actions {
+  display: none;
+}
+.wrap.luckybuys-admin .tablenav .displaying-num {
+  line-height: 2.0em;
+  font-size: 16px;
+}
+@media only screen and (min-width: 782px) {
+  .wrap.luckybuys-admin .tablenav .displaying-num {
+    display: inline !important;
+    font-size: 14px;
+  }
+}
+.wrap.luckybuys-admin .tablenav.top .displaying-num {
+  display: block;
+}
+.wrap.luckybuys-admin .tablenav.bottom .displaying-num {
+  position: relative;
+  display: block;
+  margin-bottom: 10px;
+  top: auto;
+  right: auto;
+}
+.wrap.luckybuys-admin table.wp-list-table {
+  margin-bottom: 40px;
+}
+.wrap.luckybuys-admin table.wp-list-table th.column-StoreName, .wrap.luckybuys-admin table.wp-list-table td.column-StoreName {
+  width: 300px;
+}
+.wrap.luckybuys-admin table.wp-list-table th.column-CardNo, .wrap.luckybuys-admin table.wp-list-table th.column-SalePrice, .wrap.luckybuys-admin table.wp-list-table th.column-Name, .wrap.luckybuys-admin table.wp-list-table td.column-CardNo, .wrap.luckybuys-admin table.wp-list-table td.column-SalePrice, .wrap.luckybuys-admin table.wp-list-table td.column-Name {
+  width: 160px;
+}
+.wrap.luckybuys-admin table.wp-list-table th.column-ProductCode, .wrap.luckybuys-admin table.wp-list-table th.column-AccountCode, .wrap.luckybuys-admin table.wp-list-table th.column-PointsAllocated, .wrap.luckybuys-admin table.wp-list-table td.column-ProductCode, .wrap.luckybuys-admin table.wp-list-table td.column-AccountCode, .wrap.luckybuys-admin table.wp-list-table td.column-PointsAllocated {
+  width: 140px;
+}
+.wrap.luckybuys-admin table.wp-list-table th.column-SiteGroup, .wrap.luckybuys-admin table.wp-list-table th.column-DateCreated, .wrap.luckybuys-admin table.wp-list-table th.column-DateOfSale, .wrap.luckybuys-admin table.wp-list-table th.column-MerchantID, .wrap.luckybuys-admin table.wp-list-table th.column-StoreNo, .wrap.luckybuys-admin table.wp-list-table th.column-RecNo, .wrap.luckybuys-admin table.wp-list-table td.column-SiteGroup, .wrap.luckybuys-admin table.wp-list-table td.column-DateCreated, .wrap.luckybuys-admin table.wp-list-table td.column-DateOfSale, .wrap.luckybuys-admin table.wp-list-table td.column-MerchantID, .wrap.luckybuys-admin table.wp-list-table td.column-StoreNo, .wrap.luckybuys-admin table.wp-list-table td.column-RecNo {
+  width: 120px;
+}
+.wrap.luckybuys-admin table.wp-list-table th.column-Status, .wrap.luckybuys-admin table.wp-list-table th.column-Locations, .wrap.luckybuys-admin table.wp-list-table th.column-MemberNumber, .wrap.luckybuys-admin table.wp-list-table td.column-Status, .wrap.luckybuys-admin table.wp-list-table td.column-Locations, .wrap.luckybuys-admin table.wp-list-table td.column-MemberNumber {
+  width: 100px;
+}
+.wrap.luckybuys-admin .admin-graph {
+  height: 240px;
+  margin: 10px auto;
+  width: 100%;
+  position: relative;
+}
+.wrap.luckybuys-admin .admin-graph canvas {
+  max-height: 100%;
+}
+.wrap.luckybuys-admin .report.updating {
+  opacity: 0.5;
+}
+.wrap.luckybuys-admin .luckytab#merchant-reports .admin-graph {
+  height: 400px;
+}
+.wrap.luckybuys-admin #players-filter .widefat td.column-primary, .wrap.luckybuys-admin #players-filter .widefat th.column-primary,
+.wrap.luckybuys-admin #merchants-filter .widefat td.column-primary,
+.wrap.luckybuys-admin #merchants-filter .widefat th.column-primary,
+.wrap.luckybuys-admin #comparative_movement_report .widefat td.column-primary,
+.wrap.luckybuys-admin #comparative_movement_report .widefat th.column-primary,
+.wrap.luckybuys-admin #merchant-report-new-player-analysis .widefat td.column-primary,
+.wrap.luckybuys-admin #merchant-report-new-player-analysis .widefat th.column-primary {
+  width: 250px;
+}
+.wrap.luckybuys-admin #players-filter .widefat th.column-primary,
+.wrap.luckybuys-admin #merchants-filter .widefat th.column-primary,
+.wrap.luckybuys-admin #comparative_movement_report .widefat th.column-primary,
+.wrap.luckybuys-admin #merchant-report-new-player-analysis .widefat th.column-primary {
+  font-weight: bold;
+}
+.wrap.luckybuys-admin #players-filter .widefat td.column-primary, .wrap.luckybuys-admin #players-filter .widefat th.column-primary {
+  width: 220px;
+}
+@media only screen and (min-width: 782px) {
+  .wrap.luckybuys-admin #merchants-filter .widefat td.column-primary, .wrap.luckybuys-admin #merchants-filter .widefat th.column-primary {
+    width: 375px;
+  }
+}
+.wrap.luckybuys-admin form input, .wrap.luckybuys-admin form select:not(.gfield_select), .wrap.luckybuys-admin form textarea {
+  font-weight: normal;
+  display: inline-block;
+}
+.wrap.luckybuys-admin form label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+.wrap.luckybuys-admin form label input, .wrap.luckybuys-admin form label select:not(.gfield_select) {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.wrap.luckybuys-admin form.SlickForm > div {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  margin-bottom: 10px;
+}
+@media only screen and (min-width: 1366px) {
+  .wrap.luckybuys-admin form.SlickForm > div {
+    min-width: 0;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    display: block;
+    float: left;
+    clear: none;
+    width: calc( (100% - (20px * 1)) / 2 );
+    margin-right: 20px !important;
+  }
+  .wrap.luckybuys-admin form.SlickForm > div:nth-of-type(2n+2), .wrap.luckybuys-admin form.SlickForm > div:last-child {
+    margin-right: 0 !important;
+  }
+}
+.wrap.luckybuys-admin form.SlickForm label {
+  display: inline-block;
+  background-color: #363b3f;
+  color: white;
+  padding: 10px;
+  margin: 0;
+  margin-right: -4px;
+  margin-top: 0;
+  width: 40%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  text-align: right;
+}
+.wrap.luckybuys-admin form.SlickForm input[type="text"] {
+  background-color: white;
+  padding: 10px;
+  margin: 0;
+  border: 0;
+  border-color: #363b3f;
+  outline-color: #363b3f;
+  color: #363b3f;
+  width: 60% !important;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.wrap.luckybuys-admin fieldset {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.wrap.luckybuys-admin fieldset legend {
+  margin-bottom: 20px;
+  padding-left: 0;
+  font-weight: bold;
+  padding-right: 0;
+}
+.wrap.luckybuys-admin fieldset legend > * {
+  margin-bottom: 0;
+}
+.wrap.luckybuys-admin input {
+  vertical-align: middle;
+}
+.wrap.luckybuys-admin select:not(.gfield_select), .wrap.luckybuys-admin input {
+  width: auto !important;
+}
+.wrap.luckybuys-admin .pills label, .wrap.luckybuys-admin #DateRangeFilters label {
+  border: 2px solid #4BC0C0;
+  border-right: none;
+  background-color: #A5DFDF;
+  margin-right: 0;
+  margin-left: 0;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-weight: normal;
+  display: table-cell;
+}
+.wrap.luckybuys-admin .pills label.checked, .wrap.luckybuys-admin #DateRangeFilters label.checked {
+  background-color: #4BC0C0;
+  color: white;
+}
+.wrap.luckybuys-admin .pills label:first-child, .wrap.luckybuys-admin #DateRangeFilters label:first-child {
+  -webkit-border-radius: 5px 0px 0px 5px;
+  border-radius: 5px 0px 0px 5px;
+}
+.wrap.luckybuys-admin .pills label:last-child, .wrap.luckybuys-admin #DateRangeFilters label:last-child {
+  -webkit-border-radius: 0px 5px 5px 0px;
+  border-radius: 0px 5px 5px 0px;
+  border-right: 2px solid #4BC0C0;
+}
+.wrap.luckybuys-admin .button span.dashicons {
+  line-height: 28px;
+}
+.wrap.luckybuys-admin .postbox#players_dashboard_widget table, .wrap.luckybuys-admin .postbox#merchants_dashboard_widget table {
+  width: 100%;
+}
+.wrap.luckybuys-admin .admin-header {
+  background-color: #26292C;
+  color: #f1f2f3;
+  padding: 10px;
+  padding-top: 20px;
+}
+.wrap.luckybuys-admin .admin-header h1 {
+  padding: 0;
+  color: #f1f2f3;
+  font-weight: bold;
+  display: inline-block;
+}
+.wrap.luckybuys-admin .admin-header h1::before {
+  font-family: "dashicons";
+  margin-right: 10px;
+  padding: 5px;
+  vertical-align: text-bottom;
+  font-weight: normal;
+}
+.wrap.luckybuys-admin .admin-header span.buttons {
+  float: right;
+}
+.wrap.luckybuys-admin .admin-header #message {
+  color: #26292C;
+}
+.wrap.luckybuys-admin.merchant, .wrap.luckybuys-admin.merchants, .wrap.luckybuys-admin.player, .wrap.luckybuys-admin.players {
+  padding-top: 60px;
+  position: relative;
+}
+.wrap.luckybuys-admin.merchant .admin-header, .wrap.luckybuys-admin.merchants .admin-header, .wrap.luckybuys-admin.player .admin-header, .wrap.luckybuys-admin.players .admin-header {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  position: fixed;
+  z-index: 1000;
+  top: 32px;
+  padding-right: 20px !important;
+}
+.wrap.luckybuys-admin.merchant .admin-header h1, .wrap.luckybuys-admin.merchants .admin-header h1, .wrap.luckybuys-admin.player .admin-header h1, .wrap.luckybuys-admin.players .admin-header h1 {
+  padding-right: 20px;
+}
+@media only screen and (min-width: 782px) {
+  .wrap.luckybuys-admin.merchant .admin-header, .wrap.luckybuys-admin.merchants .admin-header, .wrap.luckybuys-admin.player .admin-header, .wrap.luckybuys-admin.players .admin-header {
+    padding-left: 20px;
+    width: calc(100% - 32px);
+  }
+}
+@media only screen and (min-width: 1024px) {
+  .wrap.luckybuys-admin.merchant .admin-header, .wrap.luckybuys-admin.merchants .admin-header, .wrap.luckybuys-admin.player .admin-header, .wrap.luckybuys-admin.players .admin-header {
+    width: calc(100% - 190px);
+    left: 176px;
+    padding-left: 20px;
+  }
+}
+.wrap.luckybuys-admin.player .admin-header h1::before, .wrap.luckybuys-admin.players .admin-header h1::before {
+  content: "\f233";
+}
+.wrap.luckybuys-admin.merchant .admin-header h1::before, .wrap.luckybuys-admin.merchants .admin-header h1::before {
+  content: "\f513";
+}
+.wrap.luckybuys-admin #adminmenu #menu-users div.wp-menu-image:before {
+  content: '\f112';
+}
+
+/*
+#wpadminbar,
+#adminmenu, 
+#adminmenu .wp-submenu, 
+#adminmenuback,
+#adminmenuwrap {
+	background-color: #BE1613;
+}
+
+#adminmenu .wp-has-current-submenu .wp-submenu, 
+#adminmenu .wp-has-current-submenu.opensub .wp-submenu, 
+#adminmenu .wp-submenu, 
+#adminmenu a.wp-has-current-submenu:focus+.wp-submenu, 
+.folded #adminmenu .wp-has-current-submenu .wp-submenu {
+	background-color: #961d1b;
+	background-color: #6b0b0b !important;
+}
+*/

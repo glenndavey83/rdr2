@@ -1,0 +1,74 @@
+
+// SASS
+// REPORTS
+
+
+.admin-graph {
+	height: 240px; 
+	margin: $spacing-half auto;
+	width: 100%;
+	position: relative;
+	
+	canvas {
+		max-height: 100%;
+	}
+}
+
+.report {
+  &.updating {
+    opacity: 0.5;
+  }
+  
+	.admin-graph {
+		height: 400px;
+	}
+}
+
+
+
+#players-filter, 
+#merchants-filter,
+#comparative_movement_report,
+#merchant-report-new-player-analysis {
+	.widefat {
+		td, th {
+			&.column-primary {
+				width: 250px;
+			}
+		}
+		
+		th {
+			&.column-primary {
+				font-weight: bold;
+			}
+		}
+	}
+}
+
+#players-filter {
+	.widefat {
+		td, th {
+			&.column-primary {
+				width: 220px;
+			}
+		}
+	}
+}
+
+@include mq("tablet+") {
+	#merchants-filter {
+		.widefat {
+			td, th {
+				&.column-primary {
+					width: 375px;
+				}
+			}
+		}
+	}
+}
+
+
+
+#DateRangeFilters {
+	@extend .pills;
+}
