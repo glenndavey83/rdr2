@@ -478,6 +478,7 @@ details[open] {
 		
 		&.open {
 			display: flex;
+			flex-direction: column;
 			height: auto;
 			
 			&::before {
@@ -486,6 +487,8 @@ details[open] {
 			
 			.nav-tab:not( .nav-tab-active ) {
 				display: block;
+				-webkit-order: 2;
+				order: 2;
 			}
 		}
 		
