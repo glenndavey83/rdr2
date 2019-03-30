@@ -89,8 +89,8 @@ if (!class_exists('Faulh_Network_Admin_List_Table')) {
             $blog_ids = $this->get_current_network_blog_ids();
 
             foreach ($blog_ids as $blog_id) {
-  
-$blog_prefix = $wpdb->get_blog_prefix($blog_id);
+
+                $blog_prefix = $wpdb->get_blog_prefix($blog_id);
                 $table = $blog_prefix . $this->table_name;
 
 
@@ -140,8 +140,11 @@ $blog_prefix = $wpdb->get_blog_prefix($blog_id);
             }
 
             if (!empty($_REQUEST['orderby'])) {
-                $sql .= ' ORDER BY ' . esc_sql($_REQUEST['orderby']);
-                $sql .= !empty($_REQUEST['order']) ? ' ' . esc_sql($_REQUEST['order']) : ' ASC';
+                $direction = !empty($_REQUEST['order']) ? $_REQUEST['order'] : ' ASC';
+                $sanitize_sql_orderby = sanitize_sql_orderby($_REQUEST['orderby'] . " " . $direction);
+                if ($sanitize_sql_orderby) {
+                    $sql .= " ORDER BY " . $sanitize_sql_orderby;
+                }
             } else {
                 $sql .= ' ORDER BY id DESC';
             }
@@ -150,12 +153,14 @@ $blog_prefix = $wpdb->get_blog_prefix($blog_id);
                 $sql .= " LIMIT $per_page";
                 $sql .= ' OFFSET   ' . ( $page_number - 1 ) * $per_page;
             }
-           
+
             $result = $wpdb->get_results($sql, 'ARRAY_A');
 
             if ("" != $wpdb->last_error) {
                 Faulh_Error_Handler::error_log("last error:" . $wpdb->last_error . " last query:" . $wpdb->last_query, __LINE__, __FILE__);
             }
+
+
             return $result;
         }
 
@@ -176,7 +181,7 @@ $blog_prefix = $wpdb->get_blog_prefix($blog_id);
             $blog_ids = $this->get_current_network_blog_ids();
 
             foreach ($blog_ids as $blog_id) {
-               $blog_prefix = $wpdb->get_blog_prefix($blog_id);
+                $blog_prefix = $wpdb->get_blog_prefix($blog_id);
                 $table = $blog_prefix . $this->table_name;
 
 
@@ -196,7 +201,7 @@ $blog_prefix = $wpdb->get_blog_prefix($blog_id);
                         . " COUNT(FaUserLogin.id) AS count"
                         . " FROM $table  AS FaUserLogin"
                         . " LEFT JOIN $table_usermeta AS UserMeta ON (UserMeta.user_id=FaUserLogin.user_id"
-                        . " AND UserMeta.meta_key LIKE '".$blog_prefix."capabilities' )"
+                        . " AND UserMeta.meta_key LIKE '" . $blog_prefix . "capabilities' )"
                         . " WHERE 1 ";
 
                 if ($where_query) {
@@ -206,7 +211,7 @@ $blog_prefix = $wpdb->get_blog_prefix($blog_id);
                 $i++;
             }
             $sql_count = "SELECT SUM(count) as total FROM ($sql) AS FaUserLoginCount";
-            
+
             return $wpdb->get_var($sql_count);
         }
 
@@ -219,22 +224,19 @@ $blog_prefix = $wpdb->get_blog_prefix($blog_id);
          */
         function column_username($item) {
 
-            if(empty($item['user_id']))
-            {
-                $title =  esc_html($item['username']);
-            }
-            else{
-               
-                $edit_link = get_edit_user_link($item['user_id']);
-              
-            $title = !empty($edit_link) ? "<a href='" . $edit_link . "'>" . esc_html($item['username']) . "</a>" : '<strong>' . esc_html($item['username']) . '</strong>';
+            if (empty($item['user_id'])) {
+                $title = esc_html($item['username']);
+            } else {
 
-            if (empty($item['blog_id'])) {
-                return $title;
+                $edit_link = get_edit_user_link($item['user_id']);
+
+                $title = !empty($edit_link) ? "<a href='" . $edit_link . "'>" . esc_html($item['username']) . "</a>" : '<strong>' . esc_html($item['username']) . '</strong>';
+
+                if (empty($item['blog_id'])) {
+                    return $title;
+                }
             }
-            
-            }
-              
+
             $delete_nonce = wp_create_nonce($this->plugin_name . 'delete_row_by_' . $this->_args['singular']);
             $actions = array(
                 'delete' => sprintf('<a href="?page=%s&action=%s&blog_id=%s&record_id=%s&_wpnonce=%s">Delete</a>', esc_attr($_REQUEST['page']), $this->plugin_name . '_network_admin_listing_table_delete_single_row', absint($item['blog_id']), absint($item['id']), $delete_nonce),

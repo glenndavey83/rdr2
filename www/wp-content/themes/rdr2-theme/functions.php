@@ -200,7 +200,7 @@ class RDR2_ProgressTracker_Theme {
 	// Register Styles
 	
 	function register_styles() {
-		wp_register_style("progresstracker-theme", get_stylesheet_directory_uri() . "/assets/css/theme.css");
+		wp_register_style("progresstracker-theme", get_stylesheet_directory_uri() . "/assets/css/rdr2-theme.css");
 	}
 
 

@@ -209,7 +209,7 @@ module.exports = function(grunt) {
 		compass: {
 			theme: {
 				options: {
-					cssDir: '<%= theme.css %>', 
+					cssDir: '<%= src.css %>', 
 					noLineComments: true, 
 					outputStyle: 'compressed', 
 					sassDir: '<%= src.sass %>', 
@@ -219,7 +219,7 @@ module.exports = function(grunt) {
       
 			plugin: {
 				options: {
-					cssDir: '<%= plugin.css %>',
+					cssDir: '<%= src.css %>',
 					noLineComments: true,
 					outputStyle: 'compressed',
 					sassDir: '<%= src.sass %>',
@@ -241,15 +241,10 @@ module.exports = function(grunt) {
 			target: {
 				files: {
 	    	
-					'<%= theme.css %>/samujana-theme.css' : [
+					'<%= theme.css %>/rdr2-theme.css' : [
 						'<%= src.js %>/swiper/dist/css/swiper.css',
-						'<%= src.js %>/featherlight/src/featherlight.css',
-						'<%= src.css %>/styles.css', 
+						'<%= src.css %>/theme.css', 
 	    			],
-
-					'<%= theme.css %>/samujana-theme-ie.css' : [
-						'<%= src.css %>/ie.css', 
-					],
 				}
 			}
 		},
@@ -267,7 +262,9 @@ module.exports = function(grunt) {
 			main: { 
 				files: {
 					'<%= plugin.js %>/main.min.js': [
+						'<%= src.js %>/swiper/dist/js/swiper.js',
 						'<%= src.js %>/jquery-details/jquery.details.js',
+						'<%= src.js %>/jquery.tracky.js',
 						'<%= src.js %>/main.js',
 					],
 
@@ -279,7 +276,7 @@ module.exports = function(grunt) {
 					'<%= plugin.js %>/admin.min.js': [
 						'<%= src.js %>/jquery-details/jquery.details.js',
 						//'<%= src.js %>/canvasjs/canvasjs.min.js',
-						'<%= src.js %>/reports.js',
+						//'<%= src.js %>/reports.js',
 						'<%= src.js %>/plugin-admin.js',
 					],
 
@@ -344,16 +341,16 @@ module.exports = function(grunt) {
 	grunt.registerTask('plugin', ['sync:plugin']);
 	grunt.registerTask('pluginpatches', ['copy:pluginpatches']);
 	grunt.registerTask('plugins', ['sync:plugins', 'pluginpatches']);
-	grunt.registerTask('pluginupdates', ['sync:pluginupdates', 'pluginpatches']);
+	grunt.registerTask('pluginupdates', ['sync:pluginupdates']);
 	grunt.registerTask('themepatches', ['copy:themepatches']);
 	grunt.registerTask('themes', ['sync:themes', 'themepatches']);
 	grunt.registerTask('themeupdates', ['sync:themeupdates', 'themepatches']);
 	grunt.registerTask('theme', ['sync:theme']);
 	grunt.registerTask('cms', ['copy:cms']);
   
-	grunt.registerTask('css', ['compass', 'theme', 'plugin']);
-	grunt.registerTask('plugincss', ['compass:plugin', 'plugin']);
-	grunt.registerTask('themecss', ['compass:theme', 'theme']);
+	grunt.registerTask('css', ['compass', 'cssmin', 'theme', 'plugin']);
+	grunt.registerTask('plugincss', ['compass:plugin', 'cssmin', 'plugin']);
+	grunt.registerTask('themecss', ['compass:theme', 'cssmin', 'theme']);
   
 	grunt.registerTask('js', ['uglify', 'theme', 'plugin']);
   

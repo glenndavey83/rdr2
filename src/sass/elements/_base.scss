@@ -20,13 +20,26 @@ body {
 	cursor: default;
 }
 
+a {
+	cursor: pointer;
+}
+
 a, label {
-	&:hover, &:active {
-		color: $body-link-hover;
+	&:hover, 
+	&:active, 
+	&.active {
+		color: $body-link-hover !important;
+		border-color: $body-link-hover !important;
+		
+		> * {
+			color: $body-link-hover !important;
+		}
 	} 
 }
 
-h1, h2, h3 {
+h1, 
+h2, 
+h3 {
 	font-family: "Chinese Rocks", "Bungee", Arial, Helvetica, sans-serif;
 	letter-spacing: 1px;
 }
@@ -36,7 +49,9 @@ form {
 	margin-bottom: $spacing;
 }
 
-p, ul, form {
+p, 
+ul, 
+form {
 	&:last-child {
 		margin-bottom: 0;
 	}
@@ -58,17 +73,35 @@ ul {
 			
 		}
 	}
+	
+	&.checkbox-list {
+		margin-left: 0;
+		
+		ul, li {
+			margin-left: 0;
+		}
+		
+		@media (min-width: $size-container-tablet) {
+			margin-left: $spacing;
+			
+			ul, li {
+				margin-left: $spacing;
+			}
+		}
+	}
 }
 
 
 // DETAILS / SUMMARY
 
 
-details, summary { 
+details, 
+summary { 
 	display: block; 
 }
 
-details, .no-details {
+details, 
+.no-details {
 	summary {
 		&:hover, &:focus { 
 			background: #eee;
@@ -90,6 +123,7 @@ summary {
 
 details[open] {
 	padding-bottom: $spacing;
+	height: auto !important;
 }
 
 
@@ -98,7 +132,8 @@ details[open] {
 
 // Messages
 
-.message, .status {	
+.message, 
+.status {	
 	&.success {
 		color: green;
 	}
@@ -131,11 +166,12 @@ details[open] {
 .updating-flag {
 	display: block;
 	position: fixed;
+	z-index: 0;
 	background-color: black;
 	color: white;
 	right: $spacing;
-	top: 33%;
-	bottom: auto;
+	top: auto;
+	bottom: $spacing;
 	padding: $spacing;
 	padding-left: $spacing-double;
 	padding-right: $spacing-double;
@@ -144,6 +180,10 @@ details[open] {
 	
 	&.show {
 		opacity: 0.9;
+	}
+	
+	&.top {
+		z-index: 100;
 	}
 	
 	.updating-label {
@@ -201,10 +241,17 @@ details[open] {
 	}
 	
 	&.toptabs {
-		> ul {
+		> ul { // .nav-tab-wrapper
+		
+			
+		
 			li {
 				&.nav-tab {
 					//@include border-radius($spacing-quarter $spacing-quarter 0 0 );
+					@include box-sizing();
+					a {
+						@include box-sizing();
+					}
 				}
 			}
 		}
@@ -256,11 +303,51 @@ details[open] {
 }
 
 
-.DynamicContainer {
-	background-color: lightgrey;
-	padding: 20px;
-	color: black;
+
+
+
+
+.DynamicContainer {	
 	margin-bottom: $spacing;
+	
+	&:last {
+		margin-bottom: 0;
+	}
+	
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;          /* Likely future */  
+  
+  
+  .app-sections-list {
+  	margin-bottom: $spacing;
+  	
+		a {
+			padding: $spacing;
+			padding-left: $spacing + $spacing-half;
+			padding-right: $spacing + $spacing-half;
+			border: 1px solid black;
+		}
+  }
+  
+  .app-section {
+  	padding: $spacing;
+  	background-color: lightgrey;
+  	color: black;
+  	margin-bottom: $spacing-double;
+  	@include clearfix;
+  	
+  	
+  	&:last {
+  		margin-bottom: 0;
+  	}
+  	
+  }
+  
+  .app-checkbox-list {
+  	
+  }
 }
 
 #RandomTip {
@@ -268,7 +355,10 @@ details[open] {
 	padding: $spacing-double;
 	text-align: center;
 	cursor: pointer;
-	color: black;
+	
+	* {
+		color: black;
+	}
 	
 	p {
 		font-size: 1.5em;
@@ -280,14 +370,169 @@ details[open] {
 
 .PlayerPortal {
 	
-	.nav-tab {
-		a {
-			font-family: "Chinese Rocks", "Bungee", Arial, Helvetica, sans-serif;
-			font-size: 26px;
-			letter-spacing: 2px;
+	.app-container {
+
+		@include keyframes(closeDetails) {
+	    0%   { height: auto; }
+	    50%  { opacity: 0; overflow: hidden; height: $spacing-trip;  }
+	    100% { opacity: 0; overflow: hidden; height: 0; }
+		};
+		
+		@include keyframes(openDetails) {
+	    0%   { opacity: 0; overflow: hidden; height: 0; }
+	    50%  { opacity: 0; overflow: hidden; height: $spacing-trip;  }
+	    100% { opacity: 1; overflow: visible; height: auto; }
+		};
+
+		details {
+			opacity: 1;
+			height: auto;
+			
+			animation-duration: 0.6s;
+			animation-timing-function: ease-in-out;
+			animation-delay: 0s;
+			animation-direction: normal;
+			animation-fill-mode: both;
+			animation-play-state: running;
+
+			animation-name: openDetails;
+			
+			@include accelerate();
+			
+			&.disabled {
+				background-color: $color-light-grey;
+				color: grey;
+			}
+		}
+		
+		&.filter-remaining {
+			
+			details.disabled {
+				animation-name: closeDetails;
+			}
+
 		}
 	}
 	
+	.app-sections-list {
+		ul {
+			margin-left: 0;
+			
+			
+			
+			li {
+				width: 100%;
+				margin: 0;
+				
+				@media ( min-width : $size-container-tablet ) {
+					width: auto;
+					
+					margin-left: $spacing;
+					margin-right: $spacing;
+					
+					&:first-child {
+						margin-left: 0;
+					}
+					
+					&:last-child {
+						margin-right: 0;
+					}
+				}				
+			}
+		}
+		
+  	a {
+  		font-size: 36px;
+  		color: #404040;
+	    font-weight: 600;
+	    text-transform: uppercase;
+	    font-family: "Chinese Rocks", "Bungee", Arial, Helvetica, sans-serif;
+    	letter-spacing: 1px;
+    	display: block;
+    	margin-bottom: $spacing-half;
+  	}
+	}
+	
+	
+	.nav-tab-wrapper {
+		
+		height : 60px;
+		overflow: hidden;
+		margin-bottom: $spacing;
+		position: relative;
+		padding-top: 0;
+		
+		&::before {
+			content: "";
+			display: block;
+			position: absolute;
+			z-index: 10;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			top: 0;
+			background-color: red;
+			opacity: 0.3;
+			cursor: pointer;
+		}
+		
+		&.open {
+			display: flex;
+			height: auto;
+			
+			&::before {
+				display: none;
+			}
+			
+			.nav-tab:not( .nav-tab-active ) {
+				display: block;
+			}
+		}
+		
+		@media ( min-width : $size-container-desktop ) {
+			height: auto;
+			overflow: visible;
+			margin-bottom: 0;
+		}
+		
+		.nav-tab {
+			
+			width: 100%;
+			margin: 0;
+			
+			&.nav-tab-active {
+				-webkit-order: 1;
+				order: 1;
+			}
+			
+			&:not( .nav-tab-active ) {
+				display: none;
+			}
+			
+			@media ( min-width : $size-container-desktop ) {
+				width: auto;
+		
+				//margin-left: $spacing-half;
+				//margin-right: $spacing-half;
+				
+				&:first-child {
+					margin-left: 0;
+				}
+				
+				&:last-child {
+					margin-right: 0;
+				}
+			}
+			
+			a {
+				font-family: "Chinese Rocks", "Bungee", Arial, Helvetica, sans-serif;
+				font-size: 26px;
+				letter-spacing: 2px;
+				width: 100%;
+				display: inline-block;
+			}
+		}
+	}
 	
 	.tabContent {
 		summary {
@@ -299,6 +544,10 @@ details[open] {
 			font-family: "Chinese Rocks", "Bungee", Arial, Helvetica, sans-serif;
 			font-size: 26px;
 			letter-spacing: 1px;
+			
+			&::-webkit-details-marker {
+				display: none;
+			}
 		}
 	}
 }

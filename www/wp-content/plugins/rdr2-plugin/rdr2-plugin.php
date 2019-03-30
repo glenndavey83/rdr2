@@ -284,6 +284,11 @@ final class RDR2_ProgressTracker {
 		add_action('wp_ajax__ajax_update_player_game_collectables', array($this, '_ajax_update_player_game_collectables_callback'));
 		add_action('wp_ajax__ajax_update_player_game_collectable', array($this, '_ajax_update_player_game_collectable_callback'));
 		add_action('wp_ajax__ajax_insert_player_game_collectable', array($this, '_ajax_insert_player_game_collectable_callback'));
+		add_action('wp_ajax__ajax_update_player_game_item', array($this, '_ajax_update_player_game_item_callback'));
+		add_action('wp_ajax__ajax_insert_player_game_item', array($this, '_ajax_insert_player_game_item_callback'));
+		add_action('wp_ajax__ajax_update_player_game_item_collectable', array($this, '_ajax_update_player_game_item_collectable_callback'));
+		add_action('wp_ajax__ajax_insert_player_game_item_collectable', array($this, '_ajax_insert_player_game_item_collectable_callback'));
+		add_action('wp_ajax__ajax_update_player_game_progress', array($this, '_ajax_update_player_game_progress_callback'));
 		
 		//add_action('init', array($this, 'register_report_types'), 0 ); // Register Report Types Post Type
 		add_action('init', array($this, 'wpdb_table_shortcuts' ), 1); // Custom Table Name Shortcuts
@@ -354,7 +359,6 @@ final class RDR2_ProgressTracker {
 			remove_action('wp_head', 'parent_post_rel_link'); // Parent Post Rel Link
 			remove_action('wp_head', 'start_post_rel_link'); // Start Post Rel Link
 			remove_action('wp_head', 'adjacent_posts_rel_link'); // Adjacent Posts Rel Link
-			
 		}
 
     }	
@@ -818,6 +822,7 @@ final class RDR2_ProgressTracker {
 		$wpdb->player_games = 'rdr2_player_games';
 		$wpdb->player_game_items = 'rdr2_player_game_items';
 		$wpdb->player_game_collectables = 'rdr2_player_game_collectables';
+		$wpdb->player_game_item_collectables = 'rdr2_player_game_item_collectables';
 
 		$wpdb->tips = 'rdr2_tips';
 		
@@ -868,11 +873,16 @@ final class RDR2_ProgressTracker {
 		
 		die();
 	}
-		
+	
+	
+	
+	// AJAX - Update Player Game Collectable Response
 		
 	public function _ajax_update_player_game_collectable_callback() { 
-		if (!$this->collectable || !is_numeric($this->quantity)) 
+		if (!$this->collectable || !is_numeric($this->quantity)) {
+			echo "No collectable or quantity sent!";
 			die();
+		}
 		
 		echo $result = $this->rdr2->update_player_game_collectable($this->game_id, $this->collectable, $this->quantity);
 		
@@ -882,16 +892,72 @@ final class RDR2_ProgressTracker {
 		
 		
 	public function _ajax_insert_player_game_collectable_callback() {
-		if (!$this->collectable || !is_numeric($this->quantity)) 
+		if (!$this->collectable || !is_numeric($this->quantity)) {
+			echo "No collectable or quantity sent!";
 			die();
-			
+		}
+		
 		echo $result = $this->rdr2->insert_player_game_collectable($this->game_id, $this->collectable, $this->quantity);
 		
 		die();
-	}				
+	}
+
+
+
+
+	// AJAX - Update Player Game Item Response
+		
+	public function _ajax_update_player_game_item_callback() { 
+		if (!$this->item || !is_numeric($this->acquired)) {
+			echo "No item or quantity sent!";
+			die();
+		}
+		
+		echo $result = $this->rdr2->update_player_game_item($this->game_id, $this->item, $this->acquired);
+		
+		die();
+	}		
+	
 		
 		
+	public function _ajax_insert_player_game_item_callback() {
+		if (!$this->item || !is_numeric($this->acquired)) {
+			echo "No collectable or quantity sent!";
+			die();
+		}
 		
+		echo $result = $this->rdr2->insert_player_game_item($this->game_id, $this->item, $this->acquired);
+		
+		die();
+	}	
+
+
+
+	// AJAX - Update Player Game Collectable Item Response
+		
+	public function _ajax_update_player_game_item_collectable_callback() { 
+		if (!$this->itemcollectable || !is_numeric($this->quantity)) {
+			echo "No collectable or quantity sent!";
+			die();
+		}
+		
+		echo $result = $this->rdr2->update_player_game_item_collectable($this->game_id, $this->itemcollectable, $this->quantity);
+		
+		die();
+	}		
+	
+		
+		
+	public function _ajax_insert_player_game_item_collectable_callback() {
+		if (!$this->itemcollectable || !is_numeric($this->quantity)) {
+			echo "No collectable or quantity sent!";
+			die();
+		}
+		
+		echo $result = $this->rdr2->insert_player_game_item_collectable($this->game_id, $this->itemcollectable, $this->quantity);
+		
+		die();
+	}	
 		
 		
 		
@@ -1287,16 +1353,23 @@ final class RDR2_ProgressTracker {
 		?>
 		<div class="DynamicContainer">
 			<h3>Game</h3>
-			<form id="player-portal-filter" method="get" class="">
-				<input type="hidden" name="ajaxaction" id="ajaxaction" value="_ajax_fetch_portal" />
-				<?php wp_nonce_field( 'ajax-portal-nonce', '_ajax_portal_nonce' ); ?>
-				<?php wp_nonce_field( 'ajax-player-nonce', '_ajax_player_nonce' ); ?>
-				<?php wp_nonce_field( 'ajax-tip-nonce', '_ajax_tip_nonce' ); ?>
-				<?php $this->print_player_game_controller($game_id); ?>
-			</form>
+			<div class="app-section">
+				<form id="player-portal-filter" method="get" class="">
+					<input type="hidden" name="ajaxaction" id="ajaxaction" value="_ajax_fetch_portal" />
+					<?php wp_nonce_field( 'ajax-portal-nonce', '_ajax_portal_nonce' ); ?>
+					<?php wp_nonce_field( 'ajax-player-nonce', '_ajax_player_nonce' ); ?>
+					<?php wp_nonce_field( 'ajax-tip-nonce', '_ajax_tip_nonce' ); ?>
+					<?php $this->print_player_game_controller($game_id); ?>
+				</form>
+			</div>
 		</div>
-		<form class="DeadForm" id="items-filter" method="get" ><input type="hidden" name="game_id" id="game_id" value="<?php echo $game_id; ?>" /><?php wp_nonce_field( 'ajax-items-nonce', '_ajax_update_items_nonce' ); ?><div id="PlayerItemsPortal" class="DynamicContainer PlayerPortal"></div></form>
-		<form class="DeadForm" id="collectables-filter" method="get" ><input type="hidden" name="game_id" id="game_id" value="<?php echo $game_id; ?>" /><?php wp_nonce_field( 'ajax-collectables-nonce', '_ajax_update_collectables_nonce' ); ?><div id="PlayerGamesPortal" class="DynamicContainer PlayerPortal"></div></form>
+		<form class="DeadForm" id="items-filter" method="get" >
+			<input type="hidden" name="game_id" id="game_id" value="<?php echo $game_id; ?>" />
+			<?php wp_nonce_field( 'ajax-player-game-progress-nonce', '_ajax_player_game_progress_nonce' ); ?>
+			<?php wp_nonce_field( 'ajax-player-game-collectables-nonce', '_ajax_collectables_nonce' ); ?>
+			<?php wp_nonce_field( 'ajax-player-game-items-nonce', '_ajax_items_nonce' ); ?>
+			<div id="PlayerPortal" class="DynamicContainer PlayerPortal"></div>
+		</form>
 		<div id="RandomTip" class="DynamicContainer"></div>
 		<?php
 	}
@@ -1341,16 +1414,19 @@ final class RDR2_ProgressTracker {
 	?>
 	<input type="hidden" name="game_id" id="game_id" value="<?php echo $game_id; ?>" />
 	<div id="PlayerGameController">
-		<div>
-			<label for="GameNumber">Playthrough number:</label> <input type="number" name="game_number" id="GameNumber" value="<?php echo $game_info["Number"]; ?>" min="1" max="255">
+		<div><p>Playthrough number <span class="" id="play_num"><?php echo $game_info["Number"]; ?></span></p></div>
+		<div class="screen-reader-text">
+			<div>
+				<label for="GameNumber">Playthrough number:</label> <input type="number" name="game_number" id="GameNumber" value="<?php echo $game_info["Number"]; ?>" min="1" max="255">
+			</div>
+			<div>
+				<label for="GameName">Name:</label> <input type="text" name="game_name" id="GameName" placeholder="Give your playthrough a handy nickname"> 
+			</div>
+			<div>
+				<label for="GameDescription">Description:</label><textarea name="game_description" id="GameDescription"  placeholder="Give your playthrough a description if needed"></textarea> 	
+			</div>
+			<input type="submit" value="Save" id="SubmitGame" />
 		</div>
-		<div>
-			<label for="GameName">Name:</label> <input type="text" name="game_name" id="GameName" placeholder="Give your playthrough a handy nickname"> 
-		</div>
-		<div>
-			<label for="GameDescription">Description:</label><textarea name="game_description" id="GameDescription"  placeholder="Give your playthrough a description if needed"></textarea> 	
-		</div>
-		<input type="submit" value="Save" id="SubmitGame" />
 	</div>
 	<?php
 	} 
@@ -2121,6 +2197,7 @@ final class RDR2_ProgressTracker {
 			'ingredient_qualities' => json_encode( $this->rdr2->get_ingredient_qualities() ),
 			'ingredient_types' => json_encode( $this->rdr2->get_ingredient_types() ),
 			'player_game_collected' => json_encode( $this->rdr2->get_player_game_collected( $this->game_id ) ),
+			'player_game_submitted' => json_encode( $this->rdr2->get_player_game_submitted( $this->game_id ) ),
 			'player_game_items' => json_encode( $this->rdr2->get_player_game_items( $this->game_id ) ),
 		));
 			 

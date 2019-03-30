@@ -4,8 +4,8 @@ Donate link: https://www.paypal.me/erfaiyazalam/
 Tags: Login Log,Online User,Login Form Security,Report,Brute Force Detector
 Requires at least: 4.9.0
 Requires PHP: 5.5
-Tested up to: 4.9.6
-Version: 1.7.0
+Tested up to: 5.0.0
+Version: 1.7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,8 +14,8 @@ Helps you to know your website's visitors by tracking their login related inform
 
 == Description ==
 
-(The pre-release version is available on [GitHub.com](https://github.com/faiyazalam/WordPress-plugin-user-login-history/releases/tag/1.8.0-beta-01).
-Please use this pre-release version in non-production environment and create issues if you find any bugs.)
+(The pre-release version is available on [GitHub.com](https://github.com/faiyazalam/WordPress-plugin-user-login-history/releases/tag/2.0.0-Beta-01).
+Please use this pre-release version in DEVELOPMENT environment only and create issues if you find any bugs.)
 
 
 The plugin helps you to track any visitor's login details with the following attributes:
@@ -108,6 +108,8 @@ Yes.
 7. Shortcode - User login list table for frontend
 
 == Changelog ==
+= 1.7.1(16th March, 2019) =
+* Fixed SQL bug in order by clause
 
 = 1.7.0(4th June, 2018) =
 * Compatible with **Multisite Network** - Now this plugin supports WordPress Multisite with multi-networks and multi-blogs.

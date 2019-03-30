@@ -33,6 +33,7 @@ if (!class_exists('Faulh_Public_List_Table')) {
 
         /**
          * Default timezone to be used for listing table.
+         * TODO::default timezone should be come from date-time helper for single source of truth
          */
         const DEFAULT_TABLE_TIMEZONE = 'UTC';
 
@@ -293,8 +294,11 @@ if (!class_exists('Faulh_Public_List_Table')) {
             }
 
             if (!empty($_REQUEST['orderby'])) {
-                $sql .= ' ORDER BY ' . esc_sql($_REQUEST['orderby']);
-                $sql .= !empty($_REQUEST['order']) ? ' ' . esc_sql($_REQUEST['order']) : ' ASC';
+                $direction = !empty($_REQUEST['order']) ? $_REQUEST['order'] : ' ASC';
+                $sanitize_sql_orderby = sanitize_sql_orderby($_REQUEST['orderby'] . " " . $direction);
+                if ($sanitize_sql_orderby) {
+                    $sql .= " ORDER BY " . $sanitize_sql_orderby;
+                }
             } else {
                 $sql .= ' ORDER BY FaUserLogin.time_login DESC';
             }
@@ -309,6 +313,8 @@ if (!class_exists('Faulh_Public_List_Table')) {
 
                 Faulh_Error_Handler::error_log("last error:" . $wpdb->last_error . " last query:" . $wpdb->last_query, __LINE__, __FILE__);
             }
+
+
 
             return $result;
         }

@@ -139,210 +139,6 @@ class RDR2 {
 	
 	
 	
-	// Where query for Clean Players
-	
-	function clean_where_player() {
-		$where = "";
-		//$where = "CardBarcodeNo IS NOT NULL AND ";
-		//$where .= "((Name IS NOT NULL AND Name != '' AND Name NOT REGEXP '^[0-9]+$') OR (FirstName IS NOT NULL AND FirstName != '' AND FirstName NOT REGEXP '^[0-9]+$')	OR (Surname IS NOT NULL AND Surname != '' AND Surname NOT REGEXP '^[0-9]+$')) AND ";
-		//$where .= "MerchantID != 0";
-		return $where;
-	}
-	
-	
-
-	// Get Player
-	
-	function get_player($args = array()) {		
-		if (empty($args))
-			return FALSE;
-
-		$where = new filter;
-		
-		// Allow a card number to be passed as a single argument
-		if (!is_array($args)) {
-			$card_number = $args;
-			$args = array("card_number" => $card_number);
-		}
-		
-		// Handle arguments array
-		if (is_array($args)) {
-			foreach ($args as $arg => $value) {				
-				switch ($arg) {
-					case 'card_number' :
-						$where->add("c.AccountCode = '" . $this->make_full_card_number($value) . "'");
-					break;
-				}
-			}
-		}
-	
-		// No arguments, no player
-		else
-			return FALSE;
-		
-		
-		// Single Player Query
-		$query = "
-			SELECT 
-				c.AccountCode, 
-				CardBarcodeNo, 
-				MemberNumber, 
-				c.StatusID, 
-				cs.Name AS Status, 
-				c.Name, 
-				c.Initial, 
-				c.FirstName,
-				c.Surname,
-				c.GenderID,
-				DATE_FORMAT(c.DateOfBirth, '%d/%m/%Y') AS DateOfBirth,
-				DATE_FORMAT(FROM_DAYS(DATEDIFF(NOW(), c.DateOfBirth)), '%Y')+0 AS Age, 
-				d.Position,
-				d.Address, 
-				d.Address2, 
-				su.Name AS Suburb, 
-				st.Abbrev AS State, 
-				p.Postcode, 
-				c.MerchantID,
-				m.Name AS MerchantName, 
-				DATE_FORMAT(c.DateCreated, '%d/%m/%Y') AS DateCreated,
-				DATE_FORMAT(c.DateEntered, '%d/%m/%Y') AS DateEntered,
-				DATE_FORMAT(c.DateLastChanged, '%d/%m/%Y') AS DateLastChanged,
-				d.Salutation,  
-				d.EmailAddress, 
-				d.PhoneNumber1,
-				d.PhoneNumber2,
-				d.MobilePhone,
-				d.MobilePhone2,
-				d.FaxNumber,
-				d.UserField4 
-			FROM " . $this->wpdb->players . " AS c 
-			LEFT JOIN " . $this->wpdb->merchants . " AS m ON c.MerchantID = m.ID 
-			LEFT JOIN " . $this->wpdb->suburbs . " AS su ON c.SuburbID = su.ID 
-			LEFT JOIN " . $this->wpdb->states  . " AS st ON c.StateID = st.ID  
-			LEFT JOIN " . $this->wpdb->players_data . " AS d ON c.AccountCode = d.AccountCode 
-			LEFT JOIN " . $this->wpdb->player_statuses . " AS cs ON c.StatusID = cs.ID 
-			LEFT JOIN " . $this->wpdb->postcodes . " AS p ON c.PostcodeID = p.ID 
-			" . $where->show() . " 
-			LIMIT 1";
-		
-		$result = $this->wpdb->get_row($query, ARRAY_A);
-		
-		if (empty($result))
-			return FALSE;
-		
-		$result["Location"] = $result["Suburb"] . ", " . $result["State"];
-			
-		$card_number = $this->make_full_card_number($args["card_number"]);
-		
-		// Gender
-		$result["Gender"] = $this->make_gender($result["GenderID"]);
-		
-		// Number of Sales
-		$result["NumberOfSales"] = $this->get_player_number_of_sales($card_number);
-		
-		// Total Sales
-		$result["TotalSales"] = $this->get_player_total_sales($card_number);
-
-		// Last Transaction Date
-		$result["DateOfLastSale"] = $this->get_player_last_sale_date($card_number);
-	
-		// Points Balance
-		$result["PointsBalance"] = $this->get_player_points_balance($card_number);
-	
-		return $result;
-	}
-
-	
-
-	// Get Players
-	
-	function get_players($args = array()) {
-		$current_page = max( 1, (isset( $_REQUEST['paged'] ) ? absint( $_REQUEST['paged'] ) : 0 ) );
-		$offset = ($current_page == 1) ? 0 : (($current_page - 1) * $this->per_page) + 1;
-		
-		$search = new RDR2_Search();
-		$search->what = "players";
-		$search->args = $args;
-		//$search->new_search = FALSE;
-		$search->count_limit = $offset . ", " . $this->per_page;
-		$search->results_per_page = FALSE;
-		$search->limit = $this->per_page;
-		$search->orderby = (!empty($this->orderby)) ? $this->orderby : 'DateCreated';
-		$search->order = (!empty($this->order)) ? $this->order : 'DESC';
-		$search->clean = (isset($this->clean)) ? $this->clean : 1;
-		//$search->custom_order = "MemberNumber " . $search->order;
-		$search->block = $current_page;
-		$results = $search->get_search_results();		
-
-		if (!$results)
-			return FALSE;
-		
-		$data = $search->data;
-		
-		// Format Data
-		
-		foreach ($results as $i => $result) {
-			
-			// Location
-			$location = "";
-
-			$results[$i]["Name"] = $this->make_player_name($result);
-			
-			if (!empty($result["Suburb"]))
-				$location .= $result["Suburb"];
-			if (!empty($result["Suburb"]) && !empty($result["State"]))
-				$location .= ", ";
-			if (!empty($result["State"]))
-				$location .= $result["State"];
-			
-			$results[$i]["Location"] = $location;
-			
-			// Date Created
-			if (!empty($result["DateCreated"]))
-				$results[$i]["DateCreated"] = date("d/m/Y", strtotime($result["DateCreated"]));
-			
-			// Date of Last Sale
-			//if (!empty($result["DateOfLastSale"]))
-			//	$result["DateOfLastSale"] = $result["DateOfLastSale"];
-			
-			//print_r($result);
-		}
-		
-		$data["results"] = $results;
-		
-		//print_r($results);
-		return $data;
-	}
-
-	
-	
-	
-	// Get New Players Per Year
-	
-	function get_players_per_year() {
-		$where = new filter;
-		$where->where = TRUE;
-		
-		//$where = 1;
-		$where->add("DateCreated IS NOT NULL");
-		$where->add($this->clean_where_player());
-		
-		$query = "SELECT 
-			YEAR(DateCreated) AS Year,
-			COUNT(*) AS Players
-		FROM " . $this->wpdb->players . " 
-		" . $where->show() . " 
-		GROUP BY YEAR(DateCreated)
-		";
-
-		$results = $this->wpdb->get_results($query, ARRAY_A);
-		
-		return $results;
-	}
-	
-	
-	
-	
 	// Get Player Games
 	
 	function get_player_games($player_id = FALSE) {
@@ -455,7 +251,7 @@ class RDR2 {
 		
 		$results = $this->wpdb->get_results($query, ARRAY_A);
 		
-		return (!is_array($results) || empty($results)) ? FALSE : $this->player_game_collectables = $results; 
+		return $this->player_game_collectables = $results; 
 	}
 	
 	
@@ -470,30 +266,29 @@ class RDR2 {
 			return false;
 		
 		$query = "
-			SELECT ID FROM " . $this->wpdb->player_game_items . "
+			SELECT Item, Acquired FROM " . $this->wpdb->player_game_items . "
 			WHERE Game = " . $game_id
 		;
 		
 		$results = $this->wpdb->get_results($query, ARRAY_A);
 		
-		return ( !is_array($results) || empty($results) ) ? FALSE : $this->player_game_items = $results; 
+		return $this->player_game_items = $results; 
 	}
 	
 	
 	
 	// Get Player Game Collected
-	
 	function get_player_game_collected( $game_id = FALSE ) {
 		if (!$game_id)
 			$game_id = $this->game_id;
 		
 		if (!$game_id) {
-			echo "Cannot get game id";
+			//echo "Cannot get game id";
 			return false;
 		}
 		
 		$query = "
-			SELECT Collectable, Collected, Submitted 
+			SELECT Collectable, Collected 
 			FROM " . $this->wpdb->player_game_collectables . " 
 			WHERE Game = " . $game_id 
 		;
@@ -504,8 +299,32 @@ class RDR2 {
 	}	
 	
 	
-	// Get Player Progress Count
 	
+	// Get Player Game Submitted
+	function get_player_game_submitted( $game_id = FALSE ) {
+		if (!$game_id)
+			$game_id = $this->game_id;
+		
+		if (!$game_id) {
+			//echo "Cannot get game id";
+			return false;
+		}
+		
+		$query = "
+			SELECT ItemCollectable, Quantity 
+			FROM " . $this->wpdb->player_game_item_collectables . " 
+			WHERE Game = " . $game_id 
+		;
+		
+		$results = $this->wpdb->get_results($query, ARRAY_A);
+		
+		return $results;
+	}	
+
+
+	
+	
+	// Get Player Progress Count
 	function get_player_progress_count($player_id = FALSE) {
 		if (!$player_id)
 			$player_id = $this->player_id;
@@ -522,8 +341,8 @@ class RDR2 {
 	} 
 	
 	
-	// Get Player Progress Percentage
 	
+	// Get Player Progress Percentage
 	function get_player_progress_percentage() {
 		
 	}
@@ -534,7 +353,6 @@ class RDR2 {
 	
 	
 	// Get Player Items
-	
 	function get_player_remaining_ingredients() {
 		
 	}
@@ -1041,53 +859,157 @@ class RDR2 {
 
 
 
-	// Insert Player Game Collectable
-
-	function insert_player_game_collectable($game_id = FALSE, $collectable = FALSE, $quantity = FALSE) {		
-		if (!$game_id) 
-			$game_id = $this->game_id;
-		
-		if (!$game_id) 
-			return FALSE;
-		
-		if (!$collectable) 
-			return false;
-		
-		$insert_id = $this->wpdb->insert( $this->wpdb->player_game_collectables, array("Game" => $game_id, "Collectable" => $collectable, "Collected" => $quantity), "%d");	
-		
-		return $insert_id;
-	}
-
-
-
 	// Update Player Game Collectable
 
 	function update_player_game_collectable($game_id = FALSE, $collectable = FALSE, $quantity = FALSE) {		
 		if (!$game_id) 
 			$game_id = $this->game_id;
 		
-		if (!$game_id) 
+		if (!$game_id) {
+			//echo "No game ID received!\n"; 
 			return FALSE;
+		}
 		
-		if (!$collectable) 
+		if (!$collectable) {
+			//echo "No collectable ID received!\n";
 			return false;
+		}
 		
-		$update_id = $this->wpdb->update( $this->wpdb->player_game_collectables, array("Collected" => $quantity), array("Game" => $game_id, "Collectable" => $collectable), "%d", "%d");
+		$data = array("Collected" => $quantity);
+		$where = array("Game" => $game_id, "Collectable" => $collectable);
+		$update_id = $this->wpdb->update( $this->wpdb->player_game_collectables, $data, $where, "%d", "%d");
+		$result = ($update_id !== '0') ? $update_id : FALSE;
+		
+		return $result;
+	}
 
-		return $update_id;
+
+
+	// Insert Player Game Collectable
+
+	function insert_player_game_collectable($game_id = FALSE, $collectable = FALSE, $quantity = FALSE) {		
+		if (!$game_id) 
+			$game_id = $this->game_id;
+		
+		if (!$game_id) {
+			//echo "No game ID received!\n"; 
+			return FALSE;
+		}
+		
+		if (!$collectable) {
+			//echo "No collectable ID received!\n";
+			return false;
+		}
+		
+		$data = array("Game" => $game_id, "Collectable" => $collectable, "Collected" => $quantity);
+		$insert_id = $this->wpdb->insert( $this->wpdb->player_game_collectables, $data, "%d");	
+		$result = ($insert_id !== '0') ? $insert_id : FALSE;
+		
+		return $result;
+	}
+
+
+
+	// Update Player Game Item Collectable
+	function update_player_game_item_collectable($game_id = FALSE, $itemcollectable = FALSE, $quantity = FALSE) {		
+		if (!$game_id) 
+			$game_id = $this->game_id;
+		
+		if (!$game_id) {
+			//echo "No game ID received!\n"; 
+			return FALSE;
+		}
+		
+		if (!$itemcollectable) {
+			//echo "No collectable ID received!\n";
+			return false;
+		}
+		
+		$data = array("Quantity" => $quantity);
+		$where = array("Game" => $game_id, "ItemCollectable" => $itemcollectable);
+		$update_id = $this->wpdb->update( $this->wpdb->player_game_item_collectables, $data, $where, "%d", "%d");
+		$result = ($update_id !== '0') ? $update_id : FALSE;
+		
+		return $result;	
+	}
+
+
+
+	// Insert Player Game Item Collectable
+	function insert_player_game_item_collectable($game_id = FALSE, $itemcollectable = FALSE, $quantity = FALSE) {		
+		if (!$game_id) 
+			$game_id = $this->game_id;
+		
+		if (!$game_id) {
+			//echo "No game ID received!\n"; 
+			return FALSE;
+		}
+		
+		if (!$itemcollectable) {
+			//echo "No collectable ID received!\n";
+			return false;
+		}
+		
+		$data = array("Game" => $game_id, "ItemCollectable" => $itemcollectable, "Quantity" => $quantity);
+		
+		$insert_id = $this->wpdb->insert( $this->wpdb->player_game_item_collectables, $data, "%d");	
+		
+		$result = ($insert_id !== '0') ? $insert_id : FALSE;
+		
+		return $result;
 	}
 
 
 
 
+	// Update Player Game Item 
+	function update_player_game_item($game_id = FALSE, $item = FALSE, $acquired = FALSE) {		
+		if (!$game_id) 
+			$game_id = $this->game_id;
+		
+		if (!$game_id) {
+			//echo "No game ID received!\n"; 
+			return FALSE;
+		}
+		
+		if (!$item) {
+			//echo "No collectable ID received!\n";
+			return false;
+		}
+		
+		$data = array("Acquired" => $acquired);
+		$where = array("Game" => $game_id, "Item" => $item);
+		$update_id = $this->wpdb->update( $this->wpdb->player_game_items, $data, $where, "%d", "%d");
+		$result = ($update_id !== '0') ? $update_id : FALSE;
+		
+		return $result;	
+	}
 
 
 
-
-
-
-
-
+	// Insert Player Game Item
+	function insert_player_game_item($game_id = FALSE, $item = FALSE, $acquired = 0) {		
+		if (!$game_id) 
+			$game_id = $this->game_id;
+		
+		if (!$game_id) {
+			//echo "No game ID received!\n"; 
+			return FALSE;
+		}
+		
+		if (!$item) {
+			//echo "No collectable ID received!\n";
+			return false;
+		}
+		
+		$data = array("Game" => $game_id, "Item" => $item, "Acquired" => $acquired);
+		
+		$insert_id = $this->wpdb->insert( $this->wpdb->player_game_items, $data, "%d");	
+		
+		$result = ($insert_id !== '0') ? $insert_id : FALSE;
+		
+		return $result;
+	}
 
 
 

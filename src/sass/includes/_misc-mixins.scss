@@ -143,6 +143,46 @@
 }
 
 
+// Animation
+
+@mixin animation($str) {
+  -webkit-animation: #{$str};
+  -moz-animation: #{$str};
+  -ms-animation: #{$str};
+  -o-animation: #{$str};
+  animation: #{$str};      
+}
+
+
+// Accelerate
+
+@mixin accelerate() {
+	-webkit-transform: translateZ(0);
+	box-shadow: 0 0 0 #000;
+	transform: translate3d(0,0,0);
+}
+
+.accelerate {
+	-webkit-transform: translateZ(0);
+	box-shadow: 0 0 0 #000;
+	transform: translate3d(0,0,0);
+}
+
+
+// Transition
+
+@mixin transition($args...) {
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  transition: $args;
+  
+  @include accelerate();
+}
+
+
+
 // Gridd
 
 @mixin gridd($unit: 1, $total: 4, $gapsize: 0) {
@@ -184,43 +224,13 @@
 
 
 
-// Animation
-
-@mixin animation($str) {
-  -webkit-animation: #{$str};
-  -moz-animation: #{$str};
-  -ms-animation: #{$str};
-  -o-animation: #{$str};
-  animation: #{$str};      
-}
 
 
-// Transition
-
-@mixin transition($args...) {
-  -webkit-transition: $args;
-  -moz-transition: $args;
-  -ms-transition: $args;
-  -o-transition: $args;
-  transition: $args;
-  
-  @include accelerate();
-}
 
 
-// Accelerate
 
-@mixin accelerate() {
-	-webkit-transform: translateZ(0);
-	box-shadow: 0 0 0 #000;
-	transform: translate3d(0,0,0);
-}
 
-.accelerate {
-	-webkit-transform: translateZ(0);
-	box-shadow: 0 0 0 #000;
-	transform: translate3d(0,0,0);
-}
+
 
 
 // Visually Hidden
