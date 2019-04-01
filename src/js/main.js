@@ -6,8 +6,6 @@
 // Frontend Scripting
 
 
-
-
 jQuery(document).ready(function($) {
 	
 	var 
