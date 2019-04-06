@@ -43,7 +43,7 @@
 				
 				EasyTabs : {
 					animate: false, 
-					get tabActiveClass() { return classes.App.Tabs.Active; }, 	
+					get tabActiveClass() { return classes.App.Tabs.Active; }, 
 					updateHash: false,
 				},
 			},
@@ -107,7 +107,9 @@
 			},
 			
 			// Classes
-			classes = {				
+			classes = {
+				
+				
 				App : {
 					Container : 'app-container',
 					Section : 'app-section',
@@ -166,7 +168,7 @@
 				Filters : {
 					Remaining : 'filter-remaining',
 				},
-				Flag : {
+				Flags : {
 					Active : 'active',
 					Available : 'available',
 					Disabled : 'disabled', 
@@ -258,16 +260,13 @@
 				OrientationChange : 'orientationchange',
 				Blur : 'blur',
 				Focus : 'focus',
-				Key : {
-					Up : 'keyup',
-				},
 			},		
 			
 			// HTML
 			html = {
 				App : {
-					get Container() { return '<div class="' + classes.App.Container + '" id="' + ids.App + '"></div>'; },
-					List : '<div class="' + classes.App.Sections.List + '"><ul class="' + classes.List.Horizontal + ' ' + classes.List.Pill + '"><li><a data-id="0" class="' + classes.Flag.Active + '">Sources</a></li><li><a data-id="1">Collectables</li></ul></div>',
+					Container : '<div class="' + classes.App.Container + '" id="' + ids.App + '"></div>',
+					List : '<div class="' + classes.App.Sections.List + '"><ul class="' + classes.List.Horizontal + ' ' + classes.List.Pill + '"><li><a data-id="0" class="' + classes.Flags.Active + '">Sources</a></li><li><a data-id="1">Collectables</li></ul></div>',
 					get Filters() { return '<div class="' + classes.App.Sections.Filter + '"><ul class="' + classes.List.Horizontal + ' ' + classes.List.Pill + '"><li><label class=""><input type="checkbox" name="' + name.Filter + '" value="1" id="' + ids.Filters.Remaining + '"> Show remaining only </label></li></ul></div>'; },
 					Sections : '<div class="' + classes.App.Sections.Container + '"><div class="' + classes.App.Sections.Wrapper + ' swiper-wrapper"></div></div>',
 				},
@@ -275,10 +274,10 @@
 				Icon : {
 					get Yes() { 
 						state.Dashicon = 'Yes';
-						return html.Dashicon; 
+						return html.Dashicon(); 
 					},
 				},
-				get UpdatingFlag() { return '<div class="' + classes.UpdatingFlag + '" id="' + ids.UpdatingFlag + '"><span class="' + classes.UpdatingLabel + '">' + content.UpdatingLabel + '</span></div>'; },
+				UpdatingFlag : '<div class="' + classes.UpdatingFlag + '" id="' + ids.UpdatingFlag + '"><span class="' + classes.UpdatingLabel + '">' + content.UpdatingLabel + '</span></div>',
 				Sources : {
 					Heading : '<h3 class="' + classes.ScreenReader + '">Sources</h3>',
 				},	
@@ -294,9 +293,7 @@
 					Remaining : 'FilterRemaining',
 				},
 				Game : 'game_id',
-				Ingredient : {
-					Types : 'IngredientTypes',
-				},
+				UpdatingFlag : 'UpdatingFlag',
 				Source : {
 					Tabs : 'SourceTabs',
 					Name : 'Source-', 
@@ -308,7 +305,6 @@
 					Tabs : 'TypeTabs',
 					Name : 'Type-',	
 				},
-				UpdatingFlag : 'UpdatingFlag',
 			},
 			
 			
@@ -349,8 +345,7 @@
 		// Initiate Plugin
 		
 		plugin.init = function( ) {
-	 		
-	 		// Combine Defaults with passed Options into plugin var settings
+	 
 			plugin.settings = $.extend( {}, defaults, options );
 			
 			$container.data( slug, {} );
@@ -360,7 +355,7 @@
 			};
 			
 			
-			// APPEND Updating Flag
+			// Updating Flag
 			
 			// APPEND Updating Flag for all screens
 			$container.append( html.UpdatingFlag );
@@ -442,12 +437,10 @@
 			$swiper = $( '.' + classes.App.Sections.Container, $app );
 			
 			// ADD CLASS to Swiper
-			$swiper.addClass( classes.Swiper.Container );	
+			$swiper.addClass( classes.Swiper.Container );
 			
 			// IDENTIFY Sections to handle
 			$sections = $( '.' + classes.App.Sections.Wrapper, $swiper );
-			
-			
 			
 			
 			// APPEND Screens to Sections
@@ -460,14 +453,13 @@
 			
 			
 			// INITIATE Swiper on SECTIONS
-			swiper = new Swiper( '.' + classes.Swiper.Container, $.extend( {
+			swiper = new Swiper( '.' + classes.Swiper.Container, $.extend( {}, plugin.settings.Swiper, {		
 					on: {
 						slideChange: function () {
 							$( 'a:eq(' + swiper.activeIndex + ')', $list ).click();
 						},
 					},
-				
-				}, plugin.settings.Swiper, {} )
+				} )
 			);
 			
 			
@@ -496,7 +488,7 @@
 			
 			
 			// Filters
-			$( '#' + ids.Filters.Remaining, $container ).on( events.Change, function( e ) {
+			$( '#' + ids.Filters.Remaining, $container ).on( event.Change, function( e ) {
 				
 				if ( $( this ).prop( property.Checked ) == true )
 					$app.addClass( classes.Filters.Remaining );
@@ -504,12 +496,14 @@
 					$app.removeClass( classes.Filters.Remaining );
 			});
 			
+			
+	
 			// Screen Switcher
-			$( 'a', $list ).on( events.Click, function() {
+			$( 'a', $list ).on( event.Click, function() {
 				
-				$( "a", $list ).removeClass( classes.Flag.Active );
+				$( "a", $list ).removeClass( classes.Flags.Active );
 				
-				$( this ).addClass( classes.Flag.Active );
+				$( this ).addClass( classes.Flags.Active );
 				
 				swiper.slideTo( $( this ).data( 'id' ) );
 			});
@@ -672,7 +666,7 @@
 										isCollected = ( q < quantityCollected ),
 										
 										// If Collected set Available 
-										availableVal = ( isCollected ) ? classes.Flag.Available : '',
+										availableVal = ( isCollected ) ? classes.Flags.Available : '',
 										
 										// Determine if Item is submitted
 										isSubmitted = ( q < quantitySubmitted ),
@@ -681,7 +675,7 @@
 										checkedVal = ( isSubmitted ) ? property.Checked : '',
 										
 										// If Submmitted but not Collected set Disabled
-										disabledVal = ( isSubmitted && ! isCollected ) ? classes.Flag.Disabled : ''
+										disabledVal = ( isSubmitted && ! isCollected ) ? classes.Flags.Disabled : ''
 									;
 									
 									// Add a Checkbox for this Collectable Item
@@ -717,13 +711,13 @@
 								opened = ( isSubmittable ) ? property.Open : '',
 								
 								// If Craftable set Available 
-								available = ( isCraftable ) ? classes.Flag.Available : '',
+								available = ( isCraftable ) ? classes.Flags.Available : '',
 								
 								// If Crafted set Checked 
 								checkedVal = ( isCrafted ) ? property.Checked : '',
 								
 								// If None Remaining set Disabled 
-								craftableClass = ( totalRemaining == 0 ) ? classes.Flag.Disabled : '' 
+								craftableClass = ( totalRemaining == 0 ) ? classes.Flags.Disabled : '' 
 							;
 							
 							// Add this Craftable to the Groups content
@@ -738,7 +732,7 @@
 							groupsContent += '</ul>';
 													
 							// Add Category Group Name, Checkbox and Details/Summary to Category content
-							categoryContent += '<li><details class="' + classes.Category.Group.Container + '"> <summary> <label class="' + classes.DeadCheckbox + ' ' + classes.Category.Group.Checkbox + ' ' + classes.Flag.Disabled + '"> ' + html.Icon.Yes + ' <input type="checkbox" class="' + classes.Category.Group.Input + '" name="' + name.Group + '" value="' + categoryGroups[g].ID + '" ' + abled + ' > </label> <span class="' + classes.Category.Group.Name + '">' + categoryGroups[ g ].Name + '</span> </summary>';
+							categoryContent += '<li><details class="' + classes.Category.Group.Container + '"> <summary> <label class="' + classes.DeadCheckbox + ' ' + classes.Category.Group.Checkbox + ' ' + classes.Flags.Disabled + '"> ' + html.Icon.Yes + ' <input type="checkbox" class="' + classes.Category.Group.Input + '" name="' + name.Group + '" value="' + categoryGroups[g].ID + '" ' + abled + ' > </label> <span class="' + classes.Category.Group.Name + '">' + categoryGroups[ g ].Name + '</span> </summary>';
 						}
 						
 						// Add Category Group Content to Category Content 
@@ -759,10 +753,10 @@
 				}
 				
 				// Add this Source to tabs
-				navTabs += '<li class="' + classes.App.Tabs.Nav + '"> <a href="#' + ids.Source.Name + craftable_sources[ l ].Name + '" class="" data-sourceid="' + craftable_sources[ l ].ID + '" data-tabid="' + l + '"> <i class="' + classes.Source.Icons[ craftable_sources[ l ].ID ] + '"> </i> ' + craftable_sources[ l ].Name + '</a> </li>';
+				navTabs += '<li class="' + classes.App.Tabs.Nav + '"> <a href="#source-' + craftable_sources[ l ].Name + '" class="" data-sourceid="' + craftable_sources[ l ].ID + '" data-tabid="' + l + '"> <i class="' + classes.Source.Icons[ craftable_sources[ l ].ID ] + '"> </i> ' + craftable_sources[ l ].Name + '</a> </li>';
 				
 				// Add this Source content to tabs content
-				tabs += '<div class="' + classes.Source.Tab + ' ' + classes.Tab.Lucky + '" id="' + ids.Source.Name + craftable_sources[ l ].Name + '"> <h3 class="' + classes.ScreenReader + ' ' + classes.Source.Name + '">' + craftable_sources[ l ].Name + '</h3> <div class="' + classes.Tab.Content + ' ' + classes.Source.Content + '" > ' + sourceContent + ' </div> </div>';					
+				tabs += '<div class="' + classes.Source.Tab + ' ' + classes.Tab.Lucky + '" id="' + ids.Source.Name( craftable_sources[ l ].Name ) + '"> <h3 class="' + classes.ScreenReader + ' ' + classes.Source.Name + '">' + craftable_sources[ l ].Name + '</h3> <div class="' + classes.Tab.Content + ' ' + classes.Source.Content + '" > ' + sourceContent + ' </div> </div>';					
 			}
 			
 			// Add Tabs and Tab Nav to Tab wrapper
@@ -773,16 +767,9 @@
 			
 			// IDENTIFY Source Tabs
 			$div = $( '#' + ids.Source.Tabs );
-
-
-
-
 			
 			// Attach event listeners to Source Tabs
 			_setupSourceActions( data , $div ); 
-			
-			
-
 			
 		};
 	
@@ -793,7 +780,6 @@
 		// SOURCE Actions
 	
 		var _setupSourceActions = function( data , $div ) {
-			
 			
 			// For every Checkbox...
 			$( '.' + classes.DeadCheckbox, $div ).each( function() { 
@@ -833,10 +819,10 @@
 					$notSold = $( 'input', $all ).not( ':' + property.Checked ).parent(),
 					
 					// Available all including self and siblings
-					$available = $( '.' + classes.Flag.Available, $( this ).parent() ),
+					$available = $( '.' + classes.Flags.Available, $( this ).parent() ),
 					
 					// Are any OTHERS Available? 
-					$availableAny = $( this ).siblings( '.' + classes.Flag.Available ),
+					$availableAny = $( this ).siblings( '.' + classes.Flags.Available ),
 					
 					// Are any Available siblings not Sold?
 					$availableAnyNotSold = $( 'input', $availableAny ).not( ':' + property.Checked ).parent(),
@@ -845,10 +831,10 @@
 					$availableNotSold = $( 'input', $available ).not( ':' + property.Checked ).parent(),
 					
 					// Not Available and not Sold
-					$notAvailableNotSold = $notSold.not( '.' + classes.Flag.Available ),
+					$notAvailableNotSold = $notSold.not( '.' + classes.Flags.Available ),
 					
 					// Is THIS Collectable Item Available?
-					availableThis = $( this ).hasClass( classes.Flag.Available ),
+					availableThis = $( this ).hasClass( classes.Flags.Available ),
 					
 					// Are ANY Collectable Items available?
 					availableAny = ( $availableAnyNotSold.length > 0 ),
@@ -921,7 +907,6 @@
 			
 			// CHANGE - Collectable Item Input
 			$( '.' + classes.Collectable.Item.Input, $div ).on( events.Change, function( e ) { 
-				
 				e.preventDefault();
 				
 				// Activate Updating Flag
@@ -940,7 +925,7 @@
 				
 				
 				
-				// Siblings 
+				// Siblings
 				
 				var 
 					// Identify the parent list
@@ -975,12 +960,12 @@
 					
 					// Make the parent Collectable Item "craftable" 
 					$collectableItemSummary
-						.removeClass( classes.Flag.Disabled );
+						.removeClass( classes.Flags.Disabled );
 					
 					// Make Checkbox "craftable"
 					$collectableItemCheckbox
-						.removeClass( classes.Flag.Disabled )
-						.addClass( classes.Flag.Available );
+						.removeClass( classes.Flags.Disabled )
+						.addClass( classes.Flags.Available );
 						
 					// Make Input "abled"
 					$collectableItemCheckboxInput
@@ -1002,12 +987,12 @@
 				
 				// Make the parent Collectable Item "un-craftable"						
 				$collectableItemSummary
-					.addClass( classes.Flag.Disabled );
+					.addClass( classes.Flags.Disabled );
 				
 				// Make the Checkbox "un-craftable"
 				$collectableItemCheckbox
-					.addClass( classes.Flag.Disabled )
-					.removeClass( classes.Flag.Available );
+					.addClass( classes.Flags.Disabled )
+					.removeClass( classes.Flags.Available );
 				
 				// Make the Input disabled
 				$collectableItemCheckboxInput
@@ -1045,7 +1030,7 @@
 					// Get checked value
 					checked = $input.prop( property.Checked ),
 					// Get availability
-					availableThis = $( this ).hasClass( classes.Flag.Available )
+					availableThis = $( this ).hasClass( classes.Flags.Available )
 				;
 				
 				// Is checked...
@@ -1128,10 +1113,9 @@
 			});
 	
 			
-						
+			
 			// Setup Tabs
 			setupTabs( $div );
-
 	
 		};
 	
@@ -1220,7 +1204,7 @@
 						totalCollected = 0,
 						
 						// Total Submitted count starts at zero 
-						totalSubmitted = 0,
+						totalSubmitted = 0
 						
 						// Open Ingredients content
 						ingredientsContent = '',
@@ -1312,14 +1296,14 @@
 				}
 				
 				// Add this Ingredient Type to Tab Nav
-				navTabs += '<li class="' + classes.Ingredient.Type.Tab.Nav + ' ' + classes.App.Tabs.Nav + '"><a href="#' + ids.Type.Name + ingredient_types[ t ].Plural + '" class="" data-typeid="' + ingredient_types[ t ].ID + '" data-tabid="' + t + '"> <i class="' + typeIcons[ ingredient_types[ t ].ID ] + '"></i> ' + ingredient_types[ t ].Plural + '</a> </li>';
+				navTabs += '<li class="' + classes.Ingredient.Type.Tab.Nav + ' ' + classes.App.Tabs.Nav + '"><a href="#' + ids.Type.Name( ingredient_types[t].Plural ) + '" class="" data-typeid="' + ingredient_types[ t ].ID + '" data-tabid="' + t + '"> <i class="' + typeIcons[ ingredient_types[ t ].ID ] + '"></i> ' + ingredient_types[ t ].Plural + '</a> </li>';
 				
 				// Add this Ingredient Type to Tab content
-				tabs += '<div class="' + classes.Ingredient.Type.Tab.Content + ' ' + classes.Tab.Lucky + '" id="' + ids.Type.Name + ingredient_types[ t ].Plural + '"><h3 class="' + classes.Ingredient.Type.Name + ' ' + classes.ScreenReader + '">' + ingredient_types[ t ].Plural + '</h3> <div class="' + classes.Tab.Content + '">' + typesContent + '</div> </div>';
+				tabs += '<div class="' + classes.Ingredient.Type.Tab.Content + ' ' + classes.Tab.Lucky + '" id="' + ids.Type.Name( ingredient_types[ t ].Plural ) + '"><h3 class="' + classes.Ingredient.Type.Name + ' ' + classes.ScreenReader + '">' + ingredient_types[ t ].Plural + '</h3> <div class="' + classes.Tab.Content + '">' + typesContent + '</div> </div>';
 			}
 			
 			// Add all Tabs content to Tabs wrapper
-			var tabsWrapper = '<div id="' + ids.Ingredient.Types + '" class="' + classes.App.Section + ' ' + classes.Swiper.Slide + '">' + heading + '<div id="' + ids.Collectable.Tabs + '" class="' + classes.Tabs.Container + ' ' + classes.Tabs.Lucky + ' ' + classes.Tabs.Top + '"><ul class="' + classes.Source.Selector + ' ' + classes.List.Pill + ' ' + classes.App.Tabs.Wrapper + '">' + navTabs + '</ul>' + tabs + '</div></div>';	 				
+			var tabsWrapper = '<div id="' + ids.Ingredients + '" class="' + classes.App.Section + ' ' + classes.Swiper.Slide + '">' + heading + '<div id="' + ids.Collectable.Tabs + '" class="' + classes.Tabs.Container + ' ' + classes.Tabs.Lucky + ' ' + classes.Tabs.Top + '"><ul class="' + classes.Source.Selector + ' ' + classes.List.Pill + ' ' + classes.App.Tabs.Wrapper + '">' + navTabs + '</ul>' + tabs + '</div></div>';	 				
 			
 			// APPEND all content to Sections
 			$sections.append( tabsWrapper );
@@ -1331,7 +1315,7 @@
 			
 			
 			// IDENTIFY Ingredient Tabs
-			$div = $( '#' + ids.Collectable.Tabs ); 
+			$div = $( '#' . ids.Collectable.Tabs );		
 			
 			
 			// Setup Ingredient Actions
@@ -2196,21 +2180,12 @@
 		// Setup Tabs
 		
 		var setupTabs = function( tabElement ) {
-			
 			// ABORT if no Tab element passed
 			if ( ! tabElement.length ) 
 				return;
 			
-			var $element = tabElement;
-			
-			if ( ! $(" > ul > li:first-child", $element ).length ) {
-				error( 'REALLY Cannot find the appropriate children for tabs!');
-				
-				error( $element, false ); 
-			}				
-			
 			// Setup EasyTabs jQuery plugin on passed Tab element
-			$element.easytabs( $.extend( {}, plugin.settings.EasyTabs, {} ) );
+			tabElement.easytabs( plugin.settings.EasyTabs );
 			
 			/*
 			$( window ).on( 'hashchange', function() {
@@ -2309,30 +2284,36 @@
 		
 		// Initiate Plugin
 		plugin.init();
-		
-	};
 	
-
-	/////////////////////////////////////////////////////////////////////////
-	// Tracky jQuery Function
-	
-	$.fn.tracky = function( options ) {
-		var args = arguments;
-
-		return this.each(function() {
-			var $this = $(this),
-				plugin = $this.data( 'tracky' );
-
-			if ( undefined === plugin ) {
-				plugin = new $.tracky( this, options );
-				$this.data( 'tracky', plugin );
-			}
-
-			if ( plugin.publicMethods[ options ] )
-				return plugin.publicMethods[ options ]( Array.prototype.slice.call( args, 1 ) );
 		
-			return;
-		});
+		
+		
+		
+		
+		
+		
+		/////////////////////////////////////////////////////////////////////////
+		// Tracky jQuery Function
+		
+		$.fn.tracky = function( options ) {
+			var args = arguments;
+	
+			return this.each(function() {
+				var $this = $(this),
+					plugin = $this.data( 'tracky' );
+	
+				if ( undefined === plugin ) {
+					plugin = new $.tracky( this, options );
+					$this.data( 'tracky', plugin );
+				}
+	
+				if ( plugin.publicMethods[ options ] )
+					return plugin.publicMethods[ options ]( Array.prototype.slice.call( args, 1 ) );
+			
+				return;
+			});
+		};
+		
 	};
 
 })( jQuery );

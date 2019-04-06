@@ -12,18 +12,15 @@ Domain Path: /languages/
 // Don't call the file directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-ini_set('display_errors', 1);
+error_reporting(E_ALL);
+ini_set('display_errors', TRUE);
+ini_set('display_startup_errors', TRUE);
 
 if (!defined('DS')) define( 'DS', "/" ); // Directory separator
 if (!defined( '__DIR__' )) define( '__DIR__', dirname( __FILE__ ) ); // DIR pseudo native constant
 if (!defined('RDR2_DIR')) define( 'RDR2_DIR', __DIR__  . DS );
 if (!defined('RDR2_CLASSES_DIR')) define( 'RDR2_CLASSES_DIR', RDR2_DIR . 'classes' . DS );
 
-/*require RDR2_CLASSES_DIR . 'vendor' . DS . 'autoload.php';
-
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-*/
 
 // Activation Hook
 register_activation_hook( __FILE__, array( 'RDR2_ProgressTracker', 'activate' ) );
@@ -173,13 +170,11 @@ final class RDR2_ProgressTracker {
     public function init_plugin() {
 		
 		// Includes
-        $this->includes();
+		$this->includes();
 		
-		// Initiate Classes
-		//$this->init_classes();
 		
 		// Initiate Hooks
-        $this->init_hooks();
+		$this->init_hooks();
 		
 	
 		
@@ -189,14 +184,15 @@ final class RDR2_ProgressTracker {
 		//$this->user_id = get_current_user_id();
 		$this->user_id = $this->user->ID;		
 		$this->prefix = RDR2_PREFIX;
+		$this->db_prefix = 'rdr2_';
 		$this->id = FALSE;
-		$this->user_info = get_userdata($this->user_id);
+		$this->user_info = get_userdata( $this->user_id );
 		
 		$this->orderby = FALSE;
 		$this->order = FALSE;
 		$this->page = FALSE;
-		$per_page = $this->get_acf_option("per_page");
-		$this->per_page = (!empty($per_page)) ? $per_page : 20;
+		$per_page = $this->get_acf_option( "per_page" );
+		$this->per_page = ( ! empty( $per_page ) ) ? $per_page : 20;
 		$this->hide_res = 1;
 		$cache_stats = $this->get_acf_option("cache_stats" );
 		$this->cache_stats = ($cache_stats !== FALSE) ? $cache_stats : 0;
@@ -207,11 +203,11 @@ final class RDR2_ProgressTracker {
 		
 		
 		// Extract $_REQUEST Terms to Object Variables
-		if (!$this->terms_extracted) 
+		if ( ! $this->terms_extracted ) 
 			$this->extract_terms();
 		
 		// Do Loaded Hook Action
-        do_action( 'rdr2_loaded');
+        do_action( 'rdr2_loaded' );
 		
     }
 
@@ -226,10 +222,9 @@ final class RDR2_ProgressTracker {
 
 		require_once RDR2_CLASSES_DIR . 'class.core.php';
 		require_once RDR2_CLASSES_DIR . 'class.rdr2.php';
-		require_once RDR2_CLASSES_DIR . 'class.rdr2.search.php';
 		require_once RDR2_CLASSES_DIR . 'class.lb-list-class.php';
 		
-		if (!is_admin() ) {
+		if ( ! is_admin() ) {
 			require_once(ABSPATH . 'wp-admin/includes/screen.php');
 	        require_once(ABSPATH . 'wp-admin/includes/class-wp-screen.php');
 	        require_once(ABSPATH . 'wp-admin/includes/template.php');
@@ -261,10 +256,14 @@ final class RDR2_ProgressTracker {
     // Init Classes
     
     function init_classes() {
-    	if (class_exists("RDR2"))
-			$this->rdr2 = RDR2::init($this->terms);
+    	
+    	if ( ! class_exists( "RDR2" ) )
+			return FALSE;
 		
-		$this->player_id = $this->get_player_id_from_user_id($this->user_id);
+		$this->rdr2 = RDR2::init( $this->terms );
+		
+		$this->player_id = $this->get_player_id_from_user_id( $this->user_id );
+		
 		$this->game_id = $this->get_player_active_game();
     }
 	
@@ -281,7 +280,7 @@ final class RDR2_ProgressTracker {
 		add_action('wp_ajax__ajax_fetch_portal', array($this, '_ajax_fetch_portal_callback'));
 		add_action('wp_ajax__ajax_fetch_player_collectables', array($this, '_ajax_fetch_player_collectables_callback'));
 		add_action('wp_ajax__ajax_fetch_tips', array($this, '_ajax_fetch_tips_callback'));
-		add_action('wp_ajax__ajax_update_player_game_collectables', array($this, '_ajax_update_player_game_collectables_callback'));
+		add_action('wp_ajax__ajax_update_player_game_collected', array($this, '_ajax_update_player_game_collected_callback'));
 		add_action('wp_ajax__ajax_update_player_game_collectable', array($this, '_ajax_update_player_game_collectable_callback'));
 		add_action('wp_ajax__ajax_insert_player_game_collectable', array($this, '_ajax_insert_player_game_collectable_callback'));
 		add_action('wp_ajax__ajax_update_player_game_item', array($this, '_ajax_update_player_game_item_callback'));
@@ -750,17 +749,17 @@ final class RDR2_ProgressTracker {
 
 	// Player Login
 	
-	function player_login($user_login, $user) {
-		if (!(isset($user->roles) && is_array($user->roles) && in_array('player', $user->roles)))
+	function player_login( $user_login, $user ) {
+		if ( ! ( isset( $user->roles ) && is_array( $user->roles ) && in_array( 'player', $user->roles ) ) )
 			return FALSE;
 		
-		$this->player_id = $this->get_player_id_from_user_id($user->ID);
+		$this->player_id = $this->get_player_id_from_user_id( $user->ID );
 		
-		if (!$this->rdr2->player_has_games($this->player_id))
+		if ( ! $this->rdr2->player_has_games( $this->player_id ) )
 			// Create their first game playthrough for them
-			$this->rdr2->create_player_game($this->player_id);
+			$this->rdr2->create_player_game( $this->player_id );
 		
-		$this->game_id = $this->rdr2->get_player_active_game($this->player_id);
+		$this->game_id = $this->rdr2->get_player_active_game( $this->player_id );
 	}
 	
 	
@@ -768,14 +767,14 @@ final class RDR2_ProgressTracker {
 	
 	function stop_access_profile() {
 		
-		if (!$this->get_user_has_role("player"))
+		if ( ! $this->get_user_has_role( 'player' ) )
 			return;
 		
-		remove_menu_page('profile.php');
-		remove_submenu_page('users.php', 'profile.php');
+		remove_menu_page( 'profile.php' );
+		remove_submenu_page( 'users.php', 'profile.php' );
 		
-		if (defined('IS_PROFILE_PAGE') && IS_PROFILE_PAGE === true) {
-			wp_die( 'You are not permitted to change your own profile information.');
+		if ( defined( 'IS_PROFILE_PAGE' ) && IS_PROFILE_PAGE === true ) { 
+			wp_die( 'You are not permitted to change your own profile information.' );
 		}
 	}
 	
@@ -803,28 +802,28 @@ final class RDR2_ProgressTracker {
     function wpdb_table_shortcuts() {
         global $wpdb;
 		
-        $wpdb->collections = 'rdr2_collections';
-		$wpdb->collection_collectables = 'rdr2_collection_collectables';
-        $wpdb->collection_groups = 'rdr2_collection_groups';
-        $wpdb->collection_group_atts = 'rdr2_collection_group_atts';
-		$wpdb->collection_item_collectables = 'rdr2_collection_item_collectables';
-		$wpdb->collection_items = 'rdr2_collection_items';
-		$wpdb->collection_item_atts = 'rdr2_collection_item_atts';
-		$wpdb->collection_item_tips = 'rdr2_collection_item_tips';
-		$wpdb->collection_locations = 'rdr2_collection_locations';
+        $wpdb->craftable_categories = $this->db_prefix . 'craftable_categories';
+		$wpdb->collectables = $this->db_prefix . 'collectables';
+        $wpdb->craftable_groups = $this->db_prefix . 'craftable_groups';
+        $wpdb->craftable_group_atts = $this->db_prefix . 'craftable_group_atts';
+		$wpdb->craftables = $this->db_prefix . 'craftables';
+		$wpdb->craftable_atts = $this->db_prefix . 'craftable_atts';
+		$wpdb->craftable_collectables = $this->db_prefix . 'craftable_collectables';
+		$wpdb->craftable_tips = $this->db_prefix . 'craftable_tips';
+		$wpdb->craftable_sources = $this->db_prefix . 'craftable_sources';
 		
-		$wpdb->ingredients = 'rdr2_ingredients';
-		$wpdb->ingredient_qualities = 'rdr2_ingredient_qualities';
-		$wpdb->ingredient_parts = 'rdr2_ingredient_parts';
-		$wpdb->ingredient_types = 'rdr2_ingredient_types';
+		$wpdb->ingredients = $this->db_prefix . 'ingredients';
+		$wpdb->ingredient_qualities = $this->db_prefix . 'ingredient_qualities';
+		$wpdb->ingredient_parts = $this->db_prefix . 'ingredient_parts';
+		$wpdb->ingredient_types = $this->db_prefix . 'ingredient_types';
 
-        $wpdb->players = 'rdr2_players';
-		$wpdb->player_games = 'rdr2_player_games';
-		$wpdb->player_game_items = 'rdr2_player_game_items';
-		$wpdb->player_game_collectables = 'rdr2_player_game_collectables';
-		$wpdb->player_game_item_collectables = 'rdr2_player_game_item_collectables';
+        $wpdb->players = $this->db_prefix . 'players';
+		$wpdb->player_games = $this->db_prefix . 'player_games';
+		$wpdb->player_game_crafted = $this->db_prefix . 'player_game_crafted';
+		$wpdb->player_game_collected = $this->db_prefix . 'player_game_collected';
+		$wpdb->player_game_submitted = $this->db_prefix . 'player_game_submitted';
 
-		$wpdb->tips = 'rdr2_tips';
+		$wpdb->tips = $this->db_prefix . 'tips';
 		
     }
 
@@ -856,14 +855,14 @@ final class RDR2_ProgressTracker {
 
 	// Player Game Collectables
 	
-	// AJAX - Update Player Game Collectables Response
+	// AJAX - Update Player Game Collected Response
 
-	public function _ajax_update_player_game_collectables_callback() {
+	public function _ajax_update_player_game_collected_callback() {
 		
-		if (!$this->collectables)
+		if ( !$this->collectables )
 			die();
 			
-		$result = $this->rdr2->update_player_game_collectables($this->game_id, $this->collectables, $this->collected);
+		$result = $this->rdr2->update_player_game_collected($this->game_id, $this->collectables, $this->collected);
 		
 		//print_r($result);
 		
@@ -1344,33 +1343,61 @@ final class RDR2_ProgressTracker {
 	// Print Player Dashboard
 	
 	public function print_player_portal() {
-		$player_id = $this->get_active_player_id();
-		$game_id = $this->get_player_active_game($player_id);
 		
-		// If first game and no items added, show the new player message
-		if ($this->rdr2->get_player_games_count($player_id) == 1 && $this->rdr2->get_player_progress_count($game_id) == 0)
-			$this->print_player_portal_first_game_message();		
+		// Get Active Player ID
+		$player_id = $this->get_active_player_id();
+		
+		// Get Player Active Game
+		$game_id = $this->get_player_active_game( $player_id );
+		
+		
+		// If first game and NO Collectables collected...
+		if ( ( $this->rdr2->get_player_games_count( $player_id ) == 1 ) && ( $this->rdr2->get_player_game_collected_count( $game_id ) == 0 ) )
+			
+			// Show the new player message 
+			$this->print_player_portal_first_game_message();
+					
 		?>
 		<div class="DynamicContainer">
+			
 			<h3>Game</h3>
+			
 			<div class="app-section">
+				
 				<form id="player-portal-filter" method="get" class="">
+					
 					<input type="hidden" name="ajaxaction" id="ajaxaction" value="_ajax_fetch_portal" />
+					
 					<?php wp_nonce_field( 'ajax-portal-nonce', '_ajax_portal_nonce' ); ?>
+					
 					<?php wp_nonce_field( 'ajax-player-nonce', '_ajax_player_nonce' ); ?>
+					
 					<?php wp_nonce_field( 'ajax-tip-nonce', '_ajax_tip_nonce' ); ?>
+					
 					<?php $this->print_player_game_controller($game_id); ?>
+					
+					
 				</form>
+				
 			</div>
 		</div>
+		
 		<form class="DeadForm" id="items-filter" method="get" >
+			
 			<input type="hidden" name="game_id" id="game_id" value="<?php echo $game_id; ?>" />
+			
 			<?php wp_nonce_field( 'ajax-player-game-progress-nonce', '_ajax_player_game_progress_nonce' ); ?>
+			
 			<?php wp_nonce_field( 'ajax-player-game-collectables-nonce', '_ajax_collectables_nonce' ); ?>
+			
 			<?php wp_nonce_field( 'ajax-player-game-items-nonce', '_ajax_items_nonce' ); ?>
+			
 			<div id="PlayerPortal" class="DynamicContainer PlayerPortal"></div>
+			
 		</form>
+		
 		<div id="RandomTip" class="DynamicContainer"></div>
+		
 		<?php
 	}
 	
@@ -1399,7 +1426,7 @@ final class RDR2_ProgressTracker {
 
 	public function _ajax_fetch_player_collectables_callback() {
 		
-		echo json_encode($this->rdr2->get_player_game_collectables($this->game_id));
+		echo json_encode($this->rdr2->get_player_game_collected($this->game_id));
 		
 		die();
 	}
@@ -2186,19 +2213,19 @@ final class RDR2_ProgressTracker {
 		wp_enqueue_style( 'dashicons' );
 		
 		wp_localize_script('jquery', 'database', array(
-			'collection_locations' => json_encode( $this->rdr2->get_collection_locations() ),
-			'collection_groups' => json_encode( $this->rdr2->get_collection_groups() ),
-			'collections' => json_encode( $this->rdr2->get_collections() ),
-			'collection_collectables' => json_encode( $this->rdr2->get_collection_collectables() ),
-			'collection_items' => json_encode( $this->rdr2->get_collection_items() ),
-			'collection_item_collectables' => json_encode( $this->rdr2->get_collection_item_collectables() ),
+			'craftable_sources' => json_encode( $this->rdr2->get_craftable_sources() ),
+			'craftable_categories' => json_encode( $this->rdr2->get_craftable_categories() ),
+			'craftable_groups' => json_encode( $this->rdr2->get_craftable_groups() ),
+			'craftables' => json_encode( $this->rdr2->get_craftables() ),
+			'craftable_collectables' => json_encode( $this->rdr2->get_craftable_collectables() ),
+			'collectables' => json_encode( $this->rdr2->get_collectables() ),
 			'ingredients' => json_encode( $this->rdr2->get_ingredients() ),
 			'ingredient_parts' => json_encode( $this->rdr2->get_ingredient_parts() ),
 			'ingredient_qualities' => json_encode( $this->rdr2->get_ingredient_qualities() ),
 			'ingredient_types' => json_encode( $this->rdr2->get_ingredient_types() ),
 			'player_game_collected' => json_encode( $this->rdr2->get_player_game_collected( $this->game_id ) ),
 			'player_game_submitted' => json_encode( $this->rdr2->get_player_game_submitted( $this->game_id ) ),
-			'player_game_items' => json_encode( $this->rdr2->get_player_game_items( $this->game_id ) ),
+			'player_game_crafted' => json_encode( $this->rdr2->get_player_game_crafted( $this->game_id ) ),
 		));
 			 
 	}

@@ -265,6 +265,7 @@ module.exports = function(grunt) {
 						'<%= src.js %>/swiper/dist/js/swiper.js',
 						'<%= src.js %>/jquery-details/jquery.details.js',
 						'<%= src.js %>/jquery.tracky.js',
+						'<%= src.js %>/jquery.tippy.js',
 						'<%= src.js %>/main.js',
 					],
 
