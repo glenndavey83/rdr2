@@ -16,6 +16,7 @@ class RDR2 {
 	public $card_number_prefix;
 	private $results;
 	private $account_ids;
+	private $player;
 	
 	
 	// Construct 
@@ -27,6 +28,7 @@ class RDR2 {
 		
 		$this->card_number_prefix = "601690";
 		$this->per_page = 20;
+		$this->player = FALSE;
 		$this->player_id = FALSE;
 		$this->player_games = FALSE;
 		$this->player_progress = FALSE; 
@@ -114,7 +116,36 @@ class RDR2 {
 		$result = $wpdb->get_var( $query );
 		
 		return $result;
-	}	
+	}
+	
+	
+	
+	// Get Player Info
+	
+	function get_player_info( $player_id = FALSE ) {
+		
+		if ( ! $player_id )
+			$player_id = $this->player_id;
+		
+		if ( ! $player_id )
+			return false;
+		
+		if ( $this->player !== FALSE )
+			return $this->player;
+		
+		global $wpdb;
+		
+		$query = '
+			SELECT * FROM ' . $wpdb->players . '
+			WHERE ID = ' . $player_id . '
+			LIMIT 1
+		';
+		
+		$result = $wpdb->get_row( $query );
+		
+		return $this->player = $result;
+		
+	}
 
 
 
@@ -546,10 +577,256 @@ class RDR2 {
 		
 		return ( ! is_array( $results ) || empty( $results ) ) ? FALSE : $results; 
 	}
+
+
+
+
+
+
+
+	///////////////////////////////////////////////////////////////////
+	// SETTERS
+
 	
+	// INSERT
+
+	
+	// Insert Player Game Collected Collected
+
+	function insert_player_game_collected( $game_id = FALSE, $collectable = FALSE, $quantity = 1 ) {
+				
+		if ( ! $game_id ) 
+			$game_id = $this->game_id;
+		
+		if ( ! $game_id ) {
+			
+			echo "No game ID received!\n"; 
+			
+			return FALSE;
+		}
+		
+		if ( ! $collectable ) {
+			
+			echo "No Collectable ID received!\n";
+			
+			return false;
+		}
+		
+		$data = array( 'Game' => $game_id, 'Collectable' => $collectable, 'Collected' => $quantity );
+		
+		$insert_id = $this->wpdb->insert( $this->wpdb->player_game_collected, $data, '%d' );	
+		
+		$result = ( $insert_id !== '0' ) ? $insert_id : FALSE;
+		
+		return $result;
+	}
+
+
+
+	// Insert Player Game Submitted Collectables
+	
+	function insert_player_game_submitted( $game_id = FALSE, $collectable = FALSE, $quantity = 1 ) { 
+		if ( ! $game_id ) 
+			$game_id = $this->game_id;
+		
+		if ( ! $game_id ) {
+			//echo "No Game ID received!\n"; 
+			return FALSE;
+		}
+		
+		if ( ! $collectable ) {
+			//echo "No Collectable ID received!\n";
+			return false;
+		}
+		
+		$data = array( 'Game' => $game_id, 'CraftableCollectable' => $collectable, 'Quantity' => $quantity );
+		
+		$insert_id = $this->wpdb->insert( $this->wpdb->player_game_submitted, $data, '%d' );	
+		
+		$result = ( $insert_id !== '0' ) ? $insert_id : FALSE; 
+		
+		return $result;
+	}
+
+
+
+	// Insert Player Game Crafted
+	
+	function insert_player_game_crafted( $game_id = FALSE, $craftable = FALSE, $acquired = 1 ) {
+				
+		if ( ! $game_id ) 
+			$game_id = $this->game_id;
+		
+		if ( ! $game_id ) {
+			//echo "No Game ID received!\n"; 
+			return FALSE;
+		}
+		
+		if ( ! $craftable ) {
+			//echo "No Craftable ID received!\n";
+			return false;
+		}
+		
+		$data = array( 'Game' => $game_id, 'Craftable' => $craftable, 'Acquired' => $acquired );
+		
+		$insert_id = $this->wpdb->insert( $this->wpdb->player_game_crafted, $data, '%d' );	
+		
+		$result = ( $insert_id !== '0' ) ? $insert_id : FALSE;
+		
+		return $result;
+	}
+	
+	
+	
+	// UPDATE
+	
+	
+	// Update Player Game Collected Collectable
+
+	function update_player_game_collected( $game_id = FALSE, $collectable = FALSE, $quantity = FALSE ) {
+		
+		if ( ! $game_id ) 
+			$game_id = $this->game_id;
+		
+		if ( ! $game_id ) {
+			//echo "No game ID received!\n"; 
+			return FALSE;
+		}
+		
+		if ( ! $collectable ) {
+			//echo "No collectable ID received!\n";
+			return false;
+		}
+		
+		if ( $quantity === FALSE || ! is_numeric( $quantity ) ) {
+			//echo "No valid quantity received!\n";
+			return false;
+		}
+		
+		$data = array( 'Collected' => $quantity );
+		
+		$where = array( 'Game' => $game_id, 'Collectable' => $collectable );
+		
+		$update_id = $this->wpdb->update( $this->wpdb->player_game_collected, $data, $where, '%d', '%d' );
+		
+		$result = ( $update_id !== '0' ) ? $update_id : FALSE;
+		
+		return $result;
+	}
+	
+
+
+	// Update Player Game Submitted 
+	
+	function update_player_game_submitted( $game_id = FALSE, $collectable = FALSE, $quantity = FALSE ) {
+				
+		if ( ! $game_id ) 
+			$game_id = $this->game_id;
+		
+		if ( ! $game_id ) {
+			
+			//echo "No Game ID received!\n"; 
+			
+			return FALSE;
+		}
+		
+		if ( ! $collectable ) {
+			
+			//echo "No Craftable Collectable ID received!\n";
+			
+			return false;
+		}
+		
+		if ( $quantity === FALSE || ! is_numeric( $quantity ) ) {
+			
+			echo "No valid quantity received!\n";
+			
+			return false;
+		}
+		
+		$data = array( 'Quantity' => $quantity );
+		
+		$where = array( 'Game' => $game_id, 'CraftableCollectable' => $collectable );
+		
+		$update_id = $this->wpdb->update( $this->wpdb->player_game_submitted, $data, $where, '%d', '%d' );
+		
+		$result = ( $update_id !== '0' ) ? $update_id : FALSE;
+		
+		return $result;	
+	}
+
+
+
+	// Update Player Game Craftable 
+	
+	function update_player_game_craftable( $game_id = FALSE, $craftable = FALSE, $acquired = FALSE ) {		
+		if ( ! $game_id ) 
+			$game_id = $this->game_id;
+		
+		// ABORT if no Game ID for updating
+		if ( ! $game_id ) {
+			//echo "No Game ID received!\n"; 
+			return FALSE;
+		}
+		
+		// ABORT if no Craftable ID for updating
+		if ( ! $craftable ) {
+			//echo "No Craftable ID received!\n";
+			return false;
+		}
+		
+		// ABORT if no Acquired boolean for updating
+		if ( ! $acquired ) {
+			
+			echo "No Acquired boolean value received!\n";
+			
+			return false;
+		}
+		
+		$data = array( 'Acquired' => $acquired ); 
+		
+		$where = array( 'Game' => $game_id, 'Craftable' => $craftable );
+		
+		$update_id = $this->wpdb->update( $this->wpdb->player_game_crafted, $data, $where, '%d', '%d' );
+		
+		$result = ( $update_id !== '0' ) ? $update_id : FALSE;
+		
+		return $result;	
+	}
+
+
+
+
+
+	// FILTERS
+	
+	
+	// Update Player Filter Remaining
+
+	function update_player_filter_remaining( $player_id = FALSE, $filter = NULL ) {
+		
+		if ( ! $player_id )
+			$player_id = $this->player_id;
+		
+		if ( ! $player_id )
+			return FALSE;
+		
+		if ( $filter === NULL || ! is_numeric( $filter ) ) 
+			return FALSE;
+		
+		
+		$data = array( 'FilterRemaining' => $filter );
+		
+		$where = array( 'ID' => $player_id );
+		
+		$update_id = $this->wpdb->update( $this->wpdb->players, $data, $where, '%d', '%d' );
+		
+		return $update_id;
+	}
+
+
 	
 }
-
 
 
 

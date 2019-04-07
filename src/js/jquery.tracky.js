@@ -14,7 +14,6 @@
 			plugin = this,
 			$container = $( container ),
 			$app = false,
-			$UpdatingFlag = false,
 			
 			// Variables
 			name = 'Tracky',
@@ -97,13 +96,39 @@
 			// Submitted 
 			player_game_submitted = JSON.parse( database.player_game_submitted ), 
 			
+			// Player Info
+			player_info = JSON.parse( database.player_info ), 
+			
+			// Actions
+			
+			actions = {
+				Insert : {
+					Collected : '_ajax_insert_player_game_collected',
+					Submitted : '_ajax_insert_player_game_submitted',
+					Crafted : '_ajax_insert_player_game_crafted',
+				},
+				Update : {
+					Collected : '_ajax_update_player_game_collected',
+					Submitted : '_ajax_update_player_game_submitted',
+					Crafted : '_ajax_update_player_game_crafted',
+					
+					Filter : '_ajax_update_player_filter',
+				},
+			},
+			
 			// Content
 			content = {
 				Screens : [
 					{ name: 'Source' },
 					{ name: 'IngredientType' },
 				],
-				UpdatingLabel : 'Updating...'
+				Label : {
+					Inserted : 'Inserted!',
+					Inserting : 'Inserting...',
+					
+					Updated : 'Updated!',
+					Updating : 'Updating...',
+				},
 			},
 			
 			// Classes
@@ -155,6 +180,7 @@
 					Collectable : {
 						Container : 'craftable-collectable',
 						Input : 'craftable-collectable-input',
+						Checkbox : 'craftable-collectable-checkbox',
 					},
 				},
 				Dashicon : 'dashicons',
@@ -165,41 +191,47 @@
 				
 				Filters : {
 					Remaining : 'filter-remaining',
-				},
-				Flag : {
-					Active : 'active',
-					Available : 'available',
+				}, 
+				Flag : { 
+					Active : 'active', 
+					Available : 'available', 
+					Checked : 'checked', 
 					Disabled : 'disabled', 
-					Show : 'show',
-					Top : 'top',
-				},
-				Group : {
-					Craftable : {
+					Show : 'show', 
+					Top : 'top', 
+					Updating : 'updating-flag',
+				}, 
+				Group : { 
+					Craftable : { 
 						Container : 'group-craftable',
-						Input : 'group-craftable-input',
-						Label : 'group-craftable-label',
-						Name : 'group-craftable-name',
-					},
-					Craftables : {
-						Input : 'group-craftables-input',
-					},
-				},
-				Ingredient : {
-					Container : 'ingredient',
-					Label : 'ingredient-label',
-					Type : {
-						Selector : 'ingredient-type-selector',
-						Tab : {
-							Content : 'ingredient-type-tab-content',
-							Nav : 'ingredient-type-tab-nav',
-						},
-					},
-				},
+						Checkbox : 'group-craftable-checkbox', 
+						Input : 'group-craftable-input', 
+						Label : 'group-craftable-label', 
+						Name : 'group-craftable-name', 
+					}, 
+					Craftables : { 
+						Input : 'group-craftables-input', 
+					},  
+				},  
+				Ingredient : { 
+					Container : 'ingredient', 
+					Label : 'ingredient-label', 
+					Type : { 
+						Selector : 'ingredient-type-selector', 
+						Tab : { 
+							Content : 'ingredient-type-tab-content', 
+							Nav : 'ingredient-type-tab-nav', 
+						}, 
+					}, 
+				}, 
 				Input : {
 					Craftable : 'craftable-input',
 				},
 				Item : {
 					Label : 'item-label',
+				},
+				Label : {
+					Updating : 'updating-label',
 				},
 				List : {
 					Horizontal : 'horizontal',
@@ -246,8 +278,16 @@
 					Lucky : 'luckytabs',
 					Top : 'toptabs',
 				},
-				UpdatingFlag : 'updating-flag',
-				UpdatingLabel : 'updating-label',
+				
+				
+			},
+			
+			
+			// Elements 
+			elements = {
+				Flag : { 
+					get Updating() { return $( '#' + ids.Flag.Updating, $container ); },
+				}
 			},
 			
 			// Events
@@ -268,17 +308,19 @@
 				App : {
 					get Container() { return '<div class="' + classes.App.Container + '" id="' + ids.App + '"></div>'; },
 					List : '<div class="' + classes.App.Sections.List + '"><ul class="' + classes.List.Horizontal + ' ' + classes.List.Pill + '"><li><a data-id="0" class="' + classes.Flag.Active + '">Sources</a></li><li><a data-id="1">Collectables</li></ul></div>',
-					get Filters() { return '<div class="' + classes.App.Sections.Filter + '"><ul class="' + classes.List.Horizontal + ' ' + classes.List.Pill + '"><li><label class=""><input type="checkbox" name="' + name.Filter + '" value="1" id="' + ids.Filters.Remaining + '"> Show remaining only </label></li></ul></div>'; },
+					get Filters() { return '<div class="' + classes.App.Sections.Filter + '"><ul class="' + classes.List.Horizontal + ' ' + classes.List.Pill + '"><li><label class=""><input type="checkbox" name="' + name.Filter + '" value="1" id="' + ids.Filters.Remaining + '" ' + (( player_info.FilterRemaining == 1 ) ? 'checked' : '') + ' > Show remaining only </label></li></ul></div>'; },
 					Sections : '<div class="' + classes.App.Sections.Container + '"><div class="' + classes.App.Sections.Wrapper + ' swiper-wrapper"></div></div>',
 				},
 				get Dashicon() { return ( ! state.Dashicon || ! classes.Dashicons[ state.Dashicon ] ) ? false : '<span class="' + classes.Dashicon + ' ' + classes.Dashicons[ state.Dashicon ] + '"></span>'; },
+				Flag : {
+					get Updating() { return '<div class="' + classes.Flag.Updating + '" id="' + ids.Flag.Updating + '"> <span class="' + classes.Label.Updating + '"> ' + content.Label.Updating + ' </span> </div>'; },
+				},
 				Icon : {
 					get Yes() { 
 						state.Dashicon = 'Yes';
 						return html.Dashicon; 
 					},
 				},
-				get UpdatingFlag() { return '<div class="' + classes.UpdatingFlag + '" id="' + ids.UpdatingFlag + '"><span class="' + classes.UpdatingLabel + '">' + content.UpdatingLabel + '</span></div>'; },
 				Sources : {
 					Heading : '<h3 class="' + classes.ScreenReader + '">Sources</h3>',
 				},	
@@ -290,13 +332,24 @@
 				Collectable : {
 					Tabs : 'CollectableTabs',
 				},
+				Collected : {
+					Nonce : '_ajax_collected_nonce',
+				},
+				Craftable : {
+					Nonce : '_ajax_craftables_nonce',
+				},
 				Filters : {
 					Remaining : 'FilterRemaining',
+					Nonce : '_ajax_player_filters_nonce',
+				},
+				Flag : {
+					Updating : 'UpdatingFlag',
 				},
 				Game : 'game_id',
 				Ingredient : {
 					Types : 'IngredientTypes',
 				},
+				Player : 'player_id',
 				Source : {
 					Tabs : 'SourceTabs',
 					Name : 'Source-', 
@@ -304,11 +357,14 @@
 				Sources : {
 					Craftable : 'CraftableSources',	
 				},
+				Submitted : {
+					Nonce : '_ajax_submitted_nonce',
+				},
 				Type : {
 					Tabs : 'TypeTabs',
 					Name : 'Type-',	
 				},
-				UpdatingFlag : 'UpdatingFlag',
+				
 			},
 			
 			
@@ -336,6 +392,11 @@
 					},	
 					Update : {},
 				},	
+				Player : {
+					Filter : {
+						Remaining : false,
+					},
+				},
 			}
 		;
 	
@@ -363,10 +424,7 @@
 			// APPEND Updating Flag
 			
 			// APPEND Updating Flag for all screens
-			$container.append( html.UpdatingFlag );
-			
-			// IDENTIFY Updating Flag element to handle
-			$UpdatingFlag = $( ids.UpdatingFlag, $container );
+			$container.append( html.Flag.Updating );
 			
 			
 			// App Container
@@ -495,16 +553,46 @@
 			
 			
 			
+			
 			// Filters
+			
+			// Add Filter Remaining class to App container if it is initially checked
+			if ( $( '#' + ids.Filters.Remaining, $container ).prop( property.Checked ) )
+				$app.addClass( classes.Filters.Remaining );
+			
+			
+			// Track changes to Remaining Filter
 			$( '#' + ids.Filters.Remaining, $container ).on( events.Change, function( e ) {
+				var filter = null;
 				
-				if ( $( this ).prop( property.Checked ) == true )
+				// Activate Updating Flag
+				_activateUpdatingFlag();
+				
+				if ( $( this ).prop( property.Checked ) == true ) {
 					$app.addClass( classes.Filters.Remaining );
-				else
+					filter = 1;
+				}
+				
+				else {
 					$app.removeClass( classes.Filters.Remaining );
+					filter = 0;
+				}
+				
+				// UPDATE Local Player Info data
+				player_info.FilterRemaining = filter;
+								
+				// Add filter value to AJAX data
+				data = $.extend( data, { filter : filter } );
+				
+				// UPDATE Filter setting to Player database record
+				_updateFilter( data );
 			});
 			
+			
+			
+			
 			// Screen Switcher
+			
 			$( 'a', $list ).on( events.Click, function() {
 				
 				$( "a", $list ).removeClass( classes.Flag.Active );
@@ -554,6 +642,8 @@
 				// If no Source Categories, skip giving this Source a tab
 				if ( ! sourceCategories.length )
 					continue; 
+					
+				
 				
 				// For each of this Source's Categories 
 				for ( var c = 0; c < sourceCategories.length; c++ ) { 
@@ -637,14 +727,16 @@
 									// Get Quantity
 									quantity = craftableCollectables[ s ].Quantity,
 									
+									
 									// Get Collected Collectables
 									collectableCollected = player_game_collected.filter( function( obj ) { return obj.Collectable == craftableCollectables[ s ].Collectable; } )[ 0 ],
 									
 									// Get Collected Quantity 
 									quantityCollected = ( typeof collectableCollected !== 'undefined' ) ? collectableCollected.Collected : 0,
 									
+									
 									// Get Submitted Collectables
-									collectableSubmitted = player_game_submitted.filter( function( obj ) { return obj.ItemCollectable == craftableCollectables[ s ].ID; } )[ 0 ],
+									collectableSubmitted = player_game_submitted.filter( function( obj ) { return obj.CraftableCollectable == craftableCollectables[ s ].ID; } )[ 0 ],
 									
 									// Get Submitted Quantity
 									quantitySubmitted = ( typeof collectableSubmitted !== 'undefined' ) ? collectableSubmitted.Quantity : 0,
@@ -653,6 +745,9 @@
 									// Start Collectable Content
 									collectableContent = ''
 								;
+								
+								//log( "Collectable Submitted: ");
+								//log( collectableSubmitted, false );
 								
 								// Increment Total Collectable
 								totalCollectable = totalCollectable + parseInt( quantity );
@@ -664,12 +759,12 @@
 								totalSubmitted = totalSubmitted + parseInt( quantitySubmitted );
 								
 								
-								// For each Item of Collectable required
+								// For each Craftable Collectable required
 								for ( var q = 0; q < quantity; q++ ) {
 									
 									var 
 										// Determine if Item is Collected
-										isCollected = ( q < quantityCollected ),
+										isCollected = ( q < quantityCollected ), 
 										
 										// If Collected set Available 
 										availableVal = ( isCollected ) ? classes.Flag.Available : '',
@@ -677,19 +772,25 @@
 										// Determine if Item is submitted
 										isSubmitted = ( q < quantitySubmitted ),
 	 									
-	 									// If Submitted set Checked
+	 									// If Submitted set Input Checked
 										checkedVal = ( isSubmitted ) ? property.Checked : '',
+										
+										// If Submitted set Checkbox Label submitted
+										checkedClass = ( isSubmitted ) ? classes.Flag.Checked : '',
 										
 										// If Submmitted but not Collected set Disabled
 										disabledVal = ( isSubmitted && ! isCollected ) ? classes.Flag.Disabled : ''
 									;
 									
+									//log( "Is submitted: ", false);
+									//log( isSubmitted, false );
+									
 									// Add a Checkbox for this Collectable Item
-									collectableContent += '<label class="' + classes.DeadCheckbox + ' ' + classes.Collectable.Item.Checkbox + ' ' + availableVal + ' ' + disabledVal + '"> <input type="checkbox" name="' + name.Collectable + '" class="' + classes.Collectable.Item.Input + '" value="' + craftableCollectables[ s ].ID + '" data-craftable="' + groupCraftables[ i ].ID + '" data-collectable="' + collectable.ID + '" ' + checkedVal + ' > </label>';
+									collectableContent += '<label class="' + classes.DeadCheckbox + ' ' + classes.Craftable.Collectable.Checkbox + ' ' + availableVal + ' ' + disabledVal + '" > <input type="checkbox" name="' + name.Collectable + '" class="' + classes.Craftable.Collectable.Input + '" value="' + craftableCollectables[ s ].ID + '" data-craftable="' + groupCraftables[ i ].ID + '" data-collectable="' + collectable.ID + '" ' + checkedVal + ' > </label>';
 								}
 								
 								// Add Ingredient and include its Collectable content to this Craftable content
-								craftableContent += '<li><label class="' + classes.Ingredient.Label + '"><span class="' + classes.Name.Quality + '">' + quality.Name + '</span> <span class="' + classes.Name.Ingredient + '">' + ingredient.Name + '</span> <span class="' + classes.Name.Part + '">' + part.Name + '</span> x <span class="' + classes.Name.Quantity + '">' + craftableCollectables[ s ].Quantity + '</span></label> ' + collectableContent + '</li>';
+								craftableContent += '<li> <label class="' + classes.Ingredient.Label + '"> <span class="' + classes.Name.Quality + '">' + quality.Name + '</span> <span class="' + classes.Name.Ingredient + '">' + ingredient.Name + '</span> <span class="' + classes.Name.Part + '">' + part.Name + '</span> x <span class="' + classes.Name.Quantity + '">' + craftableCollectables[ s ].Quantity + '</span> </label> ' + collectableContent + ' </li>';
 							}
 							
 							craftableContent += '</ul>';
@@ -723,11 +824,14 @@
 								checkedVal = ( isCrafted ) ? property.Checked : '',
 								
 								// If None Remaining set Disabled 
-								craftableClass = ( totalRemaining == 0 ) ? classes.Flag.Disabled : '' 
+								craftableClass = ( totalRemaining == 0 ) ? classes.Flag.Disabled : '',
+								
+								// Checked Class
+								checkedClass = ( isCrafted ) ? classes.Flag.Checked : ''
 							;
 							
 							// Add this Craftable to the Groups content
-							groupsContent += '<li><details class="' + classes.Group.Craftable.Container + '' + craftableClass + '" ' + opened + ' ><summary class="' + abled + '"><label class="' + classes.DeadCheckbox + ' ' + classes.Group.Craftable.Checkbox + ' ' + abled + ' ' + available + ' "> ' + html.Icon.Yes + ' <input type="checkbox" class="' + classes.Group.Craftable.Input + '" name="' + name.Craftables + '" value="' + groupCraftables[ i ].ID + '" ' + abled + ' ' + checkedVal + ' > </label> <label class="' + classes.Group.Craftable.Label + ' ' + classes.Item.Label + '"> <span class="' + classes.Group.Craftable.Name + '">' + groupCraftables[ i ].Name + '</span> </label> </summary> ' + craftableContent + ' </details> </li>';
+							groupsContent += '<li> <details class="' + classes.Group.Craftable.Container + ' ' + craftableClass + '" ' + opened + ' > <summary class="' + abled + '"> <label class="' + classes.DeadCheckbox + ' ' + classes.Group.Craftable.Checkbox + ' ' + abled + ' ' + available + ' ' + checkedClass + '"> ' + html.Icon.Yes + ' <input type="checkbox" class="' + classes.Group.Craftable.Input + '" name="' + name.Craftables + '" value="' + groupCraftables[ i ].ID + '" ' + abled + ' ' + checkedVal + ' > </label> <label class="' + classes.Group.Craftable.Label + ' ' + classes.Item.Label + '"> <span class="' + classes.Group.Craftable.Name + '">' + groupCraftables[ i ].Name + '</span> </label> </summary> ' + craftableContent + ' </details> </li>';
 						}
 						
 						
@@ -919,24 +1023,25 @@
 			
 			
 			
-			// CHANGE - Collectable Item Input
-			$( '.' + classes.Collectable.Item.Input, $div ).on( events.Change, function( e ) { 
+			// CHANGE - Craftable Collectable Input
+			
+			$( '.' + classes.Craftable.Collectable.Input, $div ).on( events.Change, function( e ) { 
 				
 				e.preventDefault();
 				
 				// Activate Updating Flag
-				activateUpdatingFlag();
+				_activateUpdatingFlag();
 				
 				// Register Collectable Item as click
 				clicked = {
-					itemcollectable: $( this ).val()
+					collectable: $( this ).val() 
 				};
 				
 				// Add clicked registry to data
 				data = $.extend( data, clicked );
 				
-				// Send data for update
-				_updateItemCollectable( data ) ;
+				// Submit Craftable Collectable
+				_submitCollectable( data ) ;
 				
 				
 				
@@ -967,7 +1072,7 @@
 				if ( $( this ).prop( property.Checked ) ) {
 					
 					// Add Checked class to parent label 
-					$( this ).parent().addClass( classes.Checked );
+					$( this ).parent().addClass( classes.Flag.Checked );
 					
 					// ABORT if there are still unchecked siblings...
 					if ( unchecked )
@@ -994,7 +1099,7 @@
 				// If this is NOT Checked
 				
 				// Remove Checked class from parent label 
-				$( this ).parent().removeClass( classes.Checked );
+				$( this ).parent().removeClass( classes.Flag.Checked );
 				
 				// ABORT if there are other unchecked...
 				if ( unchecked > 1 )
@@ -1038,12 +1143,16 @@
 				// Don't do anything by default
 				e.preventDefault();
 				
+				log( "Clicked a Group Craftable!" );
+				
 				// Variables
 				var 
 					// Identify child Input
 					$input = $( 'input', $( this ) ),
+					
 					// Get checked value
 					checked = $input.prop( property.Checked ),
+					
 					// Get availability
 					availableThis = $( this ).hasClass( classes.Flag.Available )
 				;
@@ -1094,6 +1203,8 @@
 				// Prevent any default actions
 				e.preventDefault();
 				
+				log( "Group Craftable changed!" );
+				
 				// Get checked property
 				var checked = $( this ).prop( property.Checked );
 				
@@ -1109,7 +1220,7 @@
 			
 				
 				// ACTIVATE Updating Flag
-				activateUpdatingFlag();
+				_activateUpdatingFlag();
 				
 				//log(player_game_crafted, false);
 			
@@ -1123,7 +1234,7 @@
 				data = $.extend( data, clicked );
 				
 				// UPDATE Craftable with clicked data
-				updateCraftable( data ) ;
+				_updateCraftable( data ) ;
 				
 			});
 	
@@ -1293,7 +1404,7 @@
 							var checkedVal = ( q < quantityCollected ) ? property.Checked : '';	
 							
 							// Add checkbox for this Item to Collectables content
-							collectablesContent += '<label class="' + classes.DeadCheckbox + ' ' + classes.Collectable.Item.Checkbox + '"> <span class="' + html.Icon.Yes + '"></span> <input type="checkbox" name="' + name.Collectable + '" class="' + classes.Collectable.Input + '" value="' + ingredientCollectables[ c ].ID + '" ' + checkedVal + ' > </label>';
+							collectablesContent += '<label class="' + classes.DeadCheckbox + ' ' + classes.Collectable.Item.Checkbox + '"> ' + html.Icon.Yes + ' <input type="checkbox" name="' + name.Collectable + '" class="' + classes.Collectable.Input + '" value="' + ingredientCollectables[ c ].ID + '" ' + checkedVal + ' > </label>';
 						}
 						
 						// End Collectables content for this Ingredient
@@ -1363,6 +1474,8 @@
 				// CLICK - Checkbox
 				$( this ).on( events.Click, function( e ) {
 					
+					log( "Clicked checkbox!");
+					
 					// Prevent any default action
 					e.preventDefault();
 					
@@ -1415,6 +1528,7 @@
 					
 					// Ingredient not currently checked
 					else {
+						log ( "Ingredient not currently checked..." );
 						
 						// Identify Next Input that is not checked
 						var next = $( 'input', $(this).parent() ).not( ':' + property.Checked ).first(); 
@@ -1425,6 +1539,7 @@
 							input
 								.prop( property.Checked, property.Checked )
 								.trigger( events.Change );
+								
 						// Otherwise							
 						else
 							// Check the next element 
@@ -1433,15 +1548,23 @@
 								.trigger( events.Change );
 						
 						// ABORT if no Source is found
-						if ( ! $source.length )
+						if ( ! $source.length ) {
+							
+							error( "No source found!" );
+							
 							return;
+							
+						}
 						
 						// Identify Collectable input items
 						$collectable = $( classes.Collectable.Input + '[value=' + collectable + ']', $source );
 						
 						// ABOUT if no Collectable input items found
-						if ( ! $collectable )
+						if ( ! $collectable ) {
+							error( "No Collectable input items found!" );
+							
 							return;
+						}
 							
 						//log($collectable, false);
 						
@@ -1457,7 +1580,7 @@
 							// Identify the Craftable this Collectable belongs to
 							var item = $( this ).data( 'item' );
 							
-							// ABORT if item each curItem 
+							// ABORT if item equals curItem 
 							if ( item == curItem ) 
 								return;
 							
@@ -1467,7 +1590,7 @@
 							
 							// Register curItem as this item
 							curItem = item;
-						});							
+						}); 
 					}
 					
 					
@@ -1489,12 +1612,12 @@
 				// If this is checked 
 				if ( $( this ).prop( property.Checked ) )
 					// Add "checked" class to parent 
-					$( this ).parent().addClass( classes.Checked );
+					$( this ).parent().addClass( classes.Flag.Checked );
 					
 				// Otherwise
 				else
 					// Remove "checked" class from parent
-					$( this ).parent().removeClass( classes.Checked );
+					$( this ).parent().removeClass( classes.Flag.Checked );
 			});
 	
 			
@@ -1503,7 +1626,7 @@
 			$( '.' + classes.Collectable.Input, $div ).on( events.Change, function() {
 				
 				// Activate the Updating flag
-				activateUpdatingFlag();
+				_activateUpdatingFlag();
 				
 				// Register this collectable to clicked object
 				clicked = {
@@ -1513,8 +1636,10 @@
 				// Add clicked info to data
 				data = $.extend( data, clicked );
 				
+				
+				
 				// Update Collectable to db using data
-				updateCollectable( data ) ;
+				_collectCollectable( data ) ;
 			});
 			
 			
@@ -1602,7 +1727,7 @@
 	    // UPDATE PLUGIN
 		// This is where we send the latest player game form data to the database
 	    plugin.update = function( data ) {
-			updateCraftable( data ) ;
+			_updateCraftable( data ) ;
 			return;
 		};
 		
@@ -1611,13 +1736,15 @@
 	
 		// UPDATE - Craftable Item
 		
-		var updateCraftable = function ( data ) {
+		var _updateCraftable = function ( data ) {
 			 
 			// ABORT if no Item
-			if ( typeof data.item == 'undefined' || ! data.item ) {
+			if ( typeof data.craftable == 'undefined' || ! data.craftable ) {
+				
+				error( "No Craftable ID passed!" );
 				
 				// Deactivate Updating flag
-				deactivateUpdatingFlag();
+				_deactivateUpdatingFlag();
 				
 				return false;
 			}
@@ -1626,20 +1753,22 @@
 			
 			var 
 				// Item is the passed item in data
-				item = data.item,
+				craftable = data.craftable,
+				
 				// Game ID is on the page as a hidden input
 				game_id = $( '#' + ids.Game ).val(), 
 				
 				// Get the current Player Game data for this Craftable 
-				itemCurrent = ( player_game_crafted.length ) ? player_game_crafted.filter( function( obj ) { return obj.Item == item; } ) : false,
+				craftableCurrent = ( player_game_crafted.length ) ? player_game_crafted.filter( function( obj ) { return obj.Craftable == craftable; } ) : false,
 				
 				// Define ajax actions for updating or inserting a Craftable
-				ajaxActions = { update: '_ajax_update_player_game_craftable', insert: '_ajax_insert_player_game_craftable' }
+				ajaxActions = { update: actions.Update.Crafted, insert: actions.Insert.Crafted }
 			;
 			
 			// Clear updating interval variable if a new click is registered
-			if ( typeof state.Interval.Update[ item ] !== 'undefined' && state.Interval.Update[ item ] !== false ) 
-				clearInterval( state.Interval.Update[ item ] ); 
+			if ( typeof state.Interval.Update[ craftable ] !== 'undefined' && state.Interval.Update[ craftable ] !== false ) 
+				// Clear update interval
+				clearInterval( state.Interval.Update[ craftable ] ); 
 			
 			// If not found in previously collected item list
 			// Insert this item into the player game item table
@@ -1647,23 +1776,27 @@
 				
 			// Otherwise
 			// Update this item in the player game item table
-			if ( itemCurrent.length ) 
+			if ( craftableCurrent.length ) 
 				var action = 'update';
 			
 			
 			extra = {
-				_ajax_items_nonce: $( '#_ajax_update_items_nonce' ).val(), 
+				_ajax_items_nonce: $( '#' + ids.Craftable.Nonce ).val(), 
+				
 				action: ajaxActions[ action ], 
+				
 				game_id: game_id, 
 			};
 			
 			// ADD Craftable data to data
 			data = $.extend( data, extra );
 			
+			log( data, false );
+			
 			// Start update delay
-			state.Interval.Update[ item ] = setTimeout( function() {
+			state.Interval.Update[ craftable ] = setTimeout( function() {
 				
-				log( ( action == 'update' ) ? 'Updating...' : 'Inserting...' );
+				log( ( action == 'update' ) ? content.Label.Updating : content.Label.Inserting );
 				
 				$.ajax({
 		        	
@@ -1674,11 +1807,11 @@
 					success: function( response ) {
 						
 						// Deactivate Updating flag
-						deactivateUpdatingFlag();
+						_deactivateUpdatingFlag();
 						
 						log( response, false );
 						
-						log( ( action == 'update' ) ? 'Updated!' : 'Inserted!' );
+						log( ( action == 'update' ) ? content.Label.Updated : content.Label.Inserted );
 						
 						// Updated Locally is currently false until update happens
 						var updatedLocally = false;
@@ -1687,7 +1820,7 @@
 						$.each( player_game_crafted, function() {
 							 
 							// If matching Craftable found
-							if ( this.Item === data.item ) {
+							if ( this.Craftable === data.craftable ) {
 								
 								// Set Craftable Acquired
 								this.Acquired = data.acquired;
@@ -1714,10 +1847,10 @@
 					error: function( response ) {
 						
 						// Deactivate Updating flag
-						deactivateUpdatingFlag();
+						_deactivateUpdatingFlag();
 						
 						// Log error
-						error( 'Error ' + ( ( action == 'update' ) ? 'Updating...' : 'Inserting...' ) );
+						error( 'Error ' + ( ( action == 'update' ) ? content.Label.Updating : content.Label.Inserting ) );
 						
 						// Log response as error
 						error( response, false );
@@ -1742,11 +1875,15 @@
 		
 		var _submitCollectable = function ( data ) {
 			 
+			log( "Submitting Collectable");
+			 
 			// ABORT if no Collectable data received
 			if ( typeof data.collectable == 'undefined' || ! data.collectable ) {
 				
+				error( "No Collectable ID received!" );
+				
 				// Deactivate Updating flag
-				deactivateUpdatingFlag();
+				_deactivateUpdatingFlag();
 				
 				// RETURN false
 				return false;
@@ -1757,37 +1894,48 @@
 				collectable = data.collectable,
 				
 				// Get checked Collectable items 
-				checked = $( 'input.collectable[value=' + collectable + ']:' + property.Checked ),
+				checked = $( '.' + classes.Craftable.Collectable.Input + '[value=' + collectable + ']:' + property.Checked ),
 				
 				// Get quantity of Collectables checked 
 				quantity = checked.length,
 				
 				// Get Game ID from page input  
-				game_id = $( '#game_id' ).val(),
+				game_id = $( '#' + ids.Game ).val(),
 				
 				// Get amount Submitted amount for current Collectable
-				submittedCurrent = player_game_submitted.filter( function(obj) { return obj.Collectable == collectable; } )[ 0 ],
+				submittedCurrent = player_game_submitted.filter( function(obj) { return obj.CraftableCollectable == collectable; } )[ 0 ],
 				
 				// Define AJAX actions
-				ajaxActions = { update: '_ajax_update_player_game_item_collectable', insert: '_ajax_insert_player_game_item_collectable' } 
+				ajaxActions = { update: actions.Update.Submitted, insert: actions.Insert.Submitted } 
 			;
 			
 			// If update interval is currently set
 			if ( typeof state.Interval.Update[ collectable ] !== 'undefined' && state.Interval.Update[ collectable ] !== false && state.Interval.Update[ collectable ] !== null )
+				
 				// Clear the update interval 
 				clearInterval( state.Interval.Update[ collectable ] ); 
 			
+			
+			log( player_game_submitted, false );
+			
+			log( submittedCurrent, false );		
+			
+			log( quantity, false );		
+			
+			
 			// If not found in previously collected list
-			// Insert this collectable into the player game item collected table
-			if ( ! submittedCurrent ) 
+			if ( ! submittedCurrent ) { 
+			
+				// Insert this collectable into the player game item collected table
 				var action = 'insert';
+			
+			}
 				
 			// Otherwise
-			// Update this collectable in the player game item collected table
 			else {
-				var action = 'update';
 				
-				log( submittedCurrent, false );
+				// Update this collectable in the player game item collected table
+				var action = 'update';
 				
 				// Find out if this is actually an update
 				if ( submittedCurrent.Quantity == quantity ) {
@@ -1795,7 +1943,7 @@
 					log( 'No change to Item Collectable! Cancelling update.' );
 					
 					// Deactivate Updating flag
-					deactivateUpdatingFlag();
+					_deactivateUpdatingFlag();
 					
 					// And we're done
 					return false;
@@ -1804,8 +1952,9 @@
 			
 			// Identify Collectable data for update
 			var data = { 
+				
 				// Get Collectable nonce from page element
-				_ajax_collectables_nonce: $( '#_ajax_collectables_nonce' ).val(), 
+				_ajax_submitted_nonce: $( '#' + ids.Submitted.Nonce ).val(), 
 				
 				// Set action
 				action: ajaxActions[ action ],
@@ -1820,12 +1969,12 @@
 				game_id: game_id, 
 			};
 			
-			//log(data, false);				
+			log( data, false );				
 			
 			// Start a new update interval delay
 			state.Interval.Update[ collectable ] = setTimeout( function() {
 				
-				log( ( action == 'update' ) ? 'Updating...' : 'Inserting...' );
+				log( ( action == 'update' ) ? content.Label.Updating : content.Label.Inserting );
 				
 				// Start AJAX call 
 				$.ajax({
@@ -1836,7 +1985,8 @@
 		            
 		            // Successful response
 					success: function( response ) { 
-						//log( response , false );
+						
+						log( response , false );
 						
 						// Updated Locally starts as false
 						var updatedLocally = false;
@@ -1848,7 +1998,7 @@
 						$.each( player_game_submitted, function() { 
 							
 							// If matching Collectable found 
-							if ( this.Collectable == collectable ) {
+							if ( this.CraftableCollectable == collectable ) {
 								
 								// Set quantity of Collectable submitted 
 								this.Quantity = data.quantity;
@@ -1865,29 +2015,32 @@
 							player_game_submitted.push({
 								
 								// Collectable ID
-								Collectable: collectable,
+								CraftableCollectable: collectable,
+								
 								// Submitted quantity
 								Quantity: data.quantity
 							});
 						
 						// Deactivate Updating Flag
-						deactivateUpdatingFlag();
+						_deactivateUpdatingFlag();
 						
-						log( 'Item Collectable ' + itemcollectable + ' ' + ( ( action == 'update' ) ? 'updated!' : 'inserted!' ) );
+						log( 'Craftable Collectable ' + collectable + ' ' + ( ( action == 'update' ) ? content.Label.Updated : content.Label.Inserted ) );
 		            },
 					
 					// If there's an error in the response
 					error: function( response ) {
+						
 						// Deactivate Updating flag
-						deactivateUpdatingFlag();
+						_deactivateUpdatingFlag();
 						
 						// Log error
-						error( 'Error ' + ( ( action == 'update' ) ? 'updating' : 'inserting' ) + ' Item Collectable ' + itemcollectable + '!' );
+						error( 'Error ' + ( ( action == 'update' ) ? content.Label.Updating : content.Label.Inserting ) + ' Item Collectable ' + collectable + '!' );
 						
 						// Log response as error
 						error( response, false );
 					}
 				});
+			
 			
 			// Update delay
 			}, plugin.settings.delay );
@@ -1903,16 +2056,23 @@
 	
 	
 	
+	
+	
+	
+	
+	
 		/////////////////////////////////////////////////////////////////////////
 		// Collect Collectable
 		
-		var collectCollectable = function ( data ) {
+		var _collectCollectable = function ( data ) {
 			
 			// ABORT if no collectable passed 
 			if ( typeof data.collectable == 'undefined' || ! data.collectable ) {
 				
+				error( "No collectable passed!" );
+				
 				// Deactivate Updating flag
-				deactivateUpdatingFlag();
+				_deactivateUpdatingFlag();
 				
 				// RETURN false
 				return false;
@@ -1923,19 +2083,21 @@
 				collectable = data.collectable,
 				
 				// Get all checked Collectables 
-				checked = $( '.collectable[value=' + collectable + ']:' + property.Checked ),
+				checkedSelector = '.' + classes.Collectable.Input + '[value=' + collectable + ']:' + property.Checked,
+				
+				checked = $( checkedSelector ),
 				
 				// Get quantity of checked Collectables	 
 				quantity = checked.length, 
 				
 				// Get Game ID from page input element
-				game_id = $( '#game_id' ).val(),
+				game_id = $( '#' + ids.Game ).val(),
 				
 				// Get currently known amount of collected Collectables 
 				collectableCurrent = player_game_collected.filter( function( obj ) { return obj.Collectable == collectable; } ),
 				
 				// Define AJAX actions
-				ajaxActions = { update: '_ajax_update_player_game_collectable', insert: '_ajax_insert_player_game_collectable' }
+				ajaxActions = { update: actions.Update.Collected, insert: actions.Insert.Collected }
 			;
 			
 			// If update command is currently active
@@ -1945,6 +2107,7 @@
 			
 			// If not found in previously collected list
 			if ( ! collectableCurrent.length ) 
+			
 				// Insert this collectable into the player game collected table
 				var action = 'insert';
 				
@@ -1958,8 +2121,10 @@
 					
 					log( 'No change! Cancelling update.' );
 					
+					log( collectableCurrent[ 0 ].Collected, false );
+					
 					// Deactivate Updating flag
-					deactivateUpdatingFlag();
+					_deactivateUpdatingFlag();
 					
 					// And we're done
 					return false;
@@ -1968,23 +2133,28 @@
 			
 			// Gather update data
 			var data = { 
-				_ajax_collectables_nonce: $( '#_ajax_collectables_nonce' ).val(), 
+				
+				_ajax_collected_nonce: $( '#' + ids.Collected.Nonce ).val(), 
+				
 				// Set AJAX action
 				action: ajaxActions[ action ],
+				
 				// Collectable ID 
 				collectable: collectable,
+				
 				// Quantity of Collected Collectable 
 				quantity: quantity, 
+				
 				// Game ID
 				game_id: game_id, 
 			};
 			
-			//log(data, false);				
+			log(data, false);				
 			
 			// Start new update command timer
 			state.Interval.Update[ collectable ] = setTimeout( function() {
 				
-				log( ( action == 'update') ? 'Updating...' : 'Inserting...' );
+				log( ( action == 'update') ? content.Label.Updating : content.Label.Inserting );
 	
 				// Start new AJAX call
 				$.ajax( {
@@ -1995,7 +2165,8 @@
 		            
 		            // Successful response
 					success: function( response ) { 
-						//log( response , false );
+						
+						log( response, false );
 						
 						// Updated Locally is starts as false
 						var updatedLocally = false;
@@ -2011,29 +2182,40 @@
 								
 								// Updated Locally is now true
 								updatedLocally = true;
+								
+								log( this, false );
 							}
 						});
 						
 						// If Updated Locally still false
-						if ( updatedLocally == false )
-						
+						if ( updatedLocally == false ) {
+							
+							log( "Updated Locally is still false...");
+							
 							// Add Collectable and quantity to Player Game Collected
 							player_game_collected.push( {
 								Collectable: data.collectable,
 								Collected: data.quantity
 							} );
+							
+							updatedLocally = true;
+						}
+						
+						if ( updatedLocally == false )
+							log( "Updated Locally is STILL false...");
 						
 						// Deactivate Updating flag
-						deactivateUpdatingFlag();
+						_deactivateUpdatingFlag();
 						
-						log( ( action == 'update' ) ? 'Updated!' : 'Inserted!' );
+						log( ( action == 'update' ) ? content.Label.Updated : content.Label.Inserted );
 		            },
 					
 					
 					// If error in response
 					error: function( response ) {
+						
 						// Deactivate Updating flag
-						deactivateUpdatingFlag();
+						_deactivateUpdatingFlag();
 						
 						// Log error
 						error( 'Error ' + ( ( action == 'update' ) ? 'updating!' : 'inserting!' ) );
@@ -2048,6 +2230,111 @@
 		};
 		
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/////////////////////////////////////////////////////////////////////////
+		// Update Filter
+		
+		var _updateFilter = function ( data ) {
+			
+			log( "Updating filters... ");
+			
+			// ABORT if no filter passed 
+			if ( typeof data.filter == 'undefined' ) {
+				
+				error( "No filter value passed!" );
+				
+				// Deactivate Updating flag
+				_deactivateUpdatingFlag();
+				
+				// RETURN false
+				return false;
+			}
+			
+			var 
+				// Identify filter
+				filter = ( ! data.filter ) ? '0' : data.filter,
+				
+				player_id = $( '#' + ids.Player ).val(),
+				
+				// Define AJAX actions
+				ajaxActions = { update: actions.Update.Collected, insert: actions.Insert.Collected }
+			;
+			
+			// If update command is currently active
+			if ( typeof state.Interval.Update[ player_id ] !== 'undefined' && state.Interval.Update[ player_id ] !== false )
+			
+				// Clear the existing update command 
+				clearInterval( state.Interval.Update[ player_id ] ); 
+			
+			
+			// Gather update data
+			var data = { 
+				
+				_ajax_filters_nonce : $( '#' + ids.Filters.Nonce ).val(), 
+				
+				// Set AJAX action
+				action : actions.Update.Filter,
+				
+				// Game ID
+				player_id : player_id, 
+				
+				// Filter 
+				filter : filter // 1 or 0
+			};
+			
+			log( data, false );				
+			
+			// Start new update command timer
+			state.Interval.Update[ player_id ] = setTimeout( function() {
+				
+				log( content.Label.Updating );
+	
+				// Start new AJAX call
+				$.ajax( {
+		        	
+					url: ajaxurl,
+					type: 'POST',
+					data: data,
+		            
+		            // Successful response
+					success: function( response ) { 
+						
+						log( response, false );
+						
+						// Deactivate Updating flag
+						_deactivateUpdatingFlag();
+						
+						log( content.Label.Updated );
+		            },
+					
+					
+					// If error in response
+					error: function( response ) {
+						
+						// Deactivate Updating flag
+						_deactivateUpdatingFlag();
+						
+						// Log error
+						error( 'Error ' + content.Label.Updating );
+						
+						// Log response as error
+						error( response, false );
+					}
+				});
+			
+			// Update delay
+			}, plugin.settings.delay );
+		};
 		
 		
 		
@@ -2166,29 +2453,41 @@
 		// Toggle Updating Flag
 		
 		var toggleUpdatingFlag = function() {
-			$UpdatingFlag.toggleClass( classes.Flag.Top );
-			$UpdatingFlag.toggleClass( classes.Flag.Show );
+			
+			elements.Flag.Updating.toggleClass( classes.Flag.Top );
+			
+			elements.Flag.Updating.toggleClass( classes.Flag.Show );
+			
 		};
 		
 		
 		
 		// Activate Updating Flag
 		
-		var activateUpdatingFlag = function() {
-			$UpdatingFlag.addClass( classes.Flag.Top );
-			$UpdatingFlag.addClass( classes.Flag.Show );
+		var _activateUpdatingFlag = function() {
+			
+			//log( elements.Flag.Updating, false );
+			
+			elements.Flag.Updating.addClass( classes.Flag.Top );
+			
+			elements.Flag.Updating.addClass( classes.Flag.Show );
+			
 		};
 		
 		
 		
 		// Deactivate Updating Flag
 		
-		var deactivateUpdatingFlag = function() {
-			$UpdatingFlag.removeClass( classes.Flag.Show );
+		var _deactivateUpdatingFlag = function() {
+			
+			elements.Flag.Updating.removeClass( classes.Flag.Show );
 			
 			setTimeout( function() {
-				$UpdatingFlag.removeClass( classes.Flag.Top );
+				
+				elements.Flag.Updating.removeClass( classes.Flag.Top );
+				
 			}, 300 );
+			
 		};
 	
 	

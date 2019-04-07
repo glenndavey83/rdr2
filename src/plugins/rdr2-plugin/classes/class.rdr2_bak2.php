@@ -224,68 +224,6 @@ class RDR2 {
 	// DO ACTIONS
 	
 	
-	// MAINTENANCE
-	
-	// transactions
-	
-	// Archive transactions by Merchant
-	
-	function archive_merchant_transactions($merchant_ids = array()) {
-		if (empty($merchant_ids) || !is_array($merchant_ids))
-			return FALSE;
-		
-		$merchant_ids = $this->flatten($merchant_ids);
-		$table_columns = "MerchantID,DateOfSale,PlayerCounter,ProductCode,Quantity,TimeOfSale,SalePrice,CostPrice,SellPrice,transactionsPerson,Location,transactionsCategory,Notes,PointsAllocated,DatePointsCancelled,PointsUsed,CardNo,PK,RecId,OrgLocation,DeptNo,BatchNo,DateCreated";
-		$where = (sizeof($merchant_ids) > 1) ? "IN (" . implode(",", $merchant_ids) . ")" : "= " . $merchant_ids[0];		
-		
-		$query = "
-			REPLACE INTO " . $this->wpdb->transactions_archive . " (" . $table_columns . ") 
-			SELECT " . $table_columns . "
-			FROM rdr2_transactions
-			WHERE MerchantID " . $where . "
-		";
-		
-		//echo $query; die();
-		
-		return $this->wpdb->query($query);
-	}
-
-	
-	
-	// Delete Merchant transactions
-
-	function delete_merchant_transactions($merchant_ids = array()) {
-		if (empty($merchant_ids) || !is_array($merchant_ids) || sizeof($merchant_ids) < 1)
-			return FALSE;
-		
-		$query = "DELETE FROM " . $this->wpdb->transactions . " WHERE MerchantID IN (" . implode(",", $merchant_ids) . ")";
-
-		return $this->wpdb->query($query);
-	}
-
-
-	function archive_null_date_transactions() {
-		
-		$query = "
-		INSERT INTO rdr2_transactions_archive 
-		SELECT * FROM rdr2_transactions 
-		WHERE DateOfSale IS NULL";
-		
-		$query2 = "
-		DELETE FROM rdr2_transactions 
-		WHERE DateOfSale IS NULL
-		";
-	}
-
-
-
-
-
-
-
-
-
-
 
 
 	//////////////////////////////////////////////////////////////
@@ -396,189 +334,27 @@ class RDR2 {
 	*/
 
 
-	// Update Player Game Collected Collectable
-
-	function update_player_game_collected( $game_id = FALSE, $collectable = FALSE, $quantity = FALSE ) { 
-		if ( ! $game_id ) 
-			$game_id = $this->game_id;
-		
-		if ( ! $game_id ) {
-			//echo "No game ID received!\n"; 
-			return FALSE;
-		}
-		
-		if ( ! $collectable ) {
-			//echo "No collectable ID received!\n";
-			return false;
-		}
-		
-		if ( $quantity === FALSE || ! is_numeric( $quantity ) ) {
-			//echo "No valid quantity received!\n";
-			return false;
-		}
-		
-		$data = array( 'Collected' => $quantity );
-		
-		$where = array( 'Game' => $game_id, 'Collectable' => $collectable );
-		
-		$update_id = $this->wpdb->update( $this->wpdb->player_game_collected, $data, $where, '%d', '%d' );
-		
-		$result = ( $update_id !== '0' ) ? $update_id : FALSE;
-		
-		return $result;
-	}
-
-
-
-	// Insert Player Game Collected Collectable
-
-	function insert_player_game_collectable( $game_id = FALSE, $collectable = FALSE, $quantity = 1 ) {		
-		if ( ! $game_id ) 
-			$game_id = $this->game_id;
-		
-		if ( ! $game_id ) {
-			//echo "No game ID received!\n"; 
-			return FALSE;
-		}
-		
-		if ( ! $collectable ) {
-			//echo "No Collectable ID received!\n";
-			return false;
-		}
-		
-		$data = array( 'Game' => $game_id, 'Collectable' => $collectable, 'Collected' => $quantity );
-		
-		$insert_id = $this->wpdb->insert( $this->wpdb->player_game_collected, $data, '%d' );	
-		
-		$result = ( $insert_id !== '0' ) ? $insert_id : FALSE;
-		
-		return $result;
-	}
-
-
-
-	// Update Player Game Submitted Collectables
-	
-	function update_player_game_item_collectable( $game_id = FALSE, $collectable = FALSE, $quantity = FALSE ) {		
-		if ( ! $game_id ) 
-			$game_id = $this->game_id;
-		
-		if ( ! $game_id ) {
-			//echo "No Game ID received!\n"; 
-			return FALSE;
-		}
-		
-		if ( ! $collectable ) {
-			//echo "No Collectable ID received!\n";
-			return false;
-		}
-		
-		if ( $quantity === FALSE || ! is_numeric( $quantity ) ) {
-			//echo "No valid quantity received!\n";
-			return false;
-		}
-		
-		$data = array( 'Quantity' => $quantity );
-		
-		$where = array( 'Game' => $game_id, 'Collectable' => $collectable );
-		
-		$update_id = $this->wpdb->update( $this->wpdb->player_game_submitted, $data, $where, '%d', '%d' );
-		
-		$result = ( $update_id !== '0' ) ? $update_id : FALSE;
-		
-		return $result;	
-	}
-
-
-
-	// Insert Player Game Submitted Collectables
-	
-	function insert_player_game_submitted( $game_id = FALSE, $collectable = FALSE, $quantity = 1 ) { 
-		if ( ! $game_id ) 
-			$game_id = $this->game_id;
-		
-		if ( ! $game_id ) {
-			//echo "No Game ID received!\n"; 
-			return FALSE;
-		}
-		
-		if ( ! $collectable ) {
-			//echo "No Collectable ID received!\n";
-			return false;
-		}
-		
-		$data = array( 'Game' => $game_id, 'Collectable' => $collectable, 'Quantity' => $quantity );
-		
-		$insert_id = $this->wpdb->insert( $this->wpdb->player_game_submitted, $data, '%d' );	
-		
-		$result = ( $insert_id !== '0' ) ? $insert_id : FALSE; 
-		
-		return $result;
-	}
 
 
 
 
-	// Update Player Game Craftable 
-	
-	function update_player_game_craftable( $game_id = FALSE, $craftable = FALSE, $acquired = FALSE ) {		
-		if ( ! $game_id ) 
-			$game_id = $this->game_id;
-		
-		// ABORT if no Game ID for updating
-		if ( ! $game_id ) {
-			//echo "No Game ID received!\n"; 
-			return FALSE;
-		}
-		
-		// ABORT if no Craftable ID for updating
-		if ( ! $craftable ) {
-			//echo "No Craftable ID received!\n";
-			return false;
-		}
-		
-		// ABORT if no Acquired boolean for updating
-		if ( ! $acquired ) {
-			//echo "No Acquired boolean value received!\n";
-			return false;
-		}
-		
-		$data = array( 'Acquired' => $acquired ); 
-		
-		$where = array( 'Game' => $game_id, 'Craftable' => $craftable );
-		
-		$update_id = $this->wpdb->update( $this->wpdb->player_game_crafted, $data, $where, '%d', '%d' );
-		
-		$result = ( $update_id !== '0' ) ? $update_id : FALSE;
-		
-		return $result;	
-	}
 
 
 
-	// Insert Player Game Item
-	function insert_player_game_craftable( $game_id = FALSE, $craftable = FALSE, $acquired = 1 ) {		
-		if ( ! $game_id ) 
-			$game_id = $this->game_id;
-		
-		if ( ! $game_id ) {
-			//echo "No Game ID received!\n"; 
-			return FALSE;
-		}
-		
-		if ( ! $craftable ) {
-			//echo "No Craftable ID received!\n";
-			return false;
-		}
-		
-		$data = array( 'Game' => $game_id, 'Craftable' => $craftable, 'Acquired' => $acquired );
-		
-		$insert_id = $this->wpdb->insert( $this->wpdb->player_game_crafted, $data, '%d' );	
-		
-		$result = ( $insert_id !== '0' ) ? $insert_id : FALSE;
-		
-		return $result;
-	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

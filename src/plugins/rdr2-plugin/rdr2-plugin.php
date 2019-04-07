@@ -280,14 +280,18 @@ final class RDR2_ProgressTracker {
 		add_action('wp_ajax__ajax_fetch_portal', array($this, '_ajax_fetch_portal_callback'));
 		add_action('wp_ajax__ajax_fetch_player_collectables', array($this, '_ajax_fetch_player_collectables_callback'));
 		add_action('wp_ajax__ajax_fetch_tips', array($this, '_ajax_fetch_tips_callback'));
+
+		add_action('wp_ajax__ajax_insert_player_game_collected', array($this, '_ajax_insert_player_game_collected_callback'));		
+		add_action('wp_ajax__ajax_insert_player_game_submitted', array($this, '_ajax_insert_player_game_submitted_callback'));
+		add_action('wp_ajax__ajax_insert_player_game_crafted', array($this, '_ajax_insert_player_game_crafted_callback'));
+		
 		add_action('wp_ajax__ajax_update_player_game_collected', array($this, '_ajax_update_player_game_collected_callback'));
-		add_action('wp_ajax__ajax_update_player_game_collectable', array($this, '_ajax_update_player_game_collectable_callback'));
-		add_action('wp_ajax__ajax_insert_player_game_collectable', array($this, '_ajax_insert_player_game_collectable_callback'));
-		add_action('wp_ajax__ajax_update_player_game_item', array($this, '_ajax_update_player_game_item_callback'));
-		add_action('wp_ajax__ajax_insert_player_game_item', array($this, '_ajax_insert_player_game_item_callback'));
-		add_action('wp_ajax__ajax_update_player_game_item_collectable', array($this, '_ajax_update_player_game_item_collectable_callback'));
-		add_action('wp_ajax__ajax_insert_player_game_item_collectable', array($this, '_ajax_insert_player_game_item_collectable_callback'));
-		add_action('wp_ajax__ajax_update_player_game_progress', array($this, '_ajax_update_player_game_progress_callback'));
+		add_action('wp_ajax__ajax_update_player_game_submitted', array($this, '_ajax_update_player_game_submitted_callback'));
+		add_action('wp_ajax__ajax_update_player_game_crafted', array($this, '_ajax_update_player_game_crafted_callback'));
+		
+		add_action('wp_ajax__ajax_update_player_filter', array($this, '_ajax_update_player_filter_callback'));
+
+
 		
 		//add_action('init', array($this, 'register_report_types'), 0 ); // Register Report Types Post Type
 		add_action('init', array($this, 'wpdb_table_shortcuts' ), 1); // Custom Table Name Shortcuts
@@ -853,20 +857,80 @@ final class RDR2_ProgressTracker {
 	
 	
 
-	// Player Game Collectables
-	
-	// AJAX - Update Player Game Collected Response
 
-	public function _ajax_update_player_game_collected_callback() {
+
+	// AJAX UPDATE
+	
+	
+	// AJAX - UPDATE Player Game Collectable Response
 		
-		if ( !$this->collectables )
+	public function _ajax_update_player_game_collected_callback() {
+		 
+		if ( ! $this->collectable || ! is_numeric( $this->quantity ) ) {
+			
+			echo "No collectable or quantity sent!";
+			
+			die();
+		}
+		
+		echo $result = $this->rdr2->update_player_game_collected( $this->game_id, $this->collectable, $this->quantity );
+		
+		die();
+	}		
+
+
+	// AJAX - Update Player Game Submitted Response
+		
+	public function _ajax_update_player_game_submitted_callback() {
+		 
+		if ( ! $this->collectable || ! is_numeric( $this->quantity ) ) {
+				
+			echo "No collectable or quantity sent!";
+			
+			die();
+		}
+		
+		echo $result = $this->rdr2->update_player_game_submitted( $this->game_id, $this->collectable, $this->quantity );
+		
+		die();
+	}			
+		
+
+
+	// AJAX - UPDATE Player Game Crafted Response
+
+	public function _ajax_update_player_game_crafted_callback() {
+		
+		if ( ! $this->craftable )
 			die();
 			
-		$result = $this->rdr2->update_player_game_collected($this->game_id, $this->collectables, $this->collected);
+		$result = $this->rdr2->update_player_game_craftable( $this->game_id, $this->craftable, $this->acquired ); 
 		
 		//print_r($result);
 		
-		echo json_encode($result);
+		echo json_encode( $result );
+		
+		//echo ($result == FALSE) ? 0 : 1;
+		
+		die();
+	}
+	
+
+	
+	public function _ajax_update_player_filter_callback() {
+		
+		if ( ! isset( $this->filter ) ) {
+			
+			echo "No filter value passed to server!";
+			
+			die();
+		}
+			
+		$result = $this->rdr2->update_player_filter_remaining( $this->player_id, $this->filter ); 
+		
+		//print_r($result);
+		
+		echo json_encode( $result );
 		
 		//echo ($result == FALSE) ? 0 : 1;
 		
@@ -874,95 +938,72 @@ final class RDR2_ProgressTracker {
 	}
 	
 	
-	
-	// AJAX - Update Player Game Collectable Response
 		
-	public function _ajax_update_player_game_collectable_callback() { 
-		if (!$this->collectable || !is_numeric($this->quantity)) {
+	
+	// AJAX INSERT
+	
+	
+	// AJAX - INSERT Player Game Collectable Callback
+	
+	public function _ajax_insert_player_game_collected_callback() {
+		
+		if ( ! $this->collectable || ! is_numeric( $this->quantity ) ) {
+				
 			echo "No collectable or quantity sent!";
+			
 			die();
 		}
 		
-		echo $result = $this->rdr2->update_player_game_collectable($this->game_id, $this->collectable, $this->quantity);
+		echo $result = $this->rdr2->insert_player_game_collected( $this->game_id, $this->collectable, $this->quantity );
 		
 		die();
-	}		
-		
-		
-		
-	public function _ajax_insert_player_game_collectable_callback() {
-		if (!$this->collectable || !is_numeric($this->quantity)) {
+	}
+	
+
+	
+	// AJAX - INSERT Player Game Submitted
+
+	public function _ajax_insert_player_game_submitted_callback() {
+			
+		if ( ! $this->collectable || !is_numeric( $this->quantity ) ) {
+				
 			echo "No collectable or quantity sent!";
+			
 			die();
 		}
 		
-		echo $result = $this->rdr2->insert_player_game_collectable($this->game_id, $this->collectable, $this->quantity);
+		echo $result = $this->rdr2->insert_player_game_submitted( $this->game_id, $this->collectable, $this->quantity );
+		
+		die();
+	}	
+	
+	
+
+	// AJAX - INSERT Player Game Crafted
+	
+	public function _ajax_insert_player_game_crafted_callback() {
+		
+		if ( ! $this->craftable || ! is_numeric( $this->acquired ) ) {
+				
+			echo "No collectable or quantity sent!";
+			
+			die();
+		}
+		
+		echo $result = $this->rdr2->insert_player_game_crafted( $this->game_id, $this->craftable, $this->acquired );
 		
 		die();
 	}
 
-
-
-
-	// AJAX - Update Player Game Item Response
-		
-	public function _ajax_update_player_game_item_callback() { 
-		if (!$this->item || !is_numeric($this->acquired)) {
-			echo "No item or quantity sent!";
-			die();
-		}
-		
-		echo $result = $this->rdr2->update_player_game_item($this->game_id, $this->item, $this->acquired);
-		
-		die();
-	}		
 	
 		
 		
-	public function _ajax_insert_player_game_item_callback() {
-		if (!$this->item || !is_numeric($this->acquired)) {
-			echo "No collectable or quantity sent!";
-			die();
-		}
-		
-		echo $result = $this->rdr2->insert_player_game_item($this->game_id, $this->item, $this->acquired);
-		
-		die();
-	}	
 
+		
+		
+		
+		
 
-
-	// AJAX - Update Player Game Collectable Item Response
-		
-	public function _ajax_update_player_game_item_collectable_callback() { 
-		if (!$this->itemcollectable || !is_numeric($this->quantity)) {
-			echo "No collectable or quantity sent!";
-			die();
-		}
-		
-		echo $result = $this->rdr2->update_player_game_item_collectable($this->game_id, $this->itemcollectable, $this->quantity);
-		
-		die();
-	}		
-	
-		
-		
-	public function _ajax_insert_player_game_item_collectable_callback() {
-		if (!$this->itemcollectable || !is_numeric($this->quantity)) {
-			echo "No collectable or quantity sent!";
-			die();
-		}
-		
-		echo $result = $this->rdr2->insert_player_game_item_collectable($this->game_id, $this->itemcollectable, $this->quantity);
-		
-		die();
-	}	
-		
-		
-		
-		
-		
-		
 		
 		
 		
@@ -1374,7 +1415,7 @@ final class RDR2_ProgressTracker {
 					
 					<?php wp_nonce_field( 'ajax-tip-nonce', '_ajax_tip_nonce' ); ?>
 					
-					<?php $this->print_player_game_controller($game_id); ?>
+					<?php $this->print_player_game_controller( $game_id ); ?>
 					
 					
 				</form>
@@ -1386,11 +1427,15 @@ final class RDR2_ProgressTracker {
 			
 			<input type="hidden" name="game_id" id="game_id" value="<?php echo $game_id; ?>" />
 			
-			<?php wp_nonce_field( 'ajax-player-game-progress-nonce', '_ajax_player_game_progress_nonce' ); ?>
+			<input type="hidden" name="player_id" id="player_id" value="<?php echo $player_id; ?>" />
 			
-			<?php wp_nonce_field( 'ajax-player-game-collectables-nonce', '_ajax_collectables_nonce' ); ?>
+			<?php wp_nonce_field( 'ajax-player-filters-nonce', '_ajax_player_filters_nonce' ); ?>
 			
-			<?php wp_nonce_field( 'ajax-player-game-items-nonce', '_ajax_items_nonce' ); ?>
+			<?php wp_nonce_field( 'ajax-player-game-collected-nonce', '_ajax_collected_nonce' ); ?>
+			
+			<?php wp_nonce_field( 'ajax-player-game-submitted-nonce', '_ajax_submitted_nonce' ); ?>
+			
+			<?php wp_nonce_field( 'ajax-player-game-craftables-nonce', '_ajax_craftables_nonce' ); ?>
 			
 			<div id="PlayerPortal" class="DynamicContainer PlayerPortal"></div>
 			
@@ -1630,184 +1675,6 @@ final class RDR2_ProgressTracker {
 
 
 
-	// Admin ProgressTracker Players Control Panel
-	
-	function admin_rdr2_players() {
-		$id = (isset($this->id)) ? $this->id : FALSE;
-		$player = FALSE;
-		$message = (isset($_REQUEST['saved'])) ? get_bloginfo('name') . ' options successfully saved.' : FALSE;
-		$buttons = "<a href=' . " . $_SERVER['PHP_SELF'] . "?page=admin-players' class='btn button'><span class='dashicons dashicons-arrow-up-alt2'></span> Players</a>";
-		
-		if ($id !== FALSE) {		
-			$player = (!empty($this->player)) ? $this->player : $this->player = $this->rdr2->get_player(array("card_number" => $id));	
-			$title = "Card " . $id;
-			
-			if (!empty($player) && is_array($player)) {
-				$player_name = $this->rdr2->make_player_name($player);
-				$title .= " - " . $player_name;
-			}
-			$this->print_admin_page("players", $title, array($this, 'print_admin_player'), $message, $buttons); 
-		} 
-		
-		else {
-			$this->print_admin_page("players", "Cards", array($this, 'print_admin_players'), $message);
-		}
-		
-	}
-	
-	
-
-	// Admin ProgressTracker Player Statistics Panel
-	
-	function admin_rdr2_player_statistics() {
-		$message = (isset($_REQUEST['saved'])) ? get_bloginfo('name') . ' options successfully saved.' : FALSE;
-		$this->print_admin_page("player-statistics", "Player Statistics", array($this, 'print_player_statistics'), $message);
-	}
-
-
-
-	// Admin ProgressTracker Merchants Control Panel
-	
-	function admin_rdr2_merchants() {
-		$id = (isset($this->id)) ? $this->id : FALSE;
-		
-		$buttons = '<a href="?page=admin-merchants" class="btn button"><span class="dashicons dashicons-arrow-up-alt2"></span> Merchants</a>';
-		
-		if (!isset($message))
-			$message = (isset($_REQUEST['saved'])) ? get_bloginfo('name') . ' options successfully saved.' : FALSE;
-		
-		// Single Merchant
-		if (!empty($id)) {
-			$merchant = (!empty($this->merchant)) ? $this->merchant : $this->merchant = $this->rdr2->get_merchant(array("site_number" => $id));	
-			$title = 'Merchant ' . $id;
-			$title .= (!empty($merchant) && is_array($merchant) && isset($merchant["Name"])) ? " - " . $merchant["Name"] : FALSE;
-			$this->print_admin_page("merchant", $title, array($this, 'print_admin_merchant'), $message, $buttons);
-		}
-		
-		// All Merchants
-		else
-			$this->print_admin_page("merchants", "Merchants", array($this, 'print_admin_merchants'), $message);
-	}
-	
-	
-	
-
-
-
-
-	// AJAX - Merchant Table List Response
-
-	public function _ajax_fetch_merchants_callback() {
-		$GLOBALS["hook_suffix"] = "";
-		$merchant_list_table = $this->get_merchant_list_table();
-	    $merchant_list_table->ajax_response();
-	}
-	
-	
-	
-	// Merchant Player Table List Ajax Response
-
-	public function _ajax_fetch_merchant_players_callback() {
-		$id = $this->id;
-		$merchant_players = $this->get_merchant_players($id);
-		$total = $merchant_players["result_count"];
-		$GLOBALS["hook_suffix"] = "";
-		$player_list_table = new Player_List_Table($merchant_players["results"], $total, $this->per_page);
-	    $player_list_table->ajax_response();
-	}
-
-
-
-	// Admin ProgressTracker Merchants Stores Page
-	
-	function admin_rdr2_merchant_stores() {
-		$id = (isset($this->id)) ? $this->id : FALSE;
-		$message = (isset($_REQUEST['saved'])) ? get_bloginfo('name') . ' options successfully saved.' : FALSE;
-		
-		// Single Merchant Store
-		if ($id !== FALSE) 
-			$this->print_admin_page("merchant-stores", "Merchant Stores", array($this, 'print_admin_merchant_store'), $message); 
-		
-		// All Merchant Stores
-		else 
-			$this->print_admin_page("merchant-stores", "Merchant Stores", array($this, 'print_admin_merchant_stores'), $message);			
-		
-	}
-
-
-
-	// Merchant Stores Table List Ajax Response
-
-	public function _ajax_fetch_merchant_stores_callback() {
-		$id = $this->id;
-		$orderby = (isset($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : "MerchantID";
-		$order = (isset($_REQUEST['order'])) ? $_REQUEST['order'] : "ASC";
-		$hide_res = (isset($_REQUEST["hide_res"])) ? $_REQUEST["hide_res"] : 1;
-		$this->rdr2->per_page = $this->per_page;
-		$merchant_stores = $this->rdr2->get_merchant_stores(array("id" => $id, "hide_res" => $hide_res));
-		$GLOBALS["hook_suffix"] = "";
-		$merchant_stores_table = new Merchant_Stores_List_Table($merchant_stores["results"], $merchant_stores["result_count"], $this->per_page);
-	    $merchant_stores_table->ajax_response();
-	}
-
-
-
-	// Admin ProgressTracker Merchants Groups Panel
-	
-	function admin_rdr2_merchant_groups() {
-		/*		
-		$merchants_total = $this->get_merchant_total();
-		$merchants_status_act = $this->get_merchants_status_act();
-		$merchants_status_res = $this->get_merchants_status_res();
-				
-		$stats_array = array(
-			"Merchants Total" => $merchants_total,
-			"Merchants Status ACT" => $merchants_status_act,
-			"Merchants Status RES" => $merchants_status_res,
-		);
-		*/
-		
-		$merchant_groups = $this->rdr2->get_merchant_groups();
-			
-		include_once(RDR2_ADMIN_VIEWS_DIR . 'admin-merchants-groups.php');
-	}
-
-
-
-	// Admin ProgressTracker Merchants Statistics Panel
-	
-	function admin_rdr2_merchant_statistics() {
-		$message = (isset($_REQUEST['saved'])) ? get_bloginfo('name') . ' options successfully saved.' : FALSE;	
-		$this->print_admin_page("merchant-statistics", "Merchant Statistics", array($this, 'print_admin_merchant_statistics'), $message);
-	}
-
-
-
-	// Admin Lucky Buys Transactions Page
-	
-	function admin_rdr2_transactions() {
-		$message = (isset($_REQUEST['saved'])) ? get_bloginfo('name') . ' options successfully saved.' : FALSE;
-		$this->print_admin_page("transactions", "Transactions", array($this, 'print_admin_transactions'), $message);
-	}	
-
-
-	// Admin ProgressTracker Merchants Statistics Page
-	
-	function admin_rdr2_transactions_statistics() {
-		$message = (isset($_REQUEST['saved'])) ? get_bloginfo('name') . ' options successfully saved.' : FALSE;	
-		$this->print_admin_page("transactions-statistics", "Transactions Statistics", array($this, 'print_admin_transactions_statistics'), $message);
-	}
-
-
-	// Admin Lucky Buys Reports
-	
-	function admin_rdr2_reports() {
-		$message = (isset($_REQUEST['saved'])) ? get_bloginfo('name') . ' options successfully saved.' : FALSE;
-		
-		include_once(RDR2_ADMIN_VIEWS_DIR . 'admin-reports.php');
-	}
-	
-	
 	
 
 
@@ -1834,221 +1701,7 @@ final class RDR2_ProgressTracker {
 	// MAKERS
 
 
-	// Make Player Name
-	
-	function make_player_name($player = array()) {
-		if (empty($player) || !is_array($player))
-			return FALSE;
-		
-		if (!isset($player["FirstName"]) && !isset($player["Surname"]) && !isset($player["Name"]))
-			return FALSE;
-		
-		$name = FALSE;
-		
-		if (isset($player["Name"])) 
-			$name = $player["Name"];
-		
-		else {
-			if (isset($player["FirstName"])) 
-				$name = $player["FirstName"];
-			if (isset($player["Surname"]))
-				$name .= " " . $player["Surname"];
-		}
-		
-		return $name;
-	}
-	
-	
-	
-	// Make Merchant Names 
-	
-	function make_merchant_names($merchant_name = FALSE, $primary_contact = FALSE) {
-		if ($merchant_name == FALSE && $primary_contact == FALSE)
-			return FALSE;
-		
-		$names = array();
-		$names["first"] = FALSE;
-		$names["last"] = FALSE;
-		/*
-		if (!empty($primary_contact)) {
-			$prefixes = ["Mr ", "Ms ", "Mrs ", "Miss ", "Dr "];
-			$clean_name = str_replace($prefixes, "", $primary_contact); // Remove useless name prefixes
-			$clean_name = trim(preg_replace('/\s*\([^)]*\)/', '', $clean_name)); // Remove anything in brackets and trim whitespace
-			
-			if (strlen($clean_name) > 1) { 
-				if (strpos($clean_name, " ")) {  // eg. John[space]Smith
-					$arr = explode(' ', $clean_name);
-					$names["first"] = $arr[0];  // eg. John
-					unset($arr[0]);
-					$names["last"] = implode(" ", $arr);  // eg. Smith
-				}
-				else 
-					$names["first"] = $clean_name; // eg. "Jo"
-			}
-		}*/
-		
-		if (empty($names["first"]) && !empty($merchant_name)) {
-			$names["first"] = $merchant_name;  // eg. John's Garage
-		}
-		
-		return $names; 
-	}
-	
-	
-	
-	// Make Full Card Number
-	
-	function make_full_card_number($card_number = FALSE) {
-		if ($card_number == FALSE)
-			return FALSE;
-		
-		$prefix = (isset($this->card_number_prefix)) ? $this->card_number_prefix : "601690";
-		
-		$card_number = (substr($card_number, 0, strlen($prefix)) === $prefix) ? $card_number : $prefix . $card_number; 
-			
-		return $card_number;
-		
-	}
-	
 
-
-	// Make Partial Card Number
-	
-	function make_partial_card_number($card_number = FALSE) {
-		if ($card_number == FALSE)
-			return FALSE;
-		
-		$prefix = (isset($this->card_number_prefix)) ? $this->card_number_prefix : "601690";
-		
-		$card_number = (substr($card_number, 0, strlen($prefix)) === $prefix) ? substr($card_number, strlen($prefix)) : $card_number; 
-			
-		return $card_number;
-	}
-	
-	
-	
-	// Make Data Export Spreadsheet
-	
-	function make_data_export_spreadsheet($data = array(), $filename = FALSE) {
-		//if (!empty($data) || !is_array($data))
-		//	return FALSE;
-		
-		$use_cache = FALSE;
-		$max_xlsx = 20000;
-		$max = 26000;
-
-		$uploads_dir = $this->get_uploads_dir();
-		
-		// If no filename passed
-		if (!$filename) {
-				
-			// Create default filename (no extension yet)
-			$filename = $this->page . (($this->data) ? '-' . $this->data : '');
-		}
-		
-		//$filepath = $uploads_dir . $filename;
-		
-		// If filename exists already on server
-		//if (file_exists($filepath))
-		
-			// Download existing generated file
-		//	$this->do_action_refresh("download-file", array("filename" => $filename, "page" => $this->page));
-		
-		
-		// Otherwise get fresh data  
-		if (!empty($this->data)) {
-			switch ($this->data) {
-				case "merchant-players" :
-					$id = (isset($this->id)) ? $this->id : FALSE;
-					
-					if (!$id) break;
-					
-					// Merchant Players
-					$merchant_players = $this->get_merchant_players($id);
-					$total = $merchant_players["result_count"];
-					$file_ext = ($total > $max_xlsx) ? ".csv" : ".xlsx";
-					$filename = (($this->page) ? $this->page . "-" : '') . $id . (($this->data) ? '-' . $this->data : '') . '-' . date('Ymd') . $file_ext;
-					$filepath = $uploads_dir . $filename;
-					
-					// If filename exists already on server
-					if (file_exists($filepath))
-					
-						// Download existing generated file
-						$this->do_action_refresh("download-file", array("filename" => $filename, "page" => $this->page));
-					
-					// Chunk large data ?
-
-					$this->rdr2->per_page = ($total > $max) ? $max : $total;
-					$this->rdr2->paged = 1;
-					$results = $this->rdr2->get_players(array("clean" => 1));
-					$data = (!empty($results) && isset($results["results"])) ? $results["results"] : array();
-				break;	
-			}
-		} elseif (!empty($this->page)) {
-			switch ($this->page) {
-				case "rdr2-players" :
-					$order = (isset($this->order)) ? $this->order : "DESC";
-					$orderby = (isset($this->orderby)) ? $this->orderby : "PointsBalance";
-					$total = $this->rdr2->get_player_total(array("clean" => 1));
-					$file_ext = ($total > $max_xlsx) ? ".csv" : ".xlsx";
-					$filename = (($this->page) ? $this->page . "-" : '') . (($this->data) ? '-' . $this->data : '') . '-' . date('Ymd') . $file_ext;
-					$filepath = $uploads_dir . $filename;
-					
-					// If filename exists already on server
-					if (file_exists($filepath))
-					
-						// Download existing generated file
-						$this->do_action_refresh("download-file", array("filename" => $filename, "page" => $this->page));
-					
-					// Chunk large data ?
-
-					$this->rdr2->per_page = ($total > $max) ? $max : $total;
-					$this->rdr2->paged = 1;
-					$results = $this->rdr2->get_players(array("clean" => 1));
-					$data = (!empty($results) && isset($results["results"])) ? $results["results"] : array();
-				break;	
-
-			}
-		}
-		
-		if (empty($data) || !is_array($data))
-			return FALSE;
-		
-		//print_r($data);
-		//exit();
-		if ($use_cache) {
-			$pool = new \Cache\Adapter\Apcu\ApcuCachePool();
-			$simpleCache = new \Cache\Bridge\SimpleCache\SimpleCacheBridge($pool);
-			\PhpOffice\PhpSpreadsheet\Settings::setCache($simpleCache);
-		}
-		// Create a new Spreadsheet Object
-		$spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
-		
-		// Set Spreadsheet Properties
-		$spreadsheet->getProperties()
-			->setCreator("ProgressTracker")
-			->setLastModifiedBy("ProgressTracker")
-			->setTitle("ProgressTracker Players Export")
-			->setSubject("ProgressTracker Players Export")
-			->setDescription("ProgressTracker Players Export")
-			->setKeywords("luckbuys rewards players export xlsx theloyaltygroup")
-			->setCategory("ProgressTracker Data Export");
-		
-		// Import data to Spreadsheet
-		$spreadsheet->getActiveSheet()->fromArray($data, NULL, 'A1');
-		
-		if ($total > $max_xlsx) {
-			$writer = new \PhpOffice\PhpSpreadsheet\Writer\Csv($spreadsheet);
-			$writer->save($filepath);
-		}
-		else {
-			$writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
-			$writer->save($filepath);
-		}
-		
-		// Download Spreadsheet
-		$this->do_action_refresh("download-file", array("filename" => $filename, "page" => $this->page));
-	}
 
 
 
@@ -2226,6 +1879,7 @@ final class RDR2_ProgressTracker {
 			'player_game_collected' => json_encode( $this->rdr2->get_player_game_collected( $this->game_id ) ),
 			'player_game_submitted' => json_encode( $this->rdr2->get_player_game_submitted( $this->game_id ) ),
 			'player_game_crafted' => json_encode( $this->rdr2->get_player_game_crafted( $this->game_id ) ),
+			'player_info' => json_encode( $this->rdr2->get_player_info( $this->player_id ) ),
 		));
 			 
 	}

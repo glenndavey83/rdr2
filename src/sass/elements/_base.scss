@@ -460,43 +460,49 @@ details[open] {
 		overflow: hidden;
 		margin-bottom: $spacing;
 		position: relative;
-		padding-top: 0;
+		padding-top: 0;		
 		
-		&::before {
-			content: "";
-			display: block;
-			position: absolute;
-			z-index: 10;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			top: 0;
-			background-color: red;
-			opacity: 0.3;
-			cursor: pointer;
-		}
-		
-		&.open {
-			display: flex;
-			flex-direction: column;
-			height: auto;
+		@media ( max-width : $size-container-tablet-large - 1 ) {
 			
 			&::before {
-				display: none;
+				content: "";
+				display: block;
+				position: absolute;
+				z-index: 10;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				background-color: red;
+				opacity: 0.3;
+				cursor: pointer;
 			}
 			
-			.nav-tab:not( .nav-tab-active ) {
-				display: block;
-				-webkit-order: 2;
-				order: 2;
+			
+			&.open {
+				display: flex;
+				flex-direction: column;
+				height: auto;
+				
+				&::before {
+					display: none;
+				}
+				
+				.nav-tab:not( .nav-tab-active ) {
+					display: block;
+					-webkit-order: 2;
+					order: 2;
+				}
 			}
 		}
 		
-		@media ( min-width : $size-container-desktop ) {
+		
+		@media ( min-width : $size-container-tablet-large ) {
 			height: auto;
 			overflow: visible;
 			margin-bottom: 0;
 		}
+		
 		
 		.nav-tab {
 			
@@ -508,11 +514,17 @@ details[open] {
 				order: 1;
 			}
 			
-			&:not( .nav-tab-active ) {
-				display: none;
+			
+			@media ( max-width : $size-container-tablet-large - 1 ) {
+			
+				&:not( .nav-tab-active ) {
+					display: none;
+				}
+			
 			}
 			
-			@media ( min-width : $size-container-desktop ) {
+			
+			@media ( min-width : $size-container-tablet-large ) {
 				width: auto;
 		
 				//margin-left: $spacing-half;
