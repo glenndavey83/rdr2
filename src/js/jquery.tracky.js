@@ -1416,7 +1416,7 @@
 					var ingredientClasses = ( totalRemaining == 0 ) ? classes.Flag.Disabled : '';
 					
 					// Add Collectables Content to Ingredient content
-					ingredientsContent += '<details class="' + classes.Ingredient.Container + ' ' + ingredientClasses + ' " data-ingredient="' + typeIngredients[ n ].ID + '" data-remaining="' + totalRemaining + '"> <summary> <span class="' + classes.Name.Ingredient + '">' + ingredient.Name + '</span> <span class="' + classes.Name.Remaining + '">' + totalRemaining + '</span> </summary> ' + collectablesContent + ' </details>';
+					ingredientsContent += '<details class="' + classes.Ingredient.Container + ' ' + ingredientClasses + ' " data-ingredient="' + typeIngredients[ n ].ID + '" data-ingredienttype="' + ingredientTypes[ t ].ID + '" data-remaining="' + totalRemaining + '"> <summary> <span class="' + classes.Name.Ingredient + '">' + ingredient.Name + '</span> <span class="' + classes.Name.Remaining + '">' + totalRemaining + '</span> </summary> ' + collectablesContent + ' </details>';
 					
 					// Add Ingredient content to Types content
 					typesContent += ingredientsContent;
