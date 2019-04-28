@@ -243,6 +243,7 @@ module.exports = function(grunt) {
 	    	
 					'<%= theme.css %>/rdr2-theme.css' : [
 						'<%= src.js %>/swiper/dist/css/swiper.css',
+						'<%= src.js %>/jquery-confirm/css/jquery-confirm.css',
 						'<%= src.css %>/theme.css', 
 	    			],
 				}
@@ -264,6 +265,8 @@ module.exports = function(grunt) {
 					'<%= plugin.js %>/main.min.js': [
 						'<%= src.js %>/swiper/dist/js/swiper.js',
 						'<%= src.js %>/jquery-details/jquery.details.js',
+						'<%= src.js %>/jquery-confirm/js/jquery-confirm.js',
+						'<%= src.js %>/progressbar.js/dist/progressbar.js',
 						'<%= src.js %>/jquery.tracky.js',
 						'<%= src.js %>/jquery.tippy.js',
 						'<%= src.js %>/main.js',

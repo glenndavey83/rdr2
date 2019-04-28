@@ -390,7 +390,7 @@ class RDR2 {
 	function get_craftable_categories() {
 		
 		$query = '
-			SELECT ID, Source, Name 
+			SELECT ID, Source, Name, Inactive 
 			FROM ' . $this->wpdb->craftable_categories . ' 
 			WHERE 1 
 		';
@@ -765,22 +765,26 @@ class RDR2 {
 		
 		// ABORT if no Game ID for updating
 		if ( ! $game_id ) {
-			//echo "No Game ID received!\n"; 
-			return FALSE;
+				
+			echo "No Game ID received!\n"; 
+			
+			return;
 		}
 		
 		// ABORT if no Craftable ID for updating
 		if ( ! $craftable ) {
-			//echo "No Craftable ID received!\n";
-			return false;
+				
+			echo "No Craftable ID received!\n";
+			
+			return;
 		}
 		
 		// ABORT if no Acquired boolean for updating
-		if ( ! $acquired ) {
+		if ( $acquired === false ) {
 			
 			echo "No Acquired boolean value received!\n";
 			
-			return false;
+			return;
 		}
 		
 		$data = array( 'Acquired' => $acquired ); 

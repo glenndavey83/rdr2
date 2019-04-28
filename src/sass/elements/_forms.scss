@@ -91,8 +91,7 @@ form {
 		label {
 			font-weight: normal;
 			display: inline-block;
-			//font-size: 18px;
-			line-height: 2.5em;
+			line-height: 1.4em;
 			
 			&.DeadCheckbox, .DeadCheckbox {
 				border: 3px solid;
@@ -105,6 +104,8 @@ form {
 				margin-bottom: 0;
 				display: inline-block;
 				background-color: white;
+				font-family: "Special Elite", Arial, Helvetica, sans-serif;
+				font-weight: bold;
 				
 				&:before {
 					font-family: dashicons;
@@ -126,6 +127,12 @@ form {
 						display: block;
 						color: lightgrey;
 					}
+					
+					border-color: black;
+					
+					* {
+						display: none;
+					}
 				}
 				
 				&.checked {
@@ -134,17 +141,34 @@ form {
 						display: block;
 						color: black;
 					}
+					
+					.remaining-amount {
+						display: none;
+					}
 				}
 				
 				&.disabled {
 					background-color: lightgrey;
 					background-color: transparent;
-					color: grey;
+					background-color: $color-light-grey;
+					color: grey !important;
 					border-color: darkgrey;
-					//cursor: default;
+					cursor: default;
 					
-					span.dashicons {
-						color: grey;
+					&.checked {
+						cursor: pointer;
+					}
+					
+					&:hover {
+						border-color: darkgrey !important;
+					}
+					
+					* {
+						color: grey !important;
+					}
+					
+					&:before {
+						color: grey !important;
 					}
 				}
 				
@@ -157,7 +181,7 @@ form {
 					}
 				}
 				
-				input, span {
+				input, span.dashicons {
 					display: none;
 				}
 				

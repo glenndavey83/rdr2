@@ -1,7 +1,8 @@
 
 // TIPPY Plugin
 
-( function($) {
+
+( function( $ ) {
 
 	$.tippy = function( container, options ) {
 
@@ -11,7 +12,17 @@
 		var tipRecord = [];
 
 		var defaults = {
-			delay: 300,
+			delay : 300,
+			action : '_ajax_fetch_tips'
+		};
+		
+		var classes = {
+			updating : 'updating',
+			section : 'app-section',
+		};
+		
+		var ids = {
+			nonce : '_ajax_tip_nonce'
 		};
     
 		plugin.init = function() {
@@ -20,11 +31,11 @@
 		
 			$container.data( 'tippy', {} );
 			
-			$container.addClass("updating");
+			$container.addClass( classes.updating );
 			
-			$container.html("<div class='app-section'></div>");
+			$container.html( '<div class="' + classes.section + '"> </div>');
 			
-			$section = $(".app-section", $container);
+			$section = $( '.' + classes.section, $container );
 			
 			var data = {
 				game_id: 1,
@@ -38,8 +49,8 @@
 
 				data: $.extend(
 					{
-						_ajax_tip_nonce: $('#_ajax_tip_nonce').val(),
-						action: "_ajax_fetch_tips",
+						_ajax_tip_nonce: $( '#' + ids.nonce ).val(),
+						action: plugin.settings.action,
 					},
 					data
 				),
@@ -47,15 +58,17 @@
 				success: function( response ) {
 	 				plugin.update( response );
 	              				
-					$container.on("click", function() {
-						$container.addClass("updating");
+					$container.on( 'click', function() {
+						$container.addClass( classes.updating );
 						
 						plugin.update( response );
 					});
 	            },
 				
 				error: function( response ) { 
-					$container.removeClass("updating");
+					console.error( response );
+					
+					$container.removeClass( classes.updating );
 				},
             
 			});	
@@ -66,14 +79,17 @@
 
 	    plugin.update = function( response ) {
 	    	
-	    	setTimeout(function() {
+	    	setTimeout( function() { 
+	    		
 	    		var responseNumber = getRandomTipNumber( response );
-	    		tipRecord.push(responseNumber);
-		    	$section
-		    		.html("<p>" + response[responseNumber].Description + "</p>")
-	    			.removeClass("updating")
-	    		;
-	    	}, 300);
+	    		
+	    		tipRecord.push( responseNumber );
+		    	
+		    	$section.html( '<p>' + response[ responseNumber ].Description + '</p>' );
+	    		
+	    		$container.removeClass( classes.updating );
+	    		
+	    	}, plugin.settings.delay );
 	    	
 		};
  
@@ -84,18 +100,20 @@
  		
  		
  		var getRandomTipNumber = function( tips ) {
- 			if (!tips.length) 
+ 			
+ 			if ( ! tips.length ) 
  				return false;
  			
- 			var newTipNumber = getRandomNumber(tips.length);
+ 			var newTipNumber = getRandomNumber( tips.length );
  			
  			// If we have previous tips
- 			if (tipRecord.length) {
+ 			if ( tipRecord.length ) {
  				
  				halfTipLength = tips.length / 2;
- 				limitStart = (tipRecord.length > halfTipLength) ? tipRecord.length - halfTipLength : 0;
  				
- 				if (tipRecord.slice(limitStart, tipRecord.length).indexOf(newTipNumber) !== -1 )
+ 				limitStart = ( tipRecord.length > halfTipLength ) ? tipRecord.length - halfTipLength : 0;
+ 				
+ 				if ( tipRecord.slice( limitStart, tipRecord.length ).indexOf( newTipNumber ) !== -1 )
  					newTipNumber = getRandomTipNumber( tips );
  			}
  			
@@ -105,17 +123,23 @@
  		
  		
  		var getRandomNumber = function( limit ) {
- 			return Math.floor(Math.random() * limit);
+ 			
+ 			return Math.floor( Math.random() * limit ); 
+ 			
  		};
  		
  
 		var query = function( query, variable ) {
-			var vars = query.split("&");
-			for ( var i = 0; i <vars.length; i++ ) {
-			    var pair = vars[ i ].split("=");
-			    if ( pair[0] == variable )
-			        return pair[1];
+			var vars = query.split( '&' );
+			
+			for ( var i = 0; i < vars.length; i++ ) {
+				
+			    var pair = vars[ i ].split( '=' );
+			    
+			    if ( pair[ 0 ] == variable )
+			        return pair[ 1 ];
 			}
+			
 			return false;
 		};
 
@@ -125,23 +149,29 @@
 	};
   
   
-	$.fn.tippy = function(options) {
+	$.fn.tippy = function( options ) {
 		var args = arguments;
 
-		return this.each(function() {
-			var $this = $(this),
-				plugin = $this.data('tippy');
+		return this.each( function() {
+			var 
+				$this = $( this ),
+				plugin = $this.data( 'tippy' )
+			;
 
-			if (undefined === plugin) {
-				plugin = new $.tippy(this, options);
-				$this.data('tippy', plugin);
+			if ( undefined === plugin ) {
+				
+				plugin = new $.tippy( this, options );
+				
+				$this.data( 'tippy', plugin ); 
 			}
 	
 			// User called public method
-			if ( plugin.publicMethods[options] ) 
-				return plugin.publicMethods[options](Array.prototype.slice.call( args, 1 ));
+			if ( plugin.publicMethods[ options ] ) 
+				return plugin.publicMethods[ options ]( Array.prototype.slice.call( args, 1 ) );
 		});
 	
 	};
+	
 
 })( jQuery );
+

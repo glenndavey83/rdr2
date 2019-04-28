@@ -2,6 +2,7 @@
 
 // RDR2 PROGRESS TRACKER 
 
+// TRACKY
 // jQuery Plugin
 
 
@@ -13,25 +14,33 @@
 			// Handles
 			plugin = this,
 			$container = $( container ),
-			$app = false,
+			$app = false, 
 			
-			// Variables
-			name = 'Tracky',
-			slug = 'tracky',
-	    	title = name + ' jQuery Plugin',
+			// Variables 
+			name = 'Tracky', 
+			slug = 'tracky', 
+	    	title = name + ' jQuery Plugin', 
 			logging = true, 
-			logPrefix = name,
+			logPrefix = name, 
 			delay = 2500, 
+			swiper = false, 
+			
+			
+			// Default Plugin Settings
 			
 			defaults = {
-				delay: delay,
+				delay : {
+					Long : delay,
+					Medium : 500,
+					Short : 350,
+				},
 				
 				Swiper : {
 					direction : 'horizontal', 
 					loop : false, 
 					get wrapperClass() { return classes.App.Sections.Wrapper; }, 
 					get slideClass() { return classes.App.Section; }, 
-					autoHeight : false,
+					autoHeight : true,
 					slidesPerView : 1,
 					slidesPerColumn : 1,
 					spaceBetween : 20,
@@ -45,6 +54,114 @@
 					get tabActiveClass() { return classes.App.Tabs.Active; }, 	
 					updateHash: false,
 				},
+				
+				DialogBoxes : {
+				    title: '',
+				    titleClass: '',
+				    type: 'default',
+				    typeAnimated: true,
+				    draggable: true,
+				    dragWindowGap: 15,
+				    dragWindowBorder: true,
+				    animateFromElement: true,
+				    smoothContent: true,
+				    content: 'Are you sure to continue?', 
+				    buttons: {},
+				    defaultButtons: {
+				        ok: {
+				            action: function () {
+				            	
+				            }
+				        },
+				        close: {
+				            action: function () {
+				            	
+				            }
+				        },
+				    },
+				    contentLoaded: function( data, status, xhr ) {
+				    	
+				    },
+				    icon: '',
+				    lazyOpen: false,
+				    bgOpacity: null,
+				    theme: 'light',
+				    animation: 'scale',
+				    closeAnimation: 'scale',
+				    animationSpeed: 400,
+				    animationBounce: 1,
+				    rtl: false,
+				    container: 'body',
+				    containerFluid: false,
+				    backgroundDismiss: false,
+				    backgroundDismissAnimation: 'shake',
+				    autoClose: false,
+				    closeIcon: null,
+				    closeIconClass: false,
+				    watchInterval: 100,
+				    columnClass: 'col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1',
+				    boxWidth: '50%', 
+				    scrollToPreviousElement: true, 
+				    scrollToPreviousElementAnimate: true, 
+				    useBootstrap: false, 
+				    offsetTop: 40, 
+				    offsetBottom: 40,
+				    bootstrapClasses : {
+				        container : 'container',
+				        containerFluid : 'container-fluid',
+				        row : 'row',
+				    },
+				    onContentReady : function () {},
+				    onOpenBefore : function () {},
+				    onOpen : function () {},
+				    onClose : function () {},
+				    onDestroy : function () {},
+				    onAction : function () {}
+				},
+				
+				ProgressBars : { 
+					color : 'black', 
+	        		duration : 3000, 
+	        		easing : 'easeInOut', 
+	        		strokeWidth: 5, 
+	        		trailWidth: 1, 
+	        		
+	        		text: {
+						style: {
+							// Text color.
+							// Default: same as stroke color (options.color)
+							color: '#999',
+							position: 'absolute',
+							right: '0',
+							top: '30px',
+							padding: 0,
+							margin: 0,
+							transform: null
+						},
+						
+						autoStyleContainer: false,
+					},
+					
+	        		from: { color: '#FB6202' }, 
+	        		
+	        		to: { color: '#f00300' }, 
+	        		
+	        		step: function( state, line ) {
+	        			
+						line.path.setAttribute( 'stroke', state.color );
+						line.path.setAttribute( 'stroke-width', state.width );
+				
+						var
+							// Line Value
+							lineValue = line.value(),
+							
+							// Percentage Value
+							value = Math.round( line.value() * 100 )
+						;
+						
+						line.setText( value + '%' );
+					}
+				}
 			},
 			
 	
@@ -56,12 +173,16 @@
 			
 			// Craftables
 			craftables = JSON.parse( database.craftables ),
+			
 			// Craftable Sources
 			craftable_sources = JSON.parse( database.craftable_sources ),
+			
 			// Craftable Categories 
 			craftable_categories = JSON.parse( database.craftable_categories ),
+			
 			// Craftable Groups 
 			craftable_groups = JSON.parse( database.craftable_groups ),
+			
 			// Craftable Collectables 
 			craftable_collectables = JSON.parse( database.craftable_collectables ), 
 			
@@ -78,10 +199,13 @@
 			
 			// Ingredients 
 			ingredients = JSON.parse( database.ingredients ),
+			
 			// Ingredient Types 
 			ingredient_types = JSON.parse( database.ingredient_types ),
+			
 			// Ingredient Qualities 
 			ingredient_qualities = JSON.parse( database.ingredient_qualities ), 
+			
 			// Ingredient Parts
 			ingredient_parts = JSON.parse( database.ingredient_parts ), 
 			
@@ -98,6 +222,8 @@
 			
 			// Player Info
 			player_info = JSON.parse( database.player_info ), 
+			
+			
 			
 			// Actions
 			
@@ -116,11 +242,13 @@
 				},
 			},
 			
+			
 			// Content
+			
 			content = {
 				Screens : [
-					{ name: 'Source' },
-					{ name: 'IngredientType' },
+					{ name: 'Source', label: 'Craftables' },
+					{ name: 'IngredientType', label: 'Collectables' },
 				],
 				Label : {
 					Inserted : 'Inserted!',
@@ -131,7 +259,9 @@
 				},
 			},
 			
+			
 			// Classes
+			
 			classes = {				
 				App : {
 					Container : 'app-container',
@@ -141,6 +271,12 @@
 						List : 'app-sections-list',
 						Filter : 'app-sections-filter',
 						Wrapper : 'app-sections-wrapper',
+					},
+					Tab : {
+						Nav : {
+							Container : 'nav-tab',
+							Icon : 'nav-tab-icon'
+						},						
 					},
 					Tabs : {
 						Wrapper : 'nav-tab-wrapper',
@@ -159,7 +295,7 @@
 						Container : 'category-group',
 						Input : 'category-group-input',
 						Checkbox : 'category-group-checkbox',
-						Name : 'collection-group-name',
+						Name : 'category-group-name',
 					},
 				},
 				Checkbox : {
@@ -206,8 +342,10 @@
 						Container : 'group-craftable',
 						Checkbox : 'group-craftable-checkbox', 
 						Input : 'group-craftable-input', 
-						Label : 'group-craftable-label', 
+						Label : 'group-craftable-label',
+						List : 'group-craftable-list', 
 						Name : 'group-craftable-name', 
+						
 					}, 
 					Craftables : { 
 						Input : 'group-craftables-input', 
@@ -216,13 +354,15 @@
 				Ingredient : { 
 					Container : 'ingredient', 
 					Label : 'ingredient-label', 
+					Checkbox : 'ingredient-checkbox',
 					Type : { 
 						Selector : 'ingredient-type-selector', 
 						Tab : { 
 							Content : 'ingredient-type-tab-content', 
 							Nav : 'ingredient-type-tab-nav', 
 						}, 
-					}, 
+					},
+					
 				}, 
 				Input : {
 					Craftable : 'craftable-input',
@@ -246,6 +386,11 @@
 					Remaining : 'remaining-amount',
 				},
 				Open : 'open',
+				Progress : {
+					Container : 'progress-bar-container',
+					Count : 'progress-bar-count',
+					Percentage : 'progress-bar-percentage',
+				},
 				ScreenReader : 'screen-reader-text',
 				Source : {
 					Content : 'source-content',
@@ -258,12 +403,19 @@
 					Tab : 'source-tab',
 					Category : {
 						Container : 'source-category',
+						Checkbox : 'source-category-checkbox',
 						Name : 'source-category-name',
+						Input : 'source-category-input',
+						Label : 'source-category-label',
 					},
 					Selector : 'source-selector',
 				},
 				Sources : {
-					
+					Category : {
+						Container : {
+							
+						}
+					}
 				},
 				Swiper : {
 					Container : 'swiper-container',
@@ -272,6 +424,7 @@
 				Tab : {
 					Lucky : 'luckytab',
 					Content : 'tabContent',
+					Nav : 'tab-nav'
 				},
 				Tabs : {
 					Container : 'tabs-container',
@@ -283,14 +436,28 @@
 			},
 			
 			
+			
 			// Elements 
+			
 			elements = {
+				Collectable : {
+					Progress : null,
+				},
 				Flag : { 
 					get Updating() { return $( '#' + ids.Flag.Updating, $container ); },
-				}
+				},
+				Source : {
+					Progress : null,
+				},
+				Ingredient : {
+					Progress : null,
+				},
+				
 			},
 			
+			
 			// Events
+			
 			events = {
 				Click : 'click',
 				Change : 'change',
@@ -302,31 +469,39 @@
 					Up : 'keyup',
 				},
 			},		
+
+
 			
 			// HTML
+			
 			html = {
 				App : {
 					get Container() { return '<div class="' + classes.App.Container + '" id="' + ids.App + '"></div>'; },
-					List : '<div class="' + classes.App.Sections.List + '"><ul class="' + classes.List.Horizontal + ' ' + classes.List.Pill + '"><li><a data-id="0" class="' + classes.Flag.Active + '">Sources</a></li><li><a data-id="1">Collectables</li></ul></div>',
-					get Filters() { return '<div class="' + classes.App.Sections.Filter + '"><ul class="' + classes.List.Horizontal + ' ' + classes.List.Pill + '"><li><label class=""><input type="checkbox" name="' + name.Filter + '" value="1" id="' + ids.Filters.Remaining + '" ' + (( player_info.FilterRemaining == 1 ) ? 'checked' : '') + ' > Show remaining only </label></li></ul></div>'; },
+					List : '<div class="' + classes.App.Section + ' ' + classes.App.Sections.List + '"><ul class="' + classes.List.Horizontal + ' ' + classes.List.Pill + '"><li><a data-id="0" class="' + classes.Flag.Active + '">Craftables</a></li><li><a data-id="1">Collectables</li></ul></div>',
+					get Filters() { return '<div class="' + classes.App.Section + ' ' + classes.App.Sections.Filter + '"><ul class="' + classes.List.Horizontal + ' ' + classes.List.Pill + '"><li><label class=""><input type="checkbox" name="' + name.Filter + '" value="1" id="' + ids.Filters.Remaining + '" ' + (( player_info.FilterRemaining == 1 ) ? 'checked' : '') + ' > Show remaining only </label></li></ul></div>'; },
 					Sections : '<div class="' + classes.App.Sections.Container + '"><div class="' + classes.App.Sections.Wrapper + ' swiper-wrapper"></div></div>',
 				},
-				get Dashicon() { return ( ! state.Dashicon || ! classes.Dashicons[ state.Dashicon ] ) ? false : '<span class="' + classes.Dashicon + ' ' + classes.Dashicons[ state.Dashicon ] + '"></span>'; },
+				get Dashicon() { return ( ! states.Dashicon || ! classes.Dashicons[ states.Dashicon ] ) ? false : '<span class="' + classes.Dashicon + ' ' + classes.Dashicons[ states.Dashicon ] + '"></span>'; },
 				Flag : {
 					get Updating() { return '<div class="' + classes.Flag.Updating + '" id="' + ids.Flag.Updating + '"> <span class="' + classes.Label.Updating + '"> ' + content.Label.Updating + ' </span> </div>'; },
 				},
 				Icon : {
 					get Yes() { 
-						state.Dashicon = 'Yes';
+						states.Dashicon = 'Yes';
 						return html.Dashicon; 
 					},
 				},
+				Ingredients : {
+					Heading : '<h3 class="' + classes.ScreenReader + '">Collectables</h3>',
+				},
 				Sources : {
-					Heading : '<h3 class="' + classes.ScreenReader + '">Sources</h3>',
+					Heading : '<h3 class="' + classes.ScreenReader + '">Craftables</h3>',
 				},	
 			},
 			
+			
 			// IDs
+			
 			ids = {
 				App : 'App',
 				Collectable : {
@@ -347,12 +522,14 @@
 				},
 				Game : 'game_id',
 				Ingredient : {
+					Progress : 'IngredientProgress',
 					Types : 'IngredientTypes',
 				},
 				Player : 'player_id',
 				Source : {
 					Tabs : 'SourceTabs',
 					Name : 'Source-', 
+					Progress : 'SourceProgress',
 				},
 				Sources : {
 					Craftable : 'CraftableSources',	
@@ -368,7 +545,9 @@
 			},
 			
 			
+			
 			// Names (Inputs)
+			
 			name = {
 				Collectable : 'collectableitems',
 				Craftables : 'craftableitems',
@@ -376,7 +555,10 @@
 				Group : 'groupitems',
 			},
 			
+			
+			
 			// Properties	
+			
 			property = {
 				Checked : 'checked', 
 				Disabled : 'disabled',
@@ -385,7 +567,8 @@
 			
 			
 			// States
-			state = {
+			
+			states = {
 				Interval : {
 					Modify : {
 						Page : false,
@@ -396,6 +579,24 @@
 					Filter : {
 						Remaining : false,
 					},
+				},
+				
+				Craftable : {
+					Crafted : 0, 
+					
+					// Get Total Craftable Progress as decimal of 1
+					get Progress () { return ( states.Craftable.Crafted == 0 ) ? 0 : states.Craftable.Crafted / states.Craftable.Quantity; },
+			
+					Quantity : 0,
+				},
+				
+				Collectable : {
+					Collected : 0,
+					
+					// Get Total Collectable Progress as decimal of 1
+					get Progress() { return ( states.Collectable.Collected == 0 ) ? 0 : states.Collectable.Collected / states.Collectable.Quantity; },
+					Quantity : 0,
+					Submitted : 0,
 				},
 			}
 		;
@@ -409,7 +610,7 @@
 		/////////////////////////////////////////////////////////////////////////
 		// Initiate Plugin
 		
-		plugin.init = function( ) {
+		plugin.init = function() {
 	 		
 	 		// Combine Defaults with passed Options into plugin var settings
 			plugin.settings = $.extend( {}, defaults, options );
@@ -439,15 +640,19 @@
 			// App Screens
 			
 			// Setup App Screens
-			plugin.setupAppScreens( data );
+			plugin.setupAppScreens( data ); 
 	
-			
 			
 			// Details/Summary
 			
 			// Setup all Details and Summary elements		
 			setupDetailSummary();
 			
+			
+			// Dialog Boxes
+			
+			// Setup default Confirm settings
+			setupDialogs();
 	    };	
 		
 		
@@ -518,29 +723,61 @@
 			
 			
 			// INITIATE Swiper on SECTIONS
-			swiper = new Swiper( '.' + classes.Swiper.Container, $.extend( {
-					on: {
-						slideChange: function () {
-							$( 'a:eq(' + swiper.activeIndex + ')', $list ).click();
-						},
-					},
+			setTimeout( function() {
 				
-				}, plugin.settings.Swiper, {} )
-			);
+				swiper = new Swiper( '.' + classes.Swiper.Container, $.extend( plugin.settings.Swiper, {
+						on: {
+							slideChange: function () {
+								$( 'a:eq(' + swiper.activeIndex + ')', $list ).click();
+							},
+						},
+					
+				} ) );
+				
+			}, plugin.settings.delay.Short );
+			
 			
 			
 			// Actions
 			
+			// CLICK - Summary
+			
+			$( 'summary', $container ).on( events.Click, function( e ) {
+
+				var 
+					// Identify the parent list
+					$checkboxList = $( this ).parentsUntil( '.' + classes.App.Checkbox.List ).parent(),
+					
+					// Identify parent Details element
+					$details = $( this ).parent(), 
+				
+					// Identify sibling Details elements	
+					$siblings = $( 'details', $checkboxList ).not( $details ).prop( property.Open, '' ) 		
+				;
+				
+				$siblings.prop( property.Open, '' );
+				
+				// Update Swiper Height 
+				_updateSwiperHeight();
+				
+			});
+			
+			
+			
 			// Nav Tab Wrapper
 			
-			// Click Nav Tab
-			$( '.' + classes.App.Tabs.Nav + ' a', $container ).on( events.Click, function( e ) {
+			// Click Nav Tab 
+			
+			$( '.' + classes.App.Tab.Nav.Container + ' a', $container ).on( events.Click, function( e ) {
 				e.stopPropagation();
 	
 				var wrapper = $( this ).closest( '.' + classes.App.Tabs.Wrapper );
 				
 				if ( wrapper.hasClass( classes.Open ) )
 					wrapper.removeClass( classes.Open );
+					
+				// Update Swiper Height
+				_updateSwiperHeight();
 			});
 			
 			
@@ -549,6 +786,9 @@
 	
 				if ( ! $( this ).hasClass( classes.Open ) )
 					$( this ).addClass( classes.Open );
+					
+				// Update Swiper Height
+				_updateSwiperHeight();
 			});
 			
 			
@@ -578,6 +818,9 @@
 					filter = 0;
 				}
 				
+				// Update Swiper Height
+				_updateSwiperHeight();
+				
 				// UPDATE Local Player Info data
 				player_info.FilterRemaining = filter;
 								
@@ -601,9 +844,44 @@
 				
 				swiper.slideTo( $( this ).data( 'id' ) );
 			});
+			
+			
+			
+			// Update Swiper Height
+			_updateSwiperHeight();
+			
 		};
 		
+		
+		
+		// Update Swiper Height with delay and easing
 	
+		var _updateSwiperHeight = function() {
+			
+			if ( typeof swiper == "undefined" || swiper == false )
+				return;
+				
+			setTimeout( function() {
+				
+				swiper.updateAutoHeight( plugin.settings.delay.Short );
+				
+			}, plugin.settings.delay.Short );
+					
+		};
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -614,13 +892,17 @@
 		
 		
 		/////////////////////////////////////////////////////////////////////////
-		// SOURCE
+		// SHOW BY SOURCE
 		
 		// Prints by Source first
 		var showBySource = function( data ) { 
 			
 			// Variables
 			var 
+				
+				// Total Sources Complete begins at zero
+				totalSourcesComplete = 0,
+				
 				tabsWrapper = '',
 				navTabs = '',
 				tabs = ''
@@ -633,51 +915,83 @@
 			// For each Craftable Source
 			for ( var l = 0; l < craftable_sources.length; l++ ) {
 				
-				// Get this Source's Categories
 				var 
+					// Get this Source's Categories
 					sourceCategories = craftable_categories.filter( function( obj ) { return obj.Source == craftable_sources[ l ].ID; } ),
+					
+					// Total Categories Complete begins at zero
+					totalCategoriesComplete = 0,
+					
+					// Open Source content
 					sourceContent = ''
 				;
 				
 				// If no Source Categories, skip giving this Source a tab
-				if ( ! sourceCategories.length )
-					continue; 
+				if ( ! sourceCategories.length ) {
+					log ( "Skipping Source because no Categories found!" );
 					
+					// Skip this Source
+					continue; 
+				}
 				
 				
-				// For each of this Source's Categories 
+				// For each of this Source's Categories
+				 
 				for ( var c = 0; c < sourceCategories.length; c++ ) { 
 					
-					// Get this Category's Groups 
-					var 
-						categoryGroups = craftable_groups.filter( function( obj ) { return obj.Category == sourceCategories[ c ].ID; } ),
+					// SKIP if Category marked Inactive	
+					if ( sourceCategories[ c ].Inactive == '1' ) 
+						continue;
+					 
+					var
+						categoryID = sourceCategories[ c ].ID,
+					
+						// Get this Category's Groups 
+						categoryGroups = craftable_groups.filter( function( obj ) { return obj.Category == categoryID; } ),
+						
+						// Total Groups Complete begins at zero
+						totalGroupsComplete = 0,
+						
+						// Open Category Content
 						categoryContent = ''
 					;
 	
-					// If no Category Groups, skip this Category
-					if ( ! categoryGroups.length ) 
+					// If no Category Groups...
+					if ( ! categoryGroups.length ) {
+						log ( "Skipping Category because no Groups!" );
+						
+						// Skip this Category
 						continue;
-					
-					
-					// Begin generating this Category's Group content
-					categoryContent += '<ul class="' + classes.Category.Groups + ' ' + classes.Checkbox.List + ' ' + classes.App.Checkbox.List + '">';
+					}
 	
 					// For each of this Category's Groups
 					for ( var g = 0; g < categoryGroups.length; g++ ) {
 						
-						// Get this Group's Craftables
 						var 
+							// Get this Group's Craftables
 							groupCraftables = craftables.filter( function( obj ) { return obj.Group == categoryGroups[ g ].ID; } ),
+							
+							// Total Crafted starts at 0
+							totalCrafted = 0,
+							
+							// Open Group Content
 							groupsContent = ''
 						;
 						
-						// If no Group Craftables, skip this Group
-						if ( ! groupCraftables.length ) 
+						// If no Group Craftables...
+						if ( ! groupCraftables.length ) { 
+							log ( "Skipping Group because no Craftables!" );
+							
+							// Skip this Group
 							continue;
+						}
+						
 						
 						// Skip same-named Category Groups 
 						if ( categoryGroups[ g ].Name !== sourceCategories[ c ].Name )
-							groupsContent += '<ul>';
+						
+							// Begin Generating this Group's contents
+							groupsContent += '<ul class="' + classes.Group.Craftable.List + ' ' + classes.Checkbox.List + ' ' + classes.App.Checkbox.List + '"> ';
 						
 						
 						// For each of this Group's Craftables
@@ -712,8 +1026,10 @@
 							for ( var s = 0; s < craftableCollectables.length; s++ ) { 
 								
 								var 
+									collectableID = craftableCollectables[ s ].Collectable,
+								
 									// Get Collectable info
-									collectable = collectables.filter( function( obj ) { return obj.ID == craftableCollectables[ s ].Collectable; } )[ 0 ],
+									collectable = collectables.filter( function( obj ) { return obj.ID == collectableID; } )[ 0 ],
 									
 									// Get Ingredient
 									ingredient = ingredients.filter( function( obj ) { return obj.ID == collectable.Ingredient; } )[ 0 ],
@@ -728,26 +1044,21 @@
 									quantity = craftableCollectables[ s ].Quantity,
 									
 									
-									// Get Collected Collectables
-									collectableCollected = player_game_collected.filter( function( obj ) { return obj.Collectable == craftableCollectables[ s ].Collectable; } )[ 0 ],
+									// Get Collected Collectables 
+									collectableCollected = player_game_collected.filter( function( obj ) { return obj.Collectable == collectableID; } )[ 0 ],
 									
 									// Get Collected Quantity 
 									quantityCollected = ( typeof collectableCollected !== 'undefined' ) ? collectableCollected.Collected : 0,
-									
-									
+
 									// Get Submitted Collectables
 									collectableSubmitted = player_game_submitted.filter( function( obj ) { return obj.CraftableCollectable == craftableCollectables[ s ].ID; } )[ 0 ],
 									
 									// Get Submitted Quantity
 									quantitySubmitted = ( typeof collectableSubmitted !== 'undefined' ) ? collectableSubmitted.Quantity : 0,
 									
-									
 									// Start Collectable Content
 									collectableContent = ''
 								;
-								
-								//log( "Collectable Submitted: ");
-								//log( collectableSubmitted, false );
 								
 								// Increment Total Collectable
 								totalCollectable = totalCollectable + parseInt( quantity );
@@ -779,11 +1090,9 @@
 										checkedClass = ( isSubmitted ) ? classes.Flag.Checked : '',
 										
 										// If Submmitted but not Collected set Disabled
-										disabledVal = ( isSubmitted && ! isCollected ) ? classes.Flag.Disabled : ''
+										//disabledVal = ( isSubmitted && ! isCollected ) ? classes.Flag.Disabled : '',
+										disabledVal = ''
 									;
-									
-									//log( "Is submitted: ", false);
-									//log( isSubmitted, false );
 									
 									// Add a Checkbox for this Collectable Item
 									collectableContent += '<label class="' + classes.DeadCheckbox + ' ' + classes.Craftable.Collectable.Checkbox + ' ' + availableVal + ' ' + disabledVal + '" > <input type="checkbox" name="' + name.Collectable + '" class="' + classes.Craftable.Collectable.Input + '" value="' + craftableCollectables[ s ].ID + '" data-craftable="' + groupCraftables[ i ].ID + '" data-collectable="' + collectable.ID + '" ' + checkedVal + ' > </label>';
@@ -812,37 +1121,78 @@
 								isCrafted = ( typeof craftedCraftable !== 'undefined' && craftedCraftable.Acquired == 1 ),
 								
 								// If Submittable set Disabled 
-								abled = ( isSubmittable ) ? property.Disabled : '',
+								abled = ( isSubmittable ) ? property.Disabled : '', 
 								
 								// If Submittable set Open 
-								opened = ( isSubmittable ) ? property.Open : '',
+								//opened = ( isSubmittable ) ? property.Open : '',
+								opened = false,
 								
 								// If Craftable set Available 
-								available = ( isCraftable ) ? classes.Flag.Available : '',
+								available = ( isCraftable ) ? classes.Flag.Available : '', 
 								
 								// If Crafted set Checked 
 								checkedVal = ( isCrafted ) ? property.Checked : '',
 								
-								// If None Remaining set Disabled 
-								craftableClass = ( totalRemaining == 0 ) ? classes.Flag.Disabled : '',
+								// If Crafted set Disabled 
+								craftableClass = ( isCrafted ) ? classes.Flag.Disabled : '', 
 								
 								// Checked Class
 								checkedClass = ( isCrafted ) ? classes.Flag.Checked : ''
 							;
-							
+
+							if ( isCrafted )	
+								totalCrafted++;
+
 							// Add this Craftable to the Groups content
-							groupsContent += '<li> <details class="' + classes.Group.Craftable.Container + ' ' + craftableClass + '" ' + opened + ' > <summary class="' + abled + '"> <label class="' + classes.DeadCheckbox + ' ' + classes.Group.Craftable.Checkbox + ' ' + abled + ' ' + available + ' ' + checkedClass + '"> ' + html.Icon.Yes + ' <input type="checkbox" class="' + classes.Group.Craftable.Input + '" name="' + name.Craftables + '" value="' + groupCraftables[ i ].ID + '" ' + abled + ' ' + checkedVal + ' > </label> <label class="' + classes.Group.Craftable.Label + ' ' + classes.Item.Label + '"> <span class="' + classes.Group.Craftable.Name + '">' + groupCraftables[ i ].Name + '</span> </label> </summary> ' + craftableContent + ' </details> </li>';
+							groupsContent += '<li> <details class="' + classes.Group.Craftable.Container + ' ' + craftableClass + '" ' + opened + ' > <summary class="' + abled + '"> <label class="' + classes.DeadCheckbox + ' ' + classes.Group.Craftable.Checkbox + ' ' + abled + ' ' + available + ' ' + checkedClass + '"> <span class="' + classes.Name.Remaining + '">' + totalRemaining + '</span> <input type="checkbox" class="' + classes.Group.Craftable.Input + '" name="' + name.Craftables + '" value="' + groupCraftables[ i ].ID + '" ' + abled + ' ' + checkedVal + ' > </label> <label class="' + classes.Group.Craftable.Label + ' ' + classes.Item.Label + '"> <span class="' + classes.Group.Craftable.Name + '">' + groupCraftables[ i ].Name + '</span> </label> </summary> ' + craftableContent + ' </details> </li>';
+						}
+
+						// Add amount of Craftables to Total Craftable Quantity
+						states.Craftable.Quantity += groupCraftables.length;
+						
+						// Add amount of Crafted Craftables to Total Craftable Crafted
+						states.Craftable.Crafted += totalCrafted;
+						
+						var 
+							// Get Craftables remaining count
+							craftablesRemaining = groupCraftables.length - totalCrafted,
+						
+							// Determine if this Group's Craftables have all been acquired
+							groupComplete = ( ! craftablesRemaining ), 
+							
+							// Non-interactive checkbox
+							abled = property.Disabled,
+							disabled = ( groupComplete ) ? classes.Flag.Disabled : '',
+
+							// Checked value determined by all Group Craftables acquired
+							groupClass = ( groupComplete ) ? classes.Flag.Checked + ' ' + classes.Flag.Disabled : '',
+							
+							// Input Checked value
+							checkedVal = ( groupComplete ) ? property.Checked : '' 
+						;
+						
+						
+						if ( groupComplete )
+							totalGroupsComplete++;
+
+						
+						// If no Group content...
+						if ( groupsContent == '' ) {
+							log( "Skipping empty group!" );
+							
+							// Skip this Group 		
+							continue;
 						}
 						
 						
 						// Skip same-named Category Groups 
-						if ( categoryGroups[ g ].Name !== sourceCategories[ c ].Name ) {
+						if ( categoryGroups[ g ].Name !== sourceCategories[ c ].Name ) {	
 							
 							// End Groups content
 							groupsContent += '</ul>';
 													
 							// Add Category Group Name, Checkbox and Details/Summary to Category content
-							categoryContent += '<li><details class="' + classes.Category.Group.Container + '"> <summary> <label class="' + classes.DeadCheckbox + ' ' + classes.Category.Group.Checkbox + ' ' + classes.Flag.Disabled + '"> ' + html.Icon.Yes + ' <input type="checkbox" class="' + classes.Category.Group.Input + '" name="' + name.Group + '" value="' + categoryGroups[g].ID + '" ' + abled + ' > </label> <span class="' + classes.Category.Group.Name + '">' + categoryGroups[ g ].Name + '</span> </summary>';
+							categoryContent += '<li> <details class="' + classes.Category.Group.Container + ' ' + groupClass + '" > <summary> <label class="' + classes.DeadCheckbox + ' ' + classes.Category.Group.Checkbox + ' ' + disabled + '"> <span class="' + classes.Name.Remaining + '">' + craftablesRemaining + '</span> <input type="checkbox" class="' + classes.Category.Group.Input + '" name="' + name.Group + '" value="' + categoryGroups[g].ID + '" ' + abled + ' ' + checkedVal + ' > </label> <span class="' + classes.Category.Group.Name + '">' + categoryGroups[ g ].Name + '</span> </summary>';
 						}
 						
 						// Add Category Group Content to Category Content 
@@ -855,48 +1205,199 @@
 							categoryContent += '</details> </li>';
 					}
 					
+					// If we got through all that and no Craftables for this Category...
+					if ( categoryContent == '' ) {
+						log ( "Skipping Category because STILL no Craftables!" );
+						
+						// Skip this Category
+						continue;
+					}
+					
+					
+					
+					// Begin generating this Category's Group content
+					categoryContentStart = '<ul class="' + classes.Category.Groups + ' ' + classes.Checkbox.List + ' ' + classes.App.Checkbox.List + '">';
+					
 					// Close this Category's content
-					categoryContent += '</ul>'; 
+					categoryContentEnd = '</ul>';
+					
+					// Combine Category Content with Start and End
+					categoryContent = categoryContentStart + categoryContent + categoryContentEnd;
+					
+					// Prepare to add this Category content to Source content
+					var 						
+						// Get Groups remaining count
+						groupsRemaining = categoryGroups.length - totalGroupsComplete,
+						
+						// Is this Category complete? 
+						categoryComplete = ( groupsRemaining == 0 ),
+						
+						// Category Classes
+						categoryClasses = ( categoryComplete ) ? classes.Flag.Checked + ' ' + classes.Flag.Disabled : '',
+						
+						// Is Category open?
+						//categoryOpen = ( categoryComplete ) ? '' : property.Open, 
+						categoryOpen = '', 
+						
+						// Is Category checked?
+						checkedVal = ( categoryComplete ) ? property.Checked : ''
+					;
+					
+					// Increment total Categories complete counter 
+					if ( categoryComplete )
+						totalCategoriesComplete++;  
 					
 					// Add Category content to Source content 
-					sourceContent += '<details class="' + classes.Source.Category.Container + '"> <summary> <span class="' + classes.Source.Category.Name + ' ' + classes.Source.Category.Name + '">' + sourceCategories[ c ].Name + '</span> </summary> ' + categoryContent + ' </details>';
+					sourceContent += '<details class="' + classes.Source.Category.Container + ' ' + categoryClasses + '" ' + categoryOpen + '> <summary> <label class="' + classes.DeadCheckbox + ' ' + classes.Source.Category.Checkbox + ' ' + categoryClasses + '"> <span class="' + classes.Name.Remaining + '">' + groupsRemaining + '</span> <input type="checkbox" name="" class="' + classes.Source.Category.Input + '" ' + checkedVal + '> </label> <span class="' + classes.Source.Category.Name + '">' + sourceCategories[ c ].Name + '</span> </summary> ' + categoryContent + ' </details>';
 				}
 				
-				// Add this Source to tabs
-				navTabs += '<li class="' + classes.App.Tabs.Nav + '"> <a href="#' + ids.Source.Name + craftable_sources[ l ].Name + '" class="" data-sourceid="' + craftable_sources[ l ].ID + '" data-tabid="' + l + '"> <i class="' + classes.Source.Icons[ craftable_sources[ l ].ID ] + '"> </i> ' + craftable_sources[ l ].Name + '</a> </li>';
+				var
+					// Categories Remaining 
+					categoriesRemaining = sourceCategories.length - totalCategoriesComplete,
+					
+					// Is Source complete?
+					sourceComplete = ( categoriesRemaining == 0 )
+				;
+				
+				// Increment total Sources complete counter
+				if ( sourceComplete ) 
+					totalSourcesComplete++; 
+				
+				// Add this Source to tabs nav
+				navTabs += '<li class="' + classes.App.Tab.Nav.Container + '"> <a href="#' + ids.Source.Name + craftable_sources[ l ].Name + '" class="" data-sourceid="' + craftable_sources[ l ].ID + '" data-tabid="' + l + '"> <div class="' + classes.App.Tab.Nav.Icon + '"> <span class="' + classes.Source.Icons[ craftable_sources[ l ].ID ] + '"> </span> </div> <span>' + craftable_sources[ l ].Name + '</span> </a> </li>';
 				
 				// Add this Source content to tabs content
 				tabs += '<div class="' + classes.Source.Tab + ' ' + classes.Tab.Lucky + '" id="' + ids.Source.Name + craftable_sources[ l ].Name + '"> <h3 class="' + classes.ScreenReader + ' ' + classes.Source.Name + '">' + craftable_sources[ l ].Name + '</h3> <div class="' + classes.Tab.Content + ' ' + classes.Source.Content + '" > ' + sourceContent + ' </div> </div>';					
 			}
 			
+			var progressBarContainer = '<div class="' + classes.Progress.Container + '" id="' + ids.Source.Progress + '"></div>';
+			
 			// Add Tabs and Tab Nav to Tab wrapper
-			tabsWrapper += '<div id="' + ids.Sources.Craftable + '" class="' + classes.App.Section + ' ' + classes.Swiper.Slide + '" > ' + html.Sources.Heading + ' <div id="' + ids.Source.Tabs + '" class="' + classes.Tabs.Container + ' ' + classes.Tabs.Lucky + ' ' + classes.Tabs.Top + '"> <ul class="' + classes.Source.Selector + ' ' + classes.List.Pill + ' ' + classes.App.Tabs.Wrapper + '">' + navTabs + '</ul>' + tabs + '</div> </div>';	 				
+			tabsWrapper += '<div id="' + ids.Sources.Craftable + '" class="' + classes.App.Section + ' ' + classes.Swiper.Slide + '" > ' + html.Sources.Heading + ' ' + progressBarContainer + ' <div id="' + ids.Source.Tabs + '" class="' + classes.Tabs.Container + ' ' + classes.Tabs.Lucky + ' ' + classes.Tabs.Top + '"> <ul class="' + classes.Source.Selector + ' ' + classes.List.Pill + ' ' + classes.App.Tabs.Wrapper + '">' + navTabs + '</ul>' + tabs + '</div> </div>';	 				
 	
 			// Add Tab wrapper to Sections
 			$sections.append( tabsWrapper );
 			
 			// IDENTIFY Source Tabs
 			$div = $( '#' + ids.Source.Tabs );
+			
+			
+			
 
-
-
-
+			
+			
 			
 			// Attach event listeners to Source Tabs
-			_setupSourceActions( data , $div ); 
+			_setupSourceActions( data, $div ); 
+			
+		};
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		// Setup Source Progress Bar
+	
+		var _setupSourceProgressBar = function() {
+			
+			// ABORT if ProgressBar plugin not found
+			if ( typeof ProgressBar == 'undefined' ) {
+				
+				error( 'ProgressBar is undefined!' );
+				
+				return false;
+			}
+			
+			// ABORT if Craftable Quantity is zero
+			if ( states.Craftable.Quantity == 0 ) {
+				
+				error( 'Craftable Quantity is zero!' ); 
+				
+				return false;
+			}
 			
 			
-
+			// Attach ProgressBar.js to Craftable Progress Bar container
+			
+			elements.Source.Progress = new ProgressBar.Line( '#' + ids.Source.Progress, $.extend( plugin.settings.ProgressBars, { 
+	       		
+	       		step: function( state, line ) {
+	    			
+	    			// Set Line Color
+					line.path.setAttribute( 'stroke', state.color );
+					
+					// Set Line Width
+					line.path.setAttribute( 'stroke-width', state.width );
+			
+					var 
+						// Identify Line Value
+						lineValue = line.value(), 
+						
+						// Calulate percentage value
+						value = Math.round( lineValue * 100 ),
+						
+						percentage = value + '%'
+					;
+					
+					line.setText( '<span class="' + classes.Progress.Count + '" > ' + Math.round( states.Craftable.Quantity * lineValue ) + '/' + states.Craftable.Quantity + ' </span> <span class="' + classes.Progress.Percentage + '"> ' + percentage + ' </span>' );
+				}
+				
+			} ) );
+			
+			
+			// Update Craftable Progress Bar
+			_updateCraftableProgressBar();
+			
+		};
+	
+	
+	
+		// Update Craftable Progress Bar
+	
+		var _updateCraftableProgressBar = function() {
+			
+			// Animate Progress Bar
+			elements.Source.Progress.animate( states.Craftable.Progress );
 			
 		};
 	
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 		/////////////////////////////////////////////////////////////////////////
 		// SOURCE Actions
+		
+
 	
-		var _setupSourceActions = function( data , $div ) {
+		var _setupSourceActions = function( data, $div ) {
+			
+			
+			// Setup Source Progress Bar
+			_setupSourceProgressBar();
 			
 			
 			// For every Checkbox...
@@ -910,11 +1411,14 @@
 			
 			
 			
-			// CLICK - Collectable Item Checkbox
-			$( '.' + classes.Collectable.Item.Checkbox, $div ).on( events.Click, function( e ) {
+			// CLICK - Craftable Collectable Checkbox
+			
+			$( '.' + classes.Craftable.Collectable.Checkbox, $div ).on( events.Click, function( e ) {
 				
 				// Don't do anything by default
 				e.preventDefault();
+				
+				log( "Clicked Craftable Collectable checkbox..." );
 				
 				// Variables
 				var 
@@ -925,7 +1429,7 @@
 					checked = $input.prop( property.Checked ),
 					
 					// All including self and siblings
-					$all = $( this ).parent().children(),
+					$all = $( this ).parent().children(), 
 					
 					// All siblings
 					$siblings = $(this).siblings(),
@@ -957,66 +1461,88 @@
 					// Are ANY Collectable Items available?
 					availableAny = ( $availableAnyNotSold.length > 0 ),
 					
-					// Collectable ID is the Input value
-					collectable = $input.val()
+					// Craftable Collectable ID is the Input value
+					craftableCollectable = $input.val(),
+					
+					// Collectable ID 
+					collectable = $input.data('collectable')
 				;
-				
-				// Input clicked logic
+
 				
 				// Input is checked...
-				if ( checked == true ) {
+				
+				if ( checked == true ) { 
+					
+					log( "Checked is true..." );
 					
 					// Uncheck the last checked sibling (might be self)
-					unCheck( $( 'input', $sold.last() ) );
+					uncheck( $( 'input', $sold.last() ) );
 					
 					// And we're done
 					return;
 				}
 				
 				
-				// Input is not Checked...
+				// Input is not Checked... 
 				
-				// Input is available though...
-				if ( availableThis ) {
-	
-					// Check the first non-checked available sibling (might be self)
-					check( $('input', $availableNotSold.first() ) );
+				// Input is available though... 
+				if ( availableThis ) { 
 					
-					// And we're done
-					return;
+					log( "Checkbox is available..." ); 
+	
+					// Check the first non-checked available sibling (might be self) 
+					check( $('input', $availableNotSold.first() ) ); 
+					
+					// And we're done 
+					return; 
 				}
 				
 				
 				// This input is not available...
 				
 				// But some other inputs are available...
-				if ( availableAny ) {
+				if ( availableAny ) { 
+					
+					log( "ANY Checkbox is available..." );
 					
 					// Check first any available and not sold
 					check( $( 'input', $availableAnyNotSold.first() ) );
 					
 					// And we're done
 					return;
-				}
-				
+				} 
+			
 				
 				// Or if no inputs are available... 
 				
-				// Prompt user to confirm collection and sale 
+				log( "No checkboxes are available..." );
 				
-				if ( ! confirm( 'This item has not been collected. Do you want to mark as collected and sell?' ) ) 
-					return;
-					
+				// Prompt user to confirm collection and sale 				
+				//if ( ! confirmBox( 'Do you want to mark as collected and sell?', 'Item has not been collected!' ) ) 
+				//	return;
 				
-				// TODO: Mark collectable as collected before selling 
-				// Involves interacting with the Ingredients View
+				$.confirm( { 
+					title : 'Item has not been collected!', 
+					content : 'Do you want to mark as collected and sell?',
+					type : 'red', 
+					icon: 'fa fa-warning',
+					buttons : {
+						ok : function( ) { 
+							
+							// Collect next available
+							collectNextAvailable( collectable ); 
 				
-	
-	
-				// Check first not sold (might be self)
-				check( $('input', $notSold.first() ) );
+							// Check first not sold (might be self)
+							check( $('input', $notSold.first() ) );
+							
+						}, 
+						cancel : function() {
+							
+						},
+					},
+				} );
 				
-				
+
 				// And now we're really done
 			});
 			
@@ -1027,7 +1553,7 @@
 			
 			$( '.' + classes.Craftable.Collectable.Input, $div ).on( events.Change, function( e ) { 
 				
-				e.preventDefault();
+				//e.preventDefault();
 				
 				// Activate Updating Flag
 				_activateUpdatingFlag();
@@ -1040,56 +1566,75 @@
 				// Add clicked registry to data
 				data = $.extend( data, clicked );
 				
-				// Submit Craftable Collectable
-				_submitCollectable( data ) ;
+				// Submit Craftable Collectable 
+				_submitCollectable( data ); 
 				
 				
 				
-				// Siblings 
+				// Siblings and parent
 				
 				var 
 					// Identify the parent list
 					$checkboxList = $( this ).parentsUntil( '.' + classes.App.Checkbox.List ).parent(),
 					
-					// Identify the Collectable Item 
-					$collectableItem = $checkboxList.parentsUntil( 'details' ).parent(), 
+					// Identify the parent Craftable
+					$craftable = $checkboxList.parent(), 
 					
-					// Identify the Collectable Item Summary
-					$collectableItemSummary = $( 'summary', $collectableItem ),
+					// Identify the parent Craftable Summary
+					$craftableSummary = $( '> summary', $craftable ),
 					
-					// Identify the Collectable Item Checkbox 
-					$collectableItemCheckbox = $( 'label', $collectableItemSummary ),
+					// Identify the parent Craftable Checkbox 
+					$craftableCheckbox = $( '> label', $craftableSummary ),
 					
-					// Identify the Collectable Item Input 
-					$collectableItemCheckboxInput = $( 'input', $collectableItemCheckbox ),
+					// Identify Craftable remaining element
+					$craftableRemaining = $( '> .' + classes.Name.Remaining, $craftableCheckbox );
+					
+					// Identify the parent Craftable Input 
+					$craftableCheckboxInput = $( '> input', $craftableCheckbox ),
 					
 					// Identify unchecked inputs 
-					unchecked = $( 'input', $checkboxList ).not( ':' + property.Checked ).length
+					unchecked = $( '.' + classes.Craftable.Collectable.Input, $checkboxList ).not( ':' + property.Checked ).length,
+					
+					// Collectable ID 
+					collectable = $( this ).data( 'collectable' )
 				;
 				
 				
-				// If this is Checked
+				// Update Craftable Remaining count
+				$craftableRemaining.text( unchecked );
+				
+				
+				// If this is Checked...
+				
 				if ( $( this ).prop( property.Checked ) ) {
+					
+					log( "This is checked...");
+					
+					// Disable the next collected Collectable
+					disableNextCollectable( collectable );
 					
 					// Add Checked class to parent label 
 					$( this ).parent().addClass( classes.Flag.Checked );
 					
+					
+					
 					// ABORT if there are still unchecked siblings...
 					if ( unchecked )
-						return;
+						return; 
+
+					// Add Disabled class to the whole Craftable element
+					$craftable.addClass( classes.Flag.Disabled );
 					
-					// Make the parent Collectable Item "craftable" 
-					$collectableItemSummary
-						.removeClass( classes.Flag.Disabled );
+					// Make the parent Craftable "craftable" 
+					$craftableSummary.removeClass( classes.Flag.Disabled );
 					
 					// Make Checkbox "craftable"
-					$collectableItemCheckbox
+					$craftableCheckbox
 						.removeClass( classes.Flag.Disabled )
 						.addClass( classes.Flag.Available );
 						
 					// Make Input "abled"
-					$collectableItemCheckboxInput
-						.prop( property.Disabled, '');
+					$craftableCheckboxInput.prop( property.Disabled, '');
 					
 					// And we're done...
 					return;
@@ -1097,47 +1642,60 @@
 				
 				
 				// If this is NOT Checked
+				log( "This is unchecked...");
+				
+				// Un-disable the last disabled Collectable
+				undisableLastCollectable( collectable );
 				
 				// Remove Checked class from parent label 
 				$( this ).parent().removeClass( classes.Flag.Checked );
 				
-				// ABORT if there are other unchecked...
-				if ( unchecked > 1 )
-					return;
+				/*
+				var unchecked = $( '.' + classes.Craftable.Collectable.Input, $checkboxList ).not( ':' + property.Checked ).length;
 				
-				// Make the parent Collectable Item "un-craftable"						
-				$collectableItemSummary
-					.addClass( classes.Flag.Disabled );
+				// ABORT if there are other unchecked...
+				if ( unchecked > 0 ) {
+					log( "Other unchecked...");
+					return;
+				}
+				*/
+				
+				
+				// Make the parent Craftable "un-craftable"						
+				$craftableSummary.addClass( classes.Flag.Disabled );
 				
 				// Make the Checkbox "un-craftable"
-				$collectableItemCheckbox
+				$craftableCheckbox
 					.addClass( classes.Flag.Disabled )
 					.removeClass( classes.Flag.Available );
 				
 				// Make the Input disabled
-				$collectableItemCheckboxInput
-					.prop( property.Disabled, property.Disabled);
+				$craftableCheckboxInput.prop( property.Disabled, property.Disabled);
 				
+				// Uncheck Craftable (as it cannot possibly be crafted)
+				uncheck( $craftableCheckboxInput );
 				
 				// And we're really done
 			});
 			
 			
 			
+			
 			// CLICK - Category Group Item Checkbox
+			
 			$( '.' + classes.Category.Group.Checkbox, $div ).on( events.Click, function(e) {
 				
 				// Prevent any default actions
 				e.preventDefault();
 				
 				// Trigger click on parent
-				$(this).parent()
-					.click();
+				$(this).parent().click();
 			});
 			
 			
 			
 			// CLICK - Group Craftable Item Checkbox
+			
 			$( '.' + classes.Group.Craftable.Checkbox, $div ).on( events.Click, function( e ) { 
 				
 				// Don't do anything by default
@@ -1147,49 +1705,80 @@
 				
 				// Variables
 				var 
+					// Identify the parent list
+					$checkboxList = $( this ).parentsUntil( '.' + classes.App.Checkbox.List ).parent(),
+					
+					// Identify the parent Group
+					$group = $checkboxList.parentsUntil( 'details' ).parent(), 
+					
+					// Identify the parent Group Summary
+					$groupSummary = $( '> summary', $group ),
+					
+					// Identify the parent Group Checkbox 
+					$groupCheckbox = $( '> label', $groupSummary ),
+					
+					// Identify Group Remaining
+					$groupRemaining = $( '> .' + classes.Name.Remaining, $groupCheckbox );
+					
 					// Identify child Input
-					$input = $( 'input', $( this ) ),
+					$input = $( '> input', $( this ) ),
 					
 					// Get checked value
 					checked = $input.prop( property.Checked ),
 					
 					// Get availability
-					availableThis = $( this ).hasClass( classes.Flag.Available )
+					availableThis = $( this ).hasClass( classes.Flag.Available ),
+					
+					// Identify the parent Craftable
+					$craftable = $( this ).parentsUntil( 'details' ).parent(),
+					
+					// Identify unchecked inputs 
+					unchecked = $( '.' + classes.Group.Craftable.Input, $checkboxList ).not( ':' + property.Checked ).length
 				;
 				
 				// Is checked...
 				if ( checked == true ) {
 					
 					// Uncheck the input
-					unCheck( $input );
-					
-					// And we're done
-					return;
+					uncheck( $input );
 				}
 				
 				
 				// Is not checked...
 				
 				// Is not available
-				if ( ! availableThis ) {
+				else if ( ! availableThis ) {
 					
 					// Click the parent label
 					$( this ).parent()
 						.click();
-					
-					// And we're done
-					return;
 				}
 				
 				
 				// Is available though...
+				else {
+					// Prompt user to confirm purchase of item 
+					//if ( !confirm( 'Are you sure you wish to purchase this item?' ) ) 
+					//	return;
+		
+					// Check this
+					check( $input );
+					
+					// Close this Craftable
+					$craftable.prop( property.Open, '' ); 
+					
+					// Change Craftable from Available to Disabled
+					$craftable
+						.removeClass( classes.Flag.Available )
+						.addClass( classes.Flag.Disabled )
+					;
+				}
 				
-				// Prompt user to confirm purchase of item 
-				//if ( !confirm( 'Are you sure you wish to purchase this item?' ) ) 
-				//	return;
-	
-				// Check this
-				check( $input );
+				// Identify unchecked inputs 
+				var unchecked = $( '.' + classes.Group.Craftable.Input, $checkboxList ).not( ':' + property.Checked ).length;
+				
+				// Update Group Remaining
+				$groupRemaining.text( unchecked );
 				
 				
 				// And now we're really done
@@ -1197,32 +1786,23 @@
 			
 			
 			
+			
 			// CHANGE - Group Craftable Input
+			
 			$( '.' + classes.Group.Craftable.Input, $div ).on( events.Change, function( e ) { 
 				
 				// Prevent any default actions
 				e.preventDefault();
 				
-				log( "Group Craftable changed!" );
-				
-				// Get checked property
-				var checked = $( this ).prop( property.Checked );
-				
-				// If this is checked
-				if ( checked ) 
-					// Add checked flag to parent
-					$( this ).parent().addClass( classes.Flag.Checked );
-					
-				// Otherwise
-				else
-					// Remove checked flag from parent
-					$( this ).parent().removeClass( classes.Flag.Checked );
-			
+				log( "Craftable input changed!" );
 				
 				// ACTIVATE Updating Flag
 				_activateUpdatingFlag();
 				
 				//log(player_game_crafted, false);
+				
+				// Get checked property
+				var checked = $( this ).prop( property.Checked );
 			
 				// Register clicked
 				clicked = {
@@ -1233,8 +1813,101 @@
 				// Add clicked registry to data
 				data = $.extend( data, clicked );
 				
+
+				var 
+				
+					// Identify self Details container
+					$craftable = $( this ).parentsUntil( 'details' ).parent(),
+					
+					// Identify the parent list
+					$checkboxList = $( this ).parentsUntil( '.' + classes.App.Checkbox.List ).parent(),
+					
+					// Identify the parent Group
+					$group = $checkboxList.parentsUntil( 'details' ).parent(), 
+					
+					// Identify the parent Craftable Summary
+					$groupSummary = $( '> summary', $group ),
+					
+					// Identify the parent Craftable Checkbox 
+					$groupCheckbox = $( '> label', $groupSummary ),
+					
+					// Identify the parent Craftable Input 
+					$groupCheckboxInput = $( '> input', $groupCheckbox ),
+					
+					// Identify unchecked inputs 
+					unchecked = $( 'input', $checkboxList ).not( ':' + property.Checked ).length
+				;
+				
+				// Parents
+				
+				// If this is checked
+				if ( checked ) {
+					
+					// Increase State of Craftables Crafted by 1
+					states.Craftable.Crafted = states.Craftable.Crafted + 1; 					
+					
+					// UPDATE Craftable with clicked data
+					_updateCraftable( data ) ;
+					
+					// Add checked flag to parent
+					$( this ).parent().addClass( classes.Flag.Checked );
+					
+					// Collapse the Collectables list
+					
+					
+					if ( unchecked )
+						return;
+					
+					// If all are checked...
+					
+					// Add disabled flag to parent
+					//$( this ).parent().addClass( classes.Flag.Disabled );
+					
+					// Check Group Checkbox
+					$groupCheckbox.addClass( classes.Flag.Checked );
+					
+					// Mark Group Checkbox as disabled
+					$groupCheckbox.addClass( classes.Flag.Disabled );
+						
+					// Mark Group as disabled
+					$group.addClass( classes.Flag.Disabled );
+					
+					// Check the Group input
+					$groupCheckboxInput.prop( property.Checked, property.Checked );
+					
+					// Collapse Craftable
+					$craftable.removeAttr( property.Open );
+					
+					// Close the now-Completed Group
+					$group.removeAttr( property.Open );
+					
+					
+					return;
+				
+				}
+				
+				// NOT checked ...
+				
+				// Decrease State of Craftables Crafted by 1
+				states.Craftable.Crafted = states.Craftable.Crafted - 1; 					
+				
 				// UPDATE Craftable with clicked data
 				_updateCraftable( data ) ;
+				
+				
+				// Remove checked flag from parent
+				$( this ).parent().removeClass( classes.Flag.Checked );
+				
+				// Uncheck the Group as InComplete
+				$groupCheckbox.removeClass( classes.Flag.Checked );
+				
+				// UnMark Group as disabled
+				$group.removeClass( classes.Flag.Disabled );
+				
+				// UnCheck the Group input
+				$groupCheckboxInput.removeAttr( property.Checked );
+				
+
 				
 			});
 	
@@ -1284,7 +1957,7 @@
 				// Ingredient Types Heading 
 				heading = '<h3 class="' + classes.ScreenReader + '">Collectables</h3>',
 				
-				// Open Tabs wrapper
+				// Open Tabs wrapper 
 				tabsWrapper = '',
 				
 				// Open Tab Nav
@@ -1321,8 +1994,11 @@
 				for ( var n = 0; n < typeIngredients.length; n++ ) {
 					
 					var
+						// Ingredient ID
+						ingredientID = typeIngredients[ n ].ID,
+						
 						// Get Collectables matching this Ingredient 
-						ingredientCollectables = collectables.filter( function( obj ) { return obj.Ingredient == typeIngredients[ n ].ID; } ),
+						ingredientCollectables = collectables.filter( function( obj ) { return obj.Ingredient == ingredientID; } ),
 						
 						// Total Collectable count starts at zero 
 						totalCollectable = 0,
@@ -1336,7 +2012,7 @@
 						// Open Ingredients content
 						ingredientsContent = '',
 						
-						// Opent Collectables Content
+						// Open Collectables Content
 						collectablesContent = ''
 					;
 					
@@ -1348,6 +2024,9 @@
 					for ( var c = 0; c < ingredientCollectables.length; c++ ) {
 						
 						var 
+							// Collectable ID
+							collectable = ingredientCollectables[ c ].ID,
+							
 							// Get Ingredient name
 							ingredient = ingredients.filter( function( obj ) { return obj.ID == ingredientCollectables[ c ].Ingredient; } )[ 0 ],
 							
@@ -1357,24 +2036,74 @@
 							// Get Quality info
 							quality = ingredient_qualities.filter( function( obj ) { return obj.ID == ingredientCollectables[ c ].Quality; })[ 0 ],
 							
-							// Get Craftables matching this Collectable
-							collectableCraftables = craftable_collectables.filter( function(obj) { return obj.Collectable == ingredientCollectables[ c ].ID; } ),
+							// Get this Craftable Collectables matching this Collectable
+							craftableCollectables = craftable_collectables.filter( function( obj ) { return obj.Collectable == collectable; } ),
 							
 							// Get Collectable Quantity from Craftables
-							quantity = ( ingredientCollectables[ c ].Quality == 2 ) ? 1 : sumColumn( collectableCraftables, 'Quantity' ),
+							quantity = 
+								// If the Quality is "Unique" the quantity is 1 
+								( ingredientCollectables[ c ].Quality == 2 ) ? 1 
+								
+								// Otherwise get the sum total of the Quality colum from craftableCollectables
+								: sumColumn( craftableCollectables, 'Quantity' ),
 							
 							// Get Collected Collectables
-							collectableCollected = player_game_collected.filter( function( obj ) { return obj.Collectable == ingredientCollectables[ c ].ID; } )[0],
+							collectableCollected = player_game_collected.filter( function( obj ) { return obj.Collectable == collectable; } )[ 0 ],
 							
 							// Get Quantity of Collected 
-							quantityCollected = ( typeof collectableCollected !== 'undefined' ) ? collectableCollected.Collected : 0
+							quantityCollected = ( typeof collectableCollected !== 'undefined' ) ? collectableCollected.Collected : 0,
+							
+							
+							collectableSubmitted = [],
+							
+							// Quantity submitted starts at zero
+							quantitySubmitted = 0
 						;
 						
+						
+						// For each Craftable Collectable matching this Collectable
+						for ( var i = 0; i < craftableCollectables.length; i++ ) {
+							
+							var
+								// Get Submitted Collectables 
+								submittedCollectables = player_game_submitted.filter( function( obj ) { return obj.CraftableCollectable == craftableCollectables[ i ].ID; } )
+							;
+							
+							if ( ! submittedCollectables ) 
+								continue;
+							
+							if ( submittedCollectables.length == 0 ) 
+								continue; 
+							
+							var 
+								// Flatten Submitted Collectables
+								submittedCollectablesFlat = flatten( submittedCollectables )
+							;
+							
+							if ( submittedCollectablesFlat.length == 0 ) 
+								continue; 
+							
+							collectableSubmitted.push( submittedCollectablesFlat );
+						}
+						
+						
+						// Sum Quantity Submitted
+						var quantitySubmitted = ( collectableSubmitted.length ) ? sumColumn( collectableSubmitted, 'Quantity' ) : 0;
+						
+						// Add amount of Submitted Collectables to Total Collectables Submitted
+						states.Collectable.Submitted += quantitySubmitted;
+						
 						// Increment Total Collectable
-						totalCollectable = totalCollectable + parseInt( quantity );
+						totalCollectable += parseInt( quantity );
+						
+						// Add amount of Collectables to Total Collectable Quantity
+						states.Collectable.Quantity += totalCollectable;
 						
 						// Increment Total Collected
-						totalCollected = totalCollected + parseInt( quantityCollected );
+						totalCollected += parseInt( quantityCollected );
+						
+						// Add amount of Collected Collectables to Total Collectables Collected
+						states.Collectable.Collected += totalCollected;
 						
 						// Increment Total Remaining
 						totalRemaining = totalCollectable - totalCollected;
@@ -1400,37 +2129,57 @@
 						// For each Item of Collectable
 						for ( var q = 0; q < quantity; q++ ) {
 							
-							// Is Checked if we still haven't gone past quantity collected
-							var checkedVal = ( q < quantityCollected ) ? property.Checked : '';	
+							var
+								// Is Checked if we still haven't gone past quantity collected 
+								checkedVal = ( q < quantityCollected ) ? property.Checked : '',
+								
+								// Is Disabled if we still haven't gone past quantity submitted
+								disabledVal = ( ( quantitySubmitted > 0 ) && ( q < quantitySubmitted ) ) ? property.Disabled : '',
+								
+								disabledClass = ( quantitySubmitted > 0 && q < quantitySubmitted ) ? classes.Flag.Disabled : '' 
+							;
 							
 							// Add checkbox for this Item to Collectables content
-							collectablesContent += '<label class="' + classes.DeadCheckbox + ' ' + classes.Collectable.Item.Checkbox + '"> ' + html.Icon.Yes + ' <input type="checkbox" name="' + name.Collectable + '" class="' + classes.Collectable.Input + '" value="' + ingredientCollectables[ c ].ID + '" ' + checkedVal + ' > </label>';
+							collectablesContent += '<label class="' + classes.DeadCheckbox + ' ' + classes.Collectable.Item.Checkbox + ' ' + disabledClass + '"> <input type="checkbox" name="' + name.Collectable + '" class="' + classes.Collectable.Item.Input + '" value="' + collectable + '" ' + checkedVal + ' ' + disabledVal + ' > </label>';
 						}
 						
 						// End Collectables content for this Ingredient
 						collectablesContent += '</li>';
+						
 						collectablesContent += '</ul>';
 					}
 					
-					// Flag Ingredient as disabled if Total Remaining is zero 
-					var ingredientClasses = ( totalRemaining == 0 ) ? classes.Flag.Disabled : '';
+					 
+					var
+						// Flag Ingredient as disabled if Total Remaining is zero 
+						ingredientContainerClasses = ( totalRemaining == 0 ) ? classes.Flag.Disabled : '',
+						
+						// Unique class 
+						ingredientContainerClass = classes.Ingredient.Container + '-' + ingredient.Name.replace(/ /g, '_' ).toLowerCase(),
+						
+						// Unique ID
+						ingredientContainerID = capitalize( classes.Ingredient.Container ) + ingredient.Name.replace(/ /g, '' )
+					;
 					
 					// Add Collectables Content to Ingredient content
-					ingredientsContent += '<details class="' + classes.Ingredient.Container + ' ' + ingredientClasses + ' " data-ingredient="' + typeIngredients[ n ].ID + '" data-ingredienttype="' + ingredientTypes[ t ].ID + '" data-remaining="' + totalRemaining + '"> <summary> <span class="' + classes.Name.Ingredient + '">' + ingredient.Name + '</span> <span class="' + classes.Name.Remaining + '">' + totalRemaining + '</span> </summary> ' + collectablesContent + ' </details>';
+					ingredientsContent += '<details class="' + classes.Ingredient.Container + ' ' + ingredientContainerClass + ' ' + ingredientContainerClasses + '" data-ingredient="' + ingredientID + '" data-ingredienttype="' + ingredientTypes[ t ].ID + '" data-remaining="' + totalRemaining + '" id="' + ingredientContainerID + '"> <summary> <label class="' + classes.DeadCheckbox + ' ' + classes.Ingredient.Checkbox + '"><span class="' + classes.Name.Remaining + '">' + totalRemaining + '</span></label> <span class="' + classes.Name.Ingredient + '">' + ingredient.Name + '</span> </summary> ' + collectablesContent + ' </details>';
 					
-					// Add Ingredient content to Types content
+					// Add Ingredient content to Types content 
 					typesContent += ingredientsContent;
 				}
 				
 				// Add this Ingredient Type to Tab Nav
-				navTabs += '<li class="' + classes.Ingredient.Type.Tab.Nav + ' ' + classes.App.Tabs.Nav + '"><a href="#' + ids.Type.Name + ingredient_types[ t ].Plural + '" class="" data-typeid="' + ingredient_types[ t ].ID + '" data-tabid="' + t + '"> <i class="' + typeIcons[ ingredient_types[ t ].ID ] + '"></i> ' + ingredient_types[ t ].Plural + '</a> </li>';
+				navTabs += '<li class="' + classes.Ingredient.Type.Tab.Nav + ' ' + classes.App.Tab.Nav.Container + '"><a href="#' + ids.Type.Name + ingredient_types[ t ].Plural + '" data-typeid="' + ingredient_types[ t ].ID + '" data-tabid="' + t + '"> <div class="' + classes.App.Tab.Nav.Icon + '" > <span class="' + typeIcons[ ingredient_types[ t ].ID ] + '"> </span> </div> <span>' + ingredient_types[ t ].Plural + ' </span> </a> </li>';
 				
 				// Add this Ingredient Type to Tab content
 				tabs += '<div class="' + classes.Ingredient.Type.Tab.Content + ' ' + classes.Tab.Lucky + '" id="' + ids.Type.Name + ingredient_types[ t ].Plural + '"><h3 class="' + classes.Ingredient.Type.Name + ' ' + classes.ScreenReader + '">' + ingredient_types[ t ].Plural + '</h3> <div class="' + classes.Tab.Content + '">' + typesContent + '</div> </div>';
 			}
 			
+			
+			var progressBarContainer = '<div class="' + classes.Progress.Container + '" id="' + ids.Ingredient.Progress + '"></div>';
+			
 			// Add all Tabs content to Tabs wrapper
-			var tabsWrapper = '<div id="' + ids.Ingredient.Types + '" class="' + classes.App.Section + ' ' + classes.Swiper.Slide + '">' + heading + '<div id="' + ids.Collectable.Tabs + '" class="' + classes.Tabs.Container + ' ' + classes.Tabs.Lucky + ' ' + classes.Tabs.Top + '"><ul class="' + classes.Source.Selector + ' ' + classes.List.Pill + ' ' + classes.App.Tabs.Wrapper + '">' + navTabs + '</ul>' + tabs + '</div></div>';	 				
+			var tabsWrapper = '<div id="' + ids.Ingredient.Types + '" class="' + classes.App.Section + ' ' + classes.Swiper.Slide + '">' + heading + ' ' + progressBarContainer + ' <div id="' + ids.Collectable.Tabs + '" class="' + classes.Tabs.Container + ' ' + classes.Tabs.Lucky + ' ' + classes.Tabs.Top + '"><ul class="' + classes.Source.Selector + ' ' + classes.List.Pill + ' ' + classes.App.Tabs.Wrapper + '">' + navTabs + '</ul>' + tabs + '</div></div>';	 				
 			
 			// APPEND all content to Sections
 			$sections.append( tabsWrapper );
@@ -1454,6 +2203,91 @@
 		
 		
 		
+		// Setup Ingredient Progress Bar
+		
+		var _setupIngredientProgressBar = function() { 
+
+			// ABORT if ProgressBar plugin not found
+			if ( typeof ProgressBar == 'undefined' ) {
+				
+				error( 'ProgressBar is undefined!' );
+				
+				return false;
+			}
+			
+			// ABORT if Collectable Quantity is zero
+			if ( states.Collectable.Quantity == 0 ) {
+				
+				error( 'Collectable Quantity is zero!' ); 
+				
+				return false;
+			}
+
+
+			// Attach ProgressBar.js to Collectable Progress Bar Container
+
+			elements.Collectable.Progress = new ProgressBar.Line( '#' + ids.Ingredient.Progress, $.extend( plugin.settings.ProgressBars, { 
+	       		
+	       		step: function( state, line ) {
+	    			
+	    			// Set Line Color
+					line.path.setAttribute( 'stroke', state.color );
+					
+					// Set Line Width
+					line.path.setAttribute( 'stroke-width', state.width );
+			
+					var 
+						// Identify Line Value
+						lineValue = line.value(), 
+						
+						// Calulate percentage value
+						value = Math.round( lineValue * 100 ),
+						
+						// Percentage string
+						percentage = value + '%'
+					;
+					
+					line.setText( '<span class="' + classes.Progress.Count + '" > ' + Math.round( states.Collectable.Quantity * lineValue ) + '/' + states.Collectable.Quantity + ' </span> <span class="' + classes.Progress.Percentage + '"> ' + percentage + ' </span>' );
+				}
+				
+			} ) );
+			
+			
+			// Update Collectable Progress Bar
+			_updateCollectableProgressBar(); 
+			
+			
+		};
+		
+		
+		
+		// Update Collectable Progress Bar
+		
+		var _updateCollectableProgressBar = function() {
+			
+			elements.Collectable.Progress.animate( states.Collectable.Progress );  
+			
+		};
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		/////////////////////////////////////////////////////////////////////////
 		// Setup Ingredient Actions
@@ -1461,7 +2295,14 @@
 		var _setupIngredientActions = function( data, $div ) { 
 			
 			
+			// Setup Ingredient Progress Bar
+			
+			_setupIngredientProgressBar();
+			
+			
+			
 			// SETUP - Checkboxes
+			
 			$( '.' + classes.DeadCheckbox, $div ).each( function() {
 				 
 				// If the Input is checked
@@ -1479,134 +2320,13 @@
 					// Prevent any default action
 					e.preventDefault();
 					
-					var 
-						// Identify child Input to variable
-						input = $( 'input', $( this ) ), 
-						
-						// Open Collectable
-						collectable = '', 
-						
-						// Get checked value
-						checked = ( input.prop( property.Checked ) == true ),
-						
-						// Get Collectable ID 
-						collectable = input.val(),
-						
-						// Identify Source Tabs 
-						$source = $( '#' + ids.Source.Tabs ),
-						
-						// Previous Collectable starts as false 
-						$prevCollectable = false 
-					;
-					
-					// Ingredient quantity clicked is currently checked
-					if ( checked == true ) { 
-						
-						// UNCHECK last checked siblings (may be self)
-						$( 'input:' + property.Checked, $( this ).parent() ).last() 
-							.prop( property.Checked, '' ) 
-							.trigger( events.Change ); 
-						
-						// ABORT if no Source found
-						if ( ! $source.length )
-							return;
-						
-						// Identify Collectable's unchecked Items
-						$collectable = $( classes.Collectable.Input + '[value=' + collectable + ']:not(:' + property.Checked + ')', $source );
-						
-						//log($collectable, false);
-						
-						// ABORT if there are no unchecked collectable items
-						if ( ! $collectable )
-							return;
-						
-						// Otherwise remove the Available flag from the last unchecked sibling
-						$collectable.last().parent().removeClass( classes.Flag.Available );
-										
-					} 
-					
-					
-					// Ingredient not currently checked
-					else {
-						log ( "Ingredient not currently checked..." );
-						
-						// Identify Next Input that is not checked
-						var next = $( 'input', $(this).parent() ).not( ':' + property.Checked ).first(); 
-						
-						// If this element is the same as next
-						if ( input == next )
-							// Check this element
-							input
-								.prop( property.Checked, property.Checked )
-								.trigger( events.Change );
-								
-						// Otherwise							
-						else
-							// Check the next element 
-							next
-								.prop( property.Checked, property.Checked )
-								.trigger( events.Change );
-						
-						// ABORT if no Source is found
-						if ( ! $source.length ) {
-							
-							error( "No source found!" );
-							
-							return;
-							
-						}
-						
-						// Identify Collectable input items
-						$collectable = $( classes.Collectable.Input + '[value=' + collectable + ']', $source );
-						
-						// ABOUT if no Collectable input items found
-						if ( ! $collectable ) {
-							error( "No Collectable input items found!" );
-							
-							return;
-						}
-							
-						//log($collectable, false);
-						
-						var curItem = false;
-						
-						// For each Collectable
-						$collectable.each(function() {
-							
-							// Do nothing if the current Collectable is Available
-							if ( $( this ).parent().hasClass( classes.Flag.Available ) )
-								return;
-							
-							// Identify the Craftable this Collectable belongs to
-							var item = $( this ).data( 'item' );
-							
-							// ABORT if item equals curItem 
-							if ( item == curItem ) 
-								return;
-							
-							// Add Available class to the parent							
-							$( this ).parent()
-								.addClass( classes.Flag.Available );
-							
-							// Register curItem as this item
-							curItem = item;
-						}); 
-					}
-					
-					
-					// Get updated number of remaining
-					var remainingIngredients = getRemaining( $( this ) ); 
-					
-					//log(remainingIngredients);
-					
-					// Update the Remaining amount
-					updateRemaining( $( this ), remainingIngredients );
-					
 				});
 			});
 			
 			
+			
 			// CHANGE - Input
+			
 			$( 'input', $( '.' + classes.DeadCheckbox, $div ) ).on( events.Change, function( e ) {
 				
 				// If this is checked 
@@ -1622,29 +2342,197 @@
 	
 			
 			
-			// CHANGE - Collectable 
-			$( '.' + classes.Collectable.Input, $div ).on( events.Change, function() {
+			// CLICK - Collectable Item Checkbox
+			
+			$( '.' + classes.Collectable.Item.Checkbox, $div ).on( events.Click, function() {
+				
+				var 
+					// Identify child Input to variable
+					input = $( 'input', $( this ) ), 
+					
+					// Get checked value
+					checked = ( input.prop( property.Checked ) == true ),
+					
+					// Get Collectable ID 
+					collectable = input.val(), 
+					
+					// Identify Source Section 
+					$source = $( '#' + ids.Source.Tabs ), 
+					
+					// Previous Collectable starts as false 
+					$prevCollectable = false 
+				;
+				
+				
+				// Collectable item clicked is currently checked 
+				
+				if ( checked == true ) { 
+					
+					log ( "Collectable Item is currently checked..." );
+					
+					// UNCHECK last checked sibling (may be self)
+					$( 'input:' + property.Checked, $( this ).parent() ).last() 
+						.prop( property.Checked, '' ) 
+						.trigger( events.Change ); 
+					
+					return;
+				} 
+				
+				
+				// Ingredient not currently checked
+
+				log ( "Collectable not currently checked..." );
+				
+				// CHECK first unchecked sibling (may be self)
+				$( 'input', $( this ).parent() ).not( ':' + property.Checked ).first() 
+					.prop( property.Checked, property.Checked )
+					.trigger( events.Change ); 
+
+			});
+			
+			
+			
+			// CHANGE - Collectable Item Input
+			
+			$( '.' + classes.Collectable.Item.Input, $div ).on( events.Change, function() {
+				
+				var
+					collectable = $( this ).val(),
+					
+					// Identify Source Section 
+					$source = $( '#' + ids.Source.Tabs ),
+					
+					currentCraftable = false
+				;
+				
+				// UPDATING FLAG
 				
 				// Activate the Updating flag
 				_activateUpdatingFlag();
 				
+				
+				// DATABASE
+				
 				// Register this collectable to clicked object
 				clicked = {
-					collectable: $( this ).val()
+					collectable: collectable
 				};
 				
 				// Add clicked info to data
-				data = $.extend( data, clicked );
+				data = $.extend( data, clicked );				
 				
 				
+				
+				
+				// REMAINING 
+				
+				// Get updated number of remaining
+				var remainingIngredients = getRemaining( $( this ).parent() ); 
+				
+				// Update the Remaining amount 
+				updateRemaining( $( this ).parent(), remainingIngredients );
+				
+				
+				// CRAFTABLE COLLECTABLES
+				
+				// ABORT if no Source is found
+				if ( ! $source.length ) { 
+					
+					error( "No source found!" );
+					
+					return;
+				}
+				
+				
+				// If this Input IS NOT checked...
+				
+				if ( $( this ).prop( property.Checked ) == undefined || $( this ).prop( property.Checked ) == '' ) {
+					
+					// Decrease State of Collected Collectables by 1
+					states.Collectable.Collected = states.Collectable.Collected - 1;
+					
+					// Update Collectable to db using data
+					_collectCollectable( data ) ;
+					
+					// Identify Craftable Collectables referencing this Collectable
+					// any that doesn't have an available flag
+					$craftableCollectables = $( '.' + classes.Craftable.Collectable.Input + '[data-collectable=' + collectable + ']:not(.' + classes.Flag.Available + ')', $source );
+					
+					// ABORT if no Craftable Collectables found
+					if ( ! $craftableCollectables ) {
+						error( "No matching Craftable Collectable inputs found!" );
+						return;
+					}
+					
+					// For each Craftable Collectable
+					$( $craftableCollectables.get().reverse() ).each( function() {
+						
+						// Identify the Craftable this Collectable belongs to
+						var craftable = $( this ).data( 'craftable' ); 
+						
+						// ABORT if craftable equals currentCraftable 
+						if ( craftable == currentCraftable ) 
+							return;
+						
+						log( "Making last available Collectable " + collectable + " 'unavailable' of Craftable " + craftable );
+						
+						// Add Available class to the parent 
+						$( this ).parent() 
+							.removeClass( classes.Flag.Available ); 
+						
+						// Register currentCraftable as this craftable
+						currentCraftable = craftable;
+					}); 
+					
+					return;
+				}
+				
+				// This Input IS checked...
+				 
+				// Increase State of Collected Collectables by 1
+				states.Collectable.Collected = states.Collectable.Collected + 1;
 				
 				// Update Collectable to db using data
 				_collectCollectable( data ) ;
+				 
+				
+				// Update Craftable Collectables with 1 new available 
+				
+				// Identify Craftable Collectables referencing this Collectable
+				$craftableCollectables = $( '.' + classes.Craftable.Collectable.Input + '[data-collectable=' + collectable + ']', $source ).not( '.' + classes.Flag.Available );
+				
+				// ABOUT if no Craftable Collectables found
+				if ( ! $craftableCollectables ) {
+					error( "No matching Craftable Collectable inputs found!" );
+					return;
+				}
+				
+				// For each Craftable Collectable
+				$craftableCollectables.each( function() {
+					
+					// Identify the Craftable this Collectable belongs to
+					var craftable = $( this ).data( 'craftable' ); 
+					
+					// ABORT if craftable equals currentCraftable 
+					if ( craftable == currentCraftable ) 
+						return;
+					
+					log( "Making first unavailable Collectable " + collectable + " 'available' of Craftable " + craftable );
+					
+					// Add Available class to the parent 				
+					$( this ).parent()
+						.addClass( classes.Flag.Available ); 
+					
+					// Register currentCraftable as this craftable
+					currentCraftable = craftable;
+				}); 
+				
 			});
 			
 			
 					
 			// Setup Tabs
+			
 			setupTabs( $div );
 			
 		};
@@ -1652,6 +2540,120 @@
 		
 		
 		
+		
+		
+		// Collect next available ingredient
+		
+		var collectNextAvailable = function( collectable ) {
+			
+			log( "Attempt to collect next available Collectable" );
+			
+			// ABORT if no Collectable ID passed
+			if ( ! collectable ) {
+				
+				error( "No collectable ID passed!" );
+				 
+				return false;
+			}
+			
+			log( "Collecting next available Collectable ID: " + collectable );
+			
+			// Identify Next Input that is not checked
+			var $next = $( 'input.' + classes.Collectable.Item.Input + '[value=' + collectable + ']' ).not( ':' + property.Checked ).first(); 
+			
+			// ABORT if no uncollected found
+			if ( ! $next.length ) {
+			
+				error( "Could not get next unchecked collectable!" );
+				
+				return false;
+			}
+			
+			// Check next unchecked collectable input
+			$next
+				.prop( property.Checked, property.Checked )
+				.trigger( events.Change );
+			
+			// Add Disabled flag to parent checkbox
+			$next.parent()
+				.addClass( classes.Flag.Disabled );
+		};
+
+
+
+		// Disable Next Collected Collectable
+		
+		var disableNextCollectable = function( collectable ) { 
+			
+			log( "Disable Next Collected Collectable" );
+			
+			// ABORT if no Collectable ID passed
+			if ( ! collectable ) {
+				
+				error( "No Collectable ID passed!" );
+				 
+				return false;
+			}
+			
+			log( "Disabling next collected Collectable ID: " + collectable );
+			
+			// Identify Next Checkbox that is checked
+			var $next = $( '.' + classes.Collectable.Item.Input + ':' + property.Checked + '[value=' + collectable + ']' ).not( ':' + property.Disabled ).first(); 
+			
+			// ABORT if no collected found
+			if ( ! $next.length ) {
+			
+				error( "Could not get next collected Collectable!" );
+				
+				return false;
+			}
+			
+			// Add disabled property to input 
+			$next 
+				.prop( property.Disabled, property.Disabled ); 
+			
+			// Add disabled flag to checkbox 
+			$next.parent() 
+				.addClass( classes.Flag.Disabled ); 
+		};
+
+		
+		
+		// Undisable Last Collected Collectable
+		
+		var undisableLastCollectable = function( collectable ) { 
+			
+			log( "Undisable Last Collected Collectable" );
+			
+			// ABORT if no Collectable ID passed
+			if ( ! collectable ) {
+				
+				error( "No collectable ID passed!" );
+				 
+				return false;
+			}
+			
+			log( "Undisabling last collected Collectable ID: " + collectable );
+			
+			// Identify Last Checkbox that is checked
+			var $last = $( '.' + classes.Collectable.Item.Input + ':' + property.Disabled + '[value=' + collectable + ']' ).last(); 
+			
+			// ABORT if no collected found
+			if ( ! $last.length ) {
+			
+				error( "Could not get last disabled Collectable!" );
+				
+				return false;
+			}
+			
+			// Remove disabled property from input
+			$last
+				.removeAttr( property.Disabled );
+			
+			// Remove disabled flag from checkbox
+			$last.parent() 
+				.removeClass( classes.Flag.Disabled );
+		};
 		
 		
 		
@@ -1671,31 +2673,34 @@
 			var 
 				// Identify the parent Details element
 				$details = $el.closest( 'details' ),
+				
 				// Identify the Remaining Amount element
 				$remainingAmountSpan = $( '.' + classes.Name.Remaining, $details )
 			;
 			
 			// ABOUT if no Remaining Amount element found
 			if ( ! $remainingAmountSpan.length ) { 
+				
 				error( 'Cannot find .' + classes.Name.Remaining + ' span!' );
+				
 				return;
 			}
 			
 			// If no Remaining or Remaining is less than 1
 			if ( ! remaining || remaining < 1 ) 
+			
 				// ADD CLASS Disabled to parent Details element
 				$details
 					.addClass( classes.Flag.Disabled );
 			
 			// Otherwise
 			else
+			
 				// REMOVE CLASS Disabled from parent Details element
 				$details
 					.removeClass( classes.Flag.Disabled );
 			
-			//log(remainingAmountSpan, false);
-			
-			// UPDATE remaining amount in Remaining Amount element
+			// UPDATE remaining amount in Remaining Amount element 
 			$remainingAmountSpan.html( remaining );
 		};
 		
@@ -1749,6 +2754,9 @@
 				return false;
 			}
 			
+			// Update Craftable Progress Bar
+			_updateCraftableProgressBar();
+			
 			//log( player_game_crafted, false );
 			
 			var 
@@ -1762,13 +2770,16 @@
 				craftableCurrent = ( player_game_crafted.length ) ? player_game_crafted.filter( function( obj ) { return obj.Craftable == craftable; } ) : false,
 				
 				// Define ajax actions for updating or inserting a Craftable
-				ajaxActions = { update: actions.Update.Crafted, insert: actions.Insert.Crafted }
+				ajaxActions = { update: actions.Update.Crafted, insert: actions.Insert.Crafted },
+				
+				// Unique Interval Key 
+				intervalKey = "craftable" + craftable
 			;
 			
 			// Clear updating interval variable if a new click is registered
-			if ( typeof state.Interval.Update[ craftable ] !== 'undefined' && state.Interval.Update[ craftable ] !== false ) 
+			if ( typeof states.Interval.Update[ intervalKey ] !== 'undefined' && states.Interval.Update[ intervalKey ] !== false ) 
 				// Clear update interval
-				clearInterval( state.Interval.Update[ craftable ] ); 
+				clearInterval( states.Interval.Update[ intervalKey ] ); 
 			
 			// If not found in previously collected item list
 			// Insert this item into the player game item table
@@ -1781,7 +2792,7 @@
 			
 			
 			extra = {
-				_ajax_items_nonce: $( '#' + ids.Craftable.Nonce ).val(), 
+				_ajax_craftables_nonce: $( '#' + ids.Craftable.Nonce ).val(), 
 				
 				action: ajaxActions[ action ], 
 				
@@ -1794,7 +2805,7 @@
 			log( data, false );
 			
 			// Start update delay
-			state.Interval.Update[ craftable ] = setTimeout( function() {
+			states.Interval.Update[ intervalKey ] = setTimeout( function() {
 				
 				log( ( action == 'update' ) ? content.Label.Updating : content.Label.Inserting );
 				
@@ -1809,9 +2820,7 @@
 						// Deactivate Updating flag
 						_deactivateUpdatingFlag();
 						
-						log( response, false );
-						
-						log( ( action == 'update' ) ? content.Label.Updated : content.Label.Inserted );
+						log( 'Craftable ' + craftable + ' ' + ( ( action == 'update' ) ? content.Label.Updated : content.Label.Inserted ) );
 						
 						// Updated Locally is currently false until update happens
 						var updatedLocally = false;
@@ -1859,7 +2868,7 @@
 				});
 			
 			// Update delay 
-			}, plugin.settings.delay );
+			}, plugin.settings.delay.Long );
 		};
 	
 	
@@ -1875,7 +2884,7 @@
 		
 		var _submitCollectable = function ( data ) {
 			 
-			log( "Submitting Collectable");
+			log( "Submitting Collectable" );
 			 
 			// ABORT if no Collectable data received
 			if ( typeof data.collectable == 'undefined' || ! data.collectable ) {
@@ -1906,21 +2915,24 @@
 				submittedCurrent = player_game_submitted.filter( function(obj) { return obj.CraftableCollectable == collectable; } )[ 0 ],
 				
 				// Define AJAX actions
-				ajaxActions = { update: actions.Update.Submitted, insert: actions.Insert.Submitted } 
+				ajaxActions = { update: actions.Update.Submitted, insert: actions.Insert.Submitted } ,
+				
+				// Unique Interval Key
+				intervalKey = 'submit' + collectable
 			;
 			
 			// If update interval is currently set
-			if ( typeof state.Interval.Update[ collectable ] !== 'undefined' && state.Interval.Update[ collectable ] !== false && state.Interval.Update[ collectable ] !== null )
+			if ( typeof states.Interval.Update[ intervalKey ] !== 'undefined' && states.Interval.Update[ intervalKey ] !== false && states.Interval.Update[ intervalKey ] !== null )
 				
 				// Clear the update interval 
-				clearInterval( state.Interval.Update[ collectable ] ); 
+				clearInterval( states.Interval.Update[ intervalKey ] ); 
 			
 			
-			log( player_game_submitted, false );
+			//log( player_game_submitted, false );
 			
-			log( submittedCurrent, false );		
+			//log( submittedCurrent, false );		
 			
-			log( quantity, false );		
+			//log( quantity, false );		
 			
 			
 			// If not found in previously collected list
@@ -1971,8 +2983,8 @@
 			
 			log( data, false );				
 			
-			// Start a new update interval delay
-			state.Interval.Update[ collectable ] = setTimeout( function() {
+			// Start a new AJAX update interval delay
+			states.Interval.Update[ intervalKey ] = setTimeout( function() {
 				
 				log( ( action == 'update' ) ? content.Label.Updating : content.Label.Inserting );
 				
@@ -1986,7 +2998,7 @@
 		            // Successful response
 					success: function( response ) { 
 						
-						log( response , false );
+						//log( response , false );
 						
 						// Updated Locally starts as false
 						var updatedLocally = false;
@@ -2043,7 +3055,7 @@
 			
 			
 			// Update delay
-			}, plugin.settings.delay );
+			}, plugin.settings.delay.Long );
 		};
 	
 	
@@ -2062,7 +3074,7 @@
 	
 	
 		/////////////////////////////////////////////////////////////////////////
-		// Collect Collectable
+		// Collect Collectable 
 		
 		var _collectCollectable = function ( data ) {
 			
@@ -2078,12 +3090,15 @@
 				return false;
 			}
 			
+			// First update the Progress Bar
+			_updateCollectableProgressBar();
+			
 			var 
 				// Identify Collectable ID
 				collectable = data.collectable,
 				
 				// Get all checked Collectables 
-				checkedSelector = '.' + classes.Collectable.Input + '[value=' + collectable + ']:' + property.Checked,
+				checkedSelector = '.' + classes.Collectable.Item.Input + '[value=' + collectable + ']:' + property.Checked,
 				
 				checked = $( checkedSelector ),
 				
@@ -2097,13 +3112,16 @@
 				collectableCurrent = player_game_collected.filter( function( obj ) { return obj.Collectable == collectable; } ),
 				
 				// Define AJAX actions
-				ajaxActions = { update: actions.Update.Collected, insert: actions.Insert.Collected }
+				ajaxActions = { update: actions.Update.Collected, insert: actions.Insert.Collected },
+				
+				// Unique Interval Key
+				intervalKey = 'collect' + collectable
 			;
 			
 			// If update command is currently active
-			if ( typeof state.Interval.Update[ collectable ] !== 'undefined' && state.Interval.Update[ collectable ] !== false )
+			if ( typeof states.Interval.Update[ intervalKey ] !== 'undefined' && states.Interval.Update[ intervalKey ] !== false )
 				// Clear the existing update command 
-				clearInterval( state.Interval.Update[ collectable ] ); 
+				clearInterval( states.Interval.Update[ intervalKey ] ); 
 			
 			// If not found in previously collected list
 			if ( ! collectableCurrent.length ) 
@@ -2120,8 +3138,6 @@
 				if ( collectableCurrent[ 0 ].Collected == quantity ) {
 					
 					log( 'No change! Cancelling update.' );
-					
-					log( collectableCurrent[ 0 ].Collected, false );
 					
 					// Deactivate Updating flag
 					_deactivateUpdatingFlag();
@@ -2149,12 +3165,12 @@
 				game_id: game_id, 
 			};
 			
-			log(data, false);				
+			log( data, false );
 			
 			// Start new update command timer
-			state.Interval.Update[ collectable ] = setTimeout( function() {
+			states.Interval.Update[ intervalKey ] = setTimeout( function() {
 				
-				log( ( action == 'update') ? content.Label.Updating : content.Label.Inserting );
+				log( ( action == 'update') ? content.Label.Updating : content.Label.Inserting );				
 	
 				// Start new AJAX call
 				$.ajax( {
@@ -2166,35 +3182,35 @@
 		            // Successful response
 					success: function( response ) { 
 						
-						log( response, false );
-						
-						// Updated Locally is starts as false
-						var updatedLocally = false;
+						var 
+							collectable = data.collectable,
+							
+							// Updated Locally is starts as false
+							updatedLocally = false
+						;
 						
 						// For each known Player Game Collected Collectable
 						$.each( player_game_collected, function() {
 							
 							// If matching Collectable found
-							if ( this.Collectable == data.collectable ) {
+							if ( this.Collectable == collectable ) {
 								
 								// Update Collectable Collected quantity 
 								this.Collected = data.quantity;
 								
 								// Updated Locally is now true
 								updatedLocally = true;
-								
-								log( this, false );
 							}
 						});
 						
 						// If Updated Locally still false
 						if ( updatedLocally == false ) {
 							
-							log( "Updated Locally is still false...");
+							log( "Adding Collectable and Quantity to Player Game Collected tally..." );
 							
 							// Add Collectable and quantity to Player Game Collected
 							player_game_collected.push( {
-								Collectable: data.collectable,
+								Collectable: collectable,
 								Collected: data.quantity
 							} );
 							
@@ -2207,7 +3223,7 @@
 						// Deactivate Updating flag
 						_deactivateUpdatingFlag();
 						
-						log( ( action == 'update' ) ? content.Label.Updated : content.Label.Inserted );
+						log( 'Collectable ' + collectable + ' collected!' );
 		            },
 					
 					
@@ -2226,7 +3242,7 @@
 				});
 			
 			// Update delay
-			}, plugin.settings.delay );
+			}, plugin.settings.delay.Long );
 		};
 		
 		
@@ -2267,14 +3283,17 @@
 				player_id = $( '#' + ids.Player ).val(),
 				
 				// Define AJAX actions
-				ajaxActions = { update: actions.Update.Collected, insert: actions.Insert.Collected }
+				ajaxActions = { update: actions.Update.Collected, insert: actions.Insert.Collected },
+				
+				// Unique Interval Key
+				intervalKey = 'filter' + player_id
 			;
 			
 			// If update command is currently active
-			if ( typeof state.Interval.Update[ player_id ] !== 'undefined' && state.Interval.Update[ player_id ] !== false )
+			if ( typeof states.Interval.Update[ intervalKey ] !== 'undefined' && states.Interval.Update[ intervalKey ] !== false )
 			
 				// Clear the existing update command 
-				clearInterval( state.Interval.Update[ player_id ] ); 
+				clearInterval( states.Interval.Update[ intervalKey ] ); 
 			
 			
 			// Gather update data
@@ -2290,12 +3309,10 @@
 				
 				// Filter 
 				filter : filter // 1 or 0
-			};
-			
-			log( data, false );				
+			};		
 			
 			// Start new update command timer
-			state.Interval.Update[ player_id ] = setTimeout( function() {
+			states.Interval.Update[ intervalKey ] = setTimeout( function() {
 				
 				log( content.Label.Updating );
 	
@@ -2308,8 +3325,6 @@
 		            
 		            // Successful response
 					success: function( response ) { 
-						
-						log( response, false );
 						
 						// Deactivate Updating flag
 						_deactivateUpdatingFlag();
@@ -2333,7 +3348,7 @@
 				});
 			
 			// Update delay
-			}, plugin.settings.delay );
+			}, plugin.settings.delay.Long );
 		};
 		
 		
@@ -2387,6 +3402,10 @@
 			if ( typeof element == "undefined" || ! element )
 				return false; 
 			
+			// ABORT if element is already checked
+			if ( element.prop( property.Checked ) )
+				return;
+				
 			// CHECK the element and trigger a change event
 			element
 				.prop( property.Checked, property.Checked )
@@ -2397,14 +3416,18 @@
 		
 		// Uncheck checkbox
 		
-		var unCheck = function( element ) {
+		var uncheck = function( element ) {
 			// ABORT if no element passed
 			if ( typeof element == "undefined" || ! element )
 				return false; 
-	
+			
+			// ABORT if already unchecked
+			if ( element.prop( property.Checked ) == '' )
+				return;
+			
 			// UNCHECK the element and trigger a change event
 			element
-				.prop( property.Checked, '' )
+				.removeAttr( property.Checked )
 				.trigger( events.Change );
 		};
 		
@@ -2432,7 +3455,48 @@
 		
 		
 		
+		// Merge Objects
+		
+		var merge = function( objects ) {
+			var out = {};
+		
+			for ( var i = 0; i < objects.length; i++ ) {
+				for ( var p in objects[ i ] ) {
+					out[ p ] = objects[ i ][ p ];
+				}
+			}
+		
+			return out;
+		};
+		
+		
+		
+		// Flatten Object
+		
+		var flatten = function( obj, name, stem ) {
+			var 
+				out = {},
+				//newStem = ( typeof stem !== 'undefined' && stem !== '' ) ? stem + '_' + name : name
+				newStem = name
+			;
+		
+			if ( typeof obj !== 'object' ) {
+				out[ newStem ] = obj;
+		    	return out;
+			}
+		
+			for ( var p in obj ) {
+				var prop = flatten( obj[ p ], p, newStem);
+				out = merge( [ out, prop ] );
+			}
+		
+			return out;
+		};
+
+		
+		
 		// Read Query String	
+		
 		// Get query string from address bar
 		var query = function( query, variable ) {
 			var vars = query.split( '&' );
@@ -2446,7 +3510,6 @@
 			
 			return false;
 		};
-		
 		
 		
 		
@@ -2548,6 +3611,36 @@
 		
 		
 		
+		// Setup Dialog Boxes
+		
+		var setupDialogs = function() {
+			
+			if ( typeof jconfirm == "undefined" ) {
+				
+				error( "No jconfirm plugin found!" ); 
+				
+				return false; 
+			}
+			
+			jconfirm.defaults = plugin.settings.DialogBoxes;
+			
+		};
+		
+		
+		
+		// Dialog Box - CONFIRM
+		
+		var confirmBox = function( title, question ) {
+			if ( ! question )
+				return false;
+				
+			title = title || '';
+			
+			return $.confirm( question, title );
+		};
+		
+		
+		
 		// Get Fields
 		
 		var getFields = function( input, field ) {
@@ -2557,6 +3650,17 @@
 		        output.push( input[ i ][ field ] );
 		        
 		    return output;
+		};
+		
+		
+		
+		// Capitalize First Letter
+		
+		var capitalize = function( s ) {
+		  if ( typeof s !== 'string' ) 
+			return '';
+		  
+		  return s.charAt( 0 ).toUpperCase() + s.slice( 1 );
 		};
 		
 		

@@ -75,7 +75,7 @@ ul {
 	}
 	
 	&.checkbox-list {
-		margin-left: 0;
+		margin-left: $spacing-half;
 		
 		ul, li {
 			margin-left: $spacing-half;
@@ -159,9 +159,14 @@ details[open] {
 }
 
 
+// Updating
+
 .updating {
   opacity: 0.5;
 }
+
+
+// Updating Flag
 
 .updating-flag {
 	display: block;
@@ -193,6 +198,26 @@ details[open] {
 }
 
 
+
+// Dialog Boxes
+
+.jconfirm {
+	.jconfirm-box {
+		text-align: center;
+		
+		.jconfirm-buttons {
+			float: none !important;
+			
+			button {
+				min-width: $spacing-quint;
+			}
+		}
+	}
+}
+
+
+
+// Lucky Tabs
 
 .luckytabs {
 	> ul { 
@@ -321,7 +346,7 @@ details[open] {
   
   
   .app-sections-list {
-  	margin-bottom: $spacing;
+  	margin-bottom: 0;
   	
 		a {
 			padding: $spacing;
@@ -335,8 +360,8 @@ details[open] {
   	padding: $spacing;
   	background-color: lightgrey;
   	color: black;
-  	margin-bottom: $spacing-double;
-  	@include clearfix;
+  	//margin-bottom: $spacing-double;
+  	@extend .clearfix;
   	
   	
   	&:last {
@@ -346,15 +371,25 @@ details[open] {
   }
   
   .app-checkbox-list {
+  	li {
+  		//margin-top: $spacing-half;
+  		//margin-bottom: $spacing-half;
+  	}
   	
+  	details[open] {
+  		padding-bottom: 1px;
+  	}
   }
 }
 
 #RandomTip {
 	font-family: "Special Elite", Arial, Helvetica, sans-serif;
-	padding: $spacing-double;
 	text-align: center;
 	cursor: pointer;
+	
+	.app-section {
+		padding: $spacing-double;
+	}
 	
 	* {
 		color: black;
@@ -363,6 +398,14 @@ details[open] {
 	p {
 		font-size: 1.5em;
 	}
+}
+
+
+// Progress Bar
+
+.progress-bar-container {
+	position: relative;
+	padding-bottom: $spacing-double;
 }
 
 
@@ -415,6 +458,8 @@ details[open] {
 	}
 	
 	.app-sections-list {
+		@extend .clearfix;
+		
 		ul {
 			margin-left: 0;
 			
@@ -424,24 +469,19 @@ details[open] {
 				width: 100%;
 				margin: 0;
 				
+				@media ( min-width : $size-container-mobile-large ) {
+					@include gridd( 1, 2, $spacing );
+					margin-bottom: 0;
+				}
+				
 				@media ( min-width : $size-container-tablet ) {
-					width: auto;
 					
-					margin-left: $spacing;
-					margin-right: $spacing;
-					
-					&:first-child {
-						margin-left: 0;
-					}
-					
-					&:last-child {
-						margin-right: 0;
-					}
-				}				
+				}
 			}
 		}
 		
   	a {
+  		background-color: white;
   		font-size: 36px;
   		color: #404040;
 	    font-weight: 600;
@@ -449,7 +489,13 @@ details[open] {
 	    font-family: "Chinese Rocks", "Bungee", Arial, Helvetica, sans-serif;
     	letter-spacing: 1px;
     	display: block;
-    	margin-bottom: $spacing-half;
+    	//margin-bottom: $spacing-half;
+    	
+    	&.active {
+    		background-color: $body-link-hover !important;
+				border-color: $body-link-hover !important;
+				color: white !important;
+    	}
   	}
 	}
 	
@@ -547,6 +593,12 @@ details[open] {
 				display: inline-block;
 			}
 		}
+		
+		.nav-tab-icon {
+			display: inline-block;
+			width: 36px;
+			text-align: center;
+		}
 	}
 	
 	.tabContent {
@@ -557,7 +609,7 @@ details[open] {
 			padding-left: $spacing-half;
 			text-align: left;
 			line-height: 1.5;
-			font-family: "Chinese Rocks", "Bungee", Arial, Helvetica, sans-serif;
+			font-family: "Chinese Rocks", Arial, Helvetica, sans-serif;
 			font-size: 26px;
 			letter-spacing: 1px;
 			
@@ -573,6 +625,7 @@ details[open] {
 		
 		font-family: "Bree Serif";
 		letter-spacing: 0px;
+		font-size: 20px;
 		
 	}
 }
@@ -588,6 +641,22 @@ details[open] {
 		font-weight: normal;
 	}
 }
+
+
+
+// Progress Bars
+
+.progressbar-text {
+	width: 100%;
+	
+	.progress-bar-percentage {
+		display: block;
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+}
+
 
 
 .theme-page-wrapper {

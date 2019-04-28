@@ -185,7 +185,7 @@
 
 // Gridd
 
-@mixin gridd($unit: 1, $total: 4, $gapsize: 0) {
+@mixin gridd( $unit : 1, $total : 4, $gapsize : 0 ) {
 	min-width: 0;
 	margin-right: $gapsize;
 	margin-bottom: $gapsize;
