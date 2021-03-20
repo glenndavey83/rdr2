@@ -105,7 +105,7 @@ class RDR2_CollectablesTracker_Admin  {
 		// MERCHANTS
 
 		// Top Menu Item
-		add_menu_page("Merchants", 'Merchants',  'manage_options', 'rdr2-merchants', array($this, 'admin_rdr2_merchants'), "dashicons-store", 2);
+		//add_menu_page("Merchants", 'Merchants',  'manage_options', 'rdr2-merchants', array($this, 'admin_rdr2_merchants'), "dashicons-store", 2);
 		
 		// Remove duplicate menu hack 
 		//add_submenu_page('rdr2-merchants', '', '',  'manage_options', 'rdr2-merchants');
@@ -124,7 +124,7 @@ class RDR2_CollectablesTracker_Admin  {
 		// PLAYERS / CARDS
 		
 		// Top Menu Item
-		add_menu_page("Cards", 'Cards',  'manage_options', 'rdr2-players', array($this, 'admin_rdr2_players'), "dashicons-images-alt2", 3);
+		//add_menu_page("Cards", 'Cards',  'manage_options', 'rdr2-players', array($this, 'admin_rdr2_players'), "dashicons-images-alt2", 3);
 		
 		// Remove duplicate menu hack 
 		//add_submenu_page('rdr2-players', '', '',  'manage_options', 'rdr2-players');
@@ -279,7 +279,7 @@ class RDR2_CollectablesTracker_Admin  {
 
 	// Admin CollectablesTracker Players Control Panel
 	
-	function admin_rdr2_players() {
+	public function admin_rdr2_players() {
 		$id = (isset($this->id)) ? $this->id : FALSE;
 		$player = FALSE;
 		$message = (isset($_REQUEST['saved'])) ? get_bloginfo('name') . ' options successfully saved.' : FALSE;

@@ -279,7 +279,7 @@ class RDR2_CollectablesTracker_Admin  {
 
 	// Admin CollectablesTracker Players Control Panel
 	
-	function admin_rdr2_players() {
+	public function admin_rdr2_players() {
 		$id = (isset($this->id)) ? $this->id : FALSE;
 		$player = FALSE;
 		$message = (isset($_REQUEST['saved'])) ? get_bloginfo('name') . ' options successfully saved.' : FALSE;

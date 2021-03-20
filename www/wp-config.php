@@ -46,7 +46,7 @@ switch($server_url) {
 		/** The name of the database for WordPress */
 		define( 'DB_NAME', 'rdr2' );
 		
-		error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
+		// error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 		
 		define('DISABLE_WP_CRON', FALSE); 
 		define('WP_DEBUG', TRUE); 
