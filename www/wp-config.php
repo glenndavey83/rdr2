@@ -31,8 +31,8 @@ switch($server_url) {
 	// LOCAL
 	case 'rdr2.local' : 
 	
-		define('WP_HOME', 'http://rdr2.local');
-		define('WP_SITEURL', 'http://rdr2.local');
+		define('WP_HOME', 'https://rdr2.local');
+		define('WP_SITEURL', 'https://rdr2.local');
 		
 		/** MySQL database username */
 		define( 'DB_USER', 'root' );
@@ -46,7 +46,7 @@ switch($server_url) {
 		/** The name of the database for WordPress */
 		define( 'DB_NAME', 'rdr2' );
 		
-		//error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
+		error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 		
 		define('DISABLE_WP_CRON', FALSE); 
 		define('WP_DEBUG', TRUE); 
@@ -54,32 +54,6 @@ switch($server_url) {
 		define('FS_METHOD', 'direct'); 
 		
 	
-	break;
-	
-	// STAGING 
-	case 'rdr2.netwideimage.com' : 
-	
-		define('WP_HOME', 'https://rdr2.netwideimage.com');
-		define('WP_SITEURL', 'https://rdr2.netwideimage.com');
-		
-		/** MySQL database username */
-		define( 'DB_USER', 'netwidei_web' );
-		
-		/** MySQL database password */
-		define( 'DB_PASSWORD', '(6$f{e8%bU=C' );
-		
-		/** MySQL hostname */
-		define( 'DB_HOST', 'localhost' );
-		
-		/** The name of the database for WordPress */
-		define( 'DB_NAME', 'netwidei_rdr2' );
-		
-		//error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
-		
-		define('DISABLE_WP_CRON', FALSE); 
-		define('WP_DEBUG', TRUE); 
-		define('SAVEQUERIES', TRUE); 
-		
 	break;
 	
 	// PRODUCTION
