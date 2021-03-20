@@ -10,7 +10,7 @@
  */
 
 // Image dialog.
-$wp_customize->add_section(
+$mk_customize->add_section(
 	new MK_Dialog(
 		$wp_customize,
 		'mk_s_pp_s_image',
@@ -29,11 +29,11 @@ $wp_customize->add_section(
 );
 
 // Image Ratio Label.
-$wp_customize->add_setting( 'mk_cz[sh_pp_sty_img_ratio_label]', array(
+$mk_customize->add_setting( 'mk_cz[sh_pp_sty_img_ratio_label]', array(
 	'type' => 'option',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Label_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_img_ratio_label]',
@@ -45,13 +45,13 @@ $wp_customize->add_control(
 );
 
 // Image Ratio.
-$wp_customize->add_setting( 'mk_cz[sh_pp_sty_img_image_ratio]', array(
+$mk_customize->add_setting( 'mk_cz[sh_pp_sty_img_image_ratio]', array(
 	'type' => 'option',
 	'default'   => 'default',
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Radio_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_img_image_ratio]',
@@ -71,13 +71,13 @@ $wp_customize->add_control(
 );
 
 // Background color.
-$wp_customize->add_setting( 'mk_cz[sh_pp_sty_img_background_color]', array(
+$mk_customize->add_setting( 'mk_cz[sh_pp_sty_img_background_color]', array(
 	'type' => 'option',
 	'default'   => 'rgba(255, 255, 255, 0)',
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_img_background_color]',
@@ -90,13 +90,13 @@ $wp_customize->add_control(
 );
 
 // Border width.
-$wp_customize->add_setting( 'mk_cz[sh_pp_sty_img_border_width]', array(
+$mk_customize->add_setting( 'mk_cz[sh_pp_sty_img_border_width]', array(
 	'type' => 'option',
 	'default'   => 0,
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Input_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_img_border_width]',
@@ -114,13 +114,13 @@ $wp_customize->add_control(
 );
 
 // Border Color.
-$wp_customize->add_setting( 'mk_cz[sh_pp_sty_img_border_color]', array(
+$mk_customize->add_setting( 'mk_cz[sh_pp_sty_img_border_color]', array(
 	'type' => 'option',
 	'default'   => '#fff',
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_img_border_color]',
@@ -133,14 +133,14 @@ $wp_customize->add_control(
 );
 
 // Divider 1.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_img_divider_1]', array(
 		'type' => 'option',
 		'column'   => 'mk-col-12 mk-divider-plain',
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Divider_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_img_divider_1]',
@@ -151,13 +151,13 @@ $wp_customize->add_control(
 );
 
 // Gallery Thumbnail Orientation.
-$wp_customize->add_setting( 'mk_cz[sh_pp_sty_img_orientation]', array(
+$mk_customize->add_setting( 'mk_cz[sh_pp_sty_img_orientation]', array(
 	'type' => 'option',
 	'default'   => 'horizontal',
 	'transport' => 'refresh',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Radio_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_img_orientation]',
@@ -176,11 +176,11 @@ $wp_customize->add_control(
 );
 
 // Divider.
-$wp_customize->add_setting( 'mk_cz[sh_cc_sty_img_divider_2]', array(
+$mk_customize->add_setting( 'mk_cz[sh_cc_sty_img_divider_2]', array(
 	'type' => 'option',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Divider_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_img_divider_2]',
@@ -191,7 +191,7 @@ $wp_customize->add_control(
 );
 
 // Box Model.
-$wp_customize->add_setting( 'mk_cz[sh_pp_sty_img_box_model]', array(
+$mk_customize->add_setting( 'mk_cz[sh_pp_sty_img_box_model]', array(
 	'type' => 'option',
 	'default' => array(
 		'margin_top' => 0,
@@ -202,7 +202,7 @@ $wp_customize->add_setting( 'mk_cz[sh_pp_sty_img_box_model]', array(
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Box_Model_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_img_box_model]',

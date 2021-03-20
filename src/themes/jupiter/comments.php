@@ -6,7 +6,7 @@ function theme_comments( $comment, $args, $depth ) {
 			<div class="gravatar"><?php echo get_avatar( $comment, $size = '45', $default = '' ); ?></div>
 			<div class="comment-meta">
 					<?php printf( '<span class="comment-author" ' . get_schema_markup( 'comment_author_link' ) . '>%s</span>', get_comment_author_link() ); ?>
-					
+
 					<?php edit_comment_link( '', '', '' ); ?>
 					<time class="comment-time" <?php echo get_schema_markup( 'comment_time' ); ?>><?php echo get_comment_date(); ?></time>
 			</div>
@@ -23,17 +23,17 @@ function theme_comments( $comment, $args, $depth ) {
 ?>
 			</span>
 			<div class="clearboth"></div>
-			<div class="comment-content" <?php echo get_schema_markup( 'comment_text' ); ?>>
+			<div class="comment-content" <?php echo  get_schema_markup( 'comment_text' ); ?>>
 					<?php comment_text(); ?>
 
-<?php if ( $comment->comment_approved == '0' ) : ?>
-					<span class="unapproved"><?php _e( 'Your comment is awaiting moderation.', 'mk_framework' ); ?></span>
+<?php if ( '0' == $comment->comment_approved ) : ?>
+					<span class="unapproved"><?php esc_html_e( 'Your comment is awaiting moderation.', 'mk_framework' ); ?></span>
 <?php endif; ?>
 				<div class="clearboth"></div>
 			</div>
 
-		
-			   </div>		
+
+			   </div>
 <?php
 }
 
@@ -55,7 +55,7 @@ function list_pings( $comment, $args, $depth ) {
 					<?php comment_text(); ?>
 
 								<time class="comment-time"><?php echo get_comment_time( 'F jS, Y h:i A' ); ?></time>
-<?php if ( $comment->comment_approved == '0' ) : ?>
+<?php if ( '0' == $comment->comment_approved ) : ?>
 					<span class="unapproved">Your comment is awaiting moderation.</span>
 <?php endif; ?>
 				</div>
@@ -66,7 +66,7 @@ function list_pings( $comment, $args, $depth ) {
 
 <section id="comments">
 <?php if ( post_password_required() ) : ?>
-	<p class="nopassword"><?php _e( 'This post is password protected. Enter the password to view any comments.', 'mk_framework' ); ?></p>
+	<p class="nopassword"><?php esc_html_e( 'This post is password protected. Enter the password to view any comments.', 'mk_framework' ); ?></p>
 </section><!-- #comments -->
 <?php
 return;
@@ -84,19 +84,15 @@ if ( have_comments() ) :
 	</div>
 	<ul class="mk-commentlist">
 		<?php
-		wp_list_comments( 'callback=theme_comments&type=comment' );
-?>
+			wp_list_comments( 'callback=theme_comments&type=comment' );
+		?>
 	</ul>
-
-
-
-
 
 <?php
 if ( have_comments() ) :
 ?>
 <?php if ( ! empty( $comments_by_type['pings'] ) ) : ?>
-<div class="blog-comment-title"><?php _e( 'pingbacks / trackbacks', 'mk_framework' ); ?></div>
+<div class="blog-comment-title"><?php esc_html_e( 'pingbacks / trackbacks', 'mk_framework' ); ?></div>
 
 <ul class="mk-commentlist">
 <?php wp_list_comments( 'callback=list_pings&type=pings' ); ?>
@@ -123,18 +119,29 @@ else :
 
 
 	<?php
+	$tab_index = mt_rand( 99,999 );
+	$textarea_tab_index = $tab_index;
+	$commenter = wp_get_current_commenter();
+	$user = wp_get_current_user();
+	$user_identity = $user->exists() ? $user->display_name : '';
+	$req      = get_option( 'require_name_email' );
+	$html_req = ( $req ? " required='required'" : '' );
+	$consent  = empty( $commenter['comment_author_email'] ) ? '' : ' checked="checked"';
+	$fields   = array(
+		'author'  => '<div class="comment-form-name comment-form-row"><input type="text" name="author" value="' . esc_attr( $commenter['comment_author'] ) . '" class="text_input" id="author" tabindex="' . esc_attr( $tab_index++ ) . '" placeholder="' . esc_html__( 'Name *', 'mk_framework' ) . '"' . $html_req . ' maxlength="245" /></div>',
 
-		$fields = array(
-			'author' => '<div class="comment-form-name comment-form-row"><input type="text" name="author" class="text_input" id="author" tabindex="54" placeholder="' . esc_html__( 'Name (Required)', 'mk_framework' ) . '"  /></div>',
-			'email' => '<div class="comment-form-email comment-form-row"><input type="text" name="email" class="text_input" id="email" tabindex="56" placeholder="' . esc_html__( 'Email (Required)', 'mk_framework' ) . '" /></div>',
-			'url'   => '<div class="comment-form-website comment-form-row"><input type="text" name="url" class="text_input" id="url" tabindex="57" placeholder="' . esc_html__( 'Website', 'mk_framework' ) . '" /></div>',
-		);
+		'email'   => '<div class="comment-form-email comment-form-row"><input type="email" name="email" class="text_input" id="email" tabindex="' . esc_attr( $tab_index++ ) . '" placeholder="' . esc_html__( 'Email *', 'mk_framework' ) . '" value="' . esc_attr( $commenter['comment_author_email'] ) . '" aria-describedby="email-notes"' . $html_req . ' maxlength="100" /></div>',
 
-		// Comment Form Args
+		'url'     => '<div class="comment-form-website comment-form-row"><input type="url" name="url" class="text_input" id="url" tabindex="' . esc_attr( $tab_index++ ) . '" placeholder="' . esc_html__( 'Website', 'mk_framework' ) . '" value="' . esc_attr( $commenter['comment_author_url'] ) . '" maxlength="200" /></div>',
+
+		'cookies' => '<div class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" tabindex="' . esc_attr( $tab_index++ ) . '" name="wp-comment-cookies-consent" type="checkbox" value="yes"' . $consent . ' />' .
+					 '<label for="wp-comment-cookies-consent">' . __( 'Save my name, email, and website in this browser for the next time I comment.', 'mk_framework' ) . '</label></div>',
+	);
+
 		$comments_args = array(
 			'fields' => $fields,
 			'title_reply' => '<div class="respond-heading">' . esc_html__( 'Leave a Comment', 'mk_framework' ) . '</div>',
-			'comment_field' => '<div class="comment-textarea"><textarea placeholder="' . esc_html__( 'LEAVE YOUR COMMENT', 'mk_framework' ) . '" class="textarea" name="comment" rows="8" id="comment" tabindex="58"></textarea></div>',
+			'comment_field' => '<div class="comment-textarea"><textarea placeholder="' . esc_html__( 'LEAVE YOUR COMMENT', 'mk_framework' ) . '" class="textarea" name="comment" rows="8" id="comment" tabindex="' . esc_attr( $textarea_tab_index ) . '" required="required"></textarea></div>',
 			'comment_notes_before' => '',
 			'comment_notes_after' => '',
 			'label_submit' => esc_html__( 'POST COMMENT','mk_framework' ),

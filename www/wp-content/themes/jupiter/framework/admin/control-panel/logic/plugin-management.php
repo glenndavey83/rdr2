@@ -172,20 +172,9 @@ class mk_plugin_management {
 		$this->validator = new Mk_Validator();
 
 		// Init logger to system
-		$this->logger = new Devbees\BeesLog\logger();
-
-		// Set API Calls template
-		$template = \Httpful\Request::init()
-			->method( \Httpful\Http::GET )
-			->withoutStrictSsl()
-			->expectsJson()
-			->addHeaders(
-				array(
-					'api-key' => get_option( 'artbees_api_key' ),
-					'domain'  => $_SERVER['SERVER_NAME'],
-				)
-			);
-		\Httpful\Request::ini( $template );
+		if ( class_exists( 'Devbees\BeesLog\logger' ) ) {
+			$this->logger = new Devbees\BeesLog\logger();
+		}
 
 		if ( $this->get_system_under_test() === false ) {
 			$this->set_plugins_dir( ABSPATH . 'wp-content/plugins/' );
@@ -417,26 +406,23 @@ class mk_plugin_management {
 		$exclude_plugins = json_encode( $exclude_plugins );
 		$exclude_plugins = (empty( $exclude_plugins ) == true ? array() : $exclude_plugins);
 		$url            = $this->getApiURL() . 'tools/plugin';
-		$response       = \Httpful\Request::get( $url )
-			->addHeaders(
-				array(
-					'from'       => 0,
-					'count'      => 20,
-					'exclude-plugins-slug' => $exclude_plugins,
-					'plugin-name' => $this->get_plugin_name(),
-					'plugin-slug' => $this->get_plugin_slug(),
-				)
-			)
-			->send();
-		if ( ! isset( $response->body->bool ) || ! $response->body->bool ) {
-			$this->message( $response->body->message, false );
+		$response       = $this->remote_get( $url, array(
+			'from'                 => 0,
+			'count'                => 20,
+			'exclude-plugins-slug' => $exclude_plugins,
+			'plugin-name'          => $this->get_plugin_name(),
+			'plugin-slug'          => $this->get_plugin_slug(),
+		) );
+
+		if ( ! isset( $response->bool ) || ! $response->bool ) {
+			$this->message( $response->message, false );
 			return false;
 		}
-		if ( empty( $response->body->data ) ) {
+		if ( empty( $response->data ) ) {
 			$this->message( 'Successfull', true, array() );
 			return true;
 		}
-		$result = json_decode( json_encode( $response->body->data ), true );
+		$result = json_decode( json_encode( $response->data ), true );
 		foreach ( $result as $key => $value ) {
 				$fetch_data = [];
 			if ( 'wp-repo' === $value['source'] ) {
@@ -470,27 +456,25 @@ class mk_plugin_management {
 		if ( $response === false ) {
 			throw new Exception( $this->validator->getMessage() );
 		}
+
 		$url      = $this->getApiURL() . 'tools/plugin-version';
-		$response = \Httpful\Request::get( $url )
-			->addHeaders(
-				array(
-					'plugins-slug' => json_encode( $plugins ),
-				)
-			)
-			->send();
-		if ( isset( $response->body->bool ) == false || $response->body->bool == false ) {
-			throw new Exception( $response->body->message );
+		$response = $this->remote_get( $url, array(
+			'plugins-slug' => json_encode( $plugins ),
+		) );
+
+		if ( isset( $response->bool ) == false || $response->bool == false ) {
+			throw new Exception( $response->message );
 		}
 
-		return json_decode( json_encode( $response->body->data ), true );
+		return json_decode( json_encode( $response->data ), true );
 	}
 	public function list_of_installed_plugin() {
 		try {
-			$list_of_plugins = $this->plugins_custom_api( 0 , 0 , array( 'slug', 'basename', 'version', 'name', 'desc', 'img_url' ) );
+			$list_of_plugins = $this->plugins_custom_api( 0 , 0 , array( 'slug', 'basename', 'version', 'name', 'desc', 'img_url', 'is_callable' ) );
 
 			if ( is_array( $list_of_plugins ) && count( $list_of_plugins ) > 0 ) {
 				foreach ( $list_of_plugins as $key => $plugin_info ) {
-					if ( is_plugin_active( $plugin_info['basename'] ) ) {
+					if ( mk_is_callable( $plugin_info['is_callable'] ) ) {
 						if ( ($current_plugin_version = $this->get_plugin_version( $plugin_info['slug'] )) != false ) {
 							if ( version_compare( $current_plugin_version, $plugin_info['version'], '<' ) ) {
 								$list_of_plugins[ $key ]['installed']   = true;
@@ -519,22 +503,19 @@ class mk_plugin_management {
 	/*====================== HELPERS ============================*/
 
 	public function plugins_custom_api( $from = 0, $count = 1, $list_of_attr = array() ) {
-		$url            = $this->getApiURL() . 'tools/plugin-custom-list';
-		$response       = \Httpful\Request::get( $url )
-			->addHeaders(
-				array(
-					'from'       => $from,
-					'count'      => $count,
-					'list-of-attr' => json_encode( $list_of_attr ),
-				)
-			)
-			->send();
-		if ( isset( $response->body->bool ) == false || $response->body->bool == false ) {
-			throw new Exception( $response->body->message );
+		$url      = $this->getApiURL() . 'tools/plugin-custom-list';
+		$response = $this->remote_get( $url, array(
+			'from'         => $from,
+			'count'        => $count,
+			'list-of-attr' => json_encode( $list_of_attr ),
+		) );
+
+		if ( isset( $response->bool ) == false || $response->bool == false ) {
+			throw new Exception( $response->message );
 			return false;
 		}
 
-		$result = json_decode( json_encode( $response->body->data ), true );
+		$result = json_decode( json_encode( $response->data ), true );
 		if ( is_array( $result ) && count( $result ) > 0 ) {
 			foreach ( $result as $key => $value ) {
 				$fetch_data = [];
@@ -679,7 +660,7 @@ class mk_plugin_management {
 			return true;
 		}
 		$plugin_full_path = $this->get_plugins_dir() . $plugin_path;
-		if ( is_plugin_active( $plugin_path ) == false ) {
+		if ( ! file_exists( $plugin_path ) ) {
 			return true;
 		}
 		$response = deactivate_plugins( $plugin_full_path, $silent, $network_wide );
@@ -830,15 +811,13 @@ class mk_plugin_management {
 
 		if ( ! $plugin_data_name ) {
 			$url = $this->getApiURL() . 'tools/plugin';
-			$response       = \Httpful\Request::get( $url )
-				->addHeaders(
-					array(
-						'plugin-slug' => $plugin_slug,
-					)
-				)
-				->send();
-			if ( isset( $response->body->data[0]->name ) ) {
-				$plugin_data_name = $response->body->data[0]->name;
+
+			$response = $this->remote_get( $url, array(
+				'plugin-slug' => $plugin_slug,
+			) );
+
+			if ( isset( $response->data[0]->name ) ) {
+				$plugin_data_name = $response->data[0]->name;
 			}
 		}
 
@@ -984,6 +963,19 @@ class mk_plugin_management {
 		}
 	}
 
+	private function remote_get( $url, $headers = array() ) {
+		$args = array(
+			'headers' => array_merge(
+				array(
+					'api-key' => get_option( 'artbees_api_key' ),
+					'domain'  => $_SERVER['SERVER_NAME'],
+				),
+				$headers
+			),
+		);
+
+		return json_decode( wp_remote_retrieve_body( wp_remote_get( $url, $args ) ) );
+	}
 }
 global $abb_phpunit;
 if ( empty( $abb_phpunit ) || $abb_phpunit == false ) {

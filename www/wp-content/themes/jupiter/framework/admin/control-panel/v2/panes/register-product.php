@@ -4,13 +4,6 @@ $is_apikey = empty( $api_key ) ? false : true;
 $has_api_key = empty( $api_key ) ? 'is-active' : '';
 $no_api_key = empty( $has_api_key ) ? 'is-active' : '';
 
-// Call Control Panel Tracking class.
-if ( class_exists( 'Mk_Tracking_Control_Panel' ) ) {
-	// Set API entry attempt tracking.
-	$mk_tracking_cp = new Mk_Tracking_Control_Panel();
-	$mk_tracking_cp->set_api_entry_attempt( $is_apikey );
-}
-
 ?>
 
 <div class="mka-cp-pane-box" id="mk-cp-register-product">

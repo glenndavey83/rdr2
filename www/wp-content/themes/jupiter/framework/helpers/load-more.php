@@ -42,8 +42,8 @@ class Mk_Load_More {
 			WPBMap::addAllMappedShortcodes();
 		}
 
-			$query = isset( $_REQUEST['query'] ) ? json_decode( base64_decode( $_REQUEST['query'] ), true ) : false;
-		$atts = isset( $_REQUEST['atts'] ) ? json_decode( base64_decode( $_REQUEST['atts'] ), true ) : false;
+			$query = isset( $_REQUEST['query'] ) ? json_decode( mk_decode( $_REQUEST['query'] ), true ) : false;
+		$atts = isset( $_REQUEST['atts'] ) ? json_decode( mk_decode( $_REQUEST['atts'] ), true ) : false;
 		$loop_iterator = isset( $_REQUEST['loop_iterator'] ) ? $_REQUEST['loop_iterator'] : 0;
 
 		if ( isset( $_REQUEST['term'] ) ) {

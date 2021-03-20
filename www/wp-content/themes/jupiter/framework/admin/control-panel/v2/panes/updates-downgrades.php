@@ -8,8 +8,6 @@
  */
 
 // @codingStandardsIgnoreStart
-ini_set( 'display_errors', 1 );
-ini_set( 'display_startup_errors', 1 );
 error_reporting( E_ALL );
 // @codingStandardsIgnoreEnd
 
@@ -51,7 +49,7 @@ $get_release_download_link_nonce = wp_create_nonce( 'mk-ajax-get-theme-release-p
 			<span class="mka-cp-version-number"><?php echo esc_attr( 'Version ' . $release_version ); ?></span>
 			<span class="mka-cp-version-date"><?php echo esc_attr( mysql2date( 'j F Y', $release->post_date ) ); ?></span>
 		</div>
-		<div class="mka-cp-new-version-content dynamic-height-wrap dynamic-max-height" data-maxheight="140" data-button-more="Show More" data-button-less="Show Less">
+		<div class="mka-cp-new-version-content dynamic-height-wrap dynamic-max-height" data-maxheight="240" data-button-more="Show More" data-button-less="Show Less">
 			<div class="dynamic-wrap">
 			<?php echo wp_kses_post( $release->post_content ); ?>
 			</div>

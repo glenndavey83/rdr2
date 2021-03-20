@@ -29,6 +29,7 @@ class MKHB_Screen {
 		add_action( 'admin_init', array( $this, 'header_builder_screen' ), 100 );
 		add_filter( 'upload_mimes', array( $this, 'upload_mimes' ) );
 		add_filter( 'site_option_upload_filetypes', array( $this, 'site_option_upload_filetypes' ) );
+		add_filter( 'wp_title', array( $this, 'filter_title' ) );
 	}
 
 	/**
@@ -66,6 +67,11 @@ class MKHB_Screen {
 		// @todo Sanitize GET request here.
 		// If we are not on "wp-admin/admin.php?page=header-builder", then bail.
 		if ( ! isset( $_GET['page'] ) || 'header-builder' !== $_GET['page'] ) { // WPCS: CSRF ok.
+			return;
+		}
+
+		if ( ! class_exists( 'Jupiter_Donut' ) ) {
+			printf( '<h2 style="margin-left: 195px">%s</h2>', __( 'Install/Activate <a href="' . admin_url( 'themes.php?page=tgmpa-install-plugins' ) . '">Jupiter Donut</a> plugin to enable this feature.', 'mk_framework' ) );
 			return;
 		}
 
@@ -125,7 +131,7 @@ class MKHB_Screen {
 		<head>
 			<meta name="viewport" content="width=device-width" />
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-			<title><?php esc_html_e( 'Header Builder', 'mk_framework' ); ?></title>
+			<title><?php wp_title(); ?></title>
 
 			<script type="text/javascript">
 				window.MK = window.MK || {};
@@ -277,6 +283,17 @@ class MKHB_Screen {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Filter the title.
+	 *
+	 * @since 6.5.0
+	 *
+	 * @return string Custom title.
+	 */
+	public function filter_title() {
+		return esc_html__( 'Header Builder', 'mk_framework' );
 	}
 }
 

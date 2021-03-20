@@ -49,11 +49,12 @@ remove_action( 'woocommerce_before_shop_loop', 'woocommerce_result_count', 20 );
 add_action( 'woocommerce_after_shop_loop', 'woocommerce_result_count', 20 );
 
 /**
-* Overrides to theme containers for wrapper starting part.
-*
-* @since 5.1.0
-* @since 6.0.1 Add filter for theme_page_wrapper.
-*/
+ * Overrides to theme containers for wrapper starting part.
+ *
+ * @since 5.1.0
+ * @since 6.0.1 Add filter for theme_page_wrapper.
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ */
 if ( ! function_exists( 'mk_woocommerce_output_content_wrapper_start' ) ) {
 
 	function mk_woocommerce_output_content_wrapper_start() {
@@ -67,10 +68,14 @@ if ( ! function_exists( 'mk_woocommerce_output_content_wrapper_start' ) ) {
 		} elseif ( global_get_post_id() ) {
 
 			$page_layout = get_post_meta( global_get_post_id() , '_layout', true );
-			$padding = get_post_meta( global_get_post_id() , '_padding', true );
+			$padding     = get_post_meta( global_get_post_id() , '_padding', true );
 
 		} elseif ( mk_is_woo_archive() ) {
-			$page_layout = get_post_meta( mk_is_woo_archive() , '_layout', true );
+			$page_layout = get_post_meta( mk_is_woo_archive(), '_layout', true );
+
+			if ( mk_shop_customizer_enabled() ) {
+				$page_layout = mk_cz_get_option( 'sh_pl_set_archive_sidebar', 'full' );
+			}
 		}
 
 		if ( isset( $_REQUEST['layout'] ) && ! empty( $_REQUEST['layout'] ) ) {
@@ -79,10 +84,7 @@ if ( ! function_exists( 'mk_woocommerce_output_content_wrapper_start' ) ) {
 
 			$page_layout = (isset( $page_layout ) && ! empty( $page_layout )) ? $page_layout : 'full';
 
-			$padding = ($padding == 'true') ? 'no-padding' : '';
-
-		Mk_Static_Files::addAssets( 'mk_message_box' );
-		Mk_Static_Files::addAssets( 'mk_swipe_slideshow' );
+			$padding = ( 'true' == $padding ) ? 'no-padding' : '';
 
 		/**
 		 * Filter theme-page-wrapper classes.
@@ -98,7 +100,7 @@ if ( ! function_exists( 'mk_woocommerce_output_content_wrapper_start' ) ) {
 			)
 		);
 	?>
-	<div id="theme-page" class="master-holder clearfix" <?php echo esc_attr( get_schema_markup( 'main' ) ); ?>>
+	<div id="theme-page" class="master-holder clearfix" <?php echo  get_schema_markup( 'main' ) ; ?>>
 		<div class="master-holder-bg-holder">
 			<div id="theme-page-bg" class="master-holder-bg js-el"></div>
 		</div>
@@ -113,10 +115,11 @@ if ( ! function_exists( 'mk_woocommerce_output_content_wrapper_start' ) ) {
 }
 
 /**
-* Overrides to theme containers for wrapper ending part.
-*
-* @since 5.1.0
-*/
+ * Overrides to theme containers for wrapper ending part.
+ *
+ * @since 5.1.0
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ */
 if ( ! function_exists( 'mk_woocommerce_output_content_wrapper_end' ) ) {
 
 	function mk_woocommerce_output_content_wrapper_end() {
@@ -125,9 +128,13 @@ if ( ! function_exists( 'mk_woocommerce_output_content_wrapper_end' ) ) {
 		if ( is_singular( 'product' ) ) {
 			$page_layout = $mk_options['woocommerce_single_layout'];
 		} elseif ( global_get_post_id() ) {
-			$page_layout = get_post_meta( global_get_post_id() , '_layout', true );
+			$page_layout = get_post_meta( global_get_post_id(), '_layout', true );
 		} elseif ( mk_is_woo_archive() ) {
-			$page_layout = get_post_meta( mk_is_woo_archive() , '_layout', true );
+			$page_layout = get_post_meta( mk_is_woo_archive(), '_layout', true );
+
+			if ( mk_shop_customizer_enabled() ) {
+				$page_layout = mk_cz_get_option( 'sh_pl_set_archive_sidebar', 'full' );
+			}
 		}
 
 		if ( isset( $_REQUEST['layout'] ) && ! empty( $_REQUEST['layout'] ) ) {

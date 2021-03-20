@@ -8,8 +8,8 @@
  */
 
 $full_width = mk_cz_get_option( 'sh_pl_set_full_width', 'false' );
-$horizontal_space = mk_cz_get_option( 'sh_pl_set_horizontal_space', 30 );
-$vertical_space = mk_cz_get_option( 'sh_pl_set_vertical_space', 30 );
+$horizontal_space = intval( mk_cz_get_option( 'sh_pl_set_horizontal_space', 30 ) );
+$vertical_space = intval( mk_cz_get_option( 'sh_pl_set_vertical_space', 30 ) );
 $product_info_align = mk_cz_get_option( 'sh_pl_set_product_info_align' );
 
 $info_selected = mk_cz_get_option( 'sh_pl_set_product_info', array(

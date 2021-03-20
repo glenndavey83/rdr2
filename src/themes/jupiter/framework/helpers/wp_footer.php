@@ -27,7 +27,7 @@ if ( ! function_exists( 'mk_dynamic_styles' ) ) {
 		$saved_styles_build = get_post_meta( $post_id, '_theme_options_build', true );
 		$theme_option_build = get_option( THEME_OPTIONS_BUILD );
 
-		$styles = unserialize( base64_decode( get_post_meta( $post_id, '_dynamic_styles', true ) ) );
+		$styles = unserialize( mk_decode( get_post_meta( $post_id, '_dynamic_styles', true ) ) );
 
 		if ( empty( $styles ) ) {
 			$css = '';
@@ -41,7 +41,7 @@ if ( ! function_exists( 'mk_dynamic_styles' ) ) {
 		}
 
 		if ( empty( $saved_styles ) || $saved_styles_build != $theme_option_build ) {
-			update_post_meta( $post_id, '_dynamic_styles', base64_encode( serialize( ($app_dynamic_styles) ) ) );
+			update_post_meta( $post_id, '_dynamic_styles', mk_encode( serialize( ($app_dynamic_styles) ) ) );
 			update_post_meta( $post_id, '_theme_options_build', $theme_option_build );
 		}
 	}
@@ -56,23 +56,21 @@ if ( ! function_exists( 'mk_dynamic_styles' ) ) {
 if ( ! function_exists( 'mk_google_analytics' ) ) {
 	function mk_google_analytics() {
 		global $mk_options;
+		if ( isset( $mk_options['analytics'] ) && ! empty( trim($mk_options['analytics']) ) ) {
+			$gdpr_code = ( 'true' == $mk_options['third_party_gdpr']) ? "ga('set', 'anonymizeIp', true);" : '';
+			?>
+		<!-- Google Analytics -->
+		<script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-		if ( isset( $mk_options['analytics'] ) && ! empty( $mk_options['analytics'] ) ) { ?>
-		<script type="text/javascript">
-		var ga_fired = false;
-		window.addEventListener("scroll", function(){
-			if ((document.documentElement.scrollTop != 0 && ga_fired === false) || (document.body.scrollTop != 0 && ga_fired === false)) {
-				(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-				})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-				ga('create', '<?php echo stripslashes( $mk_options['analytics'] ); ?>', 'auto');
-				ga('send', 'pageview');
-				ga_fired = true;
-			}
-		}, true);
-		</script> 
+			ga('create', '<?php echo esc_js( stripslashes( trim($mk_options['analytics']) ) ); ?>', 'auto');
+			ga('send', 'pageview');
+			<?php echo $gdpr_code; ?>
+		</script>
+		<!-- End Google Analytics -->
 		<?php
 		}
 	}

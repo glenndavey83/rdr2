@@ -9,4 +9,6 @@ if(shortcode_exists('mk_portfolio')) {
 							pagination_style = 		"' . $mk_options['archive_portfolio_pagination_style'] . '"
 						]'
 				  );
+} else {
+	mk_the_default_loop();
 }

@@ -120,11 +120,9 @@ class MKHB_Render {
 
 		// Internal styles.
 		if ( ! empty( $this->hooks['styles'] ) ) {
-			$minifier = new SimpleCssMinifier();
-			$style = $minifier->minify( $this->hooks['styles'] );
 			wp_register_style( 'mkhb', false, array( 'mkhb-render' ) );
 			wp_enqueue_style( 'mkhb' );
-			wp_add_inline_style( 'mkhb', $style );
+			wp_add_inline_style( 'mkhb', mk_minify_css( $this->hooks['styles'] ) );
 		}
 
 		// Navigation, Textbox, and Button fonts.
@@ -240,6 +238,14 @@ class MKHB_Render {
 		$sticky_status = $this->get_header_option( 'sticky_header', false );
 		$sticky_status = filter_var( $sticky_status, FILTER_VALIDATE_BOOLEAN );
 
+		$jupiter_tbar  = '';
+
+		ob_start();
+
+		do_action( 'jupiter_tbar' );
+
+		$jupiter_tbar = ob_get_clean();
+
 		// Render all shortcodes based on device and workspace.
 		foreach ( $this->content as $point => $data ) {
 			if ( empty( $data ) ) {
@@ -263,6 +269,7 @@ class MKHB_Render {
 
 			$content .= sprintf( '
 				<div class="mkhb-device mkhb-%s mkhb-%s %s" %s>
+					%s
 					<div class="mkhb-device-container">
 						%s
 					</div>
@@ -271,6 +278,7 @@ class MKHB_Render {
 				esc_attr( $device ),
 				esc_attr( $header_class ),
 				$header_attr,
+				$jupiter_tbar,
 				$shortcode
 			);
 		}

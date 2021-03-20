@@ -298,7 +298,7 @@ class MK_Export_Import {
 	private function export_theme_options() {
 		try {
 			$file_name = 'options.txt';
-			$content = base64_encode( serialize( get_option( THEME_OPTIONS ) ) ); // @codingStandardsIgnoreLine
+			$content = mk_encode( serialize( get_option( THEME_OPTIONS ) ) ); // @codingStandardsIgnoreLine
 			$file_path = $this->folder['export_dir'] . '/' . $file_name;
 
 			if ( ! $this->mkfs->put_contents( $file_path, $content ) ) {
@@ -590,7 +590,7 @@ class MK_Export_Import {
 				$this->folder['import_dir'] . '/' . $file_name
 			);
 
-			$data = unserialize( base64_decode( $import_data ) ); // @codingStandardsIgnoreLine
+			$data = unserialize( mk_decode( $import_data ) ); // @codingStandardsIgnoreLine
 
 			delete_option( THEME_OPTIONS );
 

@@ -10,7 +10,7 @@
  */
 
 // Add to Cart Button dialog.
-$wp_customize->add_section(
+$mk_customize->add_section(
 	new MK_Dialog(
 		$wp_customize,
 		'mk_s_pp_s_add_to_cart_button',
@@ -29,7 +29,7 @@ $wp_customize->add_section(
 );
 
 // Show Icon.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_sty_atc_btn_show_icon]', array(
 		'type' => 'option',
 		'default' => 'true',
@@ -37,7 +37,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Toggle_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_atc_btn_show_icon]',
@@ -50,7 +50,7 @@ $wp_customize->add_control(
 );
 
 // Full width.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_sty_atc_btn_full_width]', array(
 		'type' => 'option',
 		'default' => 'false',
@@ -58,7 +58,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Toggle_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_atc_btn_full_width]',
@@ -71,7 +71,7 @@ $wp_customize->add_control(
 );
 
 // Typography.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_sty_atc_btn_typography]', array(
 		'type' => 'option',
 		'default' => array(
@@ -85,7 +85,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Typography_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_atc_btn_typography]',
@@ -97,7 +97,7 @@ $wp_customize->add_control(
 );
 
 // Background Color.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_sty_atc_btn_background_color]', array(
 		'type' => 'option',
 		'default'   => '#f97352',
@@ -105,7 +105,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_atc_btn_background_color]',
@@ -118,7 +118,7 @@ $wp_customize->add_control(
 );
 
 // Corner Radius.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_sty_atc_btn_border_radius]', array(
 		'type' => 'option',
 		'default'   => 3,
@@ -126,7 +126,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Input_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_atc_btn_border_radius]',
@@ -144,7 +144,7 @@ $wp_customize->add_control(
 );
 
 // Border.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_sty_atc_btn_border]', array(
 		'type' => 'option',
 		'default'   => 0,
@@ -152,7 +152,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Input_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_atc_btn_border]',
@@ -170,7 +170,7 @@ $wp_customize->add_control(
 );
 
 // Border Color.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_sty_atc_btn_border_color]', array(
 		'type' => 'option',
 		'default'   => '#f97352',
@@ -178,7 +178,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_atc_btn_border_color]',
@@ -191,7 +191,7 @@ $wp_customize->add_control(
 );
 
 // Icon Color.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_sty_atc_btn_icon_color]', array(
 		'type' => 'option',
 		'default'   => '#ffffff',
@@ -199,7 +199,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_atc_btn_icon_color]',
@@ -212,13 +212,13 @@ $wp_customize->add_control(
 );
 
 // Divider 1.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_sty_atc_btn_divider_1]', array(
 		'type' => 'option',
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Divider_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_atc_btn_divider_1]',
@@ -229,13 +229,13 @@ $wp_customize->add_control(
 );
 
 // Hover Label.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_sty_atc_btn_label]', array(
 		'type' => 'option',
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Label_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_atc_btn_label]',
@@ -248,7 +248,7 @@ $wp_customize->add_control(
 );
 
 // Font Color Hover.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_sty_atc_btn_color_hover]', array(
 		'type' => 'option',
 		'default'   => '#ffffff',
@@ -256,7 +256,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_atc_btn_color_hover]',
@@ -269,7 +269,7 @@ $wp_customize->add_control(
 );
 
 // Background Color Hover.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_sty_atc_btn_background_color_hover]', array(
 		'type' => 'option',
 		'default'   => '#ae5039',
@@ -277,7 +277,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_atc_btn_background_color_hover]',
@@ -290,7 +290,7 @@ $wp_customize->add_control(
 );
 
 // Border Color Hover.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_sty_atc_btn_border_color_hover]', array(
 		'type' => 'option',
 		'default'   => '#f97352',
@@ -298,7 +298,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_atc_btn_border_color_hover]',
@@ -311,7 +311,7 @@ $wp_customize->add_control(
 );
 
 // Icon Color Hover.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_sty_atc_btn_icon_color_hover]', array(
 		'type' => 'option',
 		'default'   => '#ffffff',
@@ -319,7 +319,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_atc_btn_icon_color_hover]',
@@ -332,13 +332,13 @@ $wp_customize->add_control(
 );
 
 // Divider 2.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_sty_atc_btn_divider_2]', array(
 		'type' => 'option',
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Divider_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_atc_btn_divider_2]',
@@ -349,7 +349,7 @@ $wp_customize->add_control(
 );
 
 // Box Model.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_sty_atc_btn_box_model]', array(
 		'type' => 'option',
 		'default' => array(
@@ -366,7 +366,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Box_Model_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_atc_btn_box_model]',

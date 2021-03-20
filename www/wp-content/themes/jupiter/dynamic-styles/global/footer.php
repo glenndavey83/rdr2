@@ -2,11 +2,12 @@
 
 global $mk_options;
 
-$links_hover_color = (!empty($mk_options['footer_links_hover_color'])) ? $mk_options['footer_links_hover_color'] : $mk_options['skin_color'];
-$padding_wrapper = (!empty($mk_options['footer_wrapper_padding'])) ? '#mk-footer .footer-wrapper{padding:'.$mk_options['footer_wrapper_padding'].'px 0}' : '';
-$border_thickness = (!empty($mk_options['footer_top_thickness'])) ? '#mk-footer{border-top:'.$mk_options['footer_top_thickness'].'px solid '.$mk_options['footer_top_border_color'].'}' : '';
+$links_hover_color = ( ! empty( $mk_options['footer_links_hover_color'] )) ? $mk_options['footer_links_hover_color'] : $mk_options['skin_color'];
+$padding_wrapper = ( ! empty( $mk_options['footer_wrapper_padding'] )) ? '#mk-footer .footer-wrapper{padding:' . $mk_options['footer_wrapper_padding'] . 'px 0}' : '';
+$border_thickness = ( ! empty( $mk_options['footer_top_thickness'] )) ? '#mk-footer{border-top:' . $mk_options['footer_top_thickness'] . 'px solid ' . $mk_options['footer_top_border_color'] . '}' : '';
 
-Mk_Static_Files::addGlobalStyle("
+Mk_Static_Files::addGlobalStyle(
+	"
 
 {$border_thickness}
 {$padding_wrapper}
@@ -73,7 +74,8 @@ Mk_Static_Files::addGlobalStyle("
 	color: {$mk_options['sub_footer_nav_copy_color']};
 }
 
-");
+"
+);
 
 /**
  * Sub Footer Logo width.
@@ -84,12 +86,14 @@ Mk_Static_Files::addGlobalStyle("
 $footer_logo_width = ! empty( $mk_options['footer_logo_width'] ) ? $mk_options['footer_logo_width'] : '';
 
 if ( $footer_logo_width ) {
-	Mk_Static_Files::addGlobalStyle("
+	Mk_Static_Files::addGlobalStyle(
+		"
 		#mk-footer .mk-footer-logo img {
 			max-width: {$footer_logo_width}px;
 		}
 		#mk-footer .mk-footer-logo.mk-svg img {
 			width: {$footer_logo_width}px;
 		}
-	");
+	"
+	);
 }

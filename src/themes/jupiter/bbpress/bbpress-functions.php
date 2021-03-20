@@ -140,10 +140,9 @@ class BBP_Default extends BBP_Theme_Compat {
 	public function enqueue_styles() {
 
 		// LTR or RTL
-		
-		global $mk_options;	        
-		$is_css_min = ( !MK_DEV || $mk_options['minify-css'] == 'true' );
-		$file = 'assets/stylesheet/plugins'. ($is_css_min ? '/min' : '') .'/bbpress.css';
+
+		global $mk_options;
+		$file = 'assets/stylesheet/plugins/min/bbpress.css';
 
 		// Check child theme
 		if ( file_exists( trailingslashit( get_stylesheet_directory() ) . $file ) ) {
@@ -164,7 +163,7 @@ class BBP_Default extends BBP_Theme_Compat {
 		// Enqueue the bbPress styling
 		wp_enqueue_style( $handle, $location . $file, array(), $this->version, 'screen' );
 	}
-	
+
 	/**
 	 * Enqueue the required Javascript files
 	 *
@@ -175,20 +174,52 @@ class BBP_Default extends BBP_Theme_Compat {
 	 * @uses wp_enqueue_script() To enqueue the scripts
 	 */
 	public function enqueue_scripts() {
+		// Setup scripts array
+		$scripts = array();
 
-		// Always pull in jQuery for TinyMCE shortcode usage
-		if ( bbp_use_wp_editor() ) {
-			wp_enqueue_script( 'jquery' );
+		// Editor scripts
+		// @see https://bbpress.trac.wordpress.org/ticket/2930
+		if ( bbp_use_wp_editor() && is_bbpress() ) {
+			$scripts['bbpress-editor'] = array(
+				'file'         => 'js/editor.js',
+				'dependencies' => array( 'jquery' )
+			);
 		}
 
-		// Topic favorite/subscribe
-		if ( bbp_is_single_topic() ) {
-			wp_enqueue_script( 'bbpress-topic', $this->url . 'js/topic.js', array( 'jquery' ), $this->version );
+		// Forum-specific scripts
+		if ( bbp_is_single_forum() ) {
+			$scripts['bbpress-engagements'] = array(
+				'file'         => 'js/engagements.js',
+				'dependencies' => array( 'jquery' )
+			);
+		}
+
+		// Topic-specific scripts
+		if ( bbp_is_single_topic() || bbp_is_topic_edit() ) {
+
+			// Engagements
+			$scripts['bbpress-engagements'] = array(
+				'file'         => 'js/engagements.js',
+				'dependencies' => array( 'jquery' )
+			);
+
+			// Hierarchical replies
+			if ( bbp_thread_replies() ) {
+				$scripts['bbpress-reply'] = array(
+					'file'         => 'js/reply.js',
+					'dependencies' => array( 'jquery' )
+				);
+			}
 		}
 
 		// User Profile edit
 		if ( bbp_is_single_user_edit() ) {
 			wp_enqueue_script( 'user-profile' );
+		}
+
+		// Enqueue the scripts
+		foreach ( $scripts as $handle => $attributes ) {
+			wp_enqueue_script( $handle, $this->url . $attributes['file'], $attributes['dependencies'], $this->version, true );
 		}
 	}
 

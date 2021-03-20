@@ -9,7 +9,7 @@
  */
 
 // Quantity dialog.
-$wp_customize->add_section(
+$mk_customize->add_section(
 	new MK_Dialog(
 		$wp_customize,
 		'mk_s_pp_s_quantity',
@@ -28,7 +28,7 @@ $wp_customize->add_section(
 );
 
 // Typography.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_sty_qty_typography]', array(
 		'type' => 'option',
 		'default' => array(
@@ -42,7 +42,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Typography_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_qty_typography]',
@@ -54,7 +54,7 @@ $wp_customize->add_control(
 );
 
 // Background Color.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_sty_qty_background_color]', array(
 		'type' => 'option',
 		'default'   => '#ffffff',
@@ -62,7 +62,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_qty_background_color]',
@@ -75,7 +75,7 @@ $wp_customize->add_control(
 );
 
 // Border.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_sty_qty_border]', array(
 		'type' => 'option',
 		'default'   => 1, // Inherited from assets/stylesheet/plugins/min/woocommerce.css.
@@ -83,7 +83,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Input_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_qty_border]',
@@ -101,7 +101,7 @@ $wp_customize->add_control(
 );
 
 // Border Color.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_sty_qty_border_color]', array(
 		'type' => 'option',
 		'default'   => '#e3e3e3', // Inherited from assets/stylesheet/plugins/min/woocommerce.css.
@@ -109,7 +109,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_qty_border_color]',
@@ -122,13 +122,13 @@ $wp_customize->add_control(
 );
 
 // Divider 1.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_sty_qty_divider_1]', array(
 		'type' => 'option',
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Divider_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_qty_divider_1]',
@@ -139,7 +139,7 @@ $wp_customize->add_control(
 );
 
 // Box Model.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_sty_qty_box_model]', array(
 		'type' => 'option',
 		'default' => array(
@@ -152,7 +152,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Box_Model_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_qty_box_model]',

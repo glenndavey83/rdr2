@@ -23,7 +23,7 @@
  * Log commits to see the changes.
  */
 (function () {
-  
+
 // Scroll Variables (tweakable)
 var defaultOptions = {
 
@@ -376,7 +376,6 @@ function wheel(event) {
     }
     
     scrollArray(overflowing, deltaX, deltaY);
-    event.preventDefault();
     scheduleClearCache();
 }
 

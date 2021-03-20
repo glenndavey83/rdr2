@@ -1,10 +1,10 @@
 === Clean Login ===
 Contributors: hornero, carazo
-Donate link: http://codection.com
+Donate link: https://codection.com/?post_type=surl&p=8712&preview=true
 Tags: form, login, registration, editor, lost password, responsive, wpml, internationalization, languages, role, CAPTCHA, reCaptcha, honeypot, shortcode, wordpress, frontend
 Requires at least: 3.4
-Tested up to: 5.1
-Stable tag: 1.9.9
+Tested up to: 5.7
+Stable tag: 1.12.4.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -71,6 +71,94 @@ Please, refer to [Installation section](https://wordpress.org/plugins/clean-logi
 12. WPML. Certificate of Compatibility
 
 == Changelog ==
+
+= 1.12.4.8 =
+*   Fixed problem with WPML integration
+
+= 1.12.4.7 =
+*   Fixed problem with login form and failed messages when prevent cache was activated
+
+= 1.12.4.6 =
+*   More problems fixed in register form
+
+= 1.12.4.5 =
+*   Different problems solved
+
+= 1.12.4.4 =
+*   Fixed problem saving some options
+
+= 1.12.4.3 =
+*   Hide admin bar functionality fixed
+
+= 1.12.4.2 =
+*   Non-cache method in login page now is optional
+*   Code improvements
+
+= 1.12.4.1 =
+*   Fixed bug in login action because of non-cache method
+
+= 1.12.4 =
+*   Included a non-cache method to prevent problems with nonce in login form
+
+= 1.12.3.2 =
+*   Included more aria-labels
+
+= 1.12.3.1 =
+*   Nonce in activation emails are calculated in a different way to prevent problems checking them
+
+= 1.12.3 =
+*   In the edit profile form, if you change the email, the standard WordPress change email notification is sent to avoid problems with unwanted changes
+
+= 1.12.2.1 =
+*   Restore shortcode lost fixed
+
+= 1.12.2 =
+*   Lost fixed widget
+
+= 1.12.1 =
+*   aria-labels now can be translated
+*   id included in some tags to improve usability
+
+= 1.12 =
+*   Code refactorized
+*   Error updating profile when email is hidden fixed
+
+= 1.11.3 =
+*   Included aria-labels to improve accesibility
+
+= 1.11.2 =
+*   Automatic password generated now it is hidden from url when you are reseting it
+
+= 1.11.1 =
+*   New hooks added thanks again to @harrowmykel
+
+= 1.11 =
+*   New hooks added thanks to @harrowmykel
+*	Nonces added in frontend forms thanks again to @harrowmykel
+
+= 1.10.5 =
+*   Fixed captcha not displaying when register template was overriden thanks to @harrowmykel
+
+= 1.10.4 =
+*   Added nonce in settings form
+
+= 1.10.3 =
+*   Email optional using attribute of shortcode in [clean-login-edit]
+
+= 1.10.2 =
+*   Email headers included instead of using a filter
+
+= 1.10.1 =
+*   Include filter to validate emails with custom rules
+
+= 1.10 =
+*   If a shortcode is removed, the url where is it saved is updated
+*	If a site does not allow register, plugin does not allow use shortcode for register, does not show register link in login form and it shows an error if you try to see a page with register shortcode
+*	Tested on WordPress 5.3
+
+= 1.9.10 =
+*   Email Notification HTML Tags bug solved. Thanks to unCommons (@uncommons)
+*	Tested on WordPress 5.2.2
 
 = 1.9.9 =
 *   login_redirect filter included, and MemberPress compatibility ensured.

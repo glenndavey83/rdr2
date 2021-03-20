@@ -3,7 +3,8 @@
 global $mk_options;
 
 
-Mk_Static_Files::addGlobalStyle("
+Mk_Static_Files::addGlobalStyle(
+	"
 
 .mk-fullscreen-nav{
 	background-color:{$mk_options['fullscreen_nav_bg_color']};
@@ -26,4 +27,5 @@ Mk_Static_Files::addGlobalStyle("
 	color: {$mk_options['fullscreen_nav_link_hov_color']};
 }
 
-");	
+"
+);

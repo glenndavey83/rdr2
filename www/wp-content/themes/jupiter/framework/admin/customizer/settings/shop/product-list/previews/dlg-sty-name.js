@@ -1,6 +1,6 @@
 (function ($) {
 
-	var productTitle = '.woocommerce-page ul.products li.product .woocommerce-loop-product__title';
+	var productTitle = '.woocommerce-page ul.products li.product .woocommerce-loop-product__title, .mk-woocommerce-carousel.classic-style ul.products li.product .woocommerce-loop-product__title';
 
 	// Method for Control's event handlers: sh_pl_sty_nam_typography.
 	wp.customize('mk_cz[sh_pl_sty_nam_typography]', function (value) {

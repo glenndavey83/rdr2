@@ -17,10 +17,10 @@ class Vc_Current_User_Access extends Vc_Role_Access {
 	public function part( $part ) {
 		if ( ! isset( $this->parts[ $part ] ) ) {
 			require_once vc_path_dir( 'CORE_DIR', 'access/class-vc-current-user-access-controller.php' );
-			/** @var $user_access_controller Vc_Current_User_Access_Controller */
-			$user_access_controller = $this->parts[ $part ] = new Vc_Current_User_Access_Controller( $part );
+			/** @var Vc_Current_User_Access_Controller $user_access_controller */
+			$this->parts[ $part ] = new Vc_Current_User_Access_Controller( $part );
 		}
-		/** @var $user_access_controller Vc_Current_User_Access_Controller */
+		/** @var Vc_Current_User_Access_Controller $user_access_controller */
 		$user_access_controller = $this->parts[ $part ];
 		// we also check for user "logged_in" status
 		$is_user_logged_in = function_exists( 'is_user_logged_in' ) && is_user_logged_in();
@@ -30,6 +30,12 @@ class Vc_Current_User_Access extends Vc_Role_Access {
 		return $user_access_controller;
 	}
 
+	/**
+	 * @param $method
+	 * @param $valid
+	 * @param $argsList
+	 * @return $this
+	 */
 	public function wpMulti( $method, $valid, $argsList ) {
 		if ( $this->getValidAccess() ) {
 			$access = ! $valid;
@@ -55,7 +61,7 @@ class Vc_Current_User_Access extends Vc_Role_Access {
 	}
 
 	/**
-	 * Check Wordpress capability. Should be valid one cap at least.
+	 * Check WordPress capability. Should be valid one cap at least.
 	 *
 	 * @return Vc_Current_User_Access
 	 */
@@ -69,7 +75,7 @@ class Vc_Current_User_Access extends Vc_Role_Access {
 	}
 
 	/**
-	 * Check Wordpress capability. Should be valid all caps.
+	 * Check WordPress capability. Should be valid all caps.
 	 *
 	 * @return Vc_Current_User_Access
 	 */
@@ -78,6 +84,49 @@ class Vc_Current_User_Access extends Vc_Role_Access {
 			$args = func_get_args();
 			$this->wpMulti( 'check', false, $args );
 		}
+
+		return $this;
+	}
+
+	public function canEdit( $id ) {
+		// @codingStandardsIgnoreStart
+		$post = get_post( $id );
+		if ( ! $post ) {
+			$this->setValidAccess( false );
+
+			return $this;
+		}
+		if ( $post->post_status === 'trash' ) {
+			$this->setValidAccess( false );
+
+			return $this;
+		}
+		if ( 'page' !== $post->post_type ) {
+			if ( 'publish' === $post->post_status && $this->wpAll( [
+						get_post_type_object( $post->post_type )->cap->edit_published_posts,
+						$post->ID,
+					] )->get() ) {
+				$this->setValidAccess( true );
+
+				return $this;
+			} elseif ( 'publish' !== $post->post_status && $this->wpAll( [
+						get_post_type_object( $post->post_type )->cap->edit_posts,
+						$post->ID,
+					] )->get() ) {
+				$this->setValidAccess( true );
+
+				return $this;
+			}
+		} elseif ( 'page' === $post->post_type && $this->wpAll( [
+				'edit_pages',
+				$post->ID,
+			] )->get() ) {
+			$this->setValidAccess( true );
+
+			return $this;
+		}
+
+		$this->setValidAccess( false );
 
 		return $this;
 	}

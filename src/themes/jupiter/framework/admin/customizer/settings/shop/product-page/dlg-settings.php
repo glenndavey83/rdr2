@@ -12,7 +12,7 @@
  */
 
 // Settings tab.
-$wp_customize->add_section(
+$mk_customize->add_section(
 	new MK_Dialog(
 		$wp_customize,
 		'mk_s_pp_settings',
@@ -30,7 +30,7 @@ $wp_customize->add_section(
 );
 
 // product Page Layout.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_set_layout]', array(
 		'type' => 'option',
 		'default'   => '1',
@@ -38,7 +38,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Radio_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_set_layout]',
@@ -64,7 +64,7 @@ $wp_customize->add_control(
 );
 
 // Sidebar.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_set_sidebar]', array(
 		'type' => 'option',
 		'default'   => 'full',
@@ -72,7 +72,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Select_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_set_sidebar]',
@@ -90,7 +90,7 @@ $wp_customize->add_control(
 );
 
 // Display Product Info.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_set_product_info]', array(
 		'type' => 'option',
 		'default'   => array(
@@ -112,7 +112,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Checkbox_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_set_product_info]',
@@ -140,7 +140,7 @@ $wp_customize->add_control(
 );
 
 // Sticky Product Info.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_set_sticky_info_enabled]', array(
 		'type' => 'option',
 		'default' => 'true',
@@ -148,7 +148,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Toggle_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_set_sticky_info_enabled]',
@@ -161,7 +161,7 @@ $wp_customize->add_control(
 );
 
 // Product Lightbox.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_set_photoswipe_enabled]', array(
 		'type' => 'option',
 		'default' => 'true',
@@ -169,7 +169,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Toggle_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_set_photoswipe_enabled]',
@@ -182,7 +182,7 @@ $wp_customize->add_control(
 );
 
 // Product Magnifier.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_set_zoom_enabled]', array(
 		'type' => 'option',
 		'default' => 'true',
@@ -190,7 +190,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Toggle_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_set_zoom_enabled]',
@@ -203,7 +203,7 @@ $wp_customize->add_control(
 );
 
 // Related Products.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_set_related_products_enabled]', array(
 		'type' => 'option',
 		'default' => 'true',
@@ -211,7 +211,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Toggle_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_set_related_products_enabled]',
@@ -224,7 +224,7 @@ $wp_customize->add_control(
 );
 
 // Up Sells.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pp_set_up_sells_enabled]', array(
 		'type' => 'option',
 		'default' => 'true',
@@ -232,7 +232,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Toggle_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_set_up_sells_enabled]',

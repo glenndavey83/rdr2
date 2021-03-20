@@ -108,10 +108,10 @@ class Util_Environment {
 	}
 
 	/*
-     * Returns URL from filename/dirname
-     *
-     * @return string
-     */
+	 * Returns URL from filename/dirname
+	 *
+	 * @return string
+	 */
 	static public function filename_to_url( $filename, $use_site_url = false ) {
 		// using wp-content instead of document_root as known dir since dirbased
 		// multisite wp adds blogname to the path inside site_url
@@ -173,22 +173,25 @@ class Util_Environment {
 		return $wpmu;
 	}
 
+	static private $is_using_master_config = null;
+
 	static public function is_using_master_config() {
-		static $result = null;
-		if ( is_null( $result ) ) {
+		if ( is_null( self::$is_using_master_config ) ) {
 			if ( !Util_Environment::is_wpmu() ) {
-				$result = true;
+				self::$is_using_master_config = true;
 			} elseif ( is_network_admin() ) {
-				$result = true;
+				self::$is_using_master_config = true;
 			} else {
 				$blog_data = Util_WpmuBlogmap::get_current_blog_data();
-				if ( is_null( $blog_data ) )
-					$result = true;
-				$result = ( $blog_data[0] == 'm' );
+				if ( is_null( $blog_data ) ) {
+					self::$is_using_master_config = true;
+				} else {
+					self::$is_using_master_config = ( $blog_data[0] == 'm' );
+				}
 			}
 		}
 
-		return $result;
+		return self::$is_using_master_config;
 	}
 
 	/**
@@ -332,10 +335,11 @@ class Util_Environment {
 
 
 		$blog_data = Util_WpmuBlogmap::get_current_blog_data();
-		if ( !is_null( $blog_data ) )
+		if ( !is_null( $blog_data ) ) {
 			$w3_current_blog_id = substr( $blog_data, 1 );
-		else
+		} else {
 			$w3_current_blog_id = 0;
+		}
 
 		return $w3_current_blog_id;
 	}
@@ -508,12 +512,22 @@ class Util_Environment {
 		$home_path = ABSPATH;
 		if ( ! empty( $home ) && 0 !== strcasecmp( $home, $siteurl ) ) {
 			$wp_path_rel_to_home = str_ireplace( $home, '', $siteurl ); /* $siteurl - $home */
-			$pos = strripos( str_replace( '\\', '/', $_SERVER['SCRIPT_FILENAME'] ), trailingslashit( $wp_path_rel_to_home ) );
 			// fix of get_home_path, used when index.php is moved outside of
 			// wp folder.
+			$pos = strripos(
+				str_replace( '\\', '/', $_SERVER['SCRIPT_FILENAME'] ),
+				trailingslashit( $wp_path_rel_to_home ) );
 			if ( $pos !== false ) {
 				$home_path = substr( $_SERVER['SCRIPT_FILENAME'], 0, $pos );
 				$home_path = trailingslashit( $home_path );
+			} else if ( defined( 'WP_CLI' ) ) {
+				$pos = strripos(
+					str_replace( '\\', '/', ABSPATH ),
+					trailingslashit( $wp_path_rel_to_home ) );
+				if ( $pos !== false ) {
+					$home_path = substr( ABSPATH, 0, $pos );
+					$home_path = trailingslashit( $home_path );
+				}
 			}
 		}
 
@@ -712,8 +726,9 @@ class Util_Environment {
 				'%BLOG_ID%',
 				'%HOST%'
 			), array(
-				( isset( $GLOBALS['blog_id'] ) ? (int) $GLOBALS['blog_id'] : 0 ),
-				( isset( $GLOBALS['post_id'] ) ? (int) $GLOBALS['post_id'] : 0 ),
+				( isset( $GLOBALS['blog_id'] ) && is_numeric( $GLOBALS['blog_id'] ) ? (int) $GLOBALS['blog_id'] : 0 ),
+				( isset( $GLOBALS['post_id'] ) && is_numeric( $GLOBALS['post_id'] ) ?
+					(int) $GLOBALS['post_id'] : 0 ),
 				Util_Environment::blog_id(),
 				Util_Environment::host()
 			), $path );
@@ -953,8 +968,13 @@ class Util_Environment {
 		if ( isset( $rel['scheme'] ) || isset( $rel['host'] ) )
 			return $relative_url;
 
-		if ( !isset( $rel['host'] ) )
-			$rel['host'] = parse_url( get_home_url(), PHP_URL_HOST );
+		if ( !isset( $rel['host'] ) ) {
+			$home_parsed = parse_url( get_home_url() );
+			$rel['host'] = $home_parsed['host'];
+			if ( isset( $home_parsed['port'] ) ) {
+				$rel['port'] = $home_parsed['port'];
+			}
+		}
 
 		$scheme = isset( $rel['scheme'] ) ? $rel['scheme'] . '://' : '//';
 		$host = isset( $rel['host'] ) ? $rel['host'] : '';
@@ -988,12 +1008,14 @@ class Util_Environment {
 	 *
 	 * @return string
 	 */
-	static public function redirect_temp( $url = '', $params = array() ) {
+	static public function safe_redirect_temp( $url = '', $params = array(),
+			$safe_redirect = false ) {
 		$url = Util_Environment::url_format( $url, $params );
-		if ( function_exists( 'do_action' ) )
+		if ( function_exists( 'do_action' ) ) {
 			do_action( 'w3tc_redirect' );
+		}
 
-		$status_code = 301;
+		$status_code = 302;
 
 		$protocol = $_SERVER["SERVER_PROTOCOL"];
 		if ( 'HTTP/1.1' === $protocol ) {
@@ -1005,9 +1027,17 @@ class Util_Environment {
 			$status_header = "$protocol $status_code $text";
 			@header( $status_header, true, $status_code );
 		}
+
+		add_action( 'wp_safe_redirect_fallback', array(
+			'\W3TC\Util_Environment', 'wp_safe_redirect_fallback' ) );
+
 		@header( 'Cache-Control: no-cache' );
-		@header( 'Location: ' . $url, true, $status_code );
+		wp_safe_redirect( $url, $status_code );
 		exit();
+	}
+
+	static public function wp_safe_redirect_fallback( $url ) {
+		return home_url( '?w3tc_repeat=invalid' );
 	}
 
 	/**
@@ -1022,9 +1052,9 @@ class Util_Environment {
 			return $post_ID;
 		} elseif ( $comment_post_ID ) {
 			return $comment_post_ID;
-		} elseif ( ( is_single() || is_page() ) && is_array( $posts ) ) {
+		} elseif ( ( is_single() || is_page() ) && is_array( $posts ) && isset( $posts[0]->ID ) ) {
 			return $posts[0]->ID;
-		} elseif ( is_object( $posts ) && property_exists( $posts, 'ID' ) ) {
+		} elseif ( isset( $posts->ID ) ) {
 			return $posts->ID;
 		} elseif ( isset( $_REQUEST['p'] ) ) {
 			return (integer) $_REQUEST['p'];
@@ -1069,15 +1099,15 @@ class Util_Environment {
 	 */
 	static public function is_w3tc_pro( $config = null ) {
 		if ( defined( 'W3TC_PRO' ) && W3TC_PRO )
-		    return true;
+			return true;
 		if ( defined( 'W3TC_ENTERPRISE' ) && W3TC_ENTERPRISE )
-		    return true;
+			return true;
 
 		if ( is_object( $config ) ) {
-		    $plugin_type = $config->get_string( 'plugin.type' );
+			$plugin_type = $config->get_string( 'plugin.type' );
 
-		    if ( $plugin_type == 'pro' || $plugin_type == 'pro_dev' )
-		        return true;
+			if ( $plugin_type == 'pro' || $plugin_type == 'pro_dev' )
+				return true;
 		}
 
 		return false;
@@ -1224,5 +1254,12 @@ class Util_Environment {
 		// in case when called before constant is set
 		// wp filters are not available in that case
 		return preg_match( '~' . W3TC_WP_JSON_URI . '~', $url );
+	}
+
+	static public function reset_microcache() {
+		global $w3_current_blog_id;
+		$w3_current_blog_id = null;
+
+		self::$is_using_master_config = null;
 	}
 }

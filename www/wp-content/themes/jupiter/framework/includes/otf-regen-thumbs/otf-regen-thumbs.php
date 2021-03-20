@@ -22,6 +22,8 @@ global $pagenow;
 
 if($pagenow == 'admin-ajax.php') return false;
 
+
+
 if ( ! function_exists( 'gambit_otf_regen_thumbs_media_downsize' ) ) {
 	
 	/**
@@ -33,6 +35,10 @@ if ( ! function_exists( 'gambit_otf_regen_thumbs_media_downsize' ) ) {
 	 * @return	mixed False if the custom downsize failed, or an array of the image if successful
 	 */
 	function gambit_otf_regen_thumbs_media_downsize( $out, $id, $size ) {
+
+		if ( is_singular( 'product' ) ) {
+			return false;
+		}
 
 		// Gather all the different image sizes of WP (thumbnail, medium, large) and,
 		// all the theme/plugin-introduced sizes.

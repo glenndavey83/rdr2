@@ -9,7 +9,7 @@
  */
 
 // Out of Stock Badge dialog.
-$wp_customize->add_section(
+$mk_customize->add_section(
 	new MK_Dialog(
 		$wp_customize,
 		'mk_s_pp_s_outofstock_badge',
@@ -28,7 +28,7 @@ $wp_customize->add_section(
 );
 
 // Typography.
-$wp_customize->add_setting( 'mk_cz[sh_pp_sty_oos_bdg_typography]', array(
+$mk_customize->add_setting( 'mk_cz[sh_pp_sty_oos_bdg_typography]', array(
 	'type' => 'option',
 	'default' => array(
 		'family' => 'inherit',
@@ -40,7 +40,7 @@ $wp_customize->add_setting( 'mk_cz[sh_pp_sty_oos_bdg_typography]', array(
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Typography_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_oos_bdg_typography]',
@@ -53,13 +53,13 @@ $wp_customize->add_control(
 
 // Box Model.
 // Background color.
-$wp_customize->add_setting( 'mk_cz[sh_pp_sty_oos_bdg_background_color]', array(
+$mk_customize->add_setting( 'mk_cz[sh_pp_sty_oos_bdg_background_color]', array(
 	'type' => 'option',
 	'default'   => 'rgba(0, 0, 0, 0)',
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_oos_bdg_background_color]',
@@ -72,13 +72,13 @@ $wp_customize->add_control(
 );
 
 // Border radius.
-$wp_customize->add_setting( 'mk_cz[sh_pp_sty_oos_bdg_border_radius]', array(
+$mk_customize->add_setting( 'mk_cz[sh_pp_sty_oos_bdg_border_radius]', array(
 	'type' => 'option',
 	'default'   => 0,
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Input_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_oos_bdg_border_radius]',
@@ -96,13 +96,13 @@ $wp_customize->add_control(
 );
 
 // Border width.
-$wp_customize->add_setting( 'mk_cz[sh_pp_sty_oos_bdg_border_width]', array(
+$mk_customize->add_setting( 'mk_cz[sh_pp_sty_oos_bdg_border_width]', array(
 	'type' => 'option',
 	'default'   => 2,
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Input_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_oos_bdg_border_width]',
@@ -120,13 +120,13 @@ $wp_customize->add_control(
 );
 
 // Border color.
-$wp_customize->add_setting( 'mk_cz[sh_pp_sty_oos_bdg_border_color]', array(
+$mk_customize->add_setting( 'mk_cz[sh_pp_sty_oos_bdg_border_color]', array(
 	'type' => 'option',
 	'default'   => '#aaaaaa',
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_oos_bdg_border_color]',
@@ -139,11 +139,11 @@ $wp_customize->add_control(
 );
 
 // Divider.
-$wp_customize->add_setting( 'mk_cz[sh_pp_sty_oos_bdg_divider]', array(
+$mk_customize->add_setting( 'mk_cz[sh_pp_sty_oos_bdg_divider]', array(
 	'type' => 'option',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Divider_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_oos_bdg_divider]',
@@ -154,7 +154,7 @@ $wp_customize->add_control(
 );
 
 // Box Model.
-$wp_customize->add_setting( 'mk_cz[sh_pp_sty_oos_bdg_box_model]', array(
+$mk_customize->add_setting( 'mk_cz[sh_pp_sty_oos_bdg_box_model]', array(
 	'type' => 'option',
 	'default' => array(
 		'margin_top'     => 0,
@@ -169,7 +169,7 @@ $wp_customize->add_setting( 'mk_cz[sh_pp_sty_oos_bdg_box_model]', array(
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Box_Model_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_oos_bdg_box_model]',

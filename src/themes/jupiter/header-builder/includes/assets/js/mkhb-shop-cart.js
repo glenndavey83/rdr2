@@ -3,7 +3,7 @@
 	// Open the shop list box when hover.
 	$( '.mkhb-shop-cart-el' ).hover( function(){
 		this_shop_cart_box = $( this ).find( shop_cart_box );
-		this_shop_cart_box.fadeIn( 250 );
+		this_shop_cart_box.stop( true, true ).fadeIn( 250 );
 
 		// Measure shop-cart-box current offset and width.
 		var width = Math.max( document.documentElement.clientWidth, window.innerWidth || 0 );
@@ -16,6 +16,6 @@
 		}
 	}, function(){
 		this_shop_cart_box = $( this ).find( shop_cart_box );
-		this_shop_cart_box.fadeOut( 250 );
+		this_shop_cart_box.stop( true, true ).delay( 700 ).fadeOut( 250 );
 	} );
 } )( jQuery );

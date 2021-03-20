@@ -5,8 +5,8 @@ global $mk_options;
 $min_responsive_nav_width = $mk_options['responsive_nav_width'] + 1;
 $max_responsive_nav_width = $mk_options['responsive_nav_width'];
 
-Mk_Static_Files::addGlobalStyle("
-
+Mk_Static_Files::addGlobalStyle(
+	"
 
 @media handheld, only screen and (max-width: {$mk_options['grid_width']}px){
 
@@ -482,7 +482,8 @@ Mk_Static_Files::addGlobalStyle("
 
 }
 
-");
+"
+);
 
 /*
  * Change Go to top and Quick contact form buttons based on
@@ -503,7 +504,8 @@ $main_navigation_max_width     = $mk_options['responsive_nav_width'] . 'px';
 $buttons_bottom_property       = ( empty( $shopping_cart_status ) || $shopping_cart_status == 'true' ) ? 'bottom: 87px;' : '';
 $go_top_button_bottom_property = ( empty( $shopping_cart_status ) || $shopping_cart_status == 'true' ) ? 'bottom: 145px;' : 'bottom: 72px;';
 
-Mk_Static_Files::addGlobalStyle("
+Mk_Static_Files::addGlobalStyle(
+	"
 	@media handheld, only screen and (max-width:{$main_navigation_max_width}) {
 		.mk-go-top,
 		.mk-quick-contact-wrapper {
@@ -520,4 +522,5 @@ Mk_Static_Files::addGlobalStyle("
 		    right: 22px;
 		}
 	}
-");
+"
+);

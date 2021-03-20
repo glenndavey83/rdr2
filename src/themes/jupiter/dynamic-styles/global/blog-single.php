@@ -22,7 +22,8 @@ $blogBodyHeading4Color = ($mk_options['blog_body_h4_color'] != '') ? "color:{$mk
 $blogBodyHeading5Color = ($mk_options['blog_body_h5_color'] != '') ? "color:{$mk_options['blog_body_h5_color']} !important; " : '' ;
 $blogBodyHeading6Color = ($mk_options['blog_body_h6_color'] != '') ? "color:{$mk_options['blog_body_h6_color']} !important; " : '' ;
 
-Mk_Static_Files::addGlobalStyle("
+Mk_Static_Files::addGlobalStyle(
+	"
 
 .mk-single-content p{
     {$blogBodySize}
@@ -60,4 +61,5 @@ Mk_Static_Files::addGlobalStyle("
     {$blogHeadingWeight}
     {$blogHeadingColor}
 }
-");
+"
+);

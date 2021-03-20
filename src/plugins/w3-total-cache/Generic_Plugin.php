@@ -5,11 +5,8 @@ namespace W3TC;
  * W3 Total Cache plugin
  */
 class Generic_Plugin {
-
+	private $is_wp_die = false;
 	private $_translations = array();
-	/**
-	 * Config
-	 */
 	private $_config = null;
 
 	function __construct() {
@@ -36,6 +33,10 @@ class Generic_Plugin {
 				$this,
 				'admin_bar_menu'
 			), 150 );
+		add_action( 'admin_bar_init', array(
+				$this,
+				'admin_bar_init'
+			) );
 
 		if ( isset( $_REQUEST['w3tc_theme'] ) && isset( $_SERVER['HTTP_USER_AGENT'] ) &&
 			stristr( $_SERVER['HTTP_USER_AGENT'], W3TC_POWERED_BY ) !== false ) {
@@ -74,19 +75,23 @@ class Generic_Plugin {
 				), 0, 5 );
 		}
 
-		if ( $this->_config->get_string( 'common.support' ) == 'footer' ) {
-			add_action( 'wp_footer', array(
-					$this,
-					'footer'
-				) );
-		}
-
 		if ( $this->can_ob() ) {
+			add_filter( 'wp_die_xml_handler', array( $this, 'wp_die_handler' ) );
+			add_filter( 'wp_die_handler', array( $this, 'wp_die_handler' ) );
+
 			ob_start( array(
 					$this,
 					'ob_callback'
 				) );
 		}
+	}
+
+	/**
+	 * Marks wp_die was called so response is system message
+	 **/
+	public function wp_die_handler( $v ) {
+		$this->is_wp_die = true;
+		return $v;
 	}
 
 	/**
@@ -158,52 +163,35 @@ class Generic_Plugin {
 		}
 
 		if ( isset( $GLOBALS['w3tc_blogmap_register_new_item'] ) ) {
-			$do_redirect = false;
-			// true value is a sign to just generate config cache
-			if ( $GLOBALS['w3tc_blogmap_register_new_item'] != 'cache_options' ) {
-				if ( Util_Environment::is_wpmu_subdomain() )
-					$blog_home_url = $GLOBALS['w3tc_blogmap_register_new_item'];
-				else {
-					$home_url = rtrim( get_home_url(), '/' );
-					if ( substr( $home_url, 0, 7 ) == 'http://' )
-						$home_url = substr( $home_url, 7 );
-					else if ( substr( $home_url, 0, 8 ) == 'https://' )
-							$home_url = substr( $home_url, 8 );
+			$do_redirect = Util_WpmuBlogmap::register_new_item( $this->_config );
 
-						if ( substr( $GLOBALS['w3tc_blogmap_register_new_item'], 0,
-								strlen( $home_url ) ) == $home_url )
-							$blog_home_url = $home_url;
-						else
-							$blog_home_url = $GLOBALS['w3tc_blogmap_register_new_item'];
-				}
+			// reset cache of blog_id
+			Util_Environment::reset_microcache();
+			Dispatcher::reset_config();
 
+			// change config to actual blog, it was master before
+			$this->_config = new Config();
 
-				$do_redirect = Util_WpmuBlogmap::register_new_item( $blog_home_url,
-					$this->_config );
-
-				// reset cache of blog_id
-				global $w3_current_blog_id;
-				$w3_current_blog_id = null;
-
-				// change config to actual blog, it was master before
-				$this->_config = new Config();
-
-				// fix environment, potentially it's first request to a specific blog
-				$environment = Dispatcher::component( 'Root_Environment' );
-				$environment->fix_on_event( $this->_config, 'first_frontend',
-					$this->_config );
-			}
+			// fix environment, potentially it's first request to a specific blog
+			$environment = Dispatcher::component( 'Root_Environment' );
+			$environment->fix_on_event( $this->_config, 'first_frontend',
+				$this->_config );
 
 			// need to repeat request processing, since we was not able to realize
 			// blog_id before so we are running with master config now.
 			// redirect to the same url causes "redirect loop" error in browser,
 			// so need to redirect to something a bit different
 			if ( $do_redirect ) {
-				if ( strpos( $_SERVER['REQUEST_URI'], '?' ) === false )
-					Util_Environment::redirect_temp( $_SERVER['REQUEST_URI'] . '?repeat=w3tc' );
-				else {
-					if ( strpos( $_SERVER['REQUEST_URI'], 'repeat=w3tc' ) === false )
-						Util_Environment::redirect_temp( $_SERVER['REQUEST_URI'] . '&repeat=w3tc' );
+				if ( ( defined( 'WP_CLI' ) && WP_CLI ) || php_sapi_name() == 'cli' ) {
+					// command-line mode, no real requests made,
+					// try to switch context in-request
+				} else {
+					if ( strpos( $_SERVER['REQUEST_URI'], '?' ) === false )
+						Util_Environment::safe_redirect_temp( $_SERVER['REQUEST_URI'] . '?repeat=w3tc' );
+					else {
+						if ( strpos( $_SERVER['REQUEST_URI'], 'repeat=w3tc' ) === false )
+							Util_Environment::safe_redirect_temp( $_SERVER['REQUEST_URI'] . '&repeat=w3tc' );
+					}
 				}
 			}
 		}
@@ -233,6 +221,27 @@ class Generic_Plugin {
 		}
 	}
 
+	public function admin_bar_init() {
+		$font_base = plugins_url( 'pub/fonts/w3tc', W3TC_FILE );
+		$css = "
+			@font-face {
+				font-family: 'w3tc';
+			src: url('$font_base.eot');
+			src: url('$font_base.eot?#iefix') format('embedded-opentype'),
+				 url('$font_base.woff') format('woff'),
+				 url('$font_base.ttf') format('truetype'),
+				 url('$font_base.svg#w3tc') format('svg');
+			font-weight: normal;
+			font-style: normal;
+		}
+		.w3tc-icon:before{
+			content:'\\0041'; top: 2px;
+			font-family: 'w3tc';
+		}";
+
+		wp_add_inline_style( 'admin-bar', $css);
+	}
+
 	/**
 	 * Admin bar menu
 	 *
@@ -259,12 +268,10 @@ class Generic_Plugin {
 
 			$menu_items['00010.generic'] = array(
 				'id' => 'w3tc',
-				'title' =>
-				'<img src="' .
-				plugins_url( 'pub/img/w3tc-sprite-admin-bar.png', W3TC_FILE ) .
-				'" style="vertical-align:middle; margin-right:5px; width: 29px; height: 29px" />' .
-				__( 'Performance', 'w3-total-cache' ) .
-				$menu_postfix,
+				'title' => sprintf(
+					'<span class="w3tc-icon ab-icon"></span><span class="ab-label">%s</span>' .
+					$menu_postfix,
+					__( 'Performance', 'w3-total-cache' ) ),
 				'href' => network_admin_url( 'admin.php?page=w3tc_dashboard' )
 			);
 
@@ -283,8 +290,8 @@ class Generic_Plugin {
 					'parent' => 'w3tc',
 					'title' => __( 'Purge Current Page', 'w3-total-cache' ),
 					'href' => wp_nonce_url( admin_url(
-							'admin.php?page=w3tc_dashboard&amp;w3tc_flush_current_page' ),
-						'w3tc' )
+						'admin.php?page=w3tc_dashboard&amp;w3tc_flush_post&amp;post_id=' .
+						Util_Environment::detect_post_id() ), 'w3tc' )
 				);
 
 				$menu_items['20010.generic'] = array(
@@ -293,6 +300,13 @@ class Generic_Plugin {
 					'title' => __( 'Purge Modules', 'w3-total-cache' )
 				);
 			}
+
+			$menu_items['30000.generic'] = array(
+				'id'     => 'w3tc_feature_showcase',
+				'parent' => 'w3tc',
+				'title'  => __( 'Feature Showcase', 'w3-total-cache' ),
+				'href'   => wp_nonce_url( network_admin_url( 'admin.php?page=w3tc_feature_showcase' ), 'w3tc' ),
+			);
 
 			$menu_items['40010.generic'] = array(
 				'id' => 'w3tc_settings_general',
@@ -366,13 +380,13 @@ class Generic_Plugin {
 			'?action=w3tc_monitoring_score&' . md5( $_SERVER['REQUEST_URI'] );
 
 ?>
-        <script type= "text/javascript">
-        var w3tc_monitoring_score = document.createElement('script');
-        w3tc_monitoring_score.type = 'text/javascript';
-        w3tc_monitoring_score.src = '<?php echo $url ?>';
-        document.getElementsByTagName('HEAD')[0].appendChild(w3tc_monitoring_score);
-        </script>
-        <?php
+		<script type= "text/javascript">
+		var w3tc_monitoring_score = document.createElement('script');
+		w3tc_monitoring_score.type = 'text/javascript';
+		w3tc_monitoring_score.src = '<?php echo $url ?>';
+		document.getElementsByTagName('HEAD')[0].appendChild(w3tc_monitoring_score);
+		</script>
+		<?php
 	}
 
 	/**
@@ -464,15 +478,6 @@ class Generic_Plugin {
 	}
 
 	/**
-	 * Footer plugin action
-	 *
-	 * @return void
-	 */
-	function footer() {
-		echo '<div style="text-align: center;"><a href="https://www.w3-edge.com/products/" rel="external">Optimization WordPress Plugins &amp; Solutions by W3 EDGE</a></div>';
-	}
-
-	/**
 	 * Output buffering callback
 	 *
 	 * @param string  $buffer
@@ -486,8 +491,9 @@ class Generic_Plugin {
 			return $buffer;
 		}
 
-		if ( Util_Content::is_database_error( $buffer ) ) {
-			status_header( 503 );
+		if ( $this->is_wp_die &&
+				!apply_filters( 'w3tc_process_wp_die', false, $buffer ) ) {
+			// wp_die is dynamic output (usually fatal errors), dont process it
 		} else {
 			$buffer = apply_filters( 'w3tc_process_content', $buffer );
 
@@ -501,30 +507,36 @@ class Generic_Plugin {
 				if ( Util_Environment::is_preview_mode() )
 					$buffer .= "\r\n<!-- W3 Total Cache used in preview mode -->";
 
-                $strings = array();
+				$strings = array();
 
-                if ( $this->_config->get_string( 'common.support' ) == '' &&
-                    !$this->_config->get_boolean( 'common.tweeted' ) ) {
-                    $strings[] = 'Performance optimized by W3 Total Cache. Learn more: https://www.w3-edge.com/products/';
-                	$strings[] = '';
-                }
+				if ( !$this->_config->get_boolean( 'common.tweeted' ) ) {
+					$strings[] = 'Performance optimized by W3 Total Cache. Learn more: https://www.boldgrid.com/w3-total-cache/';
+					$strings[] = '';
+				}
 
-                $strings = apply_filters( 'w3tc_footer_comment', $strings );
+				$strings = apply_filters( 'w3tc_footer_comment', $strings );
 
-                if ( count( $strings ) ) {
-                	$strings[] = '';
-                	$strings[] = sprintf( "Served from: %s @ %s by W3 Total Cache",
-                            Util_Content::escape_comment( $host ), $date );
+				if ( count( $strings ) ) {
+					$strings[] = '';
+					$strings[] = sprintf( "Served from: %s @ %s by W3 Total Cache",
+							Util_Content::escape_comment( $host ), $date );
 
-                    $buffer .= "\r\n<!--\r\n" .
-                    	Util_Content::escape_comment( implode( "\r\n", $strings ) ) .
-                    	"\r\n-->";
-                }
+					$buffer .= "\r\n<!--\r\n" .
+						Util_Content::escape_comment( implode( "\r\n", $strings ) ) .
+						"\r\n-->";
+				}
 			}
 
 			$buffer = Util_Bus::do_ob_callbacks(
-				array( 'swarmify', 'minify', 'newrelic', 'cdn', 'browsercache', 'pagecache' ),
-				$buffer );
+				array(
+					'swarmify',
+					'lazyload',
+					'minify',
+					'newrelic',
+					'cdn',
+					'browsercache',
+					'pagecache'
+				), $buffer );
 
 			$buffer = apply_filters( 'w3tc_processed_content', $buffer );
 		}
@@ -635,12 +647,12 @@ class Generic_Plugin {
 
 	function popup_script() {
 ?>
-        <script type="text/javascript">
-            function w3tc_popupadmin_bar(url) {
-                return window.open(url, '', 'width=800,height=600,status=no,toolbar=no,menubar=no,scrollbars=yes');
-            }
-        </script>
-            <?php
+		<script type="text/javascript">
+			function w3tc_popupadmin_bar(url) {
+				return window.open(url, '', 'width=800,height=600,status=no,toolbar=no,menubar=no,scrollbars=yes');
+			}
+		</script>
+			<?php
 	}
 
 	private function is_debugging() {

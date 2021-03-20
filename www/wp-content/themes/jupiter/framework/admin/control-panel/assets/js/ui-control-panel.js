@@ -71,7 +71,7 @@
 	            $panes.append(response.data);
 	            $panes.removeClass('loading-pane');
 	            $('.mka-cp-sidebar-list-items').removeClass('mka-is-active');
-	            $('[href='+hash+']').parent().addClass('mka-is-active');
+	            $('[href="'+hash+'"]').parent().addClass('mka-is-active');
 	            $(window).trigger('control_panel_pane_loaded');
 	        });
      	},
@@ -916,7 +916,7 @@
 		            '<a class="mka-button mka-button--green mka-button--small mka-cp-template-item-btn js__cp_template_install" data-name="' + data.name + '" data-slug="' + data.slug + '" data-id="' + data.id + '">' +
 		            mk_cp_textdomain.install +
 		            '</a>' +
-		            '<a class="mka-button mka-button--gray mka-button--small mka-cp-template-item-btn" href="http://demos.artbees.net/jupiter5/' + slug + '" target="_blank">' +
+		            '<a class="mka-button mka-button--gray mka-button--small mka-cp-template-item-btn" href="http://demos.artbees.net/jupiter/' + slug + '" target="_blank">' +
 		            mk_cp_textdomain.preview +
 		            '</a>';
 		    } else {
@@ -924,7 +924,7 @@
 		            '<a id="js__cp_template_uninstall" class="mka-button mka-button--red mka-button--small mka-cp-template-item-btn" data-name="' + data.name + '" data-slug="' + data.slug + '" data-id="' + data.id + '">' +
 		            mk_cp_textdomain.uninstall +
 		            '</a>' +
-		            '<a class="mka-button mka-button--gray mka-button--small mka-cp-template-item-btn" href="http://demos.artbees.net/jupiter5/' + slug +'" target="_blank">' +
+		            '<a class="mka-button mka-button--gray mka-button--small mka-cp-template-item-btn" href="http://demos.artbees.net/jupiter/' + slug +'" target="_blank">' +
 		            mk_cp_textdomain.preview +
 		            '</a>';
 		    }
@@ -949,7 +949,11 @@
 		},
 
      	get_template_list : function() {
-     		var from_number = Number($('.abb-template-page-load-more').data('from'));
+			if ( ! $('.mka-cp-install-template').length ) {
+				return;
+			}
+
+			var from_number = Number($('.abb-template-page-load-more').data('from'));
 		    templates.server_response_status = true;
 
 		    var req_data = {
@@ -1042,7 +1046,7 @@
 		                if (response.status === true) {
 		                    var category_list = '<span class="mka-select-list-item" data-value="all-categories">All Categories</span>';
 		                    $.each(response.data, function(key, val) {
-		                        category_list += '<span class="mka-select-list-item" data-value="' + val.id + '">' + val.name + ' - ' + val.count + '</span>';
+		                        category_list += '<span class="mka-select-list-item" data-value="' + val.id + '">' + val.name + '</span>';
 		                    });
 		                    category_option_wrap.html(category_list);
 		                } else {
@@ -1080,6 +1084,9 @@
 	    },
 
 	    get_installed_template : function() {
+			if ( ! $('.mka-cp-install-template').length ) {
+				return;
+			}
 
 	    	// ES6 Patching - Setting default value for "slug" argument
 	    	var id = arguments.length > 0 && arguments[1] !== undefined ? arguments[1] : false;

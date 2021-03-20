@@ -15,7 +15,7 @@ global $mk_options;
 <div class="mk-about-author-wrapper">
 	<div class="mk-about-author-meta" <?php echo get_schema_markup('author'); ?>>
 		<?php if (mk_get_blog_single_style() != 'bold') : ?>
-		<div class="avatar-wrapper"><?php global $user; echo get_avatar( get_the_author_meta('email'), '65',false ,get_the_author_meta('display_name', $user['ID'])); ?></div>
+		<div class="avatar-wrapper"><?php echo get_avatar( get_the_author_meta('email'), '65',false ,get_the_author_meta('display_name')); ?></div>
 		<?php endif; ?>
 		<?php if (mk_get_blog_single_style() == 'bold') : ?>
 		<div class="about-author-title"><?php esc_html_e( 'About', 'mk_framework' ); ?></div>

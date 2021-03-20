@@ -6,7 +6,7 @@
 
 (function( $ ) {
 
-	var box_style_container = '.woocommerce-page ul.products li.product  .mk-product-warp';
+	var box_style_container = '.woocommerce-page ul.products li.product .mk-product-warp, .mk-woocommerce-carousel.classic-style ul.products li.product .mk-product-warp';
 
 	wp.customize( 'mk_cz[sh_pl_sty_box_background_color]', function( value ) {
 

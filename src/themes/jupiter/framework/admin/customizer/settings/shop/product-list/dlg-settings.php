@@ -9,7 +9,7 @@
  */
 
 // Settings tab.
-$wp_customize->add_section(
+$mk_customize->add_section(
 	new MK_Dialog(
 		$wp_customize,
 		'mk_s_pl_settings',
@@ -27,7 +27,7 @@ $wp_customize->add_section(
 );
 
 // Sidebar.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pl_set_sidebar]', array(
 		'type' => 'option',
 		'default'   => 'full',
@@ -35,7 +35,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Select_Control(
 		$wp_customize,
 		'mk_cz[sh_pl_set_sidebar]',
@@ -44,8 +44,34 @@ $wp_customize->add_control(
 			'section' => 'mk_s_pl_settings',
 			'column'  => 'mk-col-6',
 			'choices' => array(
-				'full' => __( 'No Sidebar', 'mk_framework' ),
-				'left' => __( 'Left Sidebar', 'mk_framework' ),
+				'full'  => __( 'No Sidebar', 'mk_framework' ),
+				'left'  => __( 'Left Sidebar', 'mk_framework' ),
+				'right' => __( 'Right Sidebar', 'mk_framework' ),
+			),
+		)
+	)
+);
+
+// Archive sidebar.
+$mk_customize->add_setting(
+	'mk_cz[sh_pl_set_archive_sidebar]', array(
+		'type'      => 'option',
+		'default'   => 'full',
+		'transport' => 'refresh',
+	)
+);
+
+$mk_customize->add_control(
+	new MK_Select_Control(
+		$wp_customize,
+		'mk_cz[sh_pl_set_archive_sidebar]',
+		array(
+			'label'   => __( 'Archive Sidebar', 'mk_framework' ),
+			'section' => 'mk_s_pl_settings',
+			'column'  => 'mk-col-6',
+			'choices' => array(
+				'full'  => __( 'No Sidebar', 'mk_framework' ),
+				'left'  => __( 'Left Sidebar', 'mk_framework' ),
 				'right' => __( 'Right Sidebar', 'mk_framework' ),
 			),
 		)
@@ -53,15 +79,15 @@ $wp_customize->add_control(
 );
 
 // Stretch to Full Width.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pl_set_full_width]', array(
-		'type' => 'option',
-		'default' => 'false',
+		'type'      => 'option',
+		'default'   => 'false',
 		'transport' => 'postMessage',
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Toggle_Control(
 		$wp_customize,
 		'mk_cz[sh_pl_set_full_width]',
@@ -74,7 +100,7 @@ $wp_customize->add_control(
 );
 
 // Item Hover Style.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pl_set_hover_style]', array(
 		'type' => 'option',
 		'default'   => 'none',
@@ -82,7 +108,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Select_Control(
 		$wp_customize,
 		'mk_cz[sh_pl_set_hover_style]',
@@ -100,7 +126,7 @@ $wp_customize->add_control(
 );
 
 // Display Product Info Label.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pl_set_product_info]', array(
 		'type' => 'option',
 		'default'   => array(
@@ -114,7 +140,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Checkbox_Control(
 		$wp_customize,
 		'mk_cz[sh_pl_set_product_info]',
@@ -134,7 +160,7 @@ $wp_customize->add_control(
 );
 
 // Align Product Info.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pl_set_product_info_align]', array(
 		'type' => 'option',
 		'default'   => '',
@@ -142,7 +168,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Radio_Control(
 		$wp_customize,
 		'mk_cz[sh_pl_set_product_info_align]',
@@ -162,7 +188,7 @@ $wp_customize->add_control(
 );
 
 // Image Ratio.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pl_set_image_ratio]', array(
 		'type' => 'option',
 		'default'   => 'default',
@@ -170,7 +196,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Radio_Control(
 		$wp_customize,
 		'mk_cz[sh_pl_set_image_ratio]',
@@ -194,13 +220,13 @@ $wp_customize->add_control(
 );
 
 // Divider.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pl_set_divider]', array(
 		'type' => 'option',
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Divider_Control(
 		$wp_customize,
 		'mk_cz[sh_pl_set_divider]',
@@ -211,13 +237,13 @@ $wp_customize->add_control(
 );
 
 // Grid Settings Label.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pl_set_grid_label]', array(
 		'type' => 'option',
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Label_Control(
 		$wp_customize,
 		'mk_cz[sh_pl_set_grid_label]',
@@ -230,7 +256,7 @@ $wp_customize->add_control(
 );
 
 // Columns.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pl_set_columns]', array(
 		'type' => 'option',
 		'default'   => apply_filters( 'loop_shop_columns', 4 ),
@@ -238,7 +264,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Select_Control(
 		$wp_customize,
 		'mk_cz[sh_pl_set_columns]',
@@ -257,7 +283,7 @@ $wp_customize->add_control(
 );
 
 // Row.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pl_set_rows]', array(
 		'type' => 'option',
 		'default'   => 3,
@@ -265,7 +291,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Select_Control(
 		$wp_customize,
 		'mk_cz[sh_pl_set_rows]',
@@ -284,7 +310,7 @@ $wp_customize->add_control(
 );
 
 // Horizontal space.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pl_set_horizontal_space]', array(
 		'type' => 'option',
 		'default'   => 30,
@@ -292,7 +318,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Input_Control(
 		$wp_customize,
 		'mk_cz[sh_pl_set_horizontal_space]',
@@ -310,7 +336,7 @@ $wp_customize->add_control(
 );
 
 // Vertical space.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pl_set_vertical_space]', array(
 		'type' => 'option',
 		'default'   => 30,
@@ -318,7 +344,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Input_Control(
 		$wp_customize,
 		'mk_cz[sh_pl_set_vertical_space]',

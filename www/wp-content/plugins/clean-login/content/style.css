@@ -189,20 +189,24 @@ to your current WordPress template, and if something behaves abnormal please con
     -webkit-box-shadow: 2px 2px 3px rgba(0,0,0,.25);
     box-shadow: 2px 2px 3px rgba(0,0,0,.25);
     -moz-animation: cssAnimation 0s ease-in 5s forwards;
-    /* Firefox */
     -webkit-animation: cssAnimation 0s ease-in 5s forwards;
-    /* Safari and Chrome */
     -o-animation: cssAnimation 0s ease-in 5s forwards;
-    /* Opera */
     animation: cssAnimation 0s ease-in 5s forwards;
     -webkit-animation-fill-mode: forwards;
     animation-fill-mode: forwards;
 }
 
+.cleanlogin-notification.no-disappear{
+	-moz-animation: none;
+    -webkit-animation: none;
+    -o-animation: none;
+    animation: none;
+}
+
 @keyframes cssAnimation {
     to {
-                border: 0;
-                padding: 0;
+		border: 0;
+		padding: 0;
         width:0;
         height:0;
         overflow:hidden;

@@ -16,8 +16,7 @@ jQuery( document ).ready(function( $ ) {
 
 		if(table.length == 0) return false;
 
-		var steps = $( '.mk-checkout-steps' );
-		var tableTop = 53 + steps.outerHeight( true );
+		var tableTop = 0;
 		var tableRight = $( '.woocommerce-billing-fields__field-wrapper' ).position().left;
 
 		if ( scroll == true ) {

@@ -10,15 +10,12 @@
  * happen. When this occurs the version of the template file will be bumped and
  * the readme will list any important changes.
  *
- * @see         https://docs.woocommerce.com/document/template-structure/
- * @author      WooThemes
- * @package     WooCommerce/Templates
- * @version     3.3.0
+ * @see     https://docs.woocommerce.com/document/template-structure/
+ * @package WooCommerce/Templates
+ * @version 4.0.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 if ( $max_value && $min_value === $max_value ) {
 	?>
@@ -27,12 +24,28 @@ if ( $max_value && $min_value === $max_value ) {
 	</div>
 	<?php
 } else {
+	/* translators: %s: Quantity. */
+	$label = ! empty( $args['product_name'] ) ? sprintf( esc_html__( '%s quantity', 'mk_framework' ), wp_strip_all_tags( $args['product_name'] ) ) : __( 'Quantity', 'mk_framework' );
 	?>
 	<div class="quantity">
-		<label class="mk-quantity-label" for="<?php echo esc_attr( $input_id ); ?>"><?php echo esc_html__( 'Quantity', 'mk_framework' ); ?></label>
+		<?php do_action( 'woocommerce_before_quantity_input_field' ); ?>
+		<label class="mk-quantity-label" for="<?php echo esc_attr( $input_id ); ?>"><?php esc_html_e( 'Quantity', 'mk_framework' ); ?></label>
 		<div class="mk-product-quantity">
-			<input type="number" id="<?php echo esc_attr( $input_id ); ?>" class="input-text qty text" step="<?php echo esc_attr( $step ); ?>" min="<?php echo esc_attr( $min_value ); ?>" max="<?php echo esc_attr( 0 < $max_value ? $max_value : '' ); ?>" name="<?php echo esc_attr( $input_name ); ?>" value="<?php echo esc_attr( $input_value ); ?>" title="<?php echo esc_attr_x( 'Qty', 'Product quantity input tooltip', 'woocommerce' ); ?>" size="4" pattern="<?php echo esc_attr( $pattern ); ?>" inputmode="<?php echo esc_attr( $inputmode ); ?>" aria-labelledby="<?php echo ! empty( esc_attr( $args['product_name'] ) ) ? sprintf( esc_attr__( '%s quantity', 'woocommerce' ), esc_attr( $args['product_name'] ) ) : ''; ?>" />
+			<input
+				type="number"
+				id="<?php echo esc_attr( $input_id ); ?>"
+				class="input-text qty text"
+				step="<?php echo esc_attr( $step ); ?>"
+				min="<?php echo esc_attr( $min_value ); ?>"
+				max="<?php echo esc_attr( 0 < $max_value ? $max_value : '' ); ?>"
+				name="<?php echo esc_attr( $input_name ); ?>"
+				value="<?php echo esc_attr( $input_value ); ?>"
+				title="<?php echo esc_attr_x( 'Qty', 'Product quantity input tooltip', 'mk_framework' ); ?>"
+				size="4"
+				placeholder="<?php echo esc_attr( $placeholder ); ?>"
+				inputmode="<?php echo esc_attr( $inputmode ); ?>" />
 		</div>
+		<?php do_action( 'woocommerce_after_quantity_input_field' ); ?>
 	</div>
 	<?php
 }

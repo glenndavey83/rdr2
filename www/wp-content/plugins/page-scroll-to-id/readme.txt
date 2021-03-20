@@ -3,8 +3,8 @@ Contributors: malihu
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UYJ5G65M6ZA28
 Tags: page scrolling, page animation, smooth scroll, navigation, single-page navigation
 Requires at least: 3.3
-Tested up to: 5.0.2
-Stable tag: 1.6.4
+Tested up to: 5.7
+Stable tag: 1.7.3
 License: The MIT License (MIT)
 License URI: http://opensource.org/licenses/MIT
 
@@ -32,6 +32,7 @@ Create links that scroll the page smoothly to any id within the document.
    * [Using Page scroll to id with the Divi Builder plugin](http://manos.malihu.gr/using-page-scroll-to-id-with-the-divi-builder-plugin/)
    * [Using Page scroll to id with SiteOrigin Page Builder](http://manos.malihu.gr/using-page-scroll-to-id-with-siteorigin-page-builder/)
    * [Using Page scroll to id with WPBakery Page Builder](http://manos.malihu.gr/using-page-scroll-to-id-with-wpbakery-page-builder/)
+   * [Using Page scroll to id with Elementor Page Builder](http://manos.malihu.gr/page-scroll-to-id-elementor-guide/)
 * [Support](http://wordpress.org/support/plugin/page-scroll-to-id)
 
 = Requirements =
@@ -95,7 +96,71 @@ Because it works and it already has a ton of features. The plugin has little dep
 
 6. Visual editor "Insert Page scoll to id target" modal
 
+7. Gutenberg block editor "Page scoll to id target" custom block
+
 == Changelog ==
+
+= 1.7.3 =
+
+* Fixed issue with target id attribute having special characters (like %, &, # etc.).
+* Extended "Prevent other scripts from handling plugin’s links" option with special selector option field. 
+* Removed jQuery 1.x deprecated functions from plugin script (.bind, .delegate, .unbind etc. are replaced with .on, .off etc.).
+* Updated plugin's contextual help and notices. 
+
+= 1.7.2 =
+
+* Added an extended "Verify target position and readjust scrolling" option for lazy-load images, iframes, changes in document's length etc.
+* Added "Force scroll type/easing" option for dealing with conflicts with outdated easing libraries added by themes or other plugins. 
+* Updated plugin's settings page, contextual help and notices. 
+
+= 1.7.1 =
+
+* Update plugin's settings page and notices.
+
+= 1.7.0 =
+
+* Removed recommended plugins. 
+* Updated plugin screenshots. 
+* Updated readme.txt
+
+= 1.6.9 =
+
+* Added warning message in plugin settings when the selector option value lacks quotes (invalid without jquery migrate or with jquery 3.x).
+* Fixed Uncaught TypeError of undefined data when actual page is inside an iframe - [related issue](http://manos.malihu.gr/page-scroll-to-id-for-wordpress/comment-page-7/#comment-23715).
+* Added 'Encode unicode characters on links URL' option in plugin settings help panel.
+* Extended "Prevent other scripts from handling plugin’s links" option function handler. 
+* Replaced jQuery deprecated ready event in plugin script. 
+
+= 1.6.8 =
+
+* Fixed PHP notice/warning regarding contextual_help being deprecated (https://wordpress.org/support/topic/deprecated-contextual_help-is-obsolete-since-version-3-3-0/). 
+* Added new option 'Encode unicode characters on links URL'. This option can be used when having links with encoded unicode characters (e.g. on internationalized domain names) in their href/URL.
+* Added support for dynamic/live selectors for newer jQuery versions (3.x) and the upcoming WordPress 5.6.
+
+= 1.6.7 =
+
+* Fixed issue with links having meta characters (e.g. %) in URL. 
+* Extended the default excluded selectors. 
+* Fixed issue with TwentyTwenty theme smooth scrolling feature (https://wordpress.org/support/topic/scrolling-not-working-5/) 
+* New feature for developers: add plugin options manually (via js) to overwrite the ones in plugin settings. 
+
+= 1.6.6 =
+
+* Fixed dynamic elements would not work automatically (issue in 1.6.5).
+* Fixed some links would not get highlighted when using full URLs (issue in 1.6.5).
+
+= 1.6.5 =
+
+* Added new option to exclude specific selectors from being handled by the plugin.
+* Added new option 'Auto-generate #ps2id-dummy-offset element'.
+* Added 'Page scroll to id target' block for Gutenberg block editor.
+* Added new feature for Gutenberg block editor: 
+* Fixed highlight not working in URLs with an apostrophe.
+* Fixed [this issue](https://wordpress.org/support/topic/only-works-on-initial-page-load/#post-11168522) regarding plugin's default selector when using non-WordPress jQuery library.
+* Fixed [this minor issue](https://wordpress.org/support/topic/no-more-smooth-scrolling/). 
+* Fixed multisite issue where few plugin options would not save/update properly.
+* Fixed [issue #10](https://github.com/malihu/page-scroll-to-id/issues/17)
+* Updated plugin's contextual help and documentation. 
 
 = 1.6.4 =
 
@@ -222,6 +287,42 @@ Because it works and it already has a ton of features. The plugin has little dep
 
 == Upgrade Notice ==
 
+= 1.7.3 =
+
+Fixed issue with target id attribute having special characters, extended "Prevent other scripts from handling plugin’s links" option with special selector option field, removed jQuery 1.x deprecated functions from plugin script, updated plugin's contextual help and notices. 
+
+= 1.7.2 =
+
+Added an extended 'Verify target position and readjust scrolling' option (for lazy-load images, iframes etc.), added 'Force scroll type/easing' option, updated plugin's settings page, contextual help and notices.
+
+= 1.7.1 =
+
+Update plugin's settings page and notices.
+
+= 1.7.0 =
+
+Removed recommended plugins, updated plugin screenshots and readme.txt.
+
+= 1.6.9 =
+
+Added warning message in plugin settings when the selector option value lacks quotes, fixed Uncaught TypeError of undefined data when actual page is inside an iframe, Extended "Prevent other scripts from handling plugin’s links" option, updated help.
+
+= 1.6.8 =
+
+Fixed PHP notice/warning regarding contextual_help, added new option 'Encode unicode characters on links URL', added support for newer jQuery versions (3.x) and the upcoming WordPress 5.6.
+
+= 1.6.7 =
+
+Fixed issue with links having meta characters in URL, extended the default excluded selectors, fixed issue with TwentyTwenty theme smooth scrolling.
+
+= 1.6.6 =
+
+Fixed dynamic elements would not work automatically, fixed some links would not get highlighted when using full URLs.
+
+= 1.6.5 =
+
+Added "Page scroll to id target" block and new features for Gutenberg block editor, added exclude selectors option, added new offset options, fixed various issues and bugs. 
+
 = 1.6.4 =
 
 Fixed a minor bug affecting the "Prevent other scripts from handling plugin's links" option. 
@@ -291,6 +392,7 @@ If you like this plugin and find it useful, consider making a [donation](https:/
 
 == Other/external resources ==
 
+* [How to create anchor links on WordPress Gutenberg editor](https://www.virfice.com/how-to-create-anchor-links-on-wordpress-gutenberg-editor/)
 * [Using Page scroll to id with the Divi Builder plugin](http://manos.malihu.gr/using-page-scroll-to-id-with-the-divi-builder-plugin/)
 * [One Page WordPress Smooth Scrolling Menu - How to Use Page Scroll to ID Plugin 2017](https://www.youtube.com/watch?v=ZJt7-0W-DeE)
 * [Smooth scrolling between page sections using Page scroll to id](http://sridharkatakam.com/smooth-scrolling-page-sections-using-page-scroll-id/)

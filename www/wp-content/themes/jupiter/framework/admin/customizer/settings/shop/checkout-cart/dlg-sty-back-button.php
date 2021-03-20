@@ -9,7 +9,7 @@
  */
 
 // Back Button dialog.
-$wp_customize->add_section(
+$mk_customize->add_section(
 	new MK_Dialog(
 		$wp_customize,
 		'mk_s_cc_s_back_button_style',
@@ -28,7 +28,7 @@ $wp_customize->add_section(
 );
 
 // Typography.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_bck_btn_typography]', array(
 		'type' => 'option',
 		'default' => array(
@@ -42,7 +42,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Typography_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_bck_btn_typography]',
@@ -54,7 +54,7 @@ $wp_customize->add_control(
 );
 
 // Background Color.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_bck_btn_background_color]', array(
 		'type' => 'option',
 		'default'   => 'rgba(255, 255, 255, 0)',
@@ -62,7 +62,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_bck_btn_background_color]',
@@ -75,7 +75,7 @@ $wp_customize->add_control(
 );
 
 // Corner Radius.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_bck_btn_border_radius]', array(
 		'type' => 'option',
 		'default'   => 3,
@@ -83,7 +83,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Input_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_bck_btn_border_radius]',
@@ -101,7 +101,7 @@ $wp_customize->add_control(
 );
 
 // Border.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_bck_btn_border]', array(
 		'type' => 'option',
 		'default'   => 2,
@@ -109,7 +109,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Input_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_bck_btn_border]',
@@ -127,7 +127,7 @@ $wp_customize->add_control(
 );
 
 // Border Color.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_bck_btn_border_color]', array(
 		'type' => 'option',
 		'default'   => '#e6e7ee',
@@ -135,7 +135,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_bck_btn_border_color]',
@@ -148,13 +148,13 @@ $wp_customize->add_control(
 );
 
 // Divider 1.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_bck_btn_divider_1]', array(
 		'type' => 'option',
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Divider_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_bck_btn_divider_1]',
@@ -165,13 +165,13 @@ $wp_customize->add_control(
 );
 
 // Hover Label.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_bck_btn_label]', array(
 		'type' => 'option',
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Label_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_bck_btn_label]',
@@ -184,7 +184,7 @@ $wp_customize->add_control(
 );
 
 // Font Color Hover.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_bck_btn_color_hover]', array(
 		'type' => 'option',
 		'default'   => '#9b9eae',
@@ -192,7 +192,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_bck_btn_color_hover]',
@@ -205,7 +205,7 @@ $wp_customize->add_control(
 );
 
 // Background Color Hover.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_bck_btn_background_color_hover]', array(
 		'type' => 'option',
 		'default'   => 'rgba(255, 255, 255, 0)',
@@ -213,7 +213,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_bck_btn_background_color_hover]',
@@ -226,7 +226,7 @@ $wp_customize->add_control(
 );
 
 // Border Color Hover.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_bck_btn_border_color_hover]', array(
 		'type' => 'option',
 		'default'   => '#c8cad9',
@@ -234,7 +234,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_bck_btn_border_color_hover]',
@@ -247,13 +247,13 @@ $wp_customize->add_control(
 );
 
 // Divider 2.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_bck_btn_divider_2]', array(
 		'type' => 'option',
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Divider_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_bck_btn_divider_2]',
@@ -264,7 +264,7 @@ $wp_customize->add_control(
 );
 
 // Box Model.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_bck_btn_box_model]', array(
 		'type' => 'option',
 		'default' => array(
@@ -281,7 +281,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Box_Model_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_bck_btn_box_model]',

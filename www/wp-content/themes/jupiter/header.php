@@ -1,12 +1,31 @@
+<?php
+/**
+ * The Header
+ *
+ * This is the template that displays all of the <head> section and everything up until
+ * <div id="mk-theme-container">.
+ *
+ * @package Jupiter
+ */
+
+?>
 <!DOCTYPE html>
-<html <?php echo language_attributes(); ?> >
+<html <?php language_attributes(); ?> >
+<?php do_action( 'mk_theme_before_head' ); ?>
 <head>
+	<?php do_action( 'mk_theme_after_head_opening' ); ?>
 	<?php wp_head(); ?>
+	<?php do_action( 'mk_theme_before_head_closing' ); ?>
 </head>
 
-<body <?php body_class( mk_get_body_class( global_get_post_id() ) ); ?> <?php echo get_schema_markup( 'body' ); ?> data-adminbar="<?php echo is_admin_bar_showing(); ?>">
-
+<body <?php body_class( mk_get_body_class( global_get_post_id() ) ); ?> <?php echo get_schema_markup( 'body' ); // WPCS: XSS OK. ?> data-adminbar="<?php echo esc_attr( is_admin_bar_showing() ); ?>">
 	<?php
+		if ( function_exists( 'wp_body_open' ) ) {
+			wp_body_open();
+		}
+
+		do_action( 'mk_theme_after_body_opening' );
+
 		// Hook when you need to add content right after body opening tag. to be used in child themes or customisations.
 		do_action( 'theme_after_body_tag_start' );
 	?>

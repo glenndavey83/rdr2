@@ -885,22 +885,19 @@ tbody.collapse.in {
   display: none;
 }
 .mk-tour.top .arrow {
-  -webkit-transform: rotate(-90deg);
-      -ms-transform: rotate(-90deg);
-          transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+      transform: rotate(-90deg);
 }
 .mk-tour.right .arrow {
   left: 22px;
 }
 .mk-tour.bottom .arrow {
-  -webkit-transform: rotate(90deg);
-      -ms-transform: rotate(90deg);
-          transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+      transform: rotate(90deg);
 }
 .mk-tour.left .arrow {
-  -webkit-transform: rotate(180deg);
-      -ms-transform: rotate(180deg);
-          transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+      transform: rotate(180deg);
   left: auto;
   right: -13px;
 }

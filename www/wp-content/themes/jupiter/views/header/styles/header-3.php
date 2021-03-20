@@ -35,6 +35,7 @@ global $woocommerce, $mk_options;
     <header <?php echo get_header_json_data($is_shortcode, $header_class['sh_header_style']); ?> <?php echo mk_get_header_class($header_class); ?> <?php echo get_schema_markup('header'); ?>>
         <?php if (is_header_show($is_shortcode)): ?>
             <div class="mk-header-holder">
+                <?php do_action( 'jupiter_tbar' ); ?>
                 <?php if ( is_header_toolbar_show() === 'true' && $is_shortcode === false ) {
                     mk_get_header_view( 'holders', 'toolbar' ); 
                 } ?>

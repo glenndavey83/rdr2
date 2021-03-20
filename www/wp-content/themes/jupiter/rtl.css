@@ -344,11 +344,6 @@ input.text-input.s_txt-input:not(.captcha-form) {
     float: left;
 }
 
-.mk-blog-grid-item .mk-love-holder {
-    right: auto !important;
-    left: 20px;
-}
-
 .mk-blog-magazine-item .mk-blog-meta {
     float: right;
 }
@@ -431,10 +426,6 @@ input.text-input.s_txt-input:not(.captcha-form) {
     padding-left: 8px;
 }
 
-.woocommerce .mk-product-holder .mk-love-this, .woocommerce-page .mk-product-holder .mk-love-this {
-    right: auto;
-    left: 12px;
-}
 
 .woocommerce .mk-product-holder h3, .woocommerce-page .mk-product-holder h3 {
     padding: 15px 15px 0 50px;

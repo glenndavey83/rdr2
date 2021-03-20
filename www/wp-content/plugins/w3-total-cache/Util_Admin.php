@@ -101,11 +101,11 @@ class Util_Admin {
 	}
 
 	/*
-     * Checks if contains single message item
-     *
-     * @param $a array
-     * @return boolean
-     */
+	 * Checks if contains single message item
+	 *
+	 * @param $a array
+	 * @return boolean
+	 */
 	static public function single_system_item( $a ) {
 		if ( !is_array( $a ) || count( $a ) != 1 )
 			return false;
@@ -380,7 +380,7 @@ class Util_Admin {
 			if ( $new_config->get_boolean( 'minify.css.enable' ) && ( $new_config->get_boolean( 'minify.auto' ) || count( $new_config->get_array( 'minify.css.groups' ) ) ) ) {
 				$minify_dependencies = array_merge( $minify_dependencies, array(
 						'minify.css.engine',
-						'minify.css.combine',
+						'minify.css.method',
 						'minify.css.strip.comments',
 						'minify.css.strip.crlf',
 						'minify.css.imports',
@@ -411,6 +411,7 @@ class Util_Admin {
 			if ( $new_config->get_boolean( 'minify.js.enable' ) && ( $new_config->get_boolean( 'minify.auto' ) || count( $new_config->get_array( 'minify.js.groups' ) ) ) ) {
 				$minify_dependencies = array_merge( $minify_dependencies, array(
 						'minify.js.engine',
+						'minify.js.method',
 						'minify.js.combine.header',
 						'minify.js.combine.body',
 						'minify.js.combine.footer',
@@ -594,8 +595,6 @@ class Util_Admin {
 		/**
 		 * Update CloudFront CNAMEs
 		 */
-		$update_cf_cnames = false;
-
 		if ( $new_config->get_boolean( 'cdn.enabled' ) && in_array( $new_config->get_string( 'cdn.engine' ), array( 'cf', 'cf2' ) ) ) {
 			if ( $new_config->get_string( 'cdn.engine' ) == 'cf' ) {
 				$old_cnames = $old_config->get_array( 'cdn.cf.cname' );
@@ -603,10 +602,6 @@ class Util_Admin {
 			} else {
 				$old_cnames = $old_config->get_array( 'cdn.cf2.cname' );
 				$new_cnames = $new_config->get_array( 'cdn.cf2.cname' );
-			}
-
-			if ( count( $old_cnames ) != count( $new_cnames ) || count( array_diff( $old_cnames, $new_cnames ) ) ) {
-				$update_cf_cnames = true;
 			}
 		}
 
@@ -622,24 +617,11 @@ class Util_Admin {
 		$environment->fix_on_event( $new_config, 'config_change', $old_config );
 
 		/**
-		 * Update support us option
-		 */
-		Generic_AdminLinks::link_update( $current_config );
-
-		/**
 		 * Auto upload browsercache files to CDN
 		 */
 		if ( $new_config->get_boolean( 'cdn.enabled' ) && $new_config->get_string( 'cdn.engine' ) == 'ftp' ) {
 			Util_Admin::cdn_delete_browsercache( $current_config );
 			Util_Admin::cdn_upload_browsercache( $current_config );
-		}
-
-		/**
-		 * Update CloudFront CNAMEs
-		 */
-		if ( $update_cf_cnames ) {
-			$error = null;
-			$w3_plugin_cdn->update_cnames( $error );
 		}
 
 		return true;
@@ -735,8 +717,8 @@ class Util_Admin {
 	}
 
 	/*
-     * Returns current w3tc admin page
-     */
+	 * Returns current w3tc admin page
+	 */
 	static public function get_current_page() {
 		$page = Util_Request::get_string( 'page' );
 

@@ -8,13 +8,16 @@
  * E.g., it puts together the home page when no home.php file exists.
  * Learn more: http://codex.wordpress.org/Template_Hierarchy
  *
- ** mk_build_main_wrapper : builds the main divisions that contains the content. Located in framework/helpers/global.php
- ** mk_get_view gets the parts of the pages, modules and components. Function located in framework/helpers/global.php
- *
+ * * mk_build_main_wrapper : builds the main divisions that contains the content. Located in framework/helpers/global.php
+ * * mk_get_view gets the parts of the pages, modules and components. Function located in framework/helpers/global.php
  */
+
+if ( ! defined( 'THEME_FRAMEWORK' ) ) {
+	exit( 'No direct script access allowed' );
+}
 
 get_header();
 
-mk_build_main_wrapper( mk_get_view('templates', 'wp-index', true) );
+mk_build_main_wrapper( mk_get_view( 'templates', 'wp-index', true ) );
 
 get_footer();

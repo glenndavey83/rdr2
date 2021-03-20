@@ -130,7 +130,7 @@ function mkhb_textbox_markup( $options, $content ) {
 	 * from any \n "string" directly entered by the user. For this reason,
 	 * we need to encode our strings in base64 to circumvent this problem.
 	 */
-	$text = htmlentities( rawurldecode( base64_decode( strip_tags( $content ), true ) ), ENT_COMPAT, 'UTF-8' );
+	$text = htmlentities( rawurldecode( mk_decode( strip_tags( $content ), true ) ), ENT_COMPAT, 'UTF-8' );
 
 	$markup = sprintf( '
 		<div id="%s" class="mkhb-textbox-el %s" %s>

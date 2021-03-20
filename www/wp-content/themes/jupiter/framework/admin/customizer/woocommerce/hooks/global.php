@@ -58,8 +58,10 @@ add_filter( 'woocommerce_template_path', function( $path ) {
 } );
 
 
-add_action( 'woocommerce_check_cart_items', 'mk_woo_steps', 9 );
-add_action( 'mk_woocommerce_before_complete_order', 'mk_woo_steps' );
+add_action( 'woocommerce_before_checkout_form', 'mk_woo_steps', 6 );
+add_action( 'woocommerce_before_cart', 'mk_woo_steps' );
+add_action( 'woocommerce_cart_is_empty', 'mk_woo_steps', 8 );
+add_action( 'woocommerce_before_thankyou', 'mk_woo_steps' );
 
 /**
  * Renders the steps nan in cart pages.
@@ -145,9 +147,16 @@ add_filter( 'body_class', function( $classes ) {
 
 	if ( is_shop() || is_product_category() || is_product_tag() ) {
 		$classes[] = 'columns-' . mk_cz_get_option( 'sh_pl_set_columns', 4 );
-		$classes[] = 'mk-sh-pl-hover-style-' . mk_cz_get_option( 'sh_pl_set_hover_style', 'none' );
-		return $classes;
 	}
+
+	/**
+	 * Since other products loops are using SC styles in Jupiter, it's better to declare
+	 * mk-sh-pl-hover-style-{hover-style} in all pages. So, hover effect will be affected
+	 * by all product loops. Check task AM-2982.
+	 *
+	 * @since 6.1.2
+	 */
+	$classes[] = 'mk-sh-pl-hover-style-' . mk_cz_get_option( 'sh_pl_set_hover_style', 'none' );
 
 	return $classes;
 }, 10 );

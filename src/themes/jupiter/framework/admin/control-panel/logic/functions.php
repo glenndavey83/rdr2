@@ -531,7 +531,7 @@ class mk_control_panel {
 				}
 			}
 
-			$response = wp_remote_get( 'http://reduxframework.com/wp-admin/admin-ajax.php?action=get_redux_extensions' );
+			$response = wp_remote_get( 'https://artbees.net' );
 
 			if ( ! is_wp_error( $response ) && $response['response']['code'] >= 200 && $response['response']['code'] < 300 ) {
 				$sysinfo['wp_remote_get']       = 'true';

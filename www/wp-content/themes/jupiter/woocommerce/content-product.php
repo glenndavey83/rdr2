@@ -11,33 +11,29 @@
  * the readme will list any important changes.
  *
  * @see     https://docs.woocommerce.com/document/template-structure/
- * @author  WooThemes
  * @package WooCommerce/Templates
- * @version 3.0.0
+ * @version 3.6.0
  */
 
-
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
-}
+defined( 'ABSPATH' ) || exit;
 
 global $product, $woocommerce_loop, $mk_options;
 
 
-// Store loop count we're currently on
+// Store loop count we're currently on.
 if ( empty( $woocommerce_loop['loop'] ) ) {
 	$woocommerce_loop['loop'] = 0;
 }
 
-// Ensure visibility
+// Ensure visibility.
 if ( empty( $product ) || ! $product->is_visible() ) {
 	return;
 }
 
-// Increase loop count
+// Increase loop count.
 $woocommerce_loop['loop']++;
 
-// declare variable in case if none of the conditions below meets
+// declare variable in case if none of the conditions below meets.
 $columns = '';
 
 $grid_width = $mk_options['grid_width'];
@@ -46,7 +42,7 @@ $height = $mk_options['woo_loop_img_height'];
 
 if ( is_shop() || is_product_category() || is_product_tag() ) {
 	$columns = mk_get_option( 'shop_archive_columns', false );
-	if ( $columns === 'default' ) {
+	if ( 'default' === $columns ) {
 		$columns = false;
 	}
 } else {
@@ -95,7 +91,7 @@ if ( $columns ) {
 	$column_width = absint( $grid_width / $columns );
 
 } else {
-	if ( $layout == 'full' ) {
+	if ( 'full' == $layout ) {
 		$classes[] = 'item mk--col mk--col--3-12';
 		$width = round( $grid_width / 4 ) - 28;
 		$column_width = round( $grid_width / 4 );
@@ -108,12 +104,12 @@ if ( $columns ) {
 
 ?>
 
-<article <?php post_class( $classes ); ?>>
+<article <?php wc_product_class( $classes ); ?>>
 <div class="mk-product-holder">
 		<div class="product-loop-thumb">
 		<?php
 
-		if ( $mk_options['woocommerce_catalog'] == 'false' ) {
+		if ( 'false' == $mk_options['woocommerce_catalog'] ) {
 			if ( ! $product->is_in_stock() ) {
 				$availability = $product->get_availability();
 				echo apply_filters( 'woocommerce_stock_html', '<span class="out-of-stock">' . __( 'OUT OF STOCK', 'mk_framework' ) . '</span>', $availability['availability'], $product );
@@ -175,9 +171,9 @@ if ( $columns ) {
 
 		}
 ?>
-	
+
 	<?php
-	if ( $mk_options['woocommerce_catalog'] == 'false' ) {
+	if ( 'false' == $mk_options['woocommerce_catalog'] ) {
 		ob_start();
 		do_action( 'mk_woocommerce_shop_loop_rating' );
 		$wc_rating_html = ob_get_clean();
@@ -195,28 +191,15 @@ if ( $columns ) {
 	<?php do_action( 'woocommerce_before_shop_loop_item' ); ?>
 
 		<div class="mk-shop-item-detail">
-			<?php
-				 global $mk_options;
-			if ( ! empty( $mk_options['woocommerce_loop_enable_love_button'] ) ) :
-				if ( $mk_options['woocommerce_loop_enable_love_button'] != 'false' ) :
-			?>
-			<div class="mk-love-holder">
-					<?php echo Mk_Love_Post::send_love(); ?>
-			</div>
-			<?php
-				endif;
-				endif;
-			?>
-			
 			<h3 class="product-title"><a href="<?php echo esc_url( get_permalink() ); ?>"><?php the_title(); ?></a></h3>
 			<?php
-			if ( $mk_options['woocommerce_catalog'] == 'false' ) {
+			if ( 'false' == $mk_options['woocommerce_catalog'] ) {
 					do_action( 'woocommerce_after_shop_loop_item_title' );
 			}
 			?>
 
 			<?php
-			if ( $mk_options['woocommerce_loop_show_desc'] == 'true' ) :
+			if ( 'true' == $mk_options['woocommerce_loop_show_desc'] ) :
 				echo '<div class="product-item-desc">' . apply_filters( 'woocommerce_short_description', $post->post_excerpt ) . '</div>';
 			endif;
 			?>

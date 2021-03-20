@@ -21,6 +21,12 @@ if ( ! class_exists( 'Menu_Item_Custom_Fields' ) ) :
 		 * @wp_hook action wp_loaded
 		 */
 		public static function load() {
+			global $wp_version;
+
+			if ( version_compare( $wp_version, '5.4.1', '>=' ) ) {
+				return;
+			}
+
 			add_filter( 'wp_edit_nav_menu_walker', array( __CLASS__, '_filter_walker' ), 99 );
 		}
 

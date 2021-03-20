@@ -26,7 +26,7 @@ add_action(
 
 			<?php if ( ! WC()->cart->needs_shipping() || wc_ship_to_billing_address_only() ) : ?>
 
-				<h3><?php esc_html_e( 'Additional information', 'woocommerce' ); ?></h3>
+				<h3><?php esc_html_e( 'Additional information', 'mk_framework' ); ?></h3>
 
 			<?php endif; ?>
 
@@ -46,7 +46,7 @@ add_action(
 
 // Add title and subtitle for billing form.
 add_action(
-	'woocommerce_check_cart_items', function() {
+	'woocommerce_before_checkout_form', function() {
 
 		if ( ! is_checkout() ) {
 			return;
@@ -58,7 +58,7 @@ add_action(
 			esc_html__( 'Please enter your details.', 'mk_framework' )
 		);
 
-	}
+	}, 8
 );
 
 // Add title and subtitle for payment form.

@@ -41,7 +41,7 @@ global $mk_options;
 			mk_get_header_view( 'toolbar', 'tagline' );
 		}
 
-		if ( ( is_plugin_active( 'polylang/polylang.php' ) || defined( 'ICL_SITEPRESS_VERSION' ) ) && defined( 'ICL_LANGUAGE_CODE' ) ) {
+		if ( ( mk_is_callable( 'Polylang' ) || defined( 'ICL_SITEPRESS_VERSION' ) ) && defined( 'ICL_LANGUAGE_CODE' ) ) {
 			mk_get_header_view( 'toolbar', 'language-nav' );
 		}
 

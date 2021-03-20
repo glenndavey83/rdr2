@@ -9,7 +9,7 @@
  */
 
 // Description dialog.
-$wp_customize->add_section(
+$mk_customize->add_section(
 	new MK_Dialog(
 		$wp_customize,
 		'mk_s_pp_s_descripiton',
@@ -28,7 +28,7 @@ $wp_customize->add_section(
 );
 
 // Typography.
-$wp_customize->add_setting( 'mk_cz[sh_pp_sty_des_typography]', array(
+$mk_customize->add_setting( 'mk_cz[sh_pp_sty_des_typography]', array(
 	'type' => 'option',
 	'default' => array(
 		'family' => 'inherit',
@@ -40,7 +40,7 @@ $wp_customize->add_setting( 'mk_cz[sh_pp_sty_des_typography]', array(
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Typography_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_des_typography]',
@@ -52,13 +52,13 @@ $wp_customize->add_control(
 );
 
 // Background color.
-$wp_customize->add_setting( 'mk_cz[sh_pp_sty_des_background_color]', array(
+$mk_customize->add_setting( 'mk_cz[sh_pp_sty_des_background_color]', array(
 	'type' => 'option',
 	'default'   => 'rgba(255, 255, 255, 0)',
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_des_background_color]',
@@ -71,11 +71,11 @@ $wp_customize->add_control(
 );
 
 // Divider.
-$wp_customize->add_setting( 'mk_cz[sh_pp_sty_des_divider]', array(
+$mk_customize->add_setting( 'mk_cz[sh_pp_sty_des_divider]', array(
 	'type' => 'option',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Divider_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_des_divider]',
@@ -86,7 +86,7 @@ $wp_customize->add_control(
 );
 
 // Box Model.
-$wp_customize->add_setting( 'mk_cz[sh_pp_sty_des_box_model]', array(
+$mk_customize->add_setting( 'mk_cz[sh_pp_sty_des_box_model]', array(
 	'type' => 'option',
 	'default' => array(
 		'margin_top'     => 20,
@@ -101,7 +101,7 @@ $wp_customize->add_setting( 'mk_cz[sh_pp_sty_des_box_model]', array(
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Box_Model_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_des_box_model]',

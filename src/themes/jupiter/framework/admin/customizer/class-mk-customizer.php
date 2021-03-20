@@ -15,6 +15,7 @@
  * @author  Artbees Team
  *
  * @since 5.9.4
+ * @SuppressWarnings(PHPMD.UnusedPrivateMethod) // For now
  */
 class MK_Customizer {
 
@@ -25,6 +26,11 @@ class MK_Customizer {
 		$this->register_controls();
 		$this->add_hooks();
 		$this->enqueue_dynamic_styles();
+
+		if ( ! class_exists( 'Jupiter_Donut' ) && is_customize_preview() ) {
+			printf( '<h2>%s</h2>', __( 'Install/Activate <a href="' . admin_url( 'themes.php?page=tgmpa-install-plugins' ) . '">Jupiter Donut</a> plugin to enable this feature.', 'mk_framework' ) );
+			wp_die();
+		}
 	}
 
 	/**
@@ -35,7 +41,7 @@ class MK_Customizer {
 		add_action( 'customize_register', array( $this, 'register_settings' ) );
 		add_action( 'customize_controls_enqueue_scripts', array( $this, 'enqueue_controls' ) );
 		add_action( 'customize_preview_init', array( $this, 'enqueue_preview' ) );
-		add_action( 'customize_save_after', array( $this, 'clear_theme_cache' ) );
+		add_action( 'customize_save_after', array( $this, 'customize_save' ) );
 		add_filter( 'customize_partial_render', array( $this, 'prepend_inline_css' ) );
 		add_action( 'wp_ajax_mk_customizer_reset', array( $this, 'reset' ) );
 
@@ -44,7 +50,7 @@ class MK_Customizer {
 			$hooks = glob( THEME_CUSTOMIZER_DIR . '/woocommerce/hooks/*.php' );
 
 			foreach ( $hooks as $hook ) {
-				require_once( $hook );
+				require_once $hook;
 			}
 		}
 	}
@@ -52,6 +58,8 @@ class MK_Customizer {
 	/**
 	 * Add 'Shop Customizer' submenu under 'Jupiter' menu.
 	 * Thanks to https://goo.gl/Za6SDH and https://goo.gl/4R264q
+	 *
+	 * @since 6.1.2 Remove beta tag from Shop Customizer menu.
 	 */
 	public function admin_menu() {
 		if ( ! $this->is_section_enabled( 'shop_customizer' ) ) {
@@ -64,7 +72,7 @@ class MK_Customizer {
 		$link = add_query_arg( $query, admin_url( 'customize.php' ) );
 
 		$submenu['Jupiter'][] = array(
-			__( 'Shop Customizer <span class="mk-beta-badge">Beta</span>', 'mk_framework' ),
+			__( 'Shop Customizer', 'mk_framework' ),
 			'manage_options',
 			esc_url( $link ),
 		);
@@ -141,13 +149,13 @@ class MK_Customizer {
 		}
 
 		// Require main custom control class.
-		require_once( THEME_CUSTOMIZER_DIR . '/controls/class-mk-control.php' );
+		require_once THEME_CUSTOMIZER_DIR . '/controls/class-mk-control.php';
 
 		// Require all the custom controls.
 		$controls = glob( THEME_CUSTOMIZER_DIR . '/controls/**/class-mk-*.php' );
 
 		foreach ( $controls as $control ) {
-			require_once( $control );
+			require_once $control;
 		}
 	}
 
@@ -161,22 +169,24 @@ class MK_Customizer {
 			return;
 		}
 
+		$mk_customize = &$wp_customize;
+
 		// Load active callback functions.
-		require_once( THEME_CUSTOMIZER_DIR . '/settings/active-callbacks.php' );
+		require_once THEME_CUSTOMIZER_DIR . '/settings/active-callbacks.php';
 
 		// Load dialog - custom section.
-		require_once( THEME_CUSTOMIZER_DIR . '/settings/class-mk-dialog.php' );
+		require_once THEME_CUSTOMIZER_DIR . '/settings/class-mk-dialog.php';
 
 		// Register dialog - custom section.
-		$wp_customize->register_section_type( 'MK_Dialog' );
+		$mk_customize->register_section_type( 'MK_Dialog' );
 
 		// Load all the Shop settings.
 		if ( $this->is_section_enabled( 'shop_customizer' ) ) {
-			require_once( THEME_CUSTOMIZER_DIR . '/settings/shop/sections.php' );
+			require_once THEME_CUSTOMIZER_DIR . '/settings/shop/sections.php';
 		}
 
 		// Load all the Widgets settings.
-		require_once( THEME_CUSTOMIZER_DIR . '/settings/widgets/sections.php' );
+		require_once THEME_CUSTOMIZER_DIR . '/settings/widgets/sections.php';
 	}
 
 	/**
@@ -187,7 +197,7 @@ class MK_Customizer {
 		$filter = array();
 
 		// Include helper functions first.
-		require_once( THEME_CUSTOMIZER_DIR . '/dynamic-styles/helpers/helpers.php' );
+		require_once THEME_CUSTOMIZER_DIR . '/dynamic-styles/helpers/helpers.php';
 
 		// Filter the helpers folder.
 		$filter[] = 'helpers';
@@ -256,9 +266,21 @@ class MK_Customizer {
 	}
 
 	/**
-	 * Clear theme cache.
+	 * Run some actions after customize saves.
+	 *
+	 * @since 6.0.3
 	 */
-	public function clear_theme_cache() {
+	public function customize_save() {
+		$this->clear_theme_cache();
+	}
+
+	/**
+	 * Clear theme cache.
+	 *
+	 * @since 5.9.4
+	 * @since 6.0.3 Change to private.
+	 */
+	private function clear_theme_cache() {
 		$static = new Mk_Static_Files( false );
 		$static->DeleteThemeOptionStyles( true );
 	}
@@ -280,6 +302,7 @@ class MK_Customizer {
 	/**
 	 * Reset partial data of the customizer.
 	 *
+	 * @since 5.9.4
 	 * @SuppressWarnings(PHPMD.UnusedLocalVariable)
 	 */
 	public function reset() {
@@ -301,6 +324,7 @@ class MK_Customizer {
 			}
 
 			update_option( 'mk_cz', $mk_cz );
+
 			$this->clear_theme_cache();
 			wp_send_json_success();
 		}

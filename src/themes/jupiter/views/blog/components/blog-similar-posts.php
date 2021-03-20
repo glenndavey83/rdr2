@@ -45,9 +45,11 @@ if (!function_exists('mk_similar_posts_html')) {
             $output.= '<li><div class="similar-post-holder">';
             $output.= '<a class="mk-similiar-thumbnail" href="' . esc_url( get_permalink() ) . '" title="' . the_title_attribute(array('echo' => false)) . '">';
 
-            $image_src = Mk_Image_Resize::resize_by_id_adaptive( get_post_thumbnail_id(), 'crop', $width, $height, $crop = true, $dummy = true);
-            
-            $output.= '<img src="' .  $image_src['dummy'] . '" ' . $image_src['data-set'] . ' alt="' . the_title_attribute(array('echo' => false)) . '" />';
+			if ( class_exists( 'Jupiter_Donut' ) ) {
+				$image_src = Mk_Image_Resize::resize_by_id_adaptive( get_post_thumbnail_id(), 'crop', $width, $height, $crop = true, $dummy = true);
+				$output.= '<img src="' .  $image_src['dummy'] . '" ' . $image_src['data-set'] . ' alt="' . the_title_attribute(array('echo' => false)) . '" />';
+			}
+
             $output.= '<div class="image-hover-overlay"></div></a>';
             $output.= '<a href="' . esc_url( get_permalink() ) . '" class="mk-similiar-title">' . get_the_title() . '</a>';
             $output.= '</div></li>';

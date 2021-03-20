@@ -10,7 +10,6 @@ if ( ! defined( 'THEME_FRAMEWORK' ) ) {
  * @package     artbees
  */
 
-add_action( 'wp_enqueue_scripts', 'mk_enqueue_api_modules', 10 );
 add_action( 'wp_enqueue_scripts', 'mk_enqueue_scripts', 10 );
 add_action( 'wp_enqueue_scripts', 'mk_enqueue_styles', 10 );
 add_action( 'wp_enqueue_scripts', 'mk_enqueue_webfont_scripts', 1 );
@@ -35,6 +34,18 @@ if ( ! function_exists( 'mk_enqueue_scripts' ) ) {
 
 		if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 			wp_enqueue_script( 'comment-reply' );
+		}
+
+		if ( $is_smoothscroll ) {
+			$smoothscroll_file = '/plugins/wp-enqueue' . ($is_js_min ? '/min' : '') . '/smoothscroll.js';
+
+			wp_enqueue_script(
+				'smoothscroll',
+				THEME_JS . $smoothscroll_file,
+				array(),
+				filemtime( THEME_JS_DIR . $smoothscroll_file ),
+				true
+			);
 		}
 
 		if ( $is_js_min ) {
@@ -72,18 +83,6 @@ if ( ! function_exists( 'mk_enqueue_scripts' ) ) {
 			filemtime( THEME_JS_DIR . $components_full_file ),
 			true
 		);
-
-		if ( $is_smoothscroll ) {
-			$smoothscroll_file = '/plugins/wp-enqueue/smoothscroll.js';
-
-			wp_enqueue_script(
-				'smoothscroll',
-				THEME_JS . $smoothscroll_file,
-				array(),
-				filemtime( THEME_JS_DIR . $smoothscroll_file ),
-				true
-			);
-		}
 
 		do_action( 'mk_enqueue_scripts' );
 	}
@@ -164,6 +163,8 @@ if ( ! function_exists( 'mk_enqueue_styles' ) ) {
 				'all'
 			);
 
+			mk_enqueue_inline_styles( 'theme-styles' );
+
 			do_action( 'mk_enqueue_styles_minified' );
 
 			return;
@@ -179,6 +180,8 @@ if ( ! function_exists( 'mk_enqueue_styles' ) ) {
 			'all'
 		);
 
+		mk_enqueue_inline_styles( 'core-styles' );
+
 		$components_full_file = '/components-full.' . THEME_VERSION . '.css';
 
 		wp_enqueue_style(
@@ -192,19 +195,6 @@ if ( ! function_exists( 'mk_enqueue_styles' ) ) {
 		do_action( 'mk_enqueue_styles' );
 	}
 }
-
-/**
- * Register our module scripts early and later lazy load them when module is ininitialized
- * by including in its file wp_enqueue_script('module-name');
- */
-if ( ! function_exists( 'mk_enqueue_api_modules' ) ) {
-	function mk_enqueue_api_modules() {
-		wp_register_script( 'api-vimeo', 'http' . ((is_ssl()) ? 's' : '') . '://f.vimeocdn.com/js/froogaloop2.min.js', array(), false, false );
-		wp_register_script( 'api-youtube', 'http' . ((is_ssl()) ? 's' : '') . '://www.youtube.com/player_api', array(), false, false );
-	}
-}
-
-
 
 // TOdo replacement for this function
 /**
@@ -290,5 +280,29 @@ if ( ! function_exists( 'mk_enqueue_woocommerce_font_icons' ) ) {
             }";
 
 		return $output;
+	}
+}
+
+if ( ! function_exists( 'mk_enqueue_admin_styles' ) ) {
+	function mk_enqueue_inline_styles( $id ) {
+		$styles = '
+			#wpadminbar {
+				-webkit-backface-visibility: hidden;
+				backface-visibility: hidden;
+				-webkit-perspective: 1000;
+				-ms-perspective: 1000;
+				perspective: 1000;
+				-webkit-transform: translateZ(0px);
+				-ms-transform: translateZ(0px);
+				transform: translateZ(0px);
+			}
+			@media screen and (max-width: 600px) {
+				#wpadminbar {
+					position: fixed !important;
+				}
+			}
+		';
+
+		wp_add_inline_style( $id, $styles );
 	}
 }

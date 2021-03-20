@@ -6,7 +6,7 @@
  */
 
 /**
- * Checks wether ACF is installed.
+ * Checks whether ACF is installed.
  */
 final class Yoast_ACF_Analysis_Dependency_ACF implements Yoast_ACF_Analysis_Dependency {
 
@@ -20,6 +20,10 @@ final class Yoast_ACF_Analysis_Dependency_ACF implements Yoast_ACF_Analysis_Depe
 			return false;
 		}
 
+		if ( defined( 'ACF_VERSION' ) && version_compare( ACF_VERSION, '5.7.0', '<' ) ) {
+			return false;
+		}
+
 		return true;
 	}
 
@@ -27,7 +31,7 @@ final class Yoast_ACF_Analysis_Dependency_ACF implements Yoast_ACF_Analysis_Depe
 	 * Registers the notification to show when the conditions are not met.
 	 */
 	public function register_notifications() {
-		add_action( 'admin_notices', array( $this, 'message_plugin_not_activated' ) );
+		add_action( 'admin_notices', [ $this, 'message_plugin_not_activated' ] );
 	}
 
 	/**
@@ -36,7 +40,7 @@ final class Yoast_ACF_Analysis_Dependency_ACF implements Yoast_ACF_Analysis_Depe
 	public function message_plugin_not_activated() {
 		$message = sprintf(
 			/* translators: %1$s resolves to ACF Content Analysis for Yoast SEO, %2$s resolves to Advanced Custom Fields */
-			__( '%1$s requires %2$s (free or pro) to be installed and activated.', 'acf-content-analysis-for-yoast-seo' ),
+			__( '%1$s requires %2$s (free or pro) 5.7 or higher to be installed and activated.', 'acf-content-analysis-for-yoast-seo' ),
 			'ACF Content Analysis for Yoast SEO',
 			'Advanced Custom Fields'
 		);

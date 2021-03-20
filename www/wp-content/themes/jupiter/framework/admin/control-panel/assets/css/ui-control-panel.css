@@ -1155,16 +1155,18 @@ a.mka-cp-sidebar-link {
     padding-left: 20px;
 }
 
+.mka-cp-new-version-title {
+	margin-bottom: 15px;
+}
+
 .mka-cp-version-number {
-    font-size: 16px;
-    color: #222;
-    font-weight: bold;
+	display: none;
 }
 
 .mka-cp-version-date {
-    font-size: 12px;
-    color: #7e7e7e;
-    padding-left: 20px;
+	font-size: 16px;
+	color: #222;
+	font-weight: bold;
 }
 
 .mka-cp-new-version-content {
@@ -1175,7 +1177,47 @@ a.mka-cp-sidebar-link {
     margin:30px 15px 0 0;
 }
 
+.mka-cp-new-version-wrap .alert {
+	position: relative;
+	padding: 0.75rem 1.25rem;
+	margin-bottom: 1rem;
+	border: 1px solid #0000;
+	border-radius: 0.25rem;
+}
 
+.mka-cp-new-version-wrap .alert-warning {
+	color: #856404;
+	background-color: #fff3cd;
+	border-color: #ffeeba;
+}
+
+.mka-cp-new-version-wrap .table {
+	width: 100%;
+	max-width: 100%;
+	margin-bottom: 1rem;
+	background-color: #0000;
+	border: 1px solid #dee2e6;
+	border-collapse: collapse;
+}
+
+.mka-cp-new-version-wrap .table small {
+	font-size: 80%;
+	font-weight: 400;
+}
+
+.mka-cp-new-version-wrap .table thead th {
+	vertical-align: bottom;
+	border-bottom: 2px solid #dee2e6;
+	border-bottom-width: 2px;
+	text-align: left;
+}
+
+.mka-cp-new-version-wrap .table th,
+.mka-cp-new-version-wrap .table td {
+	padding: 0.75rem;
+	vertical-align: top;
+	border: 1px solid #dee2e6;
+}
 
 /*------------------------------------------------*/
 /* Control Panel Addons

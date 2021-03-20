@@ -2,7 +2,6 @@
 /**
  * This file is responsible from all dynamic css and js proccess and minification.
  *
- * @author      Bob Ulusoy & Ugur Mirza ZEYREK
  * @copyright   Artbees LTD (c)
  * @link        http://artbees.net
  * @since       1.0.0
@@ -17,9 +16,7 @@ if ( ! defined( 'THEME_FRAMEWORK' ) ) {
 /**
  * Mk_Static_Files is responsible for dynamic styles.
  *
- * @author      Bob Ulusoy & Ugur Mirza ZEYREK
  * @copyright   Artbees LTD (c)
- * @link        http://artbees.net
  * @since       1.0.0
  * @since       5.9.3
  * @package     artbees
@@ -55,10 +52,6 @@ class Mk_Static_Files {
 		$mk_dev       = (defined( 'MK_DEV' ) ? constant( 'MK_DEV' ) : false);
 		$theme_option = get_option( THEME_OPTIONS );
 
-		// Minify Static files.
-		require_once THEME_INCLUDES . '/minify/src/Minifier.php';
-		require_once THEME_INCLUDES . '/minify/src/SimpleCssMinifier.php';
-
 		if ( $with_actions ) {
 			$priority = 999;
 			if ( ($mk_dev) != true ) {
@@ -69,10 +62,10 @@ class Mk_Static_Files {
 			add_action( 'wp_head', array( &$this, 'critical_path_css' ), 1 );
 			add_action( 'wp_enqueue_scripts', array( &$this, 'process_global_styles' ) );
 			add_action( 'wp_enqueue_scripts', array( &$this, 'enqueue_default_stylesheet' ), 30 );
-			if ( ! Mk_Static_Files::is_vc_editing() ) {
-				add_action( 'wp_footer', array( &$this, 'move_short_styles_footer' ), 99999 );
+			if ( ! self::is_vc_editing() ) {
+				add_action( 'wp_footer', array( &$this, 'move_short_styles_footer' ), 9 );
 			}
-			// if the theme options file isn't exists in order to access global variable we need to use different priority level
+			// if the theme options file isn't exists in order to access global variable we need to use different priority level.
 			if ( get_option( 'mk_theme_options_css_file' . $mk_lang ) == '' ) {
 				$priority = 999;
 			}
@@ -149,7 +142,7 @@ class Mk_Static_Files {
 	 */
 	public static function shortcode_id() {
 
-		if ( Mk_Static_Files::is_vc_editing() ) {
+		if ( self::is_vc_editing() || self::is_referer_admin_ajax() ) {
 			return uniqid();
 		}
 
@@ -186,10 +179,8 @@ class Mk_Static_Files {
 	 * @param    int    $css_id
 	 */
 	public static function addCSS( $app_styles, $css_id ) {
-		if ( Mk_Static_Files::is_vc_editing() ) {
-			$minifier = new SimpleCssMinifier();
-			$output = $minifier->minify( $app_styles );
-			echo '<style id="mk-shortcode-style-' . $css_id . '" type="text/css">' . $output . '</style>';
+		if ( self::is_vc_editing() ) {
+			echo '<style id="mk-shortcode-style-' . $css_id . '" type="text/css">' . mk_minify_css( $app_styles ) . '</style>';
 			return;
 		}
 
@@ -198,9 +189,7 @@ class Mk_Static_Files {
 		$mk_dynamic_styles[] = $app_styles;
 
 		if ( self::is_referer_admin_ajax() ) {
-			$minifier = new SimpleCssMinifier();
-			$output   = $minifier->minify( $app_styles );
-			echo '<style id="mk-shortcode-style-' . $css_id . '" type="text/css">' . $output . '</style>';
+			echo '<style id="mk-shortcode-style-' . $css_id . '" type="text/css">' . mk_minify_css( $app_styles ) . '</style>';
 		}
 
 	}
@@ -213,7 +202,7 @@ class Mk_Static_Files {
 	 * @since       Version 5.9.3
 	 */
 	public function move_short_styles_footer() {
-		if ( Mk_Static_Files::is_vc_editing() ) {
+		if ( self::is_vc_editing() ) {
 			return;
 		}
 		global $mk_dynamic_styles;
@@ -223,13 +212,11 @@ class Mk_Static_Files {
 		}
 
 		$conc_dynamic_styles = implode( '', $mk_dynamic_styles );
-		$minifier                         = new SimpleCssMinifier();
-		$output                           = $minifier->minify( $conc_dynamic_styles );
-		echo '<style id="mk-shortcode-dynamic-styles" type="text/css">' . $output . '</style>';
+		echo '<style id="mk-shortcode-static-styles" type="text/css">' . mk_minify_css( $conc_dynamic_styles ) . '</style>';
 	}
 
 	/**
-	 * Appends short code names into the app_global_assets array
+	 * Appends short code names into the app_global_assets array.
 	 *
 	 * @param $shortcode_name
 	 * @return bool
@@ -269,8 +256,8 @@ class Mk_Static_Files {
 		self::createPath( $folder );
 		$sha1_concat_string = sha1( $file_content );
 		$file_path          = path_convert( $folder . '' . $filename );
-		if ( get_option( $filename . '_sha1' ) != $sha1_concat_string or ! $mkfs->exists( $file_path ) ) {
-			$comment = ''; // define comment var
+		if ( get_option( $filename . '_sha1' ) != $sha1_concat_string || ! $mkfs->exists( $file_path ) ) {
+			$comment = ''; // define comment var.
 			if ( $mk_dev ) {
 				$comment = "\n /* $filename " . time() . " */ \n ";
 			}
@@ -306,7 +293,7 @@ class Mk_Static_Files {
 		$folder   = self::get_global_asset_upload_folder( 'directory' );
 		$string   = $glob_dynamic_styles;
 
-		if ( $minify && $mk_dev != true && $mk_options[ 'minify-' . $extension ] != 'false' ) {
+		if ( $minify && true != $mk_dev && 'false' != $mk_options[ 'minify-' . $extension ] ) {
 			$string = self::minify_string( $glob_dynamic_styles, 'css' );
 		}
 
@@ -343,7 +330,7 @@ class Mk_Static_Files {
 
 		delete_option( $filename . '_sha1' );
 
-		if ( $this->deleteFile( $folder . $filename ) != true and $filename != '' ) {
+		if ( true != $this->deleteFile( $folder . $filename ) && '' != $filename ) {
 			wp_die( 'A problem occurred while trying to delete theme-options css file' );
 		}
 
@@ -372,15 +359,15 @@ class Mk_Static_Files {
 			$theme_options = '';
 		}
 
-		if ( $theme_options == '' or $mk_dev or ! file_exists( self::get_global_asset_upload_folder( 'directory' ) . $theme_options ) ) {
+		if ( '' == $theme_options || $mk_dev || ! file_exists( self::get_global_asset_upload_folder( 'directory' ) . $theme_options ) ) {
 			$dyn_theme_option_css = true;
 		}
 
-		if ( ($theme_options != '' and file_exists( self::get_global_asset_upload_folder( 'directory' ) . $theme_options )) ) {
+		if ( ('' != $theme_options && file_exists( self::get_global_asset_upload_folder( 'directory' ) . $theme_options )) ) {
 			$dyn_theme_option_css = false;
 			$theme_options_css         = self::get_global_asset_upload_folder( 'url' ) . $theme_options;
 			if ( $theme_options_css ) {
-				if ( $mk_dev == false ) {
+				if ( false == $mk_dev ) {
 					wp_enqueue_style( 'theme-options', $theme_options_css, array(), self::global_assets_timestamp() );
 				}
 			}
@@ -408,8 +395,7 @@ class Mk_Static_Files {
 		$output .= $mk_options['custom_css'];
 
 		if ( $is_css_min ) {
-			$minifier = new SimpleCssMinifier();
-			$output = $minifier->minify( $output );
+			$output = mk_minify_css( $output );
 			$handle = 'theme-styles';
 		}
 
@@ -454,7 +440,7 @@ class Mk_Static_Files {
 				$file_url           = $template_uri . $critical_path_css['filename'];
 				$wp_remote_get_file = wp_remote_get( $file_url );
 
-				if ( is_array( $wp_remote_get_file ) and array_key_exists( 'body', $wp_remote_get_file ) ) {
+				if ( is_array( $wp_remote_get_file ) && array_key_exists( 'body', $wp_remote_get_file ) ) {
 
 					 $remote_get_content = $wp_remote_get_file['body'];
 
@@ -463,7 +449,7 @@ class Mk_Static_Files {
 					$file_url           = str_replace( 'https://', 'http://', $file_url );
 					$wp_remote_get_file = wp_remote_get( $file_url );
 
-					if ( ! is_array( $wp_remote_get_file ) or ! array_key_exists( 'body', $wp_remote_get_file ) ) {
+					if ( ! is_array( $wp_remote_get_file ) || ! array_key_exists( 'body', $wp_remote_get_file ) ) {
 						wp_die( 'Dynamic styling error. Code: ds-critical_path_css' );
 					}
 
@@ -475,14 +461,13 @@ class Mk_Static_Files {
 			$status .= '/* non cached */ ';
 			self::prevent_cache_plugins();
 
-			$minifier = new SimpleCssMinifier();
-			$crit_path_css_min = $minifier->minify( $critical_path_css['body'] );
+			$crit_path_css_min = mk_minify_css( $critical_path_css['body'] );
 
 			set_transient( 'mk_critical_path_css', $crit_path_css_min, 15 * 60 );
 		}// End if().
 
 		// Commented line below is the old code, don't remove it.
-		// echo "<style id=\"critical-path-css\" type='text/css'>" . $status . $crit_path_css_min . '</style>';
+		// echo "<style id=\"critical-path-css\" type='text/css'>" . $status . $crit_path_css_min . '</style>';.
 		?>
 
 		<style id="critical-path-css" type="text/css">
@@ -500,6 +485,14 @@ class Mk_Static_Files {
 	 * @since       5.9.3
 	 */
 	public static function prevent_cache_plugins() {
+		global $mk_options;
+
+		$cache_control = empty( $mk_options['cache_control'] ) ? 'true' : $mk_options['cache_control'];
+
+		if ( 'false' === $cache_control ) {
+			return;
+		}
+
 		if ( ! defined( 'DONOTCACHEPAGE' ) ) {
 			define( 'DONOTCACHEPAGE', true );
 		}
@@ -536,7 +529,7 @@ class Mk_Static_Files {
 		global $mk_dev;
 		global $dyn_theme_option_css;
 
-		if ( $mk_dev == true or $dyn_theme_option_css ) {
+		if ( true == $mk_dev || $dyn_theme_option_css ) {
 			self::StoreThemeOptionStyles( true );
 			self::prevent_cache_plugins();
 			echo '<style id=\'dynamic-theme-options-css\' type=\'text/css\'> /*  ' . time() . ' */ ' . $dyn_theme_option_css . '</style>';
@@ -545,12 +538,11 @@ class Mk_Static_Files {
 
 	public static function minify_string( $string, $extension ) {
 		$minified_content = '';
-		if ( $extension == 'css' ) {
-			$minifier         = new SimpleCssMinifier();
-			$minified_content = $minifier->minify( $string );
-		} elseif ( $extension == 'js' ) {
+		if ( 'css' == $extension ) {
+			$minified_content = mk_minify_css( $string );
+		} elseif ( 'js' == $extension ) {
 			$minified_content = \JShrink\Minifier::minify( $string );
-		} elseif ( $extension != 'js' && $extension != 'css' ) {
+		} elseif ( 'js' != $extension && 'css' != $extension ) {
 			wp_die( 'wrong extension for minify_string' );
 		}
 		return $minified_content;
@@ -596,13 +588,13 @@ class Mk_Static_Files {
 	public static function get_global_asset_upload_folder( $type ) {
 		$upload_folder_name = 'mk_assets';
 		$wp_upload_dir      = wp_upload_dir();
-		if ( $type == 'directory' ) {
+		if ( 'directory' == $type ) {
 			$upload_dir = $wp_upload_dir['basedir'] . '/' . $upload_folder_name . '/';
-		} elseif ( $type == 'url' ) {
+		} elseif ( 'url' == $type ) {
 			// Converts url to https even if site url is not primarily set as https.
 			$baseurl    = is_ssl() ? str_replace( 'http://', 'https://', $wp_upload_dir['baseurl'] ) : $wp_upload_dir['baseurl'];
 			$upload_dir = $baseurl . '/' . $upload_folder_name . '/';
-		} elseif ( $type != 'url' and $type != 'directory' ) {
+		} elseif ( 'url' != $type && 'directory' != $type ) {
 			return '';
 		}
 
@@ -665,7 +657,7 @@ class Mk_Static_Files {
 	 * @since   5.0.0
 	 */
 	public static function get_global_asset_address( $extension, $type ) {
-		if ( $extension != 'css' and $extension != 'js' ) {
+		if ( 'css' != $extension && 'js' != $extension ) {
 			return '';
 		}
 
@@ -705,7 +697,7 @@ class Mk_Static_Files {
 			return true;
 		}
 
-		return $mkfs->mkdir( $path );
+		return $mkfs->wp_mkdir( $path );
 	}
 
 	/**
@@ -741,6 +733,13 @@ class Mk_Static_Files {
 	 * @return boolean
 	 */
 	private static function is_vc_editing() {
+		global $mk_options;
+
+		$move_styles_footer = isset( $mk_options['move-shortcode-css-footer'] ) ? $mk_options['move-shortcode-css-footer'] : 'true';
+		if ( 'false' == $move_styles_footer ) {
+			return true;
+		}
+
 		if ( function_exists( 'vc_is_page_editable' ) && vc_is_page_editable() ) {
 			return true;
 		}

@@ -9,7 +9,7 @@
  */
 
 // Title dialog.
-$wp_customize->add_section(
+$mk_customize->add_section(
 	new MK_Dialog(
 		$wp_customize,
 		'mk_w_gs_title',
@@ -28,7 +28,7 @@ $wp_customize->add_section(
 );
 
 // Typography.
-$wp_customize->add_setting( 'mk_cz[wg_glb_sty_ttl_typography]', array(
+$mk_customize->add_setting( 'mk_cz[wg_glb_sty_ttl_typography]', array(
 	'type' => 'option',
 	'default' => array(
 		'family' => 'inherit',
@@ -40,7 +40,7 @@ $wp_customize->add_setting( 'mk_cz[wg_glb_sty_ttl_typography]', array(
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Typography_Control(
 		$wp_customize,
 		'mk_cz[wg_glb_sty_ttl_typography]',
@@ -52,13 +52,13 @@ $wp_customize->add_control(
 );
 
 // Line Height.
-$wp_customize->add_setting( 'mk_cz[wg_glb_sty_ttl_line_height]', array(
+$mk_customize->add_setting( 'mk_cz[wg_glb_sty_ttl_line_height]', array(
 	'type' => 'option',
 	'default'   => 1.66,
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Input_Control(
 		$wp_customize,
 		'mk_cz[wg_glb_sty_ttl_line_height]',
@@ -76,11 +76,11 @@ $wp_customize->add_control(
 );
 
 // Divider.
-$wp_customize->add_setting( 'mk_cz[wg_glb_sty_ttl_divider]', array(
+$mk_customize->add_setting( 'mk_cz[wg_glb_sty_ttl_divider]', array(
 	'type' => 'option',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Divider_Control(
 		$wp_customize,
 		'mk_cz[wg_glb_sty_ttl_divider]',
@@ -91,7 +91,7 @@ $wp_customize->add_control(
 );
 
 // Box Model.
-$wp_customize->add_setting( 'mk_cz[wg_glb_sty_ttl_box_model]', array(
+$mk_customize->add_setting( 'mk_cz[wg_glb_sty_ttl_box_model]', array(
 	'type' => 'option',
 	'default' => array(
 		'padding_top' => 0,
@@ -102,7 +102,7 @@ $wp_customize->add_setting( 'mk_cz[wg_glb_sty_ttl_box_model]', array(
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Box_Model_Control(
 		$wp_customize,
 		'mk_cz[wg_glb_sty_ttl_box_model]',

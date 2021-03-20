@@ -9,7 +9,7 @@
  */
 
 // Regular Price dialog.
-$wp_customize->add_section(
+$mk_customize->add_section(
 	new MK_Dialog(
 		$wp_customize,
 		'mk_s_pp_s_regular_price',
@@ -28,7 +28,7 @@ $wp_customize->add_section(
 );
 
 // Typography.
-$wp_customize->add_setting( 'mk_cz[sh_pp_sty_reg_prc_typography]', array(
+$mk_customize->add_setting( 'mk_cz[sh_pp_sty_reg_prc_typography]', array(
 	'type' => 'option',
 	'default' => array(
 		'family' => 'inherit',
@@ -40,7 +40,7 @@ $wp_customize->add_setting( 'mk_cz[sh_pp_sty_reg_prc_typography]', array(
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Typography_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_reg_prc_typography]',
@@ -52,11 +52,11 @@ $wp_customize->add_control(
 );
 
 // Divider.
-$wp_customize->add_setting( 'mk_cz[sh_pp_sty_reg_prc_divider]', array(
+$mk_customize->add_setting( 'mk_cz[sh_pp_sty_reg_prc_divider]', array(
 	'type' => 'option',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Divider_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_reg_prc_divider]',
@@ -67,7 +67,7 @@ $wp_customize->add_control(
 );
 
 // Box Model.
-$wp_customize->add_setting( 'mk_cz[sh_pp_sty_reg_prc_box_model]', array(
+$mk_customize->add_setting( 'mk_cz[sh_pp_sty_reg_prc_box_model]', array(
 	'type' => 'option',
 	'default' => array(
 		'margin_top'    => 0,
@@ -78,7 +78,7 @@ $wp_customize->add_setting( 'mk_cz[sh_pp_sty_reg_prc_box_model]', array(
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Box_Model_Control(
 		$wp_customize,
 		'mk_cz[sh_pp_sty_reg_prc_box_model]',

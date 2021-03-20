@@ -1,6 +1,6 @@
 (function( $ ) {
 
-	var saleBadge = '.woocommerce-page li.product .onsale';
+	var saleBadge = '.woocommerce-page li.product .onsale,  .mk-woocommerce-carousel.classic-style ul.products li.product .onsale';
 
 	// Typography.
 	wp.customize( 'mk_cz[sh_pl_sty_sal_bdg_typography]', function( value ) {

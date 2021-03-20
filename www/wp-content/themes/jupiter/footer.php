@@ -73,11 +73,11 @@ if ( $mk_options['seondary_header_for_all'] === 'true' || get_header_style() ===
 
 <div class="bottom-corner-btns js-bottom-corner-btns">
 <?php
-if ( $mk_options['go_to_top'] != 'false' ) {
+if ( 'false' !== $mk_options['go_to_top'] ) {
 	mk_get_view( 'footer', 'navigate-top' );
 }
 
-if ( $mk_options['disable_quick_contact'] != 'false' ) {
+if ( ! empty( $mk_options['disable_quick_contact'] ) && 'false' !== $mk_options['disable_quick_contact'] ) {
 	mk_get_view( 'footer', 'quick-contact' );
 }
 
@@ -100,6 +100,7 @@ if ( $mk_options['header_search_location'] === 'fullscreen_search' ) {
 <?php } ?>
 
 	<?php wp_footer(); ?>
-	
+
+	<?php do_action( 'mk_theme_before_body_closing' ); ?>
 </body>
 </html>

@@ -114,6 +114,16 @@
 
 .donate span + input{
 	vertical-align: middle;
+	transform: translateY(-.1em);
+}
+
+.donate > form > span{
+	display: block;
+    margin-bottom: .75em;
+}
+
+.donate > form > span > b{
+	display: inline-block;
 }
 
 .description code{
@@ -126,4 +136,121 @@
 
 .oldwp-plugin-help-section.oldwp-plugin-help-section-active{
 	display: block;
+}
+
+.wp-core-ui .button.mPS2id-show-option-common-values{
+	margin: 4px 0 8px 0;
+}
+
+.mPS2id-show-option-common-values + span{
+	display: none;
+	position: relative;
+}
+
+.mPS2id-show-option-common-values + span.mPS2id-show{
+	display: block;
+}
+
+.clearfix::after{
+	content: "";
+	clear: both;
+	display: table;
+}
+
+.plugin-body{
+	position: relative;
+}
+
+.plugin-body-section-2{
+	display: block; /* plugin settings banner on */
+	/* display: none; */ /* plugin settings banner off */
+    min-height: 100px;
+	right: 0;
+	top: 0;
+	overflow: hidden;
+}
+
+.plugin-body-section-2 img{
+	max-width: 100%;
+	height: auto;
+	margin:.25em 0;
+}
+
+.plugin-body-section-2 > *:first-child{
+	display: block;
+	font-size: 13px;
+    line-height: 1.5;
+    color: #777;
+	margin-bottom: 1em;
+	margin-left: .25em;
+	margin-right: .25em;
+	font-style: italic;
+}
+
+.plugin-body-section-2 > *:first-child > b, .donate > form > span > b{
+	font-size: 17px;
+    transform: translateY(.05em);
+    margin-left: .2em;
+    font-weight: 400;
+	font-style: normal;
+}
+
+.plugin-body-section-2 > *:first-child > b{
+	display: none;
+}
+
+@media only screen and (min-width: 480px){
+	/* plugin settings banner on */
+	.plugin-body-section-1{
+		margin-right: calc(35vw + 1em);
+	}
+
+	.plugin-body-section-2{
+		position: absolute;
+		text-align: right;
+		width: 35vw;
+	}
+}
+
+@media only screen and (min-width: 576px){
+	.plugin-body-section-2 img{
+		margin-left: .5em;
+		margin-right: .5em;
+	}
+
+	.plugin-body-section-2 > *:first-child{
+		margin-left: 0;
+		margin-right: 0;
+	}
+
+	.plugin-body-section-2 > *:first-child > b{
+		display: inline-block;
+	}
+
+	.donate > form > span{
+		display: inline-block;
+		margin-right: .75em;
+	}
+}
+
+@media only screen and (min-width: 782px){
+	/* plugin settings banner on */
+	.plugin-body-section-1{
+		margin-right: calc(25vw + 1em);
+	}
+
+	.plugin-body-section-2{
+		width: 25vw;
+	}
+}
+
+@media only screen and (min-width: 1200px){
+	/* plugin settings banner on */
+	.plugin-body-section-1{
+		margin-right: calc(18vw + 1em);
+	}
+
+	.plugin-body-section-2{
+		width: 18vw;
+	}
 }

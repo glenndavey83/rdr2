@@ -21,6 +21,8 @@ $is_transparent = (isset($view_params['is_transparent'])) ? ($view_params['is_tr
     <header <?php echo get_header_json_data($header_class['is_shortcode'], 4); ?> <?php echo mk_get_header_class($header_class); ?> <?php echo get_schema_markup('header'); ?>>
         <?php if (is_header_show()): ?>
             <div class="mk-header-holder">
+                <?php do_action( 'jupiter_tbar' ); ?>
+                <?php do_action( 'jupiter_tbar_fixed' ); ?>
                 <?php if ( is_header_toolbar_show() === 'true' ) {
                     mk_get_header_view( 'holders', 'toolbar' ); 
                 } ?>

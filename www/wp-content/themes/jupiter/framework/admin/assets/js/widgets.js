@@ -11,14 +11,14 @@
 
 	function mk_social_network_widgets() {
 
-		jQuery('.social_icon_select_sites').live('change', function() {
+		jQuery('.social_icon_select_sites').on('change', function() {
 			var wrap = jQuery(this).closest('p').siblings('.social_icon_wrap');
 			wrap.children('p').hide();
 			jQuery('option:selected', this).each(function() {
 				wrap.find('.social_icon_' + this.value).show();
 			});
 		});
-		jQuery('.social_icon_custom_count').live('change', function() {
+		jQuery('.social_icon_custom_count').on('change', function() {
 
 			var wrap = jQuery(this).closest('p').siblings('.social_custom_icon_wrap');
 			wrap.children('div').hide();
@@ -87,7 +87,7 @@
 
 	function mk_social_networks_custom_skin() {
 
-			jQuery('.social-network-select-skin').live('change', function() {
+			jQuery('.social-network-select-skin').on('change', function() {
 				var $container = jQuery(this).parent('p').siblings('#mk-social-custom-skin');
 				if(jQuery(this).val() == 'custom') {
 					$container.show();

@@ -58,7 +58,7 @@
 							echo '<iframe src="//player.vimeo.com/video/'.$video_id.'?title=0&amp;byline=0&amp;portrait=0&amp;color='.str_replace( "#", "", $skin_color ).'" width="' . esc_attr( $image_width ) . '" height="' . esc_attr( $image_height ) . '" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
 							break;
 						case 'youtube':
-							echo '<iframe src="//www.youtube.com/embed/'.$video_id.'?showinfo=0" frameborder="0" width="' . esc_attr( $image_width ) . '" height="' . esc_attr( $image_height ) . '" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
+							echo '<iframe src="//www.'.mk_get_thirdparty_domain_name('youtube').'/embed/'.$video_id.'?showinfo=0" frameborder="0" width="' . esc_attr( $image_width ) . '" height="' . esc_attr( $image_height ) . '" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
 							break;
 						case 'dailymotion':
 							echo '<iframe src="//www.dailymotion.com/embed/video/'.$video_id.'?logo=0" frameborder="0" width="' . esc_attr( $image_width ) . '" height="' . esc_attr( $image_height ) . '" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';

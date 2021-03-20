@@ -9,7 +9,6 @@ global $mk_options;
 <?php if ( $mk_options['single_portfolio_social'] == 'true' && get_post_meta( $post->ID, '_portfolio_social', true ) != 'false' ) : ?>
 
 		<div class="single-social-section portfolio-social-share">
-		    <div class="mk-love-holder"><?php echo Mk_Love_Post::send_love(); ?></div>
 
 		    <div class="blog-share-container">
 		        <div class="blog-single-share mk-toggle-trigger"><?php Mk_SVG_Icons::get_svg_icon_by_class_name(true, 'mk-moon-share-2'); ?></div>

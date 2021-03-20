@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Class Vc_Vendor_QtranslateX
  * @since 4.12
  */
-class Vc_Vendor_QtranslateX implements Vc_Vendor_Interface {
+class Vc_Vendor_QtranslateX {
 
 	public function load() {
 		add_action( 'vc_backend_editor_render', array(
@@ -39,10 +39,14 @@ class Vc_Vendor_QtranslateX implements Vc_Vendor_Interface {
 	public function enqueueJsBackend() {
 		wp_enqueue_script( 'vc_vendor_qtranslatex_backend', vc_asset_url( 'js/vendors/qtranslatex_backend.js' ), array(
 			'vc-backend-min-js',
-			'jquery',
+			'jquery-core',
 		), '1.0', true );
 	}
 
+	/**
+	 * @param $link
+	 * @return string
+	 */
 	public function appendLangToUrl( $link ) {
 		global $q_config;
 		if ( $q_config && isset( $q_config['language'] ) ) {
@@ -55,7 +59,7 @@ class Vc_Vendor_QtranslateX implements Vc_Vendor_Interface {
 	public function enqueueJsFrontend() {
 		wp_enqueue_script( 'vc_vendor_qtranslatex_frontend', vc_asset_url( 'js/vendors/qtranslatex_frontend.js' ), array(
 			'vc-frontend-editor-min-js',
-			'jquery',
+			'jquery-core',
 		), '1.0', true );
 	}
 

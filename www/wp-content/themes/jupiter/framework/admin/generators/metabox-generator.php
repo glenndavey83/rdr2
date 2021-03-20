@@ -226,7 +226,7 @@ class mkMetaboxesGenerator {
 		}
 		$field .= '</div>';
 		if ( $preview ) {
-			$field .= '<span id="' . $value['id'] . '-preview" class="show-upload-image"><img src="' . $value['default'] . '" title="" /></span>';
+			$field .= '<span id="' . $value['id'] . '-preview" class="show-upload-image"><img src="' . $value['default'] . '" /></span>';
 		}
 
 		$this->build_fields( $value, $field );
@@ -674,7 +674,7 @@ class mkMetaboxesGenerator {
 													<div class="mk-upload-bg-wrapper">
 														<input class="mk-upload-url" type="text" id="bg_panel_upload" name="bg_panel_upload" size="40"  value="" />
 														<a class="option-upload-button secondary-button thickbox" id="bg_panel_upload_button" href="#"><?php _e( 'Upload', 'mk_framework' ); ?></a>
-														<div id="bg_panel_upload-preview" class="custom-image-preview-block show-upload-image"><img src="" title="" /></div>
+														<div id="bg_panel_upload-preview" class="custom-image-preview-block show-upload-image"><img src="" /></div>
 													</div>
 												</div>
 											</div>
@@ -1029,7 +1029,7 @@ class mkMetaboxesGenerator {
 				break;
 
 			case 'layer_slider_source':
-				if ( is_plugin_active( 'LayerSlider/layerslider.php' ) ) {
+				if ( mk_is_callable( 'LS_Config' ) ) {
 					global $wpdb;
 					$table_name = $wpdb->prefix . 'layerslider';
 					$sliders = $wpdb->get_results(

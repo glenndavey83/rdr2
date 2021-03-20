@@ -48,6 +48,33 @@ function mkhb_is_to_active() {
 }
 
 /**
+ * Check if header is active from template setting of Page Options.
+ *
+ * @since 6.1.2
+ *
+ * @return boolean True if active. Default is true.
+ */
+function mkhb_is_po_active() {
+	global $post;
+
+	// Ensure $post is not empty.
+	if ( ! empty( $post->ID ) ) {
+		// Disallowed templates to display header.
+		$disallowed = array( 'no-header', 'no-header-title', 'no-header-footer', 'no-header-title-footer' );
+
+		// Get page template option.
+		$template = get_post_meta( $post->ID, '_template', true );
+
+		// If current template is disallowed, return false.
+		if ( in_array( $template, $disallowed ) ) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+/**
  * Add current-menu-item class in preview navigation.
  *
  * @since 5.9.1
@@ -167,57 +194,6 @@ function mkhb_shortcode_display_attr( $options ) {
 	$data_attr = 'data-align="' . esc_attr( $data_align ) . '" data-display="' . esc_attr( $data_display ) . '"';
 
 	return $data_attr;
-}
-
-/**
- * Get HB header list.
- *
- * @since 6.0.0
- *
- * @return array Header builder list in array with key and title.
- */
-function mkhb_get_header_list() {
-	// Get Global Header post.
-	$fallback_id   = get_option( 'mkhb_global_header', 'nothing' );
-	$fallback_post = get_post( $fallback_id );
-
-	// Get data from DB.
-	$posts = get_posts( array(
-		'post_type'   => 'mkhb_header',
-		'post_status' => 'publish',
-		'numberposts' => -1,
-		'orderby'     => 'title',
-		'order'       => 'ASC',
-		'exclude'     => $fallback_id,
-	) );
-
-	// Insert Global Header to the list in the first place.
-	if ( null !== $fallback_post ) {
-		array_unshift( $posts, $fallback_post );
-	}
-
-	// Set header options.
-	$options = array();
-	if ( ! empty( $posts ) ) {
-		foreach ( $posts as $header ) {
-			$options[ $header->ID ] = $header->post_title;
-
-			// If the header is the global header, add prefix Global Header.
-			if ( absint( $header->ID ) === absint( $fallback_id ) ) {
-				/* translators: %s: page title */
-				$options[ $header->ID ] = sprintf( __( 'Global Header - %s', 'mk_framework' ), $header->post_title );
-			}
-		}
-	}
-
-	// If the options generated is empty, set default option with "No header found" option.
-	if ( empty( $options ) ) {
-		$options = array(
-			0 => __( 'No header found', 'mk_framework' ),
-		);
-	}
-
-	return $options;
 }
 
 /**

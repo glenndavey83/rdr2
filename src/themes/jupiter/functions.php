@@ -15,19 +15,33 @@ class Theme {
 
 	public function __construct( $check = false ) {
 		if ( $check ) {
-			$this->theme_requirement_check();
+			add_action( 'wp', [ $this, 'check_theme_requirements' ] );
+			add_action( 'admin_notices', [ $this, 'admin_notices' ] );
 		}
 	}
 
 	public function init( $options ) {
+		/**
+		 * Fires before all files have been loaded.
+		 *
+		 * @since 6.5.0
+		 */
+		do_action( 'mk_init_before' );
+
 		$this->constants( $options );
 		$this->backward_compatibility();
-		$this->post_types();
 		$this->helpers();
 		$this->functions();
 		$this->menu_walkers();
 		$this->admin();
 		$this->theme_activated();
+
+		/**
+		 * Fires after all files have been loaded.
+		 *
+		 * @since 6.5.0
+		 */
+		do_action( 'mk_init' );
 
 		add_action(
 			'admin_menu', array(
@@ -44,23 +58,9 @@ class Theme {
 		);
 
 		add_action(
-			'init', array(
-				&$this,
-				'add_metaboxes',
-			)
-		);
-
-		add_action(
 			'after_setup_theme', array(
 				&$this,
 				'supports',
-			)
-		);
-
-		add_action(
-			'after_setup_theme', array(
-				&$this,
-				'mk_theme_setup',
 			)
 		);
 
@@ -70,6 +70,9 @@ class Theme {
 				'widgets',
 			)
 		);
+
+		// Load RTL when Jupiter child theme is active.
+		add_action( 'wp_print_styles', array( &$this, 'load_rtl_in_child' ) );
 
 		add_filter(
 			'http_request_timeout', function ( $timeout ) {
@@ -126,8 +129,6 @@ class Theme {
 		define( 'THEME_HELPERS', THEME_FRAMEWORK . '/helpers' );
 		define( 'THEME_FUNCTIONS', THEME_FRAMEWORK . '/functions' );
 		define( 'THEME_PLUGIN_INTEGRATIONS', THEME_FRAMEWORK . '/plugin-integrations' );
-		define( 'THEME_METABOXES', THEME_FRAMEWORK . '/metaboxes' );
-		define( 'THEME_POST_TYPES', THEME_FRAMEWORK . '/custom-post-types' );
 
 		define( 'THEME_ADMIN', THEME_FRAMEWORK . '/admin' );
 		define( 'THEME_FIELDS', THEME_ADMIN . '/theme-options/builder/fields' );
@@ -141,32 +142,14 @@ class Theme {
 		define( 'THEME_CUSTOMIZER_DIR', THEME_DIR . '/framework/admin/customizer' );
 		define( 'THEME_CUSTOMIZER_URI', THEME_DIR_URI . '/framework/admin/customizer' );
 
-		// Just delete this constant before releasing Jupiter. This can be defined anywhere.
-		define( 'ARTBEES_HEADER_BUILDER', true );
-
-		define( 'ARTBEES_VC_FRONTEND', true );
 	}
+
 	public function backward_compatibility() {
 		include_once THEME_HELPERS . '/php-backward-compatibility.php';
 	}
+
 	public function widgets() {
 		include_once THEME_FUNCTIONS . '/widgets-filter.php';
-		include_once locate_template( 'views/widgets/widgets-contact-form.php' );
-		include_once locate_template( 'views/widgets/widgets-contact-info.php' );
-		include_once locate_template( 'views/widgets/widgets-gmap.php' );
-		include_once locate_template( 'views/widgets/widgets-popular-posts.php' );
-		include_once locate_template( 'views/widgets/widgets-related-posts.php' );
-		include_once locate_template( 'views/widgets/widgets-recent-posts.php' );
-		include_once locate_template( 'views/widgets/widgets-social-networks.php' );
-		include_once locate_template( 'views/widgets/widgets-subnav.php' );
-		include_once locate_template( 'views/widgets/widgets-testimonials.php' );
-		include_once locate_template( 'views/widgets/widgets-twitter-feeds.php' );
-		include_once locate_template( 'views/widgets/widgets-video.php' );
-		include_once locate_template( 'views/widgets/widgets-flickr-feeds.php' );
-		include_once locate_template( 'views/widgets/widgets-instagram-feeds.php' );
-		include_once locate_template( 'views/widgets/widgets-news-slider.php' );
-		include_once locate_template( 'views/widgets/widgets-recent-portfolio.php' );
-		include_once locate_template( 'views/widgets/widgets-slideshow.php' );
 	}
 
 	/**
@@ -175,11 +158,11 @@ class Theme {
 	public function supports() {
 		add_theme_support( 'automatic-feed-links' );
 		add_theme_support( 'title-tag' );
-		add_theme_support( 'menus' );
 		add_theme_support( 'automatic-feed-links' );
-		add_theme_support( 'editor-style' );
+		add_theme_support( 'editor-styles' );
 		add_theme_support( 'post-thumbnails' );
 		add_theme_support( 'yoast-seo-breadcrumbs' );
+		add_theme_support( 'wp-block-styles' );
 
 		register_nav_menus(
 			array(
@@ -201,24 +184,15 @@ class Theme {
 		);
 
 	}
-	public function post_types() {
-		include_once THEME_POST_TYPES . '/custom_post_types.helpers.class.php';
-		include_once THEME_POST_TYPES . '/register_post_type.class.php';
-		include_once THEME_POST_TYPES . '/register_taxonomy.class.php';
-		include_once THEME_POST_TYPES . '/config.php';
-	}
+
 	public function functions() {
 		include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-		include_once THEME_INCLUDES . '/sftp/sftp-init.php';
-
 		include_once THEME_ADMIN . '/general/general-functions.php';
 
-		if ( ! class_exists( 'phpQuery' ) ) {
-			include_once THEME_INCLUDES . '/phpquery/phpQuery.php';
+		if ( ! class_exists( 'WpSmush' ) && ! class_exists( 'WP_Smush' ) ) {
+			include_once THEME_INCLUDES . '/otf-regen-thumbs/otf-regen-thumbs.php';
 		}
-
-		include_once THEME_INCLUDES . '/otf-regen-thumbs/otf-regen-thumbs.php';
 
 		include_once THEME_FUNCTIONS . '/general-functions.php';
 		include_once THEME_FUNCTIONS . '/ajax-search.php';
@@ -232,28 +206,20 @@ class Theme {
 		include_once THEME_PLUGIN_INTEGRATIONS . '/visual-composer/init.php';
 
 		include_once locate_template( 'framework/helpers/love-post.php' );
-		include_once locate_template( 'framework/helpers/load-more.php' );
-		include_once locate_template( 'framework/helpers/subscribe-mailchimp.php' );
-		include_once locate_template( 'components/shortcodes/mk_portfolio/ajax.php' );
 		include_once locate_template( 'components/shortcodes/mk_products/quick-view-ajax.php' );
 	}
 	public function helpers() {
 		include_once THEME_HELPERS . '/global.php';
 		include_once THEME_HELPERS . '/class-mk-fs.php';
-		include_once THEME_HELPERS . '/class-logger.php';
-		include_once THEME_HELPERS . '/survey-management.php';
-		include_once THEME_HELPERS . '/db-management.php';
 		include_once THEME_HELPERS . '/logic-helpers.php';
-		include_once THEME_HELPERS . '/svg-icons.php';
-		include_once THEME_HELPERS . '/image-resize.php';
-		include_once THEME_HELPERS . '/template-part-helpers.php';
 		include_once THEME_HELPERS . '/wp_head.php';
 		include_once THEME_HELPERS . '/wp_footer.php';
-		include_once THEME_HELPERS . '/schema-markup.php';
-		include_once THEME_HELPERS . '/wp_query.php';
-		include_once THEME_HELPERS . '/send-email.php';
-		include_once THEME_HELPERS . '/captcha.php';
 		include_once THEME_HELPERS . '/woocommerce.php';
+
+		// Duplications.
+		include_once THEME_FRAMEWORK . '/duplications/functions.php';
+		include_once THEME_FRAMEWORK . '/duplications/svg-icons.php';
+		include_once THEME_FRAMEWORK . '/duplications/image-resize.php';
 	}
 
 	/**
@@ -267,12 +233,8 @@ class Theme {
 		include_once locate_template( 'framework/custom-nav-walker/responsive-navigation.php' );
 	}
 
-	public function add_metaboxes() {
-		include_once THEME_GENERATORS . '/metabox-generator.php';
-	}
-
 	public function theme_activated() {
-		if ( 'themes.php' == basename( $_SERVER['PHP_SELF'] ) && isset( $_GET['activated'] ) && $_GET['activated'] == 'true' ) {
+		if ( 'themes.php' == basename( $_SERVER['PHP_SELF'] ) && isset( $_GET['activated'] ) && 'true' == $_GET['activated'] ) {
 			flush_rewrite_rules();
 			update_option( THEME_OPTIONS_BUILD, uniqid() );
 			wp_redirect( admin_url( 'admin.php?page=' . THEME_NAME ) );
@@ -288,32 +250,28 @@ class Theme {
 	public function admin() {
 		global $abb_phpunit;
 		if ( is_admin() || false == ( empty( $abb_phpunit ) && true == $abb_phpunit ) ) {
-			include_once THEME_DIR . '/vendor/autoload.php';
 			include_once THEME_CONTROL_PANEL . '/logic/validator-class.php';
 			include_once THEME_CONTROL_PANEL . '/logic/system-messages/js-messages-lib.php';
 			include_once THEME_CONTROL_PANEL . '/logic/system-messages/logic-messages-lib.php';
 			include_once THEME_CONTROL_PANEL . '/logic/compatibility.php';
 			include_once THEME_CONTROL_PANEL . '/logic/functions.php';
-			include_once THEME_CONTROL_PANEL . '/logic/addon-management.php';
 			include_once THEME_CONTROL_PANEL . '/logic/plugin-management.php';
 			include_once THEME_CONTROL_PANEL . '/logic/template-management.php';
 			include_once THEME_CONTROL_PANEL . '/logic/updates-class.php';
 			include_once THEME_CONTROL_PANEL . '/logic/class-mk-updates-downgrades.php';
 			include_once THEME_CONTROL_PANEL . '/logic/class-mk-export-import.php';
-			include_once THEME_CONTROL_PANEL . '/logic/icon-selector.php';
 			include_once THEME_ADMIN . '/menus-custom-fields/menu-item-custom-fields.php';
 			include_once THEME_ADMIN . '/theme-options/options-check.php';
 			include_once THEME_ADMIN . '/general/mega-menu.php';
 			include_once THEME_ADMIN . '/general/enqueue-assets.php';
 			include_once THEME_ADMIN . '/general/class-mk-live-support.php';
+			include_once THEME_ADMIN . '/general/class-update-plugins.php';
+			include_once THEME_ADMIN . '/general/class-update-theme.php';
 			include_once THEME_ADMIN . '/theme-options/options-save.php';
 			include_once THEME_ADMIN . '/theme-options/class-mk-theme-options-misc.php';
 			include_once THEME_INCLUDES . '/tgm-plugin-activation/request-plugins.php';
 
-
 		}
-		include_once THEME_CONTROL_PANEL . '/logic/tracking.php';
-		include_once THEME_CONTROL_PANEL . '/logic/tracking-control-panel.php';
 	}
 	public function language() {
 
@@ -335,29 +293,6 @@ class Theme {
 				'control_panel',
 			)
 		);
-
-		if ( NEW_UI_LIBRARY ) {
-			add_submenu_page(
-				THEME_NAME, __( 'New UI', 'mk_framework' ), __( 'New UI', 'mk_framework' ), 'edit_posts', 'ui-library', array(
-					&$this,
-					'ui_library',
-				)
-			);
-			add_submenu_page(
-				THEME_NAME, __( 'UI Page Options', 'mk_framework' ), __( 'UI Page Options', 'mk_framework' ), 'edit_posts', 'ui-page-options', array(
-					&$this,
-					'ui_page_options',
-				)
-			);
-		}
-	}
-
-
-	public function ui_page_options() {
-		include_once THEME_CONTROL_PANEL . '/logic/ui-page-options.php';
-	}
-	public function ui_library() {
-		include_once THEME_CONTROL_PANEL . '/logic/ui-library.php';
 	}
 
 
@@ -367,49 +302,103 @@ class Theme {
 
 
 	/**
-	 * Stop creating new table and delete the table for sites using older version of
-	 * Jupiter. The function will be removed from 5.9.4
-	 *
-	 * @author    Ugur Mirza ZEYREK & Bob Ulusoy & Reza Ardestani
-	 * @copyright Artbees LTD (c)
-	 * @link      http://artbees.net
-	 * @since     Version 5.0.0
-	 * @since     Version 5.9.3
-	 */
-	public function mk_theme_setup() {
-		$wp_get_theme          = wp_get_theme();
-		$current_theme_version = $wp_get_theme->get( 'Version' );
-
-		if ( $current_theme_version < '5.9.3' ) {
-			global $wpdb;
-			global $jupiter_table_name;
-
-						$jupiter_table_name = $wpdb->prefix . 'mk_components';
-
-						$wpdb->query( "DROP TABLE IF EXISTS $jupiter_table_name" );
-		}
-	}
-
-	/**
-	 * Compatibility check for hosting php version.
-	 * Returns error if php version is below v5.4
+	 * Check theme requirements.
 	 *
 	 * @author Artbees
 	 * @since 5.0.5
 	 * @since 5.0.7
-	 * @since 6.0.2 Increse PHP version to 5.6 and improve explanation.
+	 * @since 6.0.2 Increase PHP version to 5.6 and improve explanation.
+	 * @since 6.1.7 Check theme requirements.
 	 */
-	public function theme_requirement_check() {
+	public function check_theme_requirements() {
+		$required_plugins = '';
+		$php_version      = $this->check_php_version();
+
+		if ( ( empty( $required_plugins ) && empty( $php_version ) ) || is_admin() ) {
+			return;
+		}
+
+		$title   = sprintf( '<h1>%s</h1>', __( 'Maintenance Mode', 'mk_framework' ) );
+		$content = sprintf( '<p>%s</p>', __( "We're updating our website. Please check back soon.", 'mk_framework' ) );;
+
+		if ( current_user_can( 'manage_options' ) ) {
+			$content .= sprintf( '<p>%s</p>', __( 'Resolve following issues to disable Maintenance Mode. (This part of message is only visible to admin users)', 'mk_framework' ) );
+			$content .= '<ul>';
+			$content .= $required_plugins;
+			$content .= $php_version;
+			$content .= '</ul>';
+		}
+
+		wp_die( $title . $content );
+	}
+
+	/**
+	 * Check required plugins.
+	 *
+	 * @author Artbees
+	 *
+	 * @since 6.1.7
+	 */
+	private function check_required_plugins() {
+		$content = '';
+
+		if ( ! class_exists( 'Jupiter_Core' ) ) {
+			$content .= sprintf( '<li>%s</li>', __( 'Activate <a href="' . admin_url( 'themes.php?page=tgmpa-install-plugins' ) . '">Jupiter Core</a> plugin.', 'mk_framework' ) );
+		}
+
+		if ( ! class_exists( 'Vc_Manager' ) ) {
+			$content .= sprintf( '<li>%s</li>', __( 'Activate <a href="' . admin_url( 'themes.php?page=tgmpa-install-plugins' ) . '">WPBakery Page Builder (Modified Version)</a> plugin.', 'mk_framework' ) );
+		}
+
+		if ( ! class_exists( 'Jupiter_Donut' ) ) {
+			$content .= sprintf( '<li>%s</li>', __( 'Activate <a href="' . admin_url( 'themes.php?page=tgmpa-install-plugins' ) . '">Jupiter Donut</a> plugin.', 'mk_framework' ) );
+		}
+
+		if ( empty( $content ) ) {
+			return '';
+		}
+
+		return $content;
+	}
+
+	/**
+	 * Check PHP version.
+	 *
+	 * @author Artbees
+	 *
+	 * @since 6.1.7
+	 */
+	private function check_php_version() {
 		if ( ! in_array( $GLOBALS['pagenow'], array( 'admin-ajax.php' ) ) ) {
 			if ( version_compare( phpversion(), '5.6', '<' ) ) {
-				printf(
-					__( '<h2>Your server\'s PHP version (%1$s) is not supported.</h2> <p>This version is old, insecure and slow. Please update it as soon as possible.</p><h3>Required/Recommened Version:</h3><p>Please read <a href="%2$s" target="_blank">Checking Server Requirements</a> article to learn about WordPress, Jupiter and other plugins\' server requirements.</p><h3>Update:</h3><p>Please contact your host provider/server administrator to increase the PHP version.</p>', 'mk_framework' ),
+				return sprintf(
+					__( '<li>Your server\'s PHP version (%1$s) is not supported. This version is old, insecure and slow. <br>Please read <a href="%2$s" target="_blank">Checking Server Requirements</a> article to learn about WordPress, Jupiter and other plugins\' server requirements. You may contact your host provider/server administrator to increase the PHP version.</li>', 'mk_framework' ),
 					esc_attr( phpversion() ),
 					'https://themes.artbees.net/docs/checking-server-requirements/'
 				);
-				wp_die();
 			}
 		}
+
+		return '';
+	}
+
+	/**
+	 * Admin notices.
+	 */
+	public function admin_notices() {
+		$required_plugins = $this->check_required_plugins();
+
+		if ( empty( $required_plugins ) ) {
+			return;
+		}
+
+		?>
+		<div class="notice notice-warning is-dismissible">
+			<h2><?php _e( 'Required Plugins Installation', 'mk_framework' ); ?></h2>
+			<p><?php _e( 'Since Jupiter v6.3.0, <strong>Jupiter Core</strong>, <strong>Jupiter Donut</strong> and <strong>WPBakery Page Builder (Modified Version)</strong> plugins need to be installed and activated to enable different features in the theme.', 'mk_framework' ); ?></p>
+			<p><a class="button button-primary" href="<?php echo admin_url( 'themes.php?page=tgmpa-install-plugins' ); ?>"><?php _e( 'Install/Activate the Required Plugins', 'mk_framework' ); ?></a></p>
+		</div>
+		<?php
 	}
 
 	/**
@@ -446,6 +435,42 @@ class Theme {
 	}
 
 	/**
+	 * Load rtl.css from Jupiter parent theme.
+	 *
+	 * ATTENTION: This action only runs when user doesn't have any rtl.css file in his
+	 * Jupiter child theme.
+	 *
+	 * @since 6.1.2
+	 */
+	public function load_rtl_in_child() {
+		// Check weather current site is RTL or not.
+		if ( ! is_rtl() ) {
+			return;
+		}
+
+		// Make sure current theme used is Jupiter child theme.
+		if ( ! is_child_theme() ) {
+			return;
+		}
+
+		// Set parent and child theme path directory.
+		$parent_dir = get_template_directory();
+		$child_dir  = get_stylesheet_directory();
+
+		// Set parent theme URI.
+		$parent_dir_uri = get_template_directory_uri();
+
+		/**
+		 * Make sure child theme doesn't contain rtl.css file and the file is exist in
+		 * Jupiter parent theme.
+		 */
+		if ( ! file_exists( $child_dir . '/rtl.css' ) && file_exists( $parent_dir . '/rtl.css' ) ) {
+			wp_register_style( 'parent-theme-rtl', $parent_dir_uri . '/rtl.css' );
+			wp_enqueue_style( 'parent-theme-rtl' );
+		}
+	}
+
+	/**
 	 * Include main customizer class.
 	 *
 	 * @since 5.9.4
@@ -462,15 +487,17 @@ class Theme {
 	private function tour() {
 
 		// Add tour list. Choose short, one-word id.
-		add_filter( 'mk_tour_list', function( $tour_list ) {
-			$tour_list = array(
-				'intro' => array(
-					'state' => true,
-				),
-			);
+		add_filter(
+			'mk_tour_list', function( $tour_list ) {
+				$tour_list = array(
+					'intro' => array(
+						'state' => true,
+					),
+				);
 
-			return $tour_list;
-		} );
+				return $tour_list;
+			}
+		);
 
 		include_once THEME_ADMIN . '/tour/class-mk-tour.php';
 	}

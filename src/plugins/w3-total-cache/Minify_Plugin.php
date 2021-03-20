@@ -60,9 +60,7 @@ class Minify_Plugin {
 			array( $this, 'w3tc_admin_bar_menu' ) );
 
 		add_filter( 'w3tc_footer_comment', array(
-				$this,
-				'w3tc_footer_comment'
-			) );
+				$this, 'w3tc_footer_comment' ) );
 
 		if ( $this->_config->get_string( 'minify.engine' ) == 'file' ) {
 			add_action( 'w3_minify_cleanup', array(
@@ -70,6 +68,8 @@ class Minify_Plugin {
 					'cleanup'
 				) );
 		}
+		add_filter( 'w3tc_pagecache_set_header',
+			array( $this, 'w3tc_pagecache_set_header' ), 20, 2 );
 
 		// usage statistics handling
 		add_action( 'w3tc_usage_statistics_of_request', array(
@@ -199,7 +199,7 @@ class Minify_Plugin {
 					$this->remove_styles_group( $buffer, 'include' );
 				}
 
-				if ( $this->_config->get_boolean( 'minify.css.http2push' ) ) {
+				if ( $this->_config->getf_boolean( 'minify.css.http2push' ) ) {
 					$this->minify_helpers->http2_header_add( $style['url'],
 						'style' );
 				}
@@ -207,7 +207,7 @@ class Minify_Plugin {
 
 			if ( $js_enable ) {
 				$embed_type = $this->_config->get_string( 'minify.js.header.embed_type' );
-				$http2push = $this->_config->get_boolean( 'minify.js.http2push' );
+				$http2push = $this->_config->getf_boolean( 'minify.js.http2push' );
 
 				$script = $this->get_script_group( 'include', $embed_type );
 
@@ -304,7 +304,7 @@ class Minify_Plugin {
 			'id' => 'w3tc_flush_minify',
 			'parent' => 'w3tc_flush',
 			'title' => __( 'Minify', 'w3-total-cache' ),
-			'href' => wp_nonce_url( network_admin_url(
+			'href' => wp_nonce_url( admin_url(
 					'admin.php?page=w3tc_dashboard&amp;w3tc_flush_minify' ),
 				'w3tc' )
 		);
@@ -419,12 +419,14 @@ class Minify_Plugin {
 		$home_url_regexp = Util_Environment::home_url_regexp();
 
 		$path = '';
-		if ( Util_Environment::is_wpmu() && !Util_Environment::is_wpmu_subdomain() )
-			$path = ltrim( Util_Environment::home_url_uri(), '/' );
+		if ( Util_Environment::is_wpmu() && !Util_Environment::is_wpmu_subdomain() ) {
+			$path = ltrim( Util_Environment::network_home_url_uri(), '/' );
+		}
 
 		foreach ( $files as $file ) {
-			if ( $path && strpos( $file, $path ) === 0 )
+			if ( $path && strpos( $file, $path ) === 0 ) {
 				$file = substr( $file, strlen( $path ) );
+			}
 
 			$this->replaced_scripts[] = $file;
 
@@ -434,8 +436,12 @@ class Minify_Plugin {
 			} else {
 				// local JS files
 				$file = ltrim( $file, '/' );
-				if ( home_url() == site_url() && ltrim( Util_Environment::site_url_uri(), '/' ) && strpos( $file, ltrim( Util_Environment::site_url_uri(), '/' ) ) === 0 )
+				if ( home_url() == site_url() &&
+						ltrim( Util_Environment::site_url_uri(), '/' ) &&
+						strpos( $file, ltrim( Util_Environment::site_url_uri(), '/' ) ) === 0 ) {
 					$file = str_replace( ltrim( Util_Environment::site_url_uri(), '/' ), '', $file );
+				}
+
 				$file = ltrim( preg_replace( '~' . $home_url_regexp . '~i', '', $file ), '/\\' );
 				$regexps[] = '(' . $home_url_regexp . ')?/?' . Util_Environment::preg_quote( $file );
 			}
@@ -507,7 +513,7 @@ class Minify_Plugin {
 		$ignored_comments = $this->_config->get_array( 'minify.html.comments.ignore' );
 
 		if ( count( $ignored_comments ) ) {
-			$ignored_comments_preserver = new \Minify_IgnoredCommentPreserver();
+			$ignored_comments_preserver = new \W3TCL\Minify\Minify_IgnoredCommentPreserver();
 			$ignored_comments_preserver->setIgnoredComments( $ignored_comments );
 
 			$html = $ignored_comments_preserver->search( $html );
@@ -525,7 +531,7 @@ class Minify_Plugin {
 
 			$w3_minifier->init( $js_engine );
 
-			$html = \Minify_Inline_JavaScript::minify( $html, $js_minifier, $js_options );
+			$html = \W3TCL\Minify\Minify_Inline_JavaScript::minify( $html, $js_minifier, $js_options );
 		}
 
 		if ( $this->_config->get_boolean( 'minify.html.inline.css' ) ) {
@@ -540,7 +546,7 @@ class Minify_Plugin {
 
 			$w3_minifier->init( $css_engine );
 
-			$html = \Minify_Inline_CSS::minify( $html, $css_minifier, $css_options );
+			$html = \W3TCL\Minify\Minify_Inline_CSS::minify( $html, $css_minifier, $css_options );
 		}
 
 		$engine = $this->_config->get_string( 'minify.html.engine' );
@@ -889,15 +895,6 @@ class Minify_Plugin {
 	 */
 	function can_minify2( $buffer ) {
 		/**
-		 * Check for database error
-		 */
-		if ( Util_Content::is_database_error( $buffer ) ) {
-			$this->minify_reject_reason = 'Database Error occurred';
-
-			return false;
-		}
-
-		/**
 		 * Check for DONOTMINIFY constant
 		 */
 		if ( defined( 'DONOTMINIFY' ) && DONOTMINIFY ) {
@@ -990,16 +987,33 @@ class Minify_Plugin {
 	}
 
 
+
 	public function w3tc_usage_statistics_of_request( $storage ) {
 		$o = Dispatcher::component( 'Minify_MinifiedFileRequestHandler' );
 		$o->w3tc_usage_statistics_of_request( $storage );
 	}
+
+
 
 	public function w3tc_usage_statistics_metrics( $metrics ) {
 		return array_merge( $metrics, array(
 				'minify_requests_total',
 				'minify_original_length_css', 'minify_output_length_css',
 				'minify_original_length_js', 'minify_output_length_js', ) );
+	}
+
+
+
+	public function w3tc_pagecache_set_header( $header, $header_original ) {
+		if ( $header_original['n'] == 'Link' &&
+				false !== strpos( $header_original['v'], 'rel=preload' ) ) {
+			// store preload Link headers in cache
+			$new = $header_original;
+			$new['files_match'] = '\\.html[_a-z]*$';
+			return $new;
+		}
+
+		return $header;
 	}
 }
 
@@ -1038,6 +1052,8 @@ class _W3_MinifyHelpers {
 
 		$url = Minify_Core::minified_url( $minify_filename );
 		$url = Util_Environment::url_to_maybe_https( $url );
+
+		$url = apply_filters( 'w3tc_minify_url_for_files', $url, $files, $type );
 
 		return $url;
 	}
@@ -1092,19 +1108,22 @@ class _W3_MinifyHelpers {
 				$script .= "<script>w3tc_load_js('" .
 					$url . "');</script>";
 
-			} else if ( $embed_type == 'nb-async' ) {
-					$script = '<script async src="' .
-						str_replace( '&', '&amp;', $url ) . '"></script>';
-				} else if ( $embed_type == 'nb-defer' ) {
-					$script = '<script defer src="' .
-						str_replace( '&', '&amp;', $url ) . '"></script>';
-				} else if ( $embed_type == 'extsrc' ) {
-					$script = '<script extsrc="' .
-						str_replace( '&', '&amp;', $url ) . '"></script>';
-				} else if ( $embed_type == 'asyncsrc' ) {
-					$script = '<script asyncsrc="' .
-						str_replace( '&', '&amp;', $url ) . '"></script>';
-				}
+			} elseif ( $embed_type == 'nb-async' ) {
+				$script = '<script async src="' .
+					str_replace( '&', '&amp;', $url ) . '"></script>';
+			} elseif ( $embed_type == 'nb-defer' ) {
+				$script = '<script defer src="' .
+					str_replace( '&', '&amp;', $url ) . '"></script>';
+			} elseif ( $embed_type == 'extsrc' ) {
+				$script = '<script extsrc="' .
+					str_replace( '&', '&amp;', $url ) . '"></script>';
+			} elseif ( $embed_type == 'asyncsrc' ) {
+				$script = '<script asyncsrc="' .
+					str_replace( '&', '&amp;', $url ) . '"></script>';
+			} else {
+				$script = '<script src="' .
+					str_replace( '&', '&amp;', $url ) . '"></script>';
+			}
 		}
 
 		return $script . "\r\n";

@@ -21,7 +21,7 @@ class Mk_Wp_Theme_Update {
 	function __construct() {
 
 		// Enable update check on every request. Normally you don't need this! This is for testing only!
-		// set_site_transient('update_themes', null);
+		// set_site_transient('update_themes', null).
 		$this->api_url = 'https://artbees.net/api/v1/';
 		// $this->api_url = 'http://localhost/artbees-api/v1/';
 		$stored_api_key = get_option( 'artbees_api_key' );
@@ -141,7 +141,7 @@ class Mk_Wp_Theme_Update {
 					'version' => $theme_version,
 				);
 
-				// Start checking for an update
+				// Start checking for an update.
 				$data = array(
 					'body' => array(
 						'action' => 'check_new_version',
@@ -175,7 +175,7 @@ class Mk_Wp_Theme_Update {
 
 	public function fix_str_length( $matches ) {
 				$string = $matches[2];
-				$right_length = strlen( $string ); // yes, strlen even for UTF-8 characters, PHP wants the mem size, not the char count
+				$right_length = strlen( $string ); // yes, strlen even for UTF-8 characters, PHP wants the mem size, not the char count.
 				return 's:' . $right_length . ':"' . $string . '";';
 	}
 
@@ -189,7 +189,7 @@ class Mk_Wp_Theme_Update {
 			return $string;
 		}
 		$string = preg_replace( "%\n%", '', $string );
-		// doublequote exploding
+		// doublequote exploding.
 		$data = preg_replace( '%";%', 'µµµ', $string );
 		$tab = explode( 'µµµ', $data );
 		$new_data = '';
@@ -217,7 +217,7 @@ class Mk_Wp_Theme_Update {
 				'version' => $theme_version,
 			);
 
-			// Start checking for an update
+			// Start checking for an update.
 			$data = array(
 				'body' => array(
 					'action' => 'get_release_note',
@@ -320,8 +320,6 @@ class Mk_Wp_Theme_Update {
 		$get_new_version = $this->check_latest_version();
 		$dismissed_version = get_option( 'mk_dismiss_warning_version' );
 		if ( ! empty( $get_new_version ) && $get_new_version != $dismissed_version ) {
-			// Track if user notice new Jupiter update.
-			$this->track_update_notice( $get_new_version );
 			?>
 			<div class="cp-update-notice clearfix">
 				<?php _e( 'A new version of Jupiter is available to download.', 'mk_framework' ); ?>
@@ -329,23 +327,6 @@ class Mk_Wp_Theme_Update {
 				<a class="close-button" href="#" data-new-version="<?php echo $get_new_version; ?>"><img src="<?php echo THEME_CONTROL_PANEL_ASSETS; ?>/images/close-cp.svg"></a>
 			</div>
 		<?php
-		}
-	}
-
-	/**
-	 * Track if user notice new Jupiter update.
-	 *
-	 * @param  string $new_version Latest version notified.
-	 *
-	 * @author Ayub Adiputra <ayub@artbees.net>
-	 * @since  Version 5.8
-	 * @see    Mk_Tracking_Control_Panel
-	 */
-	public function track_update_notice( $new_version = null ) {
-		// Run the tracking only when the class is exist to prevent any errors.
-		if ( class_exists( 'Mk_Tracking_Control_Panel' ) ) {
-			$mk_tracking_cp = new Mk_Tracking_Control_Panel();
-			$mk_tracking_cp->set_user_notice_update_check( $new_version );
 		}
 	}
 

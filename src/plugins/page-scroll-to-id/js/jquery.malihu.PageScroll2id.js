@@ -1,6 +1,6 @@
 /*
 == Page scroll to id == 
-Version: 1.5.9 
+Version: 1.6.8 
 Plugin URI: http://manos.malihu.gr/page-scroll-to-id/
 Author: malihu
 Author URI: http://manos.malihu.gr
@@ -85,12 +85,19 @@ THE SOFTWARE.
 			/* highlight elements now and in the future */
 			live:true,
 			/* set specific live selector(s): String */
-			liveSelector:false
+			liveSelector:false,
+			/* set specific selector(s) that will be excluded from being handled by the plugin: String */
+			excludeSelectors:false,
+			/* enable encodeURI for links (enable if your links have href values with UTF-8 encoding): boolean */
+			encodeLinks:false,
+			/* enable to run the script inside iframe */
+			inIframe:false
 		},
 	
 	/* vars, constants */
 	
 		selector,opt,_init,_trigger,_clicked,_target,_to,_axis,_offset,_dataOffset,_totalInstances=0,_liveTimer,_speed,
+		specialChars=/[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/,
 	
 	/* 
 	---------------
@@ -142,9 +149,9 @@ THE SOFTWARE.
 				if(opt.clickEvents){
 					$(document)
 					
-					.undelegate("."+pluginPfx)
+					.off("."+pluginPfx)
 					
-					.delegate(selector,"click."+pluginPfx,function(e){
+					.on("click."+pluginPfx,selector,function(e){
 						if(functions._isDisabled.call(null)){
 							functions._removeClasses.call(null);
 							return;
@@ -152,6 +159,9 @@ THE SOFTWARE.
 						var $this=$(this),
 							href=$this.attr("href"),
 							hrefProp=$this.prop("href").baseVal || $this.prop("href");
+						if(opt.excludeSelectors && $this.is(opt.excludeSelectors)){ //excluded selectors
+							return;
+						}
 						if(href && href.indexOf("#/")!==-1){
 							return;
 						}
@@ -169,9 +179,9 @@ THE SOFTWARE.
 				
 				$(window)
 				
-				.unbind("."+pluginPfx)
+				.off("."+pluginPfx)
 				
-				.bind("scroll."+pluginPfx+" resize."+pluginPfx,function(){
+				.on("scroll."+pluginPfx+" resize."+pluginPfx,function(){
 					if(functions._isDisabled.call(null)){
 						functions._removeClasses.call(null);
 						return;
@@ -234,8 +244,8 @@ THE SOFTWARE.
 			/* destroy method */
 			
 			destroy:function(){
-				$(window).unbind("."+pluginPfx);
-				$(document).undelegate("."+pluginPfx).removeData(pluginPfx);
+				$(window).off("."+pluginPfx);
+				$(document).off("."+pluginPfx).removeData(pluginPfx);
 				$("._"+pluginPfx+"-t").removeData(pluginPfx);
 				functions._removeClasses.call(null,true);
 			}
@@ -269,7 +279,8 @@ THE SOFTWARE.
 				}
 				hrefProp=(!hrefProp) ? href : hrefProp;
 				var str=(hrefProp.indexOf("#/")!==-1) ? hrefProp.split("#/")[0] : hrefProp.split("#")[0],
-					loc=window.location.toString().split("#")[0];
+					wloc=!opt.inIframe && window.location !== window.parent.location ? window.parent.location : window.location,
+					loc=wloc.toString().split("#")[0];
 				return href!=="#" && href.indexOf("#")!==-1 && (str==="" || decodeURIComponent(str)===decodeURIComponent(loc));
 			},
 			
@@ -280,7 +291,11 @@ THE SOFTWARE.
 				return $(el).each(function(){
 					var $this=$(this),href=$this.attr("href"),hrefProp=$this.prop("href").baseVal || $this.prop("href");
 					if(functions._isValid.call(null,href,hrefProp)){
-						var id=(href.indexOf("#/")!==-1) ? href.split("#/")[1] : href.split("#")[1],t=$("#"+id); 
+						if(opt.excludeSelectors && $this.is(opt.excludeSelectors)){ //excluded selectors
+							return;
+						}
+						var id=(href.indexOf("#/")!==-1) ? href.split("#/")[1] : href.substring(href.indexOf('#')+1), //we're not using str.split("#")[1] because we want only the first occurrence of # in case the id has # in its actual name 
+							t=specialChars.test(id) ? $(document.getElementById(id)) : $("#"+id); //fix bug with special characters like %, ?, & etc. in selector 
 						if(t.length>0){
 							if(opt.highlightByNextTarget){
 								if(t!==tp){
@@ -314,8 +329,8 @@ THE SOFTWARE.
 			/* finds the target element */
 			
 			_findTarget:function(str){
-				var val=(str.indexOf("#/")!==-1) ? str.split("#/")[1] : str.split("#")[1], 
-					el=$("#"+val);
+				var val=(str.indexOf("#/")!==-1) ? str.split("#/")[1] : str.substring(str.indexOf('#')+1), //we're not using str.split("#")[1] because we want only the first occurrence of # in case the id has # in its actual name 
+					el=specialChars.test(val) ? $(document.getElementById(val)) : $("#"+val); //fix bug with special characters like %, ?, & etc. in selector 
 				if(el.length<1 || el.css("position")==="fixed"){
 					if(val==="top"){
 						el=$("body");
@@ -388,8 +403,19 @@ THE SOFTWARE.
 			/* finds the element that should be highlighted */
 			
 			_findHighlight:function(id){
-				var wLoc=window.location,loc=wLoc.toString().split("#")[0],locPath=wLoc.pathname;
-				return $("._"+pluginPfx+"-h[href='#"+id+"'],._"+pluginPfx+"-h[href='"+loc+"#"+id+"'],._"+pluginPfx+"-h[href='"+locPath+"#"+id+"'],._"+pluginPfx+"-h[href='#/"+id+"'],._"+pluginPfx+"-h[href='"+loc+"#/"+id+"'],._"+pluginPfx+"-h[href='"+locPath+"#/"+id+"']");
+				var wLoc=!opt.inIframe && window.location !== window.parent.location ? window.parent.location : window.location,
+					loc=wLoc.toString().split("#")[0],
+					locPath=wLoc.pathname;
+				if(loc.indexOf("'")!==-1) loc=loc.replace("'","\\'");
+				if(locPath.indexOf("'")!==-1) locPath=locPath.replace("'","\\'");
+				loc=decodeURIComponent(loc);
+				locPath=decodeURIComponent(locPath);
+				if(opt.encodeLinks){
+					var locEnc=encodeURI(loc).toLowerCase(),locPathEnc=encodeURI(locPath).toLowerCase();
+					return $("._"+pluginPfx+"-h[href='#"+id+"'],._"+pluginPfx+"-h[href='"+loc+"#"+id+"'],._"+pluginPfx+"-h[href='"+locPath+"#"+id+"'],._"+pluginPfx+"-h[href='#/"+id+"'],._"+pluginPfx+"-h[href='"+loc+"#/"+id+"'],._"+pluginPfx+"-h[href='"+locPath+"#/"+id+"'],._"+pluginPfx+"-h[href='"+locEnc+"#/"+id+"'],._"+pluginPfx+"-h[href='"+locEnc+"#"+id+"'],._"+pluginPfx+"-h[href='"+locPathEnc+"#/"+id+"'],._"+pluginPfx+"-h[href='"+locPathEnc+"#"+id+"']");
+				}else{
+					return $("._"+pluginPfx+"-h[href='#"+id+"'],._"+pluginPfx+"-h[href='"+loc+"#"+id+"'],._"+pluginPfx+"-h[href='"+locPath+"#"+id+"'],._"+pluginPfx+"-h[href='#/"+id+"'],._"+pluginPfx+"-h[href='"+loc+"#/"+id+"'],._"+pluginPfx+"-h[href='"+locPath+"#/"+id+"']");
+				}
 			},
 			
 			/* sets plugin classes */
@@ -446,6 +472,7 @@ THE SOFTWARE.
 			/* checks if target element is in viewport */
 			
 			_currentTarget:function(t){
+				if(!t.data(pluginPfx)) return; //handle Uncaught TypeError (undefined data)
 				var o=opt["target_"+t.data(pluginPfx).i],
 					dataTarget=t.data("ps2id-target"),
 					rect=dataTarget && $(dataTarget)[0] ? $(dataTarget)[0].getBoundingClientRect() : t[0].getBoundingClientRect();
@@ -587,7 +614,7 @@ THE SOFTWARE.
 					case "onStart":
 						//append hash to URL/address bar
 						if(opt.appendHash && window.history && window.history.pushState && _clicked && _clicked.length){
-							var h="#"+_clicked.attr("href").split("#")[1];
+							var hval=_clicked.attr("href"),h="#"+(hval.substring(hval.indexOf('#')+1)); //we're not using hval.split("#")[1] because we want only the first occurrence of # in case the id has # in its actual name 
 							if(h!==window.location.hash) history.pushState("","",h);
 						}
 						opt.onStart.call(null,this[pluginPfx]);

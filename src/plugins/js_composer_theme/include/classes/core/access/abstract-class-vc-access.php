@@ -15,8 +15,11 @@ abstract class Vc_Access {
 	 */
 	protected $validAccess = true;
 
+	/**
+	 * @return bool
+	 */
 	public function getValidAccess() {
-		return $this->validAccess;
+		return is_multisite() && is_super_admin() ? true : $this->validAccess;
 	}
 
 	/**
@@ -47,7 +50,10 @@ abstract class Vc_Access {
 					$args = array( $args );
 				}
 				$this->setValidAccess( true );
-				call_user_func_array( array( $this, $method ), $args );
+				call_user_func_array( array(
+					$this,
+					$method,
+				), $args );
 				if ( $valid === $this->getValidAccess() ) {
 					$access = $valid;
 					break;
@@ -84,13 +90,12 @@ abstract class Vc_Access {
 			if ( defined( 'VC_DIE_EXCEPTION' ) && VC_DIE_EXCEPTION ) {
 				throw new Exception( $message );
 			} else {
-				die( $message );
+				die( esc_html( $message ) );
 			}
 		}
 
 		return $this;
 	}
-
 
 	/**
 	 * @param $func

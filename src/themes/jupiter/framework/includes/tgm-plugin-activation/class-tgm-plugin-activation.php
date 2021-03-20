@@ -967,6 +967,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
                 }
             }
 
+            remove_all_filters( 'site_transient_update_plugins' );
             set_site_transient( 'update_plugins', $repo_updates );
         }
 

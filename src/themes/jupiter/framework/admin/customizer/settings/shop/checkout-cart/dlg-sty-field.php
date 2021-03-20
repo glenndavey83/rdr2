@@ -9,7 +9,7 @@
  */
 
 // Field dialog.
-$wp_customize->add_section(
+$mk_customize->add_section(
 	new MK_Dialog(
 		$wp_customize,
 		'mk_s_cc_s_f',
@@ -28,7 +28,7 @@ $wp_customize->add_section(
 );
 
 // Typography.
-$wp_customize->add_setting( 'mk_cz[sh_cc_sty_fld_typography]', array(
+$mk_customize->add_setting( 'mk_cz[sh_cc_sty_fld_typography]', array(
 	'type' => 'option',
 	'default' => array(
 		'family' => 'inherit',
@@ -40,7 +40,7 @@ $wp_customize->add_setting( 'mk_cz[sh_cc_sty_fld_typography]', array(
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Typography_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_fld_typography]',
@@ -53,13 +53,13 @@ $wp_customize->add_control(
 
 
 // Field Background Color.
-$wp_customize->add_setting( 'mk_cz[sh_cc_sty_fld_background_color]', array(
+$mk_customize->add_setting( 'mk_cz[sh_cc_sty_fld_background_color]', array(
 	'type' => 'option',
 	'default'   => '#ffffff',
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_fld_background_color]',
@@ -72,13 +72,13 @@ $wp_customize->add_control(
 );
 
 // Border radius.
-$wp_customize->add_setting( 'mk_cz[sh_cc_sty_fld_border_radius]', array(
+$mk_customize->add_setting( 'mk_cz[sh_cc_sty_fld_border_radius]', array(
 	'type' => 'option',
 	'default'   => 3,
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Input_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_fld_border_radius]',
@@ -97,13 +97,13 @@ $wp_customize->add_control(
 
 
 // Border width.
-$wp_customize->add_setting( 'mk_cz[sh_cc_sty_fld_border_width]', array(
+$mk_customize->add_setting( 'mk_cz[sh_cc_sty_fld_border_width]', array(
 	'type' => 'option',
 	'default'   => 1,
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Input_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_fld_border_width]',
@@ -121,13 +121,13 @@ $wp_customize->add_control(
 );
 
 // Border color.
-$wp_customize->add_setting( 'mk_cz[sh_cc_sty_fld_border_color]', array(
+$mk_customize->add_setting( 'mk_cz[sh_cc_sty_fld_border_color]', array(
 	'type' => 'option',
 	'default'   => '#d5d8de',
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_fld_border_color]',
@@ -141,11 +141,11 @@ $wp_customize->add_control(
 
 
 // Divider.
-$wp_customize->add_setting( 'mk_cz[sh_cc_sty_fld_divider_1]', array(
+$mk_customize->add_setting( 'mk_cz[sh_cc_sty_fld_divider_1]', array(
 	'type' => 'option',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Divider_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_fld_divider_1]',
@@ -156,11 +156,11 @@ $wp_customize->add_control(
 );
 
 // Focus Style Label.
-$wp_customize->add_setting( 'mk_cz[sh_cc_sty_fld_focus_label]', array(
+$mk_customize->add_setting( 'mk_cz[sh_cc_sty_fld_focus_label]', array(
 	'type' => 'option',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Label_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_fld_focus_label]',
@@ -172,13 +172,13 @@ $wp_customize->add_control(
 );
 
 // Focus Text color.
-$wp_customize->add_setting( 'mk_cz[sh_cc_sty_fld_focus_color]', array(
+$mk_customize->add_setting( 'mk_cz[sh_cc_sty_fld_focus_color]', array(
 	'type' => 'option',
 	'default'   => '#888888',
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_fld_focus_color]',
@@ -191,13 +191,13 @@ $wp_customize->add_control(
 );
 
 // Focus Background color.
-$wp_customize->add_setting( 'mk_cz[sh_cc_sty_fld_focus_background_color]', array(
+$mk_customize->add_setting( 'mk_cz[sh_cc_sty_fld_focus_background_color]', array(
 	'type' => 'option',
 	'default'   => '#ffffff',
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_fld_focus_background_color]',
@@ -210,13 +210,13 @@ $wp_customize->add_control(
 );
 
 // Focus Border color.
-$wp_customize->add_setting( 'mk_cz[sh_cc_sty_fld_focus_border_color]', array(
+$mk_customize->add_setting( 'mk_cz[sh_cc_sty_fld_focus_border_color]', array(
 	'type' => 'option',
 	'default'   => '#157cf2',
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_fld_focus_border_color]',
@@ -229,11 +229,11 @@ $wp_customize->add_control(
 );
 
 // Divider.
-$wp_customize->add_setting( 'mk_cz[sh_cc_sty_fld_divider_2]', array(
+$mk_customize->add_setting( 'mk_cz[sh_cc_sty_fld_divider_2]', array(
 	'type' => 'option',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Divider_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_fld_divider_2]',
@@ -244,7 +244,7 @@ $wp_customize->add_control(
 );
 
 // Box Model.
-$wp_customize->add_setting( 'mk_cz[sh_cc_sty_fld_box_model]', array(
+$mk_customize->add_setting( 'mk_cz[sh_cc_sty_fld_box_model]', array(
 	'type' => 'option',
 	'default' => array(
 		'margin_top' => 0,
@@ -259,7 +259,7 @@ $wp_customize->add_setting( 'mk_cz[sh_cc_sty_fld_box_model]', array(
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Box_Model_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_fld_box_model]',

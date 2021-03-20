@@ -29,7 +29,7 @@
 			
 			$(".js .wrap form").css({"opacity":1});
 			
-			$(".repeatable-add").click(function(e){
+			$(".repeatable-add").on("click",function(e){
 				e.preventDefault();
 				var repeatable=loc=$(adminID+" .repeatable:last"),cloned;
 				if(repeatable.length>0){
@@ -59,16 +59,16 @@
 				}
 			});  
 			
-			$("body").delegate(".repeatable-group","click",function(){
+			$("body").on("click",".repeatable-group",function(){
 				$(this).sortable("refresh");  
-			}).delegate(".repeatable-remove","click",function(e){
+			}).on("click",".repeatable-remove",function(e){
 				e.preventDefault();
 				if(!$(this).hasClass("remove-disabled")){
 					$(this).parent().parent().parent(".repeatable").remove();
 					totalInstances.val(parseInt(totalInstances.val())-1);
 					setRepeatable();
 				}
-			}).delegate(".handlediv","click",function(e){
+			}).on("click",".handlediv",function(e){
 				e.preventDefault();
 				var $this=$(this);
 				$this.parent().toggleClass("closed");
@@ -81,7 +81,7 @@
 			}
 		}
 		
-		$(".reset-to-default").click(function(e){
+		$(".reset-to-default").on("click",function(e){
 			e.preventDefault();
 			resetField.val("true");
 			$("#submit").attr({"id":"none","name":"none"});
@@ -155,28 +155,51 @@
 		Plugin specific js --edit--
 		--------------------
 		*/
+
+		//check for selector without quotes which is invalid without jquery migrate or jquery 3.x and display a warning
+		var mps2idSelectorInput=$("input#page_scroll_to_id_0_selector"),
+			mps2idSelectorDesc=mps2idSelectorInput.parent().children(".description"),
+			mps2idExcludedSelectorInput=$("input#page_scroll_to_id_0_excludeSelector"),
+			mps2idExcludedSelectorDesc=mps2idExcludedSelectorInput.parent().children(".description");
+		if(mps2idSelectorInput.length && mps2idSelectorDesc.length){
+			if(mps2idSelectorInput.val().indexOf("a[href*=#]:not([href=#])") >= 0){
+				var mps2idSelectorInputQuoted=mps2idSelectorInput.val().replace("a[href*=#]:not([href=#])", "a[href*='#']:not([href='#'])");
+				mps2idSelectorDesc.prepend("<small style='color:red'>It seems that you're using an older selector which might cause issues with the latest versions of WordPress. If you have such issues, change \"Selector(s)\" option value to: </small><br /><code>"+mps2idSelectorInputQuoted+"</code><br />");
+			}
+		}
+		if(mps2idExcludedSelectorInput.length && mps2idExcludedSelectorDesc.length){
+			if(mps2idExcludedSelectorInput.val().indexOf("a[href*=#]:not([href=#])") >= 0){
+				var mps2idExcludedSelectorInputQuoted=mps2idExcludedSelectorInput.val().replace("a[href*=#]:not([href=#])", "a[href*='#']:not([href='#'])");
+				mps2idExcludedSelectorDesc.prepend("<small style='color:red'>It seems that you're using a selector which might cause issues with the latest versions of WordPress. If you have such issues, change \"selectors are excluded\" value to: </small><br /><code>"+mps2idExcludedSelectorInputQuoted+"</code><br />");
+			}
+		}
+
+		$(".mPS2id-show-option-common-values").on("click",function(e){
+			e.preventDefault();
+			$(this).next("span").toggleClass("mPS2id-show");
+		});
 		
-		$(".mPS2id-open-help").click(function(e){
+		$(".mPS2id-open-help").on("click",function(e){
 			e.preventDefault();
 			openHelp();
 		});
 		
-		$(".mPS2id-open-help-overview").click(function(e){
+		$(".mPS2id-open-help-overview").on("click",function(e){
 			e.preventDefault();
 			openHelp("overview");
 		});
 		
-		$(".mPS2id-open-help-get-started").click(function(e){
+		$(".mPS2id-open-help-get-started").on("click",function(e){
 			e.preventDefault();
 			openHelp("get-started");
 		});
 		
-		$(".mPS2id-open-help-plugin-settings").click(function(e){
+		$(".mPS2id-open-help-plugin-settings").on("click",function(e){
 			e.preventDefault();
 			openHelp("plugin-settings");
 		});
 		
-		$(".mPS2id-open-help-shortcodes").click(function(e){
+		$(".mPS2id-open-help-shortcodes").on("click",function(e){
 			e.preventDefault();
 			openHelp("shortcodes");
 		});

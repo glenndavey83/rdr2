@@ -60,7 +60,7 @@
 		<?php } ?>
 		<?php if ( ! defined( 'ENVATO_HOSTED_SITE' ) ) { ?>
         <li class="mka-cp-support-items">
-            <a class="mka-cp-support-link" href="http://forums.artbees.net/c/jupiter" target="_blank">
+            <a class="mka-cp-support-link" href="https://themes.artbees.net/forums/forum/jupiter/" target="_blank">
                 <span class="mka-cp-support-item-icon mka-cp-support-icon-community">
                 </span>
                 <span class="mka-cp-support-item-title">
@@ -83,7 +83,7 @@
                 <span class="mka-cp-support-item-description">
                     <?php esc_html_e( 'Have any more customization beyond what Jupiter offers? Artbees experts are here to help.', 'mk_framework'); ?>
                     <div style="color:#15b2fa">
-                        <?php esc_html_e( 'Hire an Experts', 'mk_framework'); ?>
+                        <?php esc_html_e( 'Hire an Expert', 'mk_framework'); ?>
                     </div>
                 </span>
             </a>

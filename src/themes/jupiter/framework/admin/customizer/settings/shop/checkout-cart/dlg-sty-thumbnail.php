@@ -9,7 +9,7 @@
  */
 
 // Field Label dialog.
-$wp_customize->add_section(
+$mk_customize->add_section(
 	new MK_Dialog(
 		$wp_customize,
 		'mk_s_cc_s_tn',
@@ -28,13 +28,13 @@ $wp_customize->add_section(
 );
 
 // Show or Hide.
-$wp_customize->add_setting( 'mk_cz[sh_cc_sty_tmn_display]', array(
+$mk_customize->add_setting( 'mk_cz[sh_cc_sty_tmn_display]', array(
 	'type' => 'option',
 	'default' => 'true',
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Toggle_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_tmn_display]',
@@ -47,13 +47,13 @@ $wp_customize->add_control(
 );
 
 // Border radius.
-$wp_customize->add_setting( 'mk_cz[sh_cc_sty_tmn_border_radius]', array(
+$mk_customize->add_setting( 'mk_cz[sh_cc_sty_tmn_border_radius]', array(
 	'type' => 'option',
 	'default'   => 0,
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Input_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_tmn_border_radius]',
@@ -72,13 +72,13 @@ $wp_customize->add_control(
 
 
 // Border width.
-$wp_customize->add_setting( 'mk_cz[sh_cc_sty_tmn_border_width]', array(
+$mk_customize->add_setting( 'mk_cz[sh_cc_sty_tmn_border_width]', array(
 	'type' => 'option',
 	'default'   => 1,
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Input_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_tmn_border_width]',
@@ -96,13 +96,13 @@ $wp_customize->add_control(
 );
 
 // Border color.
-$wp_customize->add_setting( 'mk_cz[sh_cc_sty_tmn_border_color]', array(
+$mk_customize->add_setting( 'mk_cz[sh_cc_sty_tmn_border_color]', array(
 	'type' => 'option',
 	'default'   => '#cfd3d9',
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_tmn_border_color]',
@@ -116,11 +116,11 @@ $wp_customize->add_control(
 
 
 // Divider.
-$wp_customize->add_setting( 'mk_cz[sh_cc_sty_tmn_divider_2]' , array(
+$mk_customize->add_setting( 'mk_cz[sh_cc_sty_tmn_divider_2]' , array(
 	'type' => 'option',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Divider_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_tmn_divider_2]',
@@ -131,7 +131,7 @@ $wp_customize->add_control(
 );
 
 // Box Model.
-$wp_customize->add_setting( 'mk_cz[sh_cc_sty_tmn_box_model]', array(
+$mk_customize->add_setting( 'mk_cz[sh_cc_sty_tmn_box_model]', array(
 	'type' => 'option',
 	'default' => array(
 		'margin_top' => 0,
@@ -142,7 +142,7 @@ $wp_customize->add_setting( 'mk_cz[sh_cc_sty_tmn_box_model]', array(
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Box_Model_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_tmn_box_model]',

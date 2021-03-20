@@ -8,7 +8,7 @@
  * @since 6.0.1 Add style into checkout Apply Coupun button.
  */
 
-$coupon = '.woocommerce .cart .coupon input.button';
+$coupon = '.woocommerce .cart .coupon input.button, .woocommerce .cart .coupon button.button';
 $coupon_checkout = '.woocommerce-checkout .checkout_coupon input.button';
 $cart = '.woocommerce-cart .woocommerce-cart-form input.button';
 $checkout = '.woocommerce-cart #mk-checkout-button#mk-checkout-button';

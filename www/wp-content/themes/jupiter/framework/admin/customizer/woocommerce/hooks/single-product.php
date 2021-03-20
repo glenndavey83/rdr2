@@ -71,6 +71,19 @@ add_filter( 'body_class', function( $classes ) use ( $product_layout ) {
 }, 10 );
 
 /**
+ * Set number of related products to 3 in layout 9, 10.
+ *
+ * @since 6.1.2
+ */
+add_filter( 'woocommerce_output_related_products_args', function( $args ) use ( $product_layout ) {
+	if ( in_array( $product_layout, array( '9', '10' ), true ) ) {
+		$args['posts_per_page'] = 3;
+	}
+
+	return $args;
+});
+
+/**
  * Remove Tabs then add Accordions under Add to Cart button.
  *
  * @since 6.0.2
@@ -215,7 +228,7 @@ add_action(
 					break;
 				case 'email':
 					$icon_class = 'mk-moon-envelop-2';
-					$href = 'mailto:?Subject=' . urldecode( get_the_title() ) . '&Body=' . urldecode( get_the_excerpt() );
+					$href = 'mailto:?subject=' . rawurlencode( get_the_title() ) . '&body=' . rawurlencode( get_the_excerpt() ) . '%0D%0A%0D%0A' . rawurlencode(get_permalink());
 					break;
 			}
 

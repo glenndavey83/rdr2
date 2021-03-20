@@ -11,7 +11,7 @@
 $values = get_option( THEME_OPTIONS );
 
 if ( ! empty( $values ) ) {
-	$values['theme_export_options'] = base64_encode( serialize( get_option( THEME_OPTIONS ) ) );
+	$values['theme_export_options'] = mk_encode( serialize( get_option( THEME_OPTIONS ) ) );
 
 	/**
 	 * If for any reason the Typography migrator not working as expected,
@@ -63,7 +63,14 @@ if ( ! empty( $values['theme_import_options'] ) ) {
 	$values['theme_import_options'] = '';
 }
 
-$mk_image_sizes = mk_assoc_to_pairs( mk_get_image_sizes( true ) );
+$mk_image_sizes = [];
+
+if ( function_exists( 'mk_get_image_sizes' ) ) {
+	$mk_image_sizes = mk_get_image_sizes( true );
+}
+
+$mk_image_sizes = mk_assoc_to_pairs( $mk_image_sizes );
+
 array_unshift( $mk_image_sizes, array( '', __( 'Select Option', 'mk_framework' ) ) );
 
 $mk_font_weight = array(
@@ -174,11 +181,9 @@ $options = array(
 			'label'   => __( 'Global Settings', 'mk_framework' ),
 			'default' => 'site_settings',
 			'submenu' => array(
-				'site_settings'    => __( 'Site Settings', 'mk_framework' ),
-				'logo_title'       => __( 'Logo & Title', 'mk_framework' ),
-				'preloader'        => __( 'Preloader', 'mk_framework' ),
-				'quick_contact'    => __( 'Quick Contact', 'mk_framework' ),
-				'api_integrations' => __( 'API Integrations', 'mk_framework' ),
+				'site_settings' => __( 'Site Settings', 'mk_framework' ),
+				'logo_title'    => __( 'Logo & Title', 'mk_framework' ),
+				'preloader'     => __( 'Preloader', 'mk_framework' ),
 			),
 		),
 		'main_content' => array(
@@ -593,226 +598,6 @@ $options = array(
 								'transparent_circle' => '<div class="visual_preloader"><div class="transparent-circle"></div></div>',
 								'ball_spin_fade_loader' => '<div class="visual_preloader"><div class="ball-spin-fade-loader"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>',
 							),
-						),
-					),
-				),
-			),
-		),
-		'quick_contact' => array(
-			'label' => __( 'Quick Contact', 'mk_framework' ),
-			'sections' => array(
-				array(
-					'label' => false,
-					'fields' => array(
-						array(
-							'type'  => 'mk-toggle',
-							'label' => __( 'Quick Contact', 'mk_framework' ),
-							'help' => __( 'Display quick contact form?', 'mk_framework' ),
-							'model' => 'disable_quick_contact',
-							'default' => 'true',
-							'styleClasses' => 'col-sm-12 col-md-6',
-						),
-						array(
-							'type'  => 'mk-toggle',
-							'label' => __( 'Show On Blog & News / Single Post', 'mk_framework' ),
-							'help' => __( 'Display quick contact form on blog and portfolio single posts?', 'mk_framework' ),
-							'model' => 'quick_contact_on_single',
-							'default' => 'true',
-							'condition' => array(
-								'model' => 'disable_quick_contact',
-								'value' => 'true',
-							),
-							'default' => 'true',
-							'styleClasses' => 'col-sm-12 col-md-6',
-						),
-						array(
-							'type'  => 'mk-toggle',
-							'label' => __( 'Captcha', 'mk_framework' ),
-							'help' => __( 'Display Captcha in quick contact form to keep the spam away.', 'mk_framework' ),
-							'model' => 'captcha_quick_contact',
-							'default' => 'true',
-							'condition' => array(
-								'model' => 'disable_quick_contact',
-								'value' => 'true',
-							),
-							'styleClasses' => 'col-sm-12 col-md-6',
-						),
-						array(
-							'type'  => 'mk-input',
-							'label' => __( 'Email', 'mk_framework' ),
-							'help' => __( "Enter an email for sending this form's inqueries. Admin's email will be used as default email.", 'mk_framework' ),
-							'model' => 'quick_contact_email',
-							'default' => get_bloginfo( 'admin_email' ),
-							'condition' => array(
-								'model' => 'disable_quick_contact',
-								'value' => 'true',
-							),
-							'styleClasses' => 'col-sm-12 col-md-6',
-						),
-						array(
-							'type'  => 'mk-input',
-							'label' => __( 'Title', 'mk_framework' ),
-							'help'  => __( 'Quick Contact Title' , 'mk_framework' ),
-							'model' => 'quick_contact_title',
-							'default' => 'Contact Us',
-							'condition' => array(
-								'model' => 'disable_quick_contact',
-								'value' => 'true',
-							),
-							'styleClasses' => 'col-sm-12 col-md-6',
-						),
-						array(
-							'type'  => 'mk-textarea',
-							'label' => __( 'Description', 'mk_framework' ),
-							'model' => 'quick_contact_desc',
-							'default' => 'We\'re not around right now. But you can send us an email and we\'ll get back to you, asap.',
-							'condition' => array(
-								'model' => 'disable_quick_contact',
-								'value' => 'true',
-							),
-							'styleClasses' => 'col-sm-12 col-md-6',
-						),
-					),
-				),
-			),
-		),
-		'api_integrations' => array(
-			'label' => __( 'API Integrations', 'mk_framework' ),
-			'sections' => array(
-				array(
-					'label' => __( 'Twitter Settings', 'mk_framework' ),
-					'fields' => array(
-						array(
-							'type'  => 'mk-input',
-							'label' => __( 'Consumer Key', 'mk_framework' ),
-							'model' => 'twitter_consumer_key',
-							'default' => '',
-							'styleClasses' => 'col-sm-12 col-md-6',
-						),
-						array(
-							'type'  => 'mk-input',
-							'label' => __( 'Consumer Secret', 'mk_framework' ),
-							'model' => 'twitter_consumer_secret',
-							'default' => '',
-							'styleClasses' => 'col-sm-12 col-md-6',
-						),
-						array(
-							'type'  => 'mk-input',
-							'label' => __( 'Access Token', 'mk_framework' ),
-							'model' => 'twitter_access_token',
-							'default' => '',
-							'styleClasses' => 'col-sm-12 col-md-6',
-						),
-						array(
-							'type'  => 'mk-input',
-							'label' => __( 'Access Token Secret', 'mk_framework' ),
-							'model' => 'twitter_access_token_secret',
-							'default' => '',
-							'styleClasses' => 'col-sm-12 col-md-6',
-						),
-					),
-					'help' => sprintf(
-						wp_kses(
-							__(
-								'<ol style="%1$s"><li>Go to "<a target="%2$s" href="%3$s">%4$s</a>," login with your twitter account and click "Create a new application".</li><li>Fill out the required fields, accept the rules of the road, and then click on the "Create your Twitter application" button. You will not need a callback URL for this app, so feel free to leave it blank.</li><li>Once the app has been created, click the "Create my access token" button.</li><li>You are done! You will need the following data later on:</ol>' , 'mk_framework'
-							),
-							array(
-								'a' => array(
-									'href' => array(),
-									'target' => array(),
-								),
-								'ol' => array(
-									'style' => array(),
-								),
-								'li' => array(),
-							),
-							'https'
-						),
-						'list-style-type:decimal !important;',
-						'_blank',
-						'https://dev.twitter.com/apps',
-						'https://dev.twitter.com/apps'
-					),
-				),
-				array(
-					'label' => __( 'MailChimp Settings', 'mk_framework' ),
-					'fields' => array(
-						array(
-							'type'  => 'mk-input',
-							'label' => __( 'MailChimp API Key', 'mk_framework' ),
-							'help' => sprintf(
-								wp_kses(
-									__( 'Enter a <a href="%s">MailChimp API Key</a>.' , 'mk_framework' ), array(
-										'a' => array(
-											'href' => array(),
-										),
-									)
-								), 'http://kb.mailchimp.com/integrations/api-integrations/about-api-keys'
-							),
-							'model' => 'mailchimp_api_key',
-							'default' => '',
-							'styleClasses' => 'col-sm-12 col-md-6',
-						),
-						array(
-							'type'  => 'mk-input',
-							'label' => __( 'Mailchimp List ID', 'mk_framework' ),
-							'help' => sprintf(
-								wp_kses(
-									__( 'Add your MailChimp List ID here. For more information, please read <a href="%s">Find Your List ID</a> article.' , 'mk_framework' ), array(
-										'a' => array(
-											'href' => array(),
-										),
-									)
-								), 'http://kb.mailchimp.com/lists/managing-subscribers/find-your-list-id'
-							),
-							'model' => 'mailchimp_list_id',
-							'default' => '',
-							'styleClasses' => 'col-sm-12 col-md-6',
-						),
-						array(
-							'type'  => 'mk-toggle',
-							'label' => __( 'Mailchimp Opt-In Email', 'mk_framework' ),
-							'help' => __( 'Subscribers must receive a <strong>Please Confirm Subscription</strong> email?', 'mk_framework' ),
-							'model' => 'mailchimp_optin',
-							'default' => 'false',
-							'styleClasses' => 'col-sm-12 col-md-6',
-						),
-					),
-				),
-				array(
-					'label' => __( 'Other Integrations', 'mk_framework' ),
-					'fields' => array(
-						array(
-							'type'  => 'mk-input',
-							'label' => __( 'Google Maps API Key', 'mk_framework' ),
-							'help' => sprintf( __( 'Enter an <a target="_blank" href="%1$s">API key</a> for Google Maps.<br>1. Go to the <a target="_blank" href="%2$s">Google Developers Console</a>. <br>2. Create or select a project. <br>3. Click Continue to enable the API and any related services.<br>4. On the Credentials page, get a Browser key (and set the API Credentials).', 'mk_framework' ), 'https://console.developers.google.com/flows/enableapi?apiid=maps_backend,geocoding_backend,directions_backend,distance_matrix_backend,elevation_backend&keyType=CLIENT_SIDE&reusekey=true', 'https://console.developers.google.com/flows/enableapi?apiid=maps_backend,geocoding_backend,directions_backend,distance_matrix_backend,elevation_backend&keyType=CLIENT_SIDE&reusekey=true' ),
-							'model' => 'google_maps_api_key',
-							'default' => '',
-							'styleClasses' => 'col-sm-12 col-md-6',
-						),
-						array(
-							'type'  => 'mk-input',
-							'label' => __( 'Google Analytics ID', 'mk_framework' ),
-							'help' => __( 'Enter your Google Analytics ID here to track your site with Google Analytics. Jupiter does not support Event Tracking. To use this feature, a 3rd-party plugin is required.', 'mk_framework' ),
-							'model' => 'analytics',
-							'default' => '',
-							'styleClasses' => 'col-sm-12 col-md-6',
-						),
-						array(
-							'type'  => 'mk-input',
-							'label' => __( 'Typekit Kit ID', 'mk_framework' ),
-							'help' => sprintf(
-								wp_kses(
-									__( 'Enter a <a href="%s"> Typekit Kit ID</a> for using Typkit fonts.' , 'mk_framework' ), array(
-										'a' => array(
-											'href' => array(),
-										),
-									)
-								), 'https://themes.artbees.net/docs/integrating-typekit/'
-							),
-							'model' => 'typekit_id',
-							'default' => '',
-							'styleClasses' => 'col-sm-12 col-md-6',
 						),
 					),
 				),
@@ -4883,14 +4668,6 @@ $options = array(
 							'type' => 'mk-toggle',
 							'styleClasses' => 'col-sm-12 col-md-6',
 						),
-						array(
-							'label' => __( 'Product Loop Love Button', 'mk_framework' ),
-							'help' => __( 'Enable love button in product posts?', 'mk_framework' ),
-							'model' => 'woocommerce_loop_enable_love_button',
-							'default' => 'true',
-							'type' => 'mk-toggle',
-							'styleClasses' => 'col-sm-12 col-md-6',
-						),
 					),
 				),
 			),
@@ -4979,6 +4756,14 @@ $options = array(
 							'styleClasses' => 'col-sm-12 col-md-6',
 						),
 						array(
+							'label' => __( 'Move Shortcode Styles to Footer', 'mk_framework' ),
+							'help' => __( 'If this option is enabled, all shortcode styles will be combined/minified and moved to the footer of the page.', 'mk_framework' ),
+							'model' => 'move-shortcode-css-footer',
+							'default' => 'true',
+							'type' => 'mk-toggle',
+							'styleClasses' => 'col-sm-12 col-md-6',
+						),
+						array(
 							'label' => __( 'Query String From Static Flies', 'mk_framework' ),
 							'help' => __( 'Remove <strong>ver</strong> query string from JS and CSS files? For more information <a target="_blank" href="https://developers.google.com/speed/docs/best-practices/caching#LeverageProxyCaching">read here</a>. Disabling this option may cause issues with some hosting providers internal caching tools.', 'mk_framework' ),
 							'model' => 'remove-js-css-ver',
@@ -4990,6 +4775,14 @@ $options = array(
 							'label' => __( 'Global Lazy Load', 'mk_framework' ),
 							'help' => __( 'Turn on lazyload for all the supported shortcodes?.', 'mk_framework' ),
 							'model' => 'global_lazyload',
+							'default' => 'true',
+							'type' => 'mk-toggle',
+							'styleClasses' => 'col-sm-12 col-md-6',
+						),
+						array(
+							'label' => __( 'Cache Control', 'mk_framework' ),
+							'help' => __( 'This option in enabled by default and it\'s recommeded to be enabled. In case, your site has issue with any cache plugins (e.g. WP Rocket), you may disable this option.', 'mk_framework' ),
+							'model' => 'cache_control',
 							'default' => 'true',
 							'type' => 'mk-toggle',
 							'styleClasses' => 'col-sm-12 col-md-6',
@@ -5208,4 +5001,4 @@ $options = array(
 	'values' => $values,
 );
 
-return $options;
+return apply_filters( 'mk_theme_options_config', $options );

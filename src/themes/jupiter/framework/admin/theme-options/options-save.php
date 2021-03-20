@@ -91,7 +91,7 @@ class MK_Theme_Options_Save {
 				'status' => true,
 				'data' => [
 					'element' => 'mk-success-save',
-					'theme_export_options' => base64_encode( serialize( $theme_options_data ) ),
+					'theme_export_options' => mk_encode( serialize( $theme_options_data ) ),
 				],
 			];
 		} else {
@@ -131,7 +131,7 @@ class MK_Theme_Options_Save {
 
 	public function import_theme_options( $theme_options_data ) {
 		$import_data             = $_POST['theme_import_options'];
-		$import_data             = base64_decode( $import_data );
+		$import_data             = mk_decode( $import_data );
 		$import_data_unserilized = $import_data ? unserialize( $import_data ) : false;
 
 		if ( is_array( $import_data_unserilized ) && empty( $import_data_unserilized ) ) {
@@ -173,7 +173,7 @@ class MK_Theme_Options_Save {
 	 * @return array array of message that will be created through $this->message() method
 	 */
 	public function save_theme_options_revision( $theme_options_data ) {
-		$theme_options_data = base64_encode( serialize( $theme_options_data ) );
+		$theme_options_data = mk_encode( serialize( $theme_options_data ) );
 		if ( ! $this->check_revision_storage() ) {
 			$this->message( 'Revision storage have unpredictable problem , Please contact our support team.', false );
 		}
@@ -228,7 +228,7 @@ class MK_Theme_Options_Save {
 			return false;
 		}
 
-		$theme_option_data = unserialize( base64_decode( $db_response->val ) );
+		$theme_option_data = unserialize( mk_decode( $db_response->val ) );
 		if ( empty( $theme_option_data ) ) {
 			$this->message( 'Option`s structure is invalid', false );
 			return false;

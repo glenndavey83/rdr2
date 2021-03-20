@@ -2,15 +2,15 @@
 
 global $mk_options;
 
-if (!empty($mk_options['body_border']) && $mk_options['body_border'] === 'true')
-{
-	$min_width = ($mk_options['body_border_on_mobile_devices'] === 'true') ? 0 : 768;
-	$body_border_thickness = empty($mk_options['body_border_thickness']) ? "1" : $mk_options['body_border_thickness'];
-	$body_border_color = empty($mk_options['body_border_color']) ? "black" : $mk_options['body_border_color'];
+if ( ! empty( $mk_options['body_border'] ) && 'true' == $mk_options['body_border'] ) {
+	$min_width = ( 'true' == $mk_options['body_border_on_mobile_devices'] ) ? 0 : 768;
+	$body_border_thickness = empty( $mk_options['body_border_thickness'] ) ? '1' : $mk_options['body_border_thickness'];
+	$body_border_color = empty( $mk_options['body_border_color'] ) ? 'black' : $mk_options['body_border_color'];
 	$min_responsive_nav_width = $mk_options['responsive_nav_width'] + 1;
 	$max_responsive_nav_width = $mk_options['responsive_nav_width'];
 
-	Mk_Static_Files::addGlobalStyle("
+	Mk_Static_Files::addGlobalStyle(
+		"
 	@media handheld, only screen and (min-width: {$min_width}px)
 	{
 		.border-body
@@ -323,5 +323,6 @@ if (!empty($mk_options['body_border']) && $mk_options['body_border'] === 'true')
 		}
 	}
 
-	");
+	"
+	);
 }

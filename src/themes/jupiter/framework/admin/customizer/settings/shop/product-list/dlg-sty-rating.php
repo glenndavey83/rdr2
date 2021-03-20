@@ -9,7 +9,7 @@
  */
 
 // Rating dialog.
-$wp_customize->add_section(
+$mk_customize->add_section(
 	new MK_Dialog(
 		$wp_customize,
 		'mk_s_pl_s_rating',
@@ -28,7 +28,7 @@ $wp_customize->add_section(
 );
 
 // Font size.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pl_sty_rat_font_size]', array(
 		'type' => 'option',
 		'default'   => 15,
@@ -36,7 +36,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Input_Control(
 		$wp_customize,
 		'mk_cz[sh_pl_sty_rat_font_size]',
@@ -54,7 +54,7 @@ $wp_customize->add_control(
 );
 
 // Star color.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pl_sty_rat_star_color]', array(
 		'type' => 'option',
 		'default'   => '#ffc400',
@@ -62,7 +62,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_pl_sty_rat_star_color]',
@@ -75,7 +75,7 @@ $wp_customize->add_control(
 );
 
 // Active Star color.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pl_sty_rat_active_star_color]', array(
 		'type' => 'option',
 		'default'   => '#ffc400',
@@ -83,7 +83,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_pl_sty_rat_active_star_color]',
@@ -96,13 +96,13 @@ $wp_customize->add_control(
 );
 
 // Divider.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pl_sty_rat_divider]', array(
 		'type' => 'option',
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Divider_Control(
 		$wp_customize,
 		'mk_cz[sh_pl_sty_rat_divider]',
@@ -113,7 +113,7 @@ $wp_customize->add_control(
 );
 
 // Box Model.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_pl_sty_rat_box_model]', array(
 		'type' => 'option',
 		'default' => array(
@@ -126,7 +126,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Box_Model_Control(
 		$wp_customize,
 		'mk_cz[sh_pl_sty_rat_box_model]',

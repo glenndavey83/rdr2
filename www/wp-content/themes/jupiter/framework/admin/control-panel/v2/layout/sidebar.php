@@ -90,17 +90,6 @@ $check_latest_version = $update_class->check_latest_version();
 		<?php } ?>
 		<?php if ( ! defined( 'ENVATO_HOSTED_SITE' ) ) { ?>
 		<li class="mka-cp-sidebar-list-items">
-			<a class="mka-cp-sidebar-link" href="#mk-cp-announcements">
-				<span class="mka-cp-nav-item-icon mka-cp-nav-item-icon--announcements">
-				</span>
-				<label class="mka-cp-nav-label">
-					<?php esc_html_e( 'Announcements', 'mk_framework' ); ?>
-				</label>
-			</a>
-		</li>
-		<?php } ?>
-		<?php if ( ! defined( 'ENVATO_HOSTED_SITE' ) ) { ?>
-		<li class="mka-cp-sidebar-list-items">
 			<a class="mka-cp-sidebar-link" href="#mk-cp-export-import">
 				<span class="mka-cp-nav-item-icon mka-cp-nav-item-icon--export-import">
 				</span>

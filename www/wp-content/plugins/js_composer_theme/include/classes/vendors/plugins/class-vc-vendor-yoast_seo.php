@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Class Vc_Vendor_YoastSeo
  * @since 4.4
  */
-class Vc_Vendor_YoastSeo implements Vc_Vendor_Interface {
+class Vc_Vendor_YoastSeo {
 
 	/**
 	 * Created to improve yoast multiply calling wpseo_pre_analysis_post_content filter.
@@ -42,11 +42,11 @@ class Vc_Vendor_YoastSeo implements Vc_Vendor_Interface {
 
 	/**
 	 * Properly parse content to detect images/text keywords.
-	 * @since 4.4
-	 *
 	 * @param $content
 	 *
 	 * @return string
+	 * @since 4.4
+	 *
 	 */
 	public function filterResults( $content ) {
 		if ( empty( $this->parsedContent ) ) {
@@ -72,7 +72,11 @@ class Vc_Vendor_YoastSeo implements Vc_Vendor_Interface {
 		if ( get_post_type() === Vc_Grid_Item_Editor::postType() ) {
 			return;
 		}
-		wp_enqueue_script( 'vc_vendor_yoast_js', vc_asset_url( 'js/vendors/yoast.js' ), array( 'yoast-seo-post-scraper' ), WPB_VC_VERSION, true );
+		wp_enqueue_script( 'yoast-seo-post-scraper' );
+		wp_enqueue_script( 'yoast-seo-admin-global-script' );
+		wp_enqueue_script( 'vc_vendor_seo_js', vc_asset_url( 'js/vendors/seo.js' ), array(
+			'underscore',
+		), WPB_VC_VERSION, true );
 	}
 
 	public function frontendEditorBuild() {
@@ -120,6 +124,11 @@ class Vc_Vendor_YoastSeo implements Vc_Vendor_Interface {
 		) );
 	}
 
+	/**
+	 * @param $images
+	 * @param $id
+	 * @return array
+	 */
 	public function filterSitemapUrlImages( $images, $id ) {
 		if ( empty( $images ) ) {
 			$post = get_post( $id );

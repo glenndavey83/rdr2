@@ -379,7 +379,7 @@ p.demo_store {
   height: 200px !important;
 }
 /*
-* Set title size for woocommerce titles 
+* Set title size for woocommerce titles
 */
 .woocommerce-order-details__title,
 .woocommerce-column__title,
@@ -391,6 +391,10 @@ p.demo_store {
 .wc-tab h2,
 .products h2 {
   font-size: 20px !important;
+}
+.woocommerce .woocommerce-message .button,
+.woocommerce-page .woocommerce-message .button {
+  background-color: initial !important;
 }
 .woocommerce .woocommerce-ordering {
   margin: 0 0 1em;
@@ -552,9 +556,8 @@ p.demo_store {
 }
 .mk-product-holder .product_loop_button svg {
   height: 16px;
-  -webkit-transform: translateY(-2px);
-      -ms-transform: translateY(-2px);
-          transform: translateY(-2px);
+  -ms-transform: translateY(-2px);
+      transform: translateY(-2px);
   vertical-align: middle;
   padding-right: 8px;
 }
@@ -649,19 +652,6 @@ p.demo_store {
   background-color: #333333;
   color: #ffffff;
 }
-.mk-product-loop.compact-layout .mk-love-holder {
-  position: absolute;
-  right: 15px;
-  top: 15px;
-  text-align: center;
-}
-.mk-product-loop.compact-layout .mk-love-holder svg {
-  vertical-align: middle;
-  fill: #5b5b5b;
-}
-.mk-product-loop.compact-layout .mk-love-count {
-  font-size: 14px;
-}
 .mk-product-loop.compact-layout .product-title {
   font-size: 14px !important;
   line-height: 18px;
@@ -669,8 +659,7 @@ p.demo_store {
   margin-bottom: 5px;
   letter-spacing: 1px;
 }
-.mk-product-loop.compact-layout .product-title a,
-.mk-product-loop.compact-layout .mk-love-holder a span {
+.mk-product-loop.compact-layout .product-title a {
   color: #5b5b5b;
 }
 .mk-product-loop.compact-layout .price {
@@ -697,7 +686,6 @@ p.demo_store {
   text-align: left;
 }
 .mk-product-loop.compact-layout .adding-to-cart .product-loading-icon .mk-svg-icon {
-  -webkit-animation: spin 0.8s infinite linear;
   animation: spin 0.8s infinite linear;
 }
 .mk-product-loop.compact-layout .woocommerce-product-rating {
@@ -783,14 +771,11 @@ p.demo_store {
   font-weight: bold;
   padding: 10px 20px;
   background-color: rgba(0, 0, 0, 0.6);
-  transition: background-color 0.2s linear, opacity 0.2s linear, visibility 0.2s linear, -webkit-transform 0.2s linear;
   transition: background-color 0.2s linear, opacity 0.2s linear, visibility 0.2s linear, transform 0.2s linear;
-  transition: background-color 0.2s linear, opacity 0.2s linear, visibility 0.2s linear, transform 0.2s linear, -webkit-transform 0.2s linear;
   color: #ffffff;
   border-radius: 20px;
   opacity: 0;
   visibility: hidden;
-  -webkit-transform: translate3D(0, 10px, 0);
   -ms-transform: translate3D(0, 10px, 0);
   transform: translate3D(0, 10px, 0);
 }
@@ -806,42 +791,11 @@ p.demo_store {
 .mk-product-loop.open-layout .product-loop-thumb:hover .quick-view-button {
   opacity: 1;
   visibility: visible;
-  -webkit-transform: translate3D(0, 0, 0);
   -ms-transform: translate3D(0, 0, 0);
   transform: translate3D(0, 0, 0);
 }
 .mk-product-loop.open-layout .mk-shop-item-detail {
   text-align: center;
-}
-.mk-product-loop.open-layout .mk-love-holder {
-  position: absolute;
-  left: 20px;
-  top: 20px;
-}
-.mk-product-loop.open-layout .mk-love-this {
-  border-radius: 50%;
-  text-align: center;
-  width: 30px;
-  height: 30px;
-  display: block;
-  transition: border-color 0.2s, background-color 0.2s;
-}
-.mk-product-loop.open-layout .mk-love-this:hover,
-.mk-product-loop.open-layout .mk-love-this.item-loved {
-  border-color: #ffffff !important;
-  background-color: #ffffff;
-}
-.mk-product-loop.open-layout .mk-love-this:hover .mk-icon-heart,
-.mk-product-loop.open-layout .mk-love-this.item-loved .mk-icon-heart {
-  color: #da4c26;
-}
-.mk-product-loop.open-layout .mk-icon-heart {
-  height: 30px;
-  line-height: 30px;
-  color: #c3c3c3;
-}
-.mk-product-loop.open-layout .mk-love-count {
-  display: none;
 }
 .mk-product-loop.open-layout .product-title {
   text-transform: capitalize !important;
@@ -1841,7 +1795,6 @@ p.demo_store {
   position: absolute;
   top: 26px;
   left: 29px;
-  -webkit-transform: rotate(-45deg);
   -ms-transform: rotate(-45deg);
   transform: rotate(-45deg);
   box-sizing: content-box;
@@ -1973,9 +1926,8 @@ p.demo_store {
   height: 16px;
   fill: #c3c3c3;
   vertical-align: middle;
-  -webkit-transform: translateY(2px);
-      -ms-transform: translateY(2px);
-          transform: translateY(2px);
+  -ms-transform: translateY(2px);
+      transform: translateY(2px);
 }
 .social-share a:hover svg {
   fill: #aaa;
@@ -2573,9 +2525,8 @@ p.demo_store {
 .add-cart-responsive-state svg {
   fill: #444444;
   height: 16px;
-  -webkit-transform: translateY(2px);
-      -ms-transform: translateY(2px);
-          transform: translateY(2px);
+  -ms-transform: translateY(2px);
+      transform: translateY(2px);
 }
 .add-cart-responsive-state .mk-header-cart-count {
   position: absolute;
@@ -2620,9 +2571,8 @@ form.checkout_coupon #coupon_code.input-text {
 .add-cart-responsive-state svg {
   fill: #444444;
   height: 16px;
-  -webkit-transform: translateY(2px);
-      -ms-transform: translateY(2px);
-          transform: translateY(2px);
+  -ms-transform: translateY(2px);
+      transform: translateY(2px);
 }
 .add-cart-responsive-state .mk-header-cart-count {
   position: absolute;

@@ -1,0 +1,708 @@
+# Copyright (C) 2021 Jupiter Core
+# This file is distributed under the same license as the Jupiter Core package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Jupiter Core\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language-Team: Artbees <info@artbees.net>\n"
+"Last-Translator: Artbees Team <info@artbees.net>\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: jupiter-core.php:271
+msgid "Theme Options"
+msgstr ""
+
+#: jupiter-core.php:278
+msgid "Clear Theme Cache"
+msgstr ""
+
+#: includes/helpers/db-management.php:126
+msgid "Can not create backup db file."
+msgstr ""
+
+#: includes/helpers/db-management.php:157
+msgid "Can not create media records backup file."
+msgstr ""
+
+#: includes/helpers/db-management.php:210
+msgid "Invalid backup file."
+msgstr ""
+
+#: includes/helpers/db-management.php:196
+msgid "There was an error unzipping the backup file."
+msgstr ""
+
+#: includes/helpers/db-management.php:217
+msgid "The backup file is not exists or not readable."
+msgstr ""
+
+#: includes/helpers/db-management.php:325
+msgid "Media records backup file is not exists or not readable"
+msgstr ""
+
+#: includes/importer/parsers.php:45, includes/importer/parsers.php:79, includes/importer/parsers.php:87
+msgid "There was an error when reading this WXR file"
+msgstr ""
+
+#: includes/importer/parsers.php:46
+msgid "Details are shown above. The importer will now try again with a different parser..."
+msgstr ""
+
+#: includes/importer/parsers.php:92, includes/importer/parsers.php:98, includes/importer/parsers.php:359, includes/importer/parsers.php:575
+msgid "This does not appear to be a WXR file, missing/invalid WXR version number"
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:135, includes/importer/wordpress-importer.php:144, includes/importer/wordpress-importer.php:199, includes/importer/wordpress-importer.php:195, includes/importer/wordpress-importer.php:208
+msgid "Sorry, there has been an error."
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:136
+msgid "The file does not exist, please try again."
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:179
+msgid "All done."
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:179
+msgid "Have fun!"
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:180
+msgid "Remember to update the passwords and roles of imported users."
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:200
+msgid "The export file could not be found at <code>%s</code>. It is likely that this was caused by a permissions problem."
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:216
+msgid "This WXR file (version %s) may not be supported by this version of the importer. Please consider updating."
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:241
+msgid "Failed to import author %s. Their posts will be attributed to the current user."
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:268
+msgid "Assign Authors"
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:269
+msgid "To make it easier for you to edit and save the imported content, you may want to reassign the author of the imported item to an existing user of this site. For example, you may want to import all the entries as <code>admin</code>s entries."
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:271
+msgid "If a new user is created by WordPress, a new password will be randomly generated and the new user&#8217;s role will be set as %s. Manually changing the new user&#8217;s details will be necessary."
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:281
+msgid "Import Attachments"
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:284
+msgid "Download and import file attachments"
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:288
+msgid "Submit"
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:301
+msgid "Import author:"
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:318
+msgid "as a new user:"
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:315
+msgid "or create new user with login name:"
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:328
+msgid "or assign posts to an existing user:"
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:326
+msgid "assign posts to an existing user:"
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:334
+msgid "- Select -"
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:390
+msgid "Failed to create new user for %s. Their posts will be attributed to the current user."
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:449
+msgid "Failed to import category %s"
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:501
+msgid "Failed to import post tag %s"
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:562, includes/importer/wordpress-importer.php:809
+msgid "Failed to import %1$s %2$s"
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:653
+msgid "Failed to import &#8220;%1$s&#8221;: Invalid post type %2$s"
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:767
+msgid "Failed to import %1$s &#8220;%2$s&#8221;"
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:693
+msgid "%1$s &#8220;%2$s&#8221; already exists."
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:949
+msgid "Menu item skipped due to missing menu slug"
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:956
+msgid "Menu item skipped due to invalid menu slug: %s"
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:1023
+msgid "Fetching attachments is not enabled"
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:1040
+msgid "Invalid file type"
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:1102
+msgid "Remote server returned %1$d %2$s for %3$s"
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:1115
+msgid "Remote file is incorrect size"
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:1120
+msgid "Zero size file downloaded"
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:1126
+msgid "Remote file is too large, limit is %s"
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:1239
+msgid "Import WordPress"
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:1246
+msgid "A new version of this importer is available. Please update to version %s to ensure compatibility with newer export files."
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:1261
+msgid "Howdy! Upload your WordPress eXtended RSS (WXR) file and we&#8217;ll import the posts, pages, comments, custom fields, categories, and tags into this site."
+msgstr ""
+
+#: includes/importer/wordpress-importer.php:1262
+msgid "Choose a WXR (.xml) file to upload, then click Upload file and import."
+msgstr ""
+
+#: includes/theme-options/functions.php:21, includes/theme-options/functions.php:28, includes/theme-options/functions.php:35
+msgid "Quick Contact"
+msgstr ""
+
+#: includes/theme-options/functions.php:22, includes/theme-options/functions.php:130
+msgid "API Integrations"
+msgstr ""
+
+#: includes/theme-options/functions.php:36
+msgid "Display quick contact form?"
+msgstr ""
+
+#: includes/theme-options/functions.php:43
+msgid "Show On Blog & News / Single Post"
+msgstr ""
+
+#: includes/theme-options/functions.php:44
+msgid "Display quick contact form on blog and portfolio single posts?"
+msgstr ""
+
+#: includes/theme-options/functions.php:56
+msgid "Captcha"
+msgstr ""
+
+#: includes/theme-options/functions.php:57
+msgid "Display Captcha in quick contact form to keep the spam away."
+msgstr ""
+
+#: includes/theme-options/functions.php:68, includes/widgets/widgets-contact-form.php:41
+msgid "Email"
+msgstr ""
+
+#: includes/theme-options/functions.php:69
+msgid "Enter an email for sending this form's inqueries. Admin's email will be used as default email."
+msgstr ""
+
+#: includes/theme-options/functions.php:80
+msgid "Title"
+msgstr ""
+
+#: includes/theme-options/functions.php:81
+msgid "Quick Contact Title"
+msgstr ""
+
+#: includes/theme-options/functions.php:92
+msgid "Description"
+msgstr ""
+
+#: includes/theme-options/functions.php:103, includes/widgets/widgets-contact-form.php:123
+msgid "GDPR Consent Check"
+msgstr ""
+
+#: includes/theme-options/functions.php:115
+msgid "GDPR Consent Checkbox Text"
+msgstr ""
+
+#: includes/theme-options/functions.php:118, includes/widgets/widgets-contact-form.php:98
+msgid "I consent to %s collecting my details through this form."
+msgstr ""
+
+#: includes/theme-options/functions.php:133
+msgid "Twitter Settings"
+msgstr ""
+
+#: includes/theme-options/functions.php:137
+msgid "Consumer Key"
+msgstr ""
+
+#: includes/theme-options/functions.php:144
+msgid "Consumer Secret"
+msgstr ""
+
+#: includes/theme-options/functions.php:151
+msgid "Access Token"
+msgstr ""
+
+#: includes/theme-options/functions.php:158
+msgid "Access Token Secret"
+msgstr ""
+
+#: includes/theme-options/functions.php:166
+msgid "<ol style=\"%1$s\"><li>Go to \"<a target=\"%2$s\" href=\"%3$s\">%4$s</a>,\" login with your twitter account and click \"Create a new application\".</li><li>Fill out the required fields, accept the rules of the road, and then click on the \"Create your Twitter application\" button. You will not need a callback URL for this app, so feel free to leave it blank.</li><li>Once the app has been created, click the \"Create my access token\" button.</li><li>You are done! You will need the following data later on:</ol>"
+msgstr ""
+
+#: includes/theme-options/functions.php:186
+msgid "MailChimp Settings"
+msgstr ""
+
+#: includes/theme-options/functions.php:190
+msgid "MailChimp API Key"
+msgstr ""
+
+#: includes/theme-options/functions.php:193
+msgid "Enter a <a href=\"%s\">MailChimp API Key</a>."
+msgstr ""
+
+#: includes/theme-options/functions.php:207
+msgid "Mailchimp List ID"
+msgstr ""
+
+#: includes/theme-options/functions.php:210
+msgid "Add your MailChimp List ID here. For more information, please read <a href=\"%s\">Find Your List ID</a> article."
+msgstr ""
+
+#: includes/theme-options/functions.php:224
+msgid "Mailchimp Opt-In Email"
+msgstr ""
+
+#: includes/theme-options/functions.php:225
+msgid "Subscribers must receive a <strong>Please Confirm Subscription</strong> email?"
+msgstr ""
+
+#: includes/theme-options/functions.php:233
+msgid "Other Integrations"
+msgstr ""
+
+#: includes/theme-options/functions.php:237
+msgid "Google Maps API Key"
+msgstr ""
+
+#: includes/theme-options/functions.php:238
+msgid "Enter an <a target=\"_blank\" href=\"%1$s\">API key</a> for Google Maps.<br>1. Go to the <a target=\"_blank\" href=\"%2$s\">Google Developers Console</a>. <br>2. Create or select a project. <br>3. Click Continue to enable the API and any related services.<br>4. On the Credentials page, get a Browser key (and set the API Credentials)."
+msgstr ""
+
+#: includes/theme-options/functions.php:245
+msgid "Google Analytics ID"
+msgstr ""
+
+#: includes/theme-options/functions.php:246
+msgid "Enter your Google Analytics ID here to track your site with Google Analytics. Jupiter does not support Event Tracking. To use this feature, a 3rd-party plugin is required."
+msgstr ""
+
+#: includes/theme-options/functions.php:253
+msgid "Typekit Kit ID"
+msgstr ""
+
+#: includes/theme-options/functions.php:256
+msgid "Enter a <a href=\"%s\"> Typekit Kit ID</a> for using Typkit fonts."
+msgstr ""
+
+#: includes/theme-options/functions.php:270
+msgid "Third Party API GDPR compliance"
+msgstr ""
+
+#: includes/theme-options/functions.php:271
+msgid "Using this option you can turn on GDPR compatibility feature for various third party services we use inside theme (e.g. Google Analytics). Some API services have not yet updated their terms and API endpoints, however we will keep improving the codebase for maximum compliance. keep your theme up to date!"
+msgstr ""
+
+#: includes/widgets/widgets-contact-form.php:37
+msgid "Name"
+msgstr ""
+
+#: includes/widgets/widgets-contact-form.php:39
+msgid "Phone Number"
+msgstr ""
+
+#: includes/widgets/widgets-contact-form.php:42
+msgid "Type your message..."
+msgstr ""
+
+#: includes/widgets/widgets-contact-form.php:44
+msgid "Enter Captcha"
+msgstr ""
+
+#: includes/widgets/widgets-contact-form.php:45
+msgid "Not readable? Change text."
+msgstr ""
+
+#: includes/widgets/widgets-contact-form.php:63
+msgid "Send message"
+msgstr ""
+
+#: includes/widgets/widgets-contact-form.php:106, includes/widgets/widgets-contact-info.php:85, includes/widgets/widgets-flickr-feeds.php:67, includes/widgets/widgets-gmap.php:94, includes/widgets/widgets-news-slider.php:105, includes/widgets/widgets-popular-posts.php:158, includes/widgets/widgets-recent-portfolio.php:168, includes/widgets/widgets-recent-posts.php:159, includes/widgets/widgets-related-posts.php:170, includes/widgets/widgets-slideshow.php:77, includes/widgets/widgets-social-networks.php:327, includes/widgets/widgets-subnav.php:63, includes/widgets/widgets-testimonials.php:101, includes/widgets/widgets-twitter-feeds.php:148, includes/widgets/widgets-video.php:74
+msgid "Title:"
+msgstr ""
+
+#: includes/widgets/widgets-contact-form.php:113, includes/widgets/widgets-contact-info.php:105
+msgid "Email:"
+msgstr ""
+
+#: includes/widgets/widgets-contact-form.php:116
+msgid "Show Captcha?"
+msgstr ""
+
+#: includes/widgets/widgets-contact-form.php:120
+msgid "Show Phone Number Field?"
+msgstr ""
+
+#: includes/widgets/widgets-contact-form.php:125
+msgid "GDPR Consent Checkbox Text:"
+msgstr ""
+
+#: includes/widgets/widgets-contact-info.php:88
+msgid "Person:"
+msgstr ""
+
+#: includes/widgets/widgets-contact-info.php:91
+msgid "Company:"
+msgstr ""
+
+#: includes/widgets/widgets-contact-info.php:94
+msgid "Address:"
+msgstr ""
+
+#: includes/widgets/widgets-contact-info.php:99
+msgid "Phone:"
+msgstr ""
+
+#: includes/widgets/widgets-contact-info.php:102
+msgid "Fax:"
+msgstr ""
+
+#: includes/widgets/widgets-contact-info.php:108
+msgid "Website:"
+msgstr ""
+
+#: includes/widgets/widgets-contact-info.php:113
+msgid "Skype Username:"
+msgstr ""
+
+#: includes/widgets/widgets-flickr-feeds.php:81
+msgid "Number of photo to show:"
+msgstr ""
+
+#: includes/widgets/widgets-flickr-feeds.php:84
+msgid "Photos per each row:"
+msgstr ""
+
+#: includes/widgets/widgets-gmap.php:6
+msgid "Displays google map."
+msgstr ""
+
+#: includes/widgets/widgets-gmap.php:97
+msgid "Latitude:"
+msgstr ""
+
+#: includes/widgets/widgets-gmap.php:100
+msgid "Longitude:"
+msgstr ""
+
+#: includes/widgets/widgets-gmap.php:103
+msgid "Zoom"
+msgstr ""
+
+#: includes/widgets/widgets-gmap.php:108
+msgid "Height:"
+msgstr ""
+
+#: includes/widgets/widgets-gmap.php:112
+msgid "Enable Scroll Wheel"
+msgstr ""
+
+#: includes/widgets/widgets-gmap.php:116
+msgid "Enable Pan Control"
+msgstr ""
+
+#: includes/widgets/widgets-gmap.php:119
+msgid "Enable Zoom Control"
+msgstr ""
+
+#: includes/widgets/widgets-gmap.php:122
+msgid "Enable Map Type Control"
+msgstr ""
+
+#: includes/widgets/widgets-gmap.php:125
+msgid "Enable Scale Control"
+msgstr ""
+
+#: includes/widgets/widgets-gmap.php:128
+msgid "Enable Draggable"
+msgstr ""
+
+#: includes/widgets/widgets-instagram-feeds.php:42
+msgid "Your UserId must be digits, review your widget options and resolve the issues!"
+msgstr ""
+
+#: includes/widgets/widgets-instagram-feeds.php:141
+msgid "Open links in new tab?"
+msgstr ""
+
+#: includes/widgets/widgets-news-slider.php:65
+msgid "Read more"
+msgstr ""
+
+#: includes/widgets/widgets-news-slider.php:70
+msgid "Back to News"
+msgstr ""
+
+#: includes/widgets/widgets-news-slider.php:110
+msgid "Number of News"
+msgstr ""
+
+#: includes/widgets/widgets-popular-posts.php:161, includes/widgets/widgets-recent-portfolio.php:171, includes/widgets/widgets-recent-posts.php:162, includes/widgets/widgets-related-posts.php:173
+msgid "Number of posts:"
+msgstr ""
+
+#: includes/widgets/widgets-popular-posts.php:165, includes/widgets/widgets-recent-posts.php:166, includes/widgets/widgets-related-posts.php:177
+msgid "Show Date"
+msgstr ""
+
+#: includes/widgets/widgets-popular-posts.php:168, includes/widgets/widgets-recent-posts.php:169, includes/widgets/widgets-related-posts.php:180
+msgid "Which Categories to show?"
+msgstr ""
+
+#: includes/widgets/widgets-slideshow.php:82
+msgid "Image width"
+msgstr ""
+
+#: includes/widgets/widgets-slideshow.php:87
+msgid "Image height"
+msgstr ""
+
+#: includes/widgets/widgets-slideshow.php:93
+msgid "How many slides?"
+msgstr ""
+
+#: includes/widgets/widgets-social-networks.php:328
+msgid "Icon Alt Title:"
+msgstr ""
+
+#: includes/widgets/widgets-social-networks.php:330
+msgid "Size:"
+msgstr ""
+
+#: includes/widgets/widgets-social-networks.php:338
+msgid "Align:"
+msgstr ""
+
+#: includes/widgets/widgets-social-networks.php:346
+msgid "Style:"
+msgstr ""
+
+#: includes/widgets/widgets-social-networks.php:348
+msgid "Circle"
+msgstr ""
+
+#: includes/widgets/widgets-social-networks.php:349
+msgid "Rounded"
+msgstr ""
+
+#: includes/widgets/widgets-social-networks.php:350
+msgid "Simple"
+msgstr ""
+
+#: includes/widgets/widgets-social-networks.php:351
+msgid "Simple Outline"
+msgstr ""
+
+#: includes/widgets/widgets-social-networks.php:352
+msgid "Square Pointed"
+msgstr ""
+
+#: includes/widgets/widgets-social-networks.php:353
+msgid "Square Rounded"
+msgstr ""
+
+#: includes/widgets/widgets-social-networks.php:357
+msgid "Color:"
+msgstr ""
+
+#: includes/widgets/widgets-social-networks.php:359
+msgid "Dark"
+msgstr ""
+
+#: includes/widgets/widgets-social-networks.php:360
+msgid "Light"
+msgstr ""
+
+#: includes/widgets/widgets-social-networks.php:361
+msgid "Custom"
+msgstr ""
+
+#: includes/widgets/widgets-social-networks.php:368
+msgid "Icon Color:"
+msgstr ""
+
+#: includes/widgets/widgets-social-networks.php:372
+msgid "Icon Hover Color:"
+msgstr ""
+
+#: includes/widgets/widgets-social-networks.php:376
+msgid "Icon Border Color:"
+msgstr ""
+
+#: includes/widgets/widgets-social-networks.php:380
+msgid "Icon Background Color:"
+msgstr ""
+
+#: includes/widgets/widgets-social-networks.php:384
+msgid "Icon Hover Background Color:"
+msgstr ""
+
+#: includes/widgets/widgets-social-networks.php:390
+msgid "Icons Margin (px):"
+msgstr ""
+
+#: includes/widgets/widgets-social-networks.php:393
+msgid "Choose Sites:"
+msgstr ""
+
+#: includes/widgets/widgets-social-networks.php:417
+msgid "How many custom icons to add?"
+msgstr ""
+
+#: includes/widgets/widgets-subnav.php:72
+msgid "Sort by:"
+msgstr ""
+
+#: includes/widgets/widgets-subnav.php:74, includes/widgets/widgets-subnav.php:75, includes/widgets/widgets-subnav.php:76
+msgid ""
+msgstr ""
+
+#: includes/widgets/widgets-subnav.php:74
+msgid "Page order"
+msgstr ""
+
+#: includes/widgets/widgets-subnav.php:75
+msgid "Page title"
+msgstr ""
+
+#: includes/widgets/widgets-subnav.php:76
+msgid "Page ID"
+msgstr ""
+
+#: includes/widgets/widgets-subnav.php:80
+msgid "Exclude:"
+msgstr ""
+
+#: includes/widgets/widgets-subnav.php:82
+msgid "Page IDs, Separate with a comma (eg: 12,34,543,98)"
+msgstr ""
+
+#: includes/widgets/widgets-testimonials.php:105
+msgid "Number of Testimonials:"
+msgstr ""
+
+#: includes/widgets/widgets-twitter-feeds.php:151
+msgid "Username:"
+msgstr ""
+
+#: includes/widgets/widgets-twitter-feeds.php:154
+msgid "Skin:"
+msgstr ""
+
+#: includes/widgets/widgets-twitter-feeds.php:156
+msgid "For Dark Backgrounds"
+msgstr ""
+
+#: includes/widgets/widgets-twitter-feeds.php:157
+msgid "For Light Backgrounds"
+msgstr ""
+
+#: includes/widgets/widgets-twitter-feeds.php:160
+msgid "Count"
+msgstr ""
+
+#: includes/widgets/widgets-twitter-feeds.php:162
+msgid "First Please refer to Theme Options > API Integrations > Twitter Settings and complete the process in order to authenticate."
+msgstr ""
+
+#: includes/widgets/widgets-video.php:78
+msgid "Type:"
+msgstr ""
+
+#: includes/widgets/widgets-video.php:80
+msgid "Youtube"
+msgstr ""
+
+#: includes/widgets/widgets-video.php:81
+msgid "Vimeo"
+msgstr ""
+
+#: includes/widgets/widgets-video.php:82
+msgid "Dailymotion"
+msgstr ""
+
+#: includes/widgets/widgets-video.php:83
+msgid "bliptv"
+msgstr ""
+
+#: includes/widgets/widgets-video.php:84
+msgid "viddler"
+msgstr ""
+
+#: includes/widgets/widgets-video.php:89
+msgid "Clip Id:"
+msgstr ""
+
+#: includes/widgets/widgets-video.php:92
+msgid "Width"
+msgstr ""

@@ -8,7 +8,7 @@
  * @since 5.9.4
  */
 
-$wp_customize->add_section(
+$mk_customize->add_section(
 	new MK_Dialog(
 		$wp_customize,
 		'mk_w_gs_divider',
@@ -28,13 +28,13 @@ $wp_customize->add_section(
 
 
 // Border width.
-$wp_customize->add_setting( 'mk_cz[wg_glb_sty_div_border_width]', array(
+$mk_customize->add_setting( 'mk_cz[wg_glb_sty_div_border_width]', array(
 	'type' => 'option',
 	'default'   => 0,
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Input_Control(
 		$wp_customize,
 		'mk_cz[wg_glb_sty_div_border_width]',
@@ -52,13 +52,13 @@ $wp_customize->add_control(
 );
 
 // Border Color.
-$wp_customize->add_setting( 'mk_cz[wg_glb_sty_div_border_color]', array(
+$mk_customize->add_setting( 'mk_cz[wg_glb_sty_div_border_color]', array(
 	'type' => 'option',
 	'default'   => '#d5d8de',
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[wg_glb_sty_div_border_color]',
@@ -72,11 +72,11 @@ $wp_customize->add_control(
 
 
 // Divider.
-$wp_customize->add_setting( 'mk_cz[wg_glb_sty_div_divider]', array(
+$mk_customize->add_setting( 'mk_cz[wg_glb_sty_div_divider]', array(
 	'type' => 'option',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Divider_Control(
 		$wp_customize,
 		'mk_cz[wg_glb_sty_div_divider]',
@@ -87,7 +87,7 @@ $wp_customize->add_control(
 );
 
 // Box Model.
-$wp_customize->add_setting( 'mk_cz[wg_glb_sty_div_box_model]', array(
+$mk_customize->add_setting( 'mk_cz[wg_glb_sty_div_box_model]', array(
 	'type' => 'option',
 	'default' => array(
 		'margin_top' => 0,
@@ -96,7 +96,7 @@ $wp_customize->add_setting( 'mk_cz[wg_glb_sty_div_box_model]', array(
 	'transport' => 'postMessage',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Box_Model_Control(
 		$wp_customize,
 		'mk_cz[wg_glb_sty_div_box_model]',

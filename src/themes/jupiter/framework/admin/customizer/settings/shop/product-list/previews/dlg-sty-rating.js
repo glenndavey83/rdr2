@@ -1,6 +1,6 @@
 (function( $ ) {
 
-	var starRating = '.woocommerce-page li.product .star-rating';
+	var starRating = '.woocommerce-page li.product .star-rating,  .mk-woocommerce-carousel.classic-style ul.products li.product .star-rating';
 	var starRatingWidget = '.woocommerce.widget .star-rating';
 
 	// Font size.

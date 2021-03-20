@@ -77,14 +77,29 @@ class Mk_Ajax_Search {
 	 * @return array
 	 */
 	private function get_search_request_options( $search_term ) {
-		return array(
+		$args = [
 			's' => $search_term,
 			'showposts' => self::SEARCH_RESULT_LIMIT,
 			'post_type' => 'any',
 			'post_status' => 'publish',
 			'post_password' => '',
 			'suppress_filters' => 0,
-		);
+		];
+
+		if ( function_exists( 'wc_get_product_visibility_term_ids' ) ) {
+			$product_visibility_term_ids = wc_get_product_visibility_term_ids();
+
+			$args['tax_query'] = [
+				[
+					'taxonomy' => 'product_visibility',
+					'field'    => 'term_taxonomy_id',
+					'terms'    => $product_visibility_term_ids['exclude-from-search'],
+					'operator' => 'NOT IN',
+				]
+			];
+		}
+
+		return $args;
 	}
 
 	/**

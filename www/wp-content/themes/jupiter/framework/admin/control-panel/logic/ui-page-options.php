@@ -182,7 +182,7 @@
 					    <span class="mk-po-lbl">Image Upload</span>
 					    <div class="mka-wrap mka-image-upload-wrap">
 					        <div class="mka-upload">
-					            <input class="mka-textfield" type="text" value="http://demos.artbees1.netdna-cdn.com/jupiter5/wp-content/uploads/2017/01/minos.jpg" >
+					            <input class="mka-textfield" type="text" value="http://demos.artbees1.netdna-cdn.com/jupiter/wp-content/uploads/2017/01/minos.jpg" >
 					            <a href="#" class="mka-upload-btn">
 					                <span class="mka-upload-btn-icon"></span>
 					            </a>

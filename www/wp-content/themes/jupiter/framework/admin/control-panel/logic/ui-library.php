@@ -213,7 +213,7 @@
     <span class="mk-ui-lib-lbl">Image Upload</span>
     <div class="mka-wrap mka-image-upload-wrap">
         <div class="mka-upload">
-            <input class="mka-textfield" type="text" value="http://demos.artbees1.netdna-cdn.com/jupiter5/wp-content/uploads/2017/01/minos.jpg" >
+            <input class="mka-textfield" type="text" value="http://demos.artbees1.netdna-cdn.com/jupiter/wp-content/uploads/2017/01/minos.jpg" >
             <a href="#" class="mka-upload-btn">
                 <span class="mka-upload-btn-icon"></span>
             </a>
@@ -234,7 +234,7 @@
     <span class="mk-ui-lib-lbl">Image Upload</span>
     <div class="mka-wrap mka-image-upload-wrap">
         <div class="mka-upload">
-            <input class="mka-textfield" type="text" value="http://demos.artbees1.netdna-cdn.com/jupiter5/wp-content/uploads/2015/12/jupiter-logo-footer.png" >
+            <input class="mka-textfield" type="text" value="http://demos.artbees1.netdna-cdn.com/jupiter/wp-content/uploads/2015/12/jupiter-logo-footer.png" >
             <a href="#" class="mka-upload-btn">
                 <span class="mka-upload-btn-icon"></span>
             </a>
@@ -477,7 +477,7 @@
                     </div>
                     <div class="mka-clist-social-url-wrap">
                         <span class="mka-clist-social-list-title">URL</span>
-                        <input class="mka-textfield mka-clist-addbox-social-url" type="text" placeholder="">
+                        <input class="mka-textfield mka-clist-addbox-social-url" type="text">
                     </div>
                 </div>
                 <div class="mka-clist-item-add-buttons">

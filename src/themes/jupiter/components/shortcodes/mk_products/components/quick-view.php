@@ -2,7 +2,7 @@
 global $product, $mk_options;
  ?>
 
-<div class="mk-modal is-active close-inside _ flex flex-center flex-items-center">
+<div class="mk-modal is-active close-inside _ jupiter-donut-flex jupiter-donut-flex-center jupiter-donut-flex-items-center">
     <div class="mk-modal-container">
         <div class="mk-modal-header">
             <a href="#" class="modal-close js-modal-close">
@@ -19,8 +19,8 @@ global $product, $mk_options;
                 <div class="mk-product-image images">
                         <?php
                             $attachment_ids = $product->get_gallery_attachment_ids();
-                            
-                            $images[] = get_post_thumbnail_id(); 
+
+                            $images[] = get_post_thumbnail_id();
                             foreach( $attachment_ids as $attachment_id ) {
                                 $images[] = $attachment_id;
                             }
@@ -28,24 +28,24 @@ global $product, $mk_options;
                             $images_as_string = implode(' ,', $images);
 
                             if(count($images) > 1) {
-                                echo do_shortcode( '[mk_image_slideshow 
-                                                        images="'.$images_as_string.'" 
-                                                        effect="slide" 
-                                                        displayTime="3000" 
-                                                        transitionTime="700" 
-                                                        hasNav="true" 
+                                echo do_shortcode( '[mk_image_slideshow
+                                                        images="'.$images_as_string.'"
+                                                        effect="slide"
+                                                        displayTime="3000"
+                                                        transitionTime="700"
+                                                        hasNav="true"
                                                         image_width="550"
-                                                        image_height="550" 
-                                                        smooth_height="false" 
+                                                        image_height="550"
+                                                        smooth_height="false"
                                                     ]' );
                             }
                             else {
                                 // Product featured image
                                 $featured_image_src = Mk_Image_Resize::resize_by_id_adaptive( get_post_thumbnail_id(), 'crop', 550, 550, $crop = false, $dummy = true);
-  
+
                                 echo '<img src="'.$featured_image_src['dummy'].'" '.$featured_image_src['data-set'].' alt="'.get_the_title(get_post_thumbnail_id()).'">';
                             }
-                            
+
                         ?>
                 </div>
                 <div class="entry-summary summary">

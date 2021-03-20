@@ -1,0 +1,1222 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Jupiter v4.0.9\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-05-14 14:25+0100\n"
+"PO-Revision-Date: 2015-05-21 10:11+0100\n"
+"Last-Translator: Bob Alpakar <bob@alpakar.com>\n"
+"Language-Team: WPL10N.COM - ALBERTO GARCIA <info@wpl10n.com>\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.8\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Poedit-Basepath: .\n"
+"X-Textdomain-Support: yes\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+msgid " Remember Me"
+msgstr "Recordarme"
+
+msgid "%1$s installed and activated successfully."
+msgstr "%1$s instalado y activado correctamente."
+
+msgid "%s &#8220;%s&#8221; already exists."
+msgstr "%s &#8220;%s&#8221; ya existe."
+
+msgid "- Select -"
+msgstr "- Selecciona -"
+
+msgid "1"
+msgstr "1"
+
+msgid "404"
+msgstr "404"
+
+msgid ""
+"A new version of this importer is available. Please update to version %s to "
+"ensure compatibility with newer export files."
+msgstr ""
+"Una nueva versión del importador esta disponible. Por favor actualiza a la "
+"versión %s para asegurarse la compatibilidad con los nuevos ficheros de "
+"exportación."
+
+msgid "ALL PRODUCTS"
+msgstr "TODOS LOS PRODUCTOS"
+
+msgid "Access Token"
+msgstr "Access Token"
+
+msgid "Activate"
+msgstr "Activar "
+
+msgid "Active"
+msgstr "Activo"
+
+msgid "Add New"
+msgstr "Agregar nuevo"
+
+msgid "Add New Slider"
+msgstr "Añadir nueva diapositiva"
+
+msgid "Add New Testimonial"
+msgstr "Añadir Testimonio Nuevo"
+
+msgid "Add to Cart"
+msgstr "Añadir a la cesta..."
+
+msgid "Additional Information"
+msgstr "Información adicional"
+
+msgid "Address"
+msgstr "Dirección"
+
+msgid "Address:"
+msgstr "Dirección:"
+
+msgid "Advanced"
+msgstr "Avanzado"
+
+msgid "All"
+msgstr "Todo"
+
+msgid "All Categories"
+msgstr "Todas las categorias"
+
+msgid "All done."
+msgstr "Todo hecho."
+
+msgid "All installations and activations have been completed."
+msgstr "Todas las instalaciones y activaciones han sido completadas."
+
+msgid "All installations have been completed."
+msgstr "Todas las instalaciones se han completado."
+
+msgid "All plugins installed and activated successfully. %1$s"
+msgstr "Todos los plugins instalados y activados correctamente. %1$s"
+
+msgid "An error occurred while installing %1$s: <strong>%2$s</strong>."
+msgstr ""
+"Se produjo un error durante la instalación de %1$s: <strong>%2$s</strong>."
+
+msgid "Anti-spam"
+msgstr "Anti-spam"
+
+msgid "Apply"
+msgstr "Aplicar"
+
+msgid "Apply Coupon"
+msgstr "Aplicar Cupón"
+
+msgid "Archives"
+msgstr "Archivos"
+
+msgid "Archives for: \"%s\""
+msgstr "Archivo para: \"%s\""
+
+msgid "Assign Authors"
+msgstr "Asignar autores"
+
+msgid "Author"
+msgstr "Autor"
+
+msgid "Author:"
+msgstr "autor:"
+
+msgid "Available on backorder"
+msgstr "Disponible bajo pedido"
+
+msgid "BUY NOW"
+msgstr "COMPRAR AHORA"
+
+msgid "Back"
+msgstr "Volver"
+
+msgid "Background Color"
+msgstr "Color de fondo"
+
+msgid "Background Image"
+msgstr "Imagen de fondo"
+
+msgid "Background Position"
+msgstr "Posición fondo"
+
+msgid "Background Repeat"
+msgstr "Repetición Fondo"
+
+msgid "Billing Address"
+msgstr "Dirección de Envio"
+
+msgid "Billing Email"
+msgstr "Email de Facturación"
+
+msgid "Blog"
+msgstr "Blog"
+
+msgid "Body"
+msgstr "Cuerpo"
+
+msgid "Boxed"
+msgstr "Caja"
+
+msgid "Button Text"
+msgstr "Texto Botón"
+
+msgid "By"
+msgstr "Por"
+
+msgid "CHECKOUT"
+msgstr "CAJA"
+
+msgid "Calculate Shipping"
+msgstr "Calcular gastos de envío"
+
+msgid "Cancel"
+msgstr "cancelar"
+
+msgid "Cart Subtotal"
+msgstr "Subtotal carrito"
+
+msgid "Categories"
+msgstr "Categorías"
+
+msgid "Category"
+msgstr "Categoría"
+
+msgid "Category:"
+msgid_plural "Categories:"
+msgstr[0] "Categoría:"
+msgstr[1] "Categorías:"
+
+msgid "Center"
+msgstr "Centro"
+
+msgid "Choose a WXR (.xml) file to upload, then click Upload file and import."
+msgstr ""
+"Elija un archivo WXR (.xml) para cargar, haga clic en Cargar archivo e "
+"importación."
+
+msgid "Choose an option"
+msgstr "Elija una opción"
+
+msgid "City"
+msgstr "Ciudad"
+
+msgid "Clear selection"
+msgstr "Borrar selección"
+
+msgid "Click here to enter your code"
+msgstr "Haga clic aquí para escribir el código"
+
+msgid "Color"
+msgstr "Color"
+
+msgid "Column"
+msgstr "Columna"
+
+msgid "Columns"
+msgstr "Columnas"
+
+msgid "Comment"
+msgstr "Comentario"
+
+msgid "Company:"
+msgstr "Compañía:"
+
+msgid "Consumer Key"
+msgstr "Clave del Consumidor"
+
+msgid "Consumer Secret"
+msgstr "Cliente Secreto"
+
+msgid "Contact Form"
+msgstr "Formulario de contacto"
+
+msgid "Contact Info"
+msgstr "Información de Contacto"
+
+msgid "Content"
+msgstr "Contenido"
+
+msgid "Copyright Text"
+msgstr "Texto Copyright"
+
+msgid "Count"
+msgstr "Contar"
+
+msgid "Coupon"
+msgstr "Cupón"
+
+msgid "Coupon code"
+msgstr "código de descuento"
+
+msgid "Create Account"
+msgstr "Crear cuenta"
+
+msgid "Css"
+msgstr "Css"
+
+msgid "Currency Symbol"
+msgstr "Símbolo de moneda"
+
+msgid "Current Password (leave blank to leave unchanged)"
+msgstr "Contraseña Actual (dejalo en blanco para no cambiar)"
+
+msgid "Custom CSS"
+msgstr "Estilo CSS Personalizado"
+
+msgid "Date"
+msgstr "Ordenar por Fecha (la más reciente primero)"
+
+msgid "Default"
+msgstr "Por Defecto"
+
+msgid "Delete"
+msgstr "Eliminar"
+
+msgid "Description"
+msgstr "Descripción"
+
+msgid "Design options"
+msgstr "Opciones de diseño"
+
+msgid ""
+"Details are shown above. The importer will now try again with a different "
+"parser..."
+msgstr ""
+"Los detalles se muestran arriba. El importador tratará ahora de nuevo con un "
+"analizador diferente ..."
+
+msgid "Direction Navigation"
+msgstr "Dirección de navegación"
+
+msgid "Dismiss this notice"
+msgstr "Descartar esta noticia"
+
+msgid "Download and import file attachments"
+msgstr "Descarga e importa los archivos adjuntos"
+
+msgid "Edit Profile"
+msgstr "Editar perfil"
+
+msgid "Edit Testimonial"
+msgstr "Editar Testimonio"
+
+msgid "Email"
+msgstr "correo electrónico"
+
+msgid "Email address"
+msgstr "Dirección de Email"
+
+msgid "Email you used during checkout."
+msgstr "Correo electrónico que utilizó durante la comprobación."
+
+msgid "Email:"
+msgstr "Correo Electrónico"
+
+msgid "Enter a new password below."
+msgstr "Vuelva a introducir la contraseña nueva"
+
+msgid "Extra class name"
+msgstr "Nombre clase extra"
+
+msgid ""
+"Failed to create new user for %s. Their posts will be attributed to the "
+"current user."
+msgstr ""
+"Ha fallado la creación del usuario %s. Sus entradas seran atribuidas al "
+"usuario actual."
+
+msgid "Failed to import %s %s"
+msgstr "Ha fallado la importación %s %s"
+
+msgid "Failed to import %s &#8220;%s&#8221;"
+msgstr "Ha fallado la importacion de %s &#8220;%s&#8221;"
+
+msgid "Failed to import &#8220;%s&#8221;: Invalid post type %s"
+msgstr ""
+"Ha fallado la importación de &#8220;%s&#8221;: Tipo de entrada inválida %s"
+
+msgid ""
+"Failed to import author %s. Their posts will be attributed to the current "
+"user."
+msgstr ""
+"Ha fallado la importación del autor %s. Sus entradas seran atribuidas al "
+"usuario actual."
+
+msgid "Failed to import category %s"
+msgstr "Ha fallado la importación de la categoría %s"
+
+msgid "Failed to import post tag %s"
+msgstr "Ha fallado la importación de la etiqueta de entradas %s"
+
+msgid "Featured Image"
+msgstr "Imagen Destacada "
+
+msgid "Features"
+msgstr "Características"
+
+msgid "Fetching attachments is not enabled"
+msgstr "Buscar adjuntos no esta activo"
+
+msgid "Font Color"
+msgstr "Color de la fuente"
+
+msgid "Fonts"
+msgstr "Fuentes"
+
+msgid "Footer"
+msgstr "Pie de página"
+
+msgid "Forget your password?"
+msgstr "¿Ha olvidado su contraseña?"
+
+msgid "Forget?"
+msgstr "Los has olvidado?"
+
+msgid "Forum"
+msgstr "Foro"
+
+msgid "Forum:"
+msgstr "Foro:"
+
+msgid "Found in your order confirmation email."
+msgstr "Se encuentra en el correo electrónico de confirmación del pedido."
+
+msgid "Full Width"
+msgstr "Ancho Completo"
+
+msgid "Gallery Images"
+msgstr "Galeria de Imagenes"
+
+msgid "General"
+msgstr "Configuración general"
+
+msgid "General Settings"
+msgstr "Configuración general"
+
+msgid "Get New Password"
+msgstr "Obtener nueva contraseña"
+
+msgid "Google Analytics ID"
+msgstr "Google Analytics ID"
+
+msgid "Grid"
+msgstr "Cuadricula"
+
+msgid "Have a coupon?"
+msgstr "¿Tiene un cupón?"
+
+msgid "Have fun!"
+msgstr "Diviertete!"
+
+msgid "Header"
+msgstr "Cabecera"
+
+msgid "Home"
+msgstr "Inicio"
+
+msgid ""
+"Howdy! Upload your WordPress eXtended RSS (WXR) file and we&#8217;ll import "
+"the posts, pages, comments, custom fields, categories, and tags into this "
+"site."
+msgstr ""
+"¡Hola! Sube tu WordPress eXtended RSS Archivo (WXR) y vamos a importar las "
+"entradas, páginas, comentarios, campos personalizados, categorías y "
+"etiquetas en este sitio."
+
+msgid "Icon"
+msgstr "Icono"
+
+msgid ""
+"If a new user is created by WordPress, a new password will be randomly "
+"generated and the new user&#8217;s role will be set as %s. Manually changing "
+"the new user&#8217;s details will be necessary."
+msgstr ""
+"Si un nuevo usuario es creado por Wordpress, se le generara una contraseña "
+"de forma aleatoria y el rol de nuevo usuario sera %s. Será necesario cambiar "
+"manualmente los detalles del nuevo usuario."
+
+msgid ""
+"If you wish to style particular content element differently, then use this "
+"field to add a class name and then refer to it in your css file."
+msgstr ""
+"Si desea estilo particular elemento de contenido diferente, utilice el campo "
+"añadir un nombre de clase y luego referirse a este en su archivo css."
+
+msgid "Image"
+msgstr "Imagen"
+
+msgid "Image Align"
+msgstr "Alineación Imagen"
+
+msgid "Image Gallery"
+msgstr "Galería de Imagenes"
+
+msgid "Image Height"
+msgstr "Altura de la foto chica"
+
+msgid "Import Attachments"
+msgstr "Importar Adjuntos"
+
+msgid "Import WordPress"
+msgstr "Importar Wordpress"
+
+msgid "Import author:"
+msgstr "Importar autor:"
+
+msgid "Imported"
+msgstr "Importado"
+
+msgid "Imported to Inactive"
+msgstr "Importar a inactivo"
+
+msgid "Install"
+msgstr "Instalar"
+
+msgid "Install Plugins"
+msgstr "Instalar Plugins"
+
+msgid "Install Required Plugins"
+msgstr "Instale los Plugins requeridos"
+
+msgid "Installing Plugin %1$s (%2$d/%3$d)"
+msgstr "Instalando Plugin %1$s (%2$d/%3$d)"
+
+msgid "Installing Plugin: %s"
+msgstr "Instalando Plugin: %s"
+
+msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
+msgstr "Instalando y Activando Plugin %1$s (%2$d/%3$d)"
+
+msgid "Invalid file type"
+msgstr "Tipo fichero inválido"
+
+msgid "Items"
+msgstr "Elementos"
+
+msgid "LOG IN"
+msgstr "ENTRAR"
+
+msgid "Large"
+msgstr "Grande"
+
+msgid "Last name"
+msgstr "Apellido"
+
+msgid "Latest"
+msgstr "Último"
+
+msgid "Layout"
+msgstr "Layout"
+
+msgid "Leave a Comment"
+msgstr "Dejar un comentario"
+
+msgid "Left"
+msgstr "Izquierda"
+
+msgid "Left Sidebar"
+msgstr "Barra lateral izquierda"
+
+msgid "Link"
+msgstr "Link"
+
+msgid "Link Color"
+msgstr "Color Enlace"
+
+msgid "Log In"
+msgstr "Entrar"
+
+msgid "Login"
+msgstr "Área de Usuario"
+
+msgid "Logo"
+msgstr "Logo"
+
+msgid "Logout"
+msgstr "Desconectarse"
+
+msgid "Lost Password"
+msgstr "Recuperar Contraseña"
+
+msgid "Lost your password?"
+msgstr "¿Olvidaste tu contraseña?"
+
+msgid ""
+"Lost your password? Please enter your username or email address. You will "
+"receive a link to create a new password via email."
+msgstr ""
+"¿Olvidaste tu contraseña? Introduzca su nombre de usuario o la dirección de "
+"correo electrónico. Usted recibirá un enlace para crear una nueva contraseña "
+"por correo electrónico."
+
+msgid "Map Height"
+msgstr "Altura Mapa"
+
+msgid "Map Type"
+msgstr "Tipo de mapa"
+
+msgid "Masonry"
+msgstr "Masonry"
+
+msgid "Medium"
+msgstr "Mediano"
+
+msgid "Menu item skipped due to invalid menu slug: %s"
+msgstr "Omitido elemento del menu por un slug inválido: %s"
+
+msgid "Menu item skipped due to missing menu slug"
+msgstr "Se ha omitido el elemento del menu por falta del slug del menu"
+
+msgid "Message*"
+msgstr "Mensaje*"
+
+msgid "My Address"
+msgstr "Mi dirección"
+
+msgid "My Addresses"
+msgstr "Mis Direcciones"
+
+msgid "N/A"
+msgstr "N / A"
+
+msgid "Name"
+msgstr "Nombre"
+
+msgid "Name (Required)"
+msgstr "Nombre (requerido)"
+
+msgid "Name (required):"
+msgstr "Nombre (requerido):"
+
+msgid "Name*"
+msgstr "Nombre*"
+
+msgid "Name:"
+msgstr "Nombre:"
+
+msgid "New Testimonial"
+msgstr "Nuevo Testimonio"
+
+msgid "New password"
+msgstr "Nueva contraseña"
+
+msgid "No Image"
+msgstr "Sin imagen"
+
+msgid "No Repeat"
+msgstr "No repetir"
+
+msgid "No Title"
+msgstr "Sin Título"
+
+msgid "No plugins are available to be installed at this time."
+msgstr "No hay plugins disponibles para instalar por ahora."
+
+msgid "No products found which match your selection."
+msgstr "No se han encontrado productos que se ajustan a su selección."
+
+msgid "No products in the cart."
+msgstr "No hay productos en el carrito."
+
+msgid "None"
+msgstr "Ninguna"
+
+msgid "Not Installed"
+msgstr "No instalado"
+
+msgid "OK"
+msgstr "Okay"
+
+msgid "Order"
+msgstr "Pedir"
+
+msgid "Order ID"
+msgstr "ID del pedido"
+
+msgid "Order Total"
+msgstr "Total pedido"
+
+msgid "Overlay Color"
+msgstr "Color de superposición"
+
+msgid "Page"
+msgstr "página"
+
+msgid "Page Title"
+msgstr "Título Página"
+
+msgid "Pages"
+msgstr "Paginas"
+
+msgid "Pages:"
+msgstr "Paginas:"
+
+msgid "Pagination"
+msgstr "Paginación"
+
+msgid "Password"
+msgstr "Contraseña"
+
+msgid "Pause on Hover"
+msgstr "Pausa en Hover"
+
+msgid "Percent"
+msgstr "Por ciento"
+
+msgid "Period"
+msgstr "Período"
+
+msgid "Phone"
+msgstr "Teléfono"
+
+msgid "Phone Number"
+msgstr "Número Teléfono"
+
+msgid "Phone:"
+msgstr "Teléfono:"
+
+msgid "Plugin"
+msgstr "Plugin"
+
+msgid "Plugin activated successfully."
+msgstr "Complementos activados satisfactoriamente"
+
+msgid "Plugin activation failed."
+msgstr "Error en la activación del Plugin."
+
+msgid "Popular Categories"
+msgstr "Categorias populares"
+
+msgid "Portfolio Categories"
+msgstr "Categorias del portfolio"
+
+msgid "Position"
+msgstr "Posición"
+
+msgid "Postcode / Zip"
+msgstr "Código Postal"
+
+msgid "Posts"
+msgstr "Entradas"
+
+msgid "Pre-Packaged"
+msgstr "Pre-Empaquetado"
+
+msgid "Preview"
+msgstr "Vista previa"
+
+msgid "Price"
+msgstr "Precio"
+
+msgid "Private"
+msgstr "Privado"
+
+msgid "Proceed to Checkout"
+msgstr "Procesar pedido"
+
+msgid "Product"
+msgstr "Producto"
+
+msgid "Product Description"
+msgstr "Descripción del producto"
+
+msgctxt "Product quantity input tooltip"
+msgid "Qty"
+msgstr "Cantidad"
+
+msgid "Quantity"
+msgstr "Cantidad"
+
+msgid "READ MORE"
+msgstr "LEER MAS"
+
+msgid "Random"
+msgstr "Aleatorio"
+
+msgid "Rated %d out of 5"
+msgstr "Calificar %d de los 5"
+
+msgid "Rated %s out of 5"
+msgstr "Calificación %s de 5"
+
+msgid "Re-enter new password"
+msgstr "Vuelva a introducir la contraseña nueva"
+
+msgid "Read More"
+msgstr "Leer más"
+
+msgid "Read more"
+msgstr "Leer mas"
+
+msgid "Recommended"
+msgstr "Recomendado"
+
+msgid "Register"
+msgstr "Registrarse"
+
+msgid "Regular"
+msgstr "Regular"
+
+msgid "Related Products"
+msgstr "Productos relacionados"
+
+msgid "Related Projects"
+msgstr "Proyectos relacionados"
+
+msgid "Remember Password?"
+msgstr "¿Recordar contraseña?"
+
+msgid "Remember me"
+msgstr "Acuérdate de mí"
+
+msgid "Remember to update the passwords and roles of imported users."
+msgstr ""
+"Recuerde actualizar las contraseñas y los roles de los usuarios importados."
+
+msgid "Remote file is incorrect size"
+msgstr "Fichero remoto tiene tamaño incorrecto"
+
+msgid "Remote file is too large, limit is %s"
+msgstr "Fichero remoto es demasiado grande, límite es %s"
+
+msgid "Remote server did not respond"
+msgstr "Servidor remoto no responde"
+
+msgid "Remote server returned error response %1$d %2$s"
+msgstr "Error devuelto por servidor remoto %1$d %2$s"
+
+msgid "Remove"
+msgstr "Eliminar"
+
+msgid "Remove image"
+msgstr "Remover"
+
+msgid "Remove this item"
+msgstr "Eliminar este producto"
+
+msgid "Repeat"
+msgstr "Repetir"
+
+msgid "Replies"
+msgstr "Responder:"
+
+msgid "Reply:"
+msgstr "Responder:"
+
+msgid "Required"
+msgstr "Requeridos"
+
+msgid "Reset Password"
+msgstr "Restablecer contraseña"
+
+msgid "Return To Cart"
+msgstr "Volver a la cesta"
+
+msgid "Return To Shop"
+msgstr "Volver a la tienda"
+
+msgid "Return to Required Plugins Installer"
+msgstr "Volver al Instalador de Plugins requeridos"
+
+msgid "Return to the dashboard"
+msgstr "Volver al escritorio"
+
+msgid "Revision"
+msgstr "Revisión"
+
+msgid "Right"
+msgstr "Derecha"
+
+msgid "Right Sidebar"
+msgstr "Barra lateral derecha"
+
+msgid "SKU:"
+msgstr "SKU:"
+
+msgid "Sale"
+msgstr "Oferta"
+
+msgid "Save"
+msgstr "Guardar"
+
+msgid "Save Address"
+msgstr "Guardar dirección"
+
+msgid "Save changes"
+msgstr "Guardar cambios"
+
+msgid "Search"
+msgstr "Buscar"
+
+msgid "Search Categories"
+msgstr "Buscar categorías"
+
+msgid "Search.."
+msgstr "Buscar.."
+
+msgid "Select Options"
+msgstr "Selecciona Opciones"
+
+msgid "Select a country&hellip;"
+msgstr "Seleccione un país&hellip;"
+
+msgid "Select a state&hellip;"
+msgstr "Seleccione un estado&hellip;"
+
+msgid "Send"
+msgstr "Enviar"
+
+msgid "Shipping Address"
+msgstr "Dirección de envío"
+
+msgid "Shop"
+msgstr "Tienda"
+
+msgid "Short Description"
+msgstr "Descripción corta"
+
+msgid "Showing all %d results"
+msgstr "Mostrando todos %d resultados"
+
+msgid "Showing the single result"
+msgstr "Mostrando el resultado individual"
+
+msgid "Sidebar does not exist in theme (using Inactive)"
+msgstr "Barra lateral no existente en theme (usando Inactivo)"
+
+msgid "Simple"
+msgstr "Simple"
+
+msgid "Size"
+msgstr "Tamaño"
+
+msgid "Slide"
+msgstr "Diapositiva"
+
+msgid "Small"
+msgstr "Pequeño"
+
+msgid "Something went wrong with the plugin API."
+msgstr "Algo salió mal con la API de plugins."
+
+msgid "Sorry, there has been an error."
+msgstr "Lo sentimos, se ha producido un error."
+
+msgid "Sort by:"
+msgstr "Ordenar por:"
+
+msgid "Source"
+msgstr "Fuente"
+
+msgid "State / county"
+msgstr "Estado / condado"
+
+msgid "Status"
+msgstr "﻿Estado"
+
+msgid "Status:"
+msgstr "Estado:"
+
+msgid "Submit"
+msgstr "Enviar"
+
+msgid "Subtotal"
+msgstr "Subtotal"
+
+msgid "Tab"
+msgstr "Pestaña"
+
+msgid "Tabs"
+msgstr "Pestañas"
+
+msgid "Tag:"
+msgid_plural "Tags:"
+msgstr[0] "Etiqueta"
+msgstr[1] "Etiquetas"
+
+msgid "Testimonial"
+msgstr "Número total de testimonios para mostrar"
+
+msgid "Testimonials"
+msgstr "Testimonios"
+
+msgid "Text Align"
+msgstr "Alineación Texto"
+
+msgid "Text Color"
+msgstr "Color Texto"
+
+msgid "Text Size"
+msgstr "Tamaño Texto"
+
+msgid ""
+"The export file could not be found at <code>%s</code>. It is likely that "
+"this was caused by a permissions problem."
+msgstr ""
+"El archivo de exportación no se pudo encontrar en <code>%s</code> . Es "
+"probable que sea por un problema de permisos."
+
+msgid "The file does not exist, please try again."
+msgstr "El fichero no existe, por favor inténtelo de nuevo."
+
+msgid "The following addresses will be used on the checkout page by default."
+msgstr ""
+"Las siguientes direcciones se pueden utilizar en la página de pago de forma "
+"predeterminada."
+
+msgid ""
+"The installation and activation process is starting. This process may take a "
+"while on some hosts, so please be patient."
+msgstr ""
+"El proceso de instalación y activación ha empezado. Puede llevar un rato en "
+"algunos servidores. Ten paciencia, por favor."
+
+msgid "The installation of %1$s failed."
+msgstr "La instalación de %1$s falló."
+
+msgid ""
+"The installation process is starting. This process may take a while on some "
+"hosts, so please be patient."
+msgstr ""
+"El proceso de instalación ha comenzado. Puede llevar un rato en algunos "
+"servidores. Ten paciencia, por favor."
+
+msgid "Theme Options"
+msgstr "Opciones Tema"
+
+msgid ""
+"There are some issues with the items in your cart (shown above). Please go "
+"back to the cart page and resolve these issues before checking out."
+msgstr ""
+"Hay algunos problemas con los productos en su carrito (ver imagen superior). "
+"Por favor, vaya a la página de compra y resolver estos problemas antes de la "
+"salida."
+
+msgid "There was an error when reading this WXR file"
+msgstr "Hay un error al leer el archivo WXR"
+
+msgid ""
+"This WXR file (version %s) may not be supported by this version of the "
+"importer. Please consider updating."
+msgstr ""
+"﻿Este archivo WXR (versión %s) puede que no sea compatible con esta versión "
+"del importador. Por favor considere la actualización."
+
+msgid ""
+"This does not appear to be a WXR file, missing/invalid WXR version number"
+msgstr ""
+"Esto no parece ser un archivo WXR, número de versión que falta WXR / inválido"
+
+msgid ""
+"This post is password protected. Enter the password to view any comments."
+msgstr ""
+"Esta entrada está protegida. Introduzca la contraseña para ver los "
+"comentarios."
+
+msgid "Thumbnail"
+msgstr "Miniatura"
+
+msgid "Title"
+msgstr "Titulo"
+
+msgid "Title:"
+msgstr "Título:"
+
+msgid ""
+"To make it easier for you to edit and save the imported content, you may "
+"want to reassign the author of the imported item to an existing user of this "
+"site. For example, you may want to import all the entries as <code>admin</"
+"code>s entries."
+msgstr ""
+"Para hacerlo más fácil para que usted pueda editar y guardar el contenido "
+"importado, es posible que desee volver a asignar el autor del artículo "
+"importado a un usuario existente de este sitio. Por ejemplo, es posible que "
+"desee importar todas las entradas como <code>admin</code>s entradas."
+
+msgid ""
+"To track your order please enter your Order ID in the box below and press "
+"return. This was given to you on your receipt and in the confirmation email "
+"you should have received."
+msgstr ""
+"Para el seguimiento de su pedido, por favor ingrese su ID de pedido en la "
+"casilla inferior y pulse Intro. Esto fue dado a usted en el recibo y en el "
+"email de confirmación que debería haber recibido."
+
+msgid "Toolbar"
+msgstr "Barra de herramientas"
+
+msgid "Tooltip Text"
+msgstr "Texto Tooltip"
+
+msgid "Top"
+msgstr "Arriba"
+
+msgid "Topics"
+msgstr "Temas"
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Track"
+msgstr "Rastrear"
+
+msgid "Type"
+msgstr "Tipo"
+
+msgid "Type:"
+msgstr "Tipo:"
+
+msgid "URL"
+msgstr "URL"
+
+msgid "Update"
+msgstr "Actualización"
+
+msgid "Update Cart"
+msgstr "Actualizar Cesta"
+
+msgid "Update Totals"
+msgstr "Actualizar Totales"
+
+msgid "Upload"
+msgstr "Subir"
+
+msgid "Upload Image"
+msgstr "Subir imagen"
+
+msgid "User"
+msgstr "Usuario"
+
+msgid "Username"
+msgstr "Usuario"
+
+msgid "Username or email address"
+msgstr "Nombre de usuario o correo electrónico"
+
+msgid "Username:"
+msgstr "Usuario:"
+
+msgid "VIEW CART"
+msgstr "VER CARRITO"
+
+msgid "Version"
+msgstr "Versión"
+
+msgid "Vimeo"
+msgstr "Vimeo"
+
+msgid "Visibility:"
+msgstr "Visibilidad:"
+
+msgid "WHOOPS!"
+msgstr "WHOOPS!"
+
+msgid "Website"
+msgstr "Páxina Web:"
+
+msgid "Website:"
+msgstr "Sitio web:"
+
+msgid "Widget already exists"
+msgstr "Widget ya existe"
+
+msgid "WooCommerce"
+msgstr "WooCommerce"
+
+msgid "WordPress Repository"
+msgstr "Repositorio Oficial Wordpress"
+
+msgid "Yes"
+msgstr "Si"
+
+msgid "You have not set up this type of address yet."
+msgstr "Usted no ha configurar este tipo de dirección aun."
+
+msgid "You may also like&hellip;"
+msgstr "También te puede interesar&hellip;"
+
+msgid "Your Name"
+msgstr "Su nombre"
+
+msgid "Your cart is currently empty."
+msgstr "Tu cesta está actualmente vacía."
+
+msgid "Your comment is awaiting approval"
+msgstr "Tu comentario está pendiente de aprobación"
+
+msgid "Your comment is awaiting moderation."
+msgstr "Su comentario esta esperando aprobación."
+
+msgid "Zero size file downloaded"
+msgstr "Se ha descargado fichero con tamaño cero"
+
+msgid "Zoom Out"
+msgstr "Alejar el zoom"
+
+msgid "ago"
+msgstr "atrás"
+
+msgid "as a new user:"
+msgstr "como un nuevo usuario:"
+
+msgctxt "as in: \"version nr unknown\""
+msgid "unknown"
+msgstr "desconocido"
+
+msgid "assign posts to an existing user:"
+msgstr "asignar entradas a un usuario existente:"
+
+msgid "borderTopWidth,borderRightWidth,borderBottomWidth,borderLeftWidth"
+msgstr "borderTopWidth,borderRightWidth,borderBottomWidth,borderLeftWidth"
+
+msgid "day"
+msgstr "Día"
+
+msgid "decade"
+msgstr "década"
+
+msgid "hour"
+msgstr "hora"
+
+msgid "marginTop,marginRight,marginBottom,marginLeft"
+msgstr "marginTop,marginRight,marginBottom,marginLeft"
+
+msgid "minute"
+msgstr "minuto"
+
+msgid "or assign posts to an existing user:"
+msgstr "o asignar las entradas a un usuario existente:"
+
+msgid "or create new user with login name:"
+msgstr "o crear un nuevo usuario con nombre:"
+
+msgid "out of 5"
+msgstr "de 5"
+
+msgid "paddingTop,paddingRight,paddingBottom,paddingLeft"
+msgstr "paddingTop,paddingRight,paddingBottom,paddingLeft"
+
+msgid "page"
+msgstr "Viendo por página:"
+
+msgid "portfolio"
+msgstr "portfolio"
+
+msgctxt "portfolio"
+msgid "Add New"
+msgstr "Agregar nuevo"
+
+msgid "second"
+msgstr "segundo"
+
+msgid "verified owner"
+msgstr "propietario comprobado"
+
+msgid "week"
+msgstr "semanas"

@@ -53,26 +53,40 @@ $toggle_instance_title=__('Click to toggle', $this->plugin_slug);
 		<div class="metabox-holder">
 	<?php endif; ?>
 
-		<form id="<?php echo $this->pl_pfx; ?>form" method="post" action="options.php">
-			
-			<?php settings_fields($this->plugin_slug); ?>
-			
-			<?php echo '<input type="hidden" id="'.$this->db_prefix.'total_instances'.'" name="'.$this->db_prefix.'total_instances'.'" value="'.$this->index.'" /> '; ?>
-			<?php echo '<input type="hidden" id="'.$this->db_prefix.'instances'.'" name="'.$this->db_prefix.'instances'.'" value="" /> '; ?>
-			<?php echo '<input type="hidden" id="'.$this->db_prefix.'reset'.'" name="'.$this->db_prefix.'reset'.'" value="false" /> '; ?>
-			
-			<?php do_settings_sections($this->plugin_slug); ?>
-			
-			<div class="other-buttons">
-				<?php if($repeatables) : ?>
-					<a class="button button-small repeatable-add" href="#"><?php echo $btn_add; ?></a> 
-				<?php endif; ?>
-				<a class="button button-small reset-to-default" href="#"><?php echo $btn_reset; ?></a>
+		<div class="plugin-body clearfix">
+
+			<div class="plugin-body-section-1">
+
+				<form id="<?php echo $this->pl_pfx; ?>form" method="post" action="options.php">
+					
+					<?php settings_fields($this->plugin_slug); ?>
+					
+					<?php echo '<input type="hidden" id="'.$this->db_prefix.'total_instances'.'" name="'.$this->db_prefix.'total_instances'.'" value="'.$this->index.'" /> '; ?>
+					<?php echo '<input type="hidden" id="'.$this->db_prefix.'instances'.'" name="'.$this->db_prefix.'instances'.'" value="" /> '; ?>
+					<?php echo '<input type="hidden" id="'.$this->db_prefix.'reset'.'" name="'.$this->db_prefix.'reset'.'" value="false" /> '; ?>
+					
+					<?php do_settings_sections($this->plugin_slug); ?>
+					
+					<div class="other-buttons">
+						<?php if($repeatables) : ?>
+							<a class="button button-small repeatable-add" href="#"><?php echo $btn_add; ?></a> 
+						<?php endif; ?>
+						<a class="button button-small reset-to-default" href="#"><?php echo $btn_reset; ?></a>
+					</div>
+					
+					<?php submit_button(); ?> 
+					
+				</form>
+
 			</div>
-			
-			<?php submit_button(); ?> 
-			
-		</form>
+
+			<div class="plugin-body-section-2">
+				<span>Help me support the plugin <b>:-)</b></span>
+				<?php // Elegant themes banner --edit-- ?>
+				<a href="https://www.elegantthemes.com/affiliates/idevaffiliate.php?id=36986_1_1_14" target="_blank" rel="nofollow"><img src="<?php echo plugins_url('elegant-themes-160x600.gif', __FILE__); ?>" style="border:0px" /></a>
+			</div>
+
+		</div>
 	
 	<?php if($repeatables) : ?>
 		</div>
@@ -83,7 +97,7 @@ $toggle_instance_title=__('Click to toggle', $this->plugin_slug);
 			<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 				<input type="hidden" name="cmd" value="_s-xclick">
 				<input type="hidden" name="hosted_button_id" value="UYJ5G65M6ZA28">
-				<span>If you like this plugin and find it useful, consider making a donation :)</span> <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+				<span>If you like this plugin and find it useful, consider making a donation <b>:-)</b></span> <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
 				<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 			</form>
 		</div>

@@ -134,7 +134,7 @@ class Compatibility {
 				];
 			}
 		} else {
-			if ( @mkdir( $path, 0775, true ) == false ) {
+			if ( wp_mkdir_p( $path ) == false ) {
 				return [
 					'sys_msg'       => 'Jupiter can\'t create ' . $path . ' directory. ',
 					'sys_recommend' => __( 'Please check permission on this directory.', 'mk_framework' ),
@@ -221,7 +221,7 @@ class Compatibility {
 			$response[] = [
 				'sys_msg'       => __( 'WordPress Memory Limit', 'mk_framework' ) . ': ' . WP_MEMORY_LIMIT . ', ',
 				'sys_recommend' => __( 'memory_limit should be at least 96MB.', 'mk_framework' ),
-				'link_href'     => 'http://codex.wordpress.org/Editing_wp-config.php#Increasing_memory_allocated_to_PHP',
+				'link_href'     => 'https://themes.artbees.net/docs/memory-limit/',
 				'link_title'    => __( 'Increasing memory allocated to PHP', 'mk_framework' ),
 				'type'          => 'error',
 				'status'        => false,

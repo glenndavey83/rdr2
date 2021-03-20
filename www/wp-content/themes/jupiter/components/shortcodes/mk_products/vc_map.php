@@ -32,7 +32,7 @@ vc_map(array(
             "heading" => __("Image Size", 'mk_framework'),
             "description" => __("", 'mk_framework'),
             "param_name" => "image_size",
-            "value" => mk_get_image_sizes(),
+            "value" => function_exists( 'mk_get_image_sizes' ) ? mk_get_image_sizes() : [],
             "type" => "dropdown"
         ),
         array(

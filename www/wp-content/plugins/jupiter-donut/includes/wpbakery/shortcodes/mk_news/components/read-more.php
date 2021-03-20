@@ -1,0 +1,1 @@
+<a href="<?php echo esc_url( get_permalink() ); ?>" class="mk-read-more"><?php _e('Read more', 'jupiter-donut'); ?><i class="mk-icon-double-angle-right"></i></a>

@@ -215,7 +215,9 @@ class MK_Theme_Options {
 
 				update_option( THEME_OPTIONS_BUILD, uniqid() );
 
-				mk_purge_cache_actions();
+				if ( function_exists( 'mk_purge_cache_actions' ) ) {
+					mk_purge_cache_actions();
+				}
 
 		}// End if().
 
@@ -246,7 +248,9 @@ class MK_Theme_Options {
 
 				update_option( THEME_OPTIONS_BUILD, uniqid() );
 
-				mk_purge_cache_actions();
+				if ( function_exists( 'mk_purge_cache_actions' ) ) {
+					mk_purge_cache_actions();
+				}
 
 				flush_rewrite_rules();
 
@@ -302,6 +306,12 @@ class MK_Theme_Options {
 	}
 
 	public function render() {
+
+		if ( ! class_exists( 'Jupiter_Donut' ) ) {
+			printf( '<h2>%s</h2>', __( 'Install/Activate <a href="' . admin_url( 'themes.php?page=tgmpa-install-plugins' ) . '">Jupiter Donut</a> plugin to enable this feature.', 'mk_framework' ) );
+			return;
+		}
+
 		wp_enqueue_media();
 
 			?>

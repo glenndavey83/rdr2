@@ -1,4 +1,5 @@
 (function ( $ ) {
+	'use strict';
 	window.InlineShortcodeView_vc_pie = window.InlineShortcodeView.extend( {
 		render: function () {
 			_.bindAll( this, 'parentChanged' );
@@ -10,7 +11,7 @@
 			return this;
 		},
 		unbindResize: function () {
-			vc.frame_window.jQuery( vc.frame_window ).unbind( 'resize.vcPieChartEditable' );
+			vc.frame_window.jQuery( vc.frame_window ).off( 'resize.vcPieChartEditable' );
 		},
 		parentChanged: function () {
 			this.$el.find( '.vc_pie_chart' ).removeClass( 'vc_ready' );

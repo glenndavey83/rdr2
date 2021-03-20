@@ -79,7 +79,12 @@ class Cdn_Core {
 			$file = $this->normalize_attachment_file( $file );
 
 			$local_file = $upload_info['basedir'] . '/' . $file;
-			$remote_file = ltrim( $upload_info['baseurlpath'] . $file, '/' );
+
+			$parsed = parse_url( rtrim( $upload_info['baseurl'], '/' ) .
+				'/' . $file );
+			$local_uri = $parsed['path'];
+			$remote_uri = $this->uri_to_cdn_uri( $local_uri );
+			$remote_file = ltrim( $remote_uri, '/' );
 
 			$files[] = $this->build_file_descriptor( $local_file, $remote_file );
 		}
@@ -342,9 +347,9 @@ class Cdn_Core {
 	 * Returns CDN object
 	 */
 	function get_cdn() {
-		static $cdn = array();
+		static $cdn = null;
 
-		if ( !isset( $cdn[0] ) ) {
+		if ( is_null( $cdn ) ) {
 			$c = $this->_config;
 			$engine = $c->get_string( 'cdn.engine' );
 			$compression = ( $c->get_boolean( 'browsercache.enabled' ) && $c->get_boolean( 'browsercache.html.compression' ) );
@@ -605,21 +610,14 @@ class Cdn_Core {
 			}
 
 			$engine_config = array_merge( $engine_config, array(
-					'debug' => $c->get_boolean( 'cdn.debug' )
+					'debug' => $c->get_boolean( 'cdn.debug' ),
+					'headers' => apply_filters( 'w3tc_cdn_config_headers', array() )
 				) );
 
-			$cdn[0] = CdnEngine::instance( $engine, $engine_config );
-
-			/**
-			 * Set cache config for CDN
-			 */
-			if ( $this->_config->get_boolean( 'browsercache.enabled' ) ) {
-				$w3_plugin_browsercache = Dispatcher::component( 'BrowserCache_Plugin' );
-				$cdn[0]->cache_config = $w3_plugin_browsercache->get_cache_config();
-			}
+			$cdn = CdnEngine::instance( $engine, $engine_config );
 		}
 
-		return $cdn[0];
+		return $cdn;
 	}
 
 	/**
@@ -713,8 +711,11 @@ class Cdn_Core {
 			!Util_Environment::is_wpmu_subdomain() &&
 			Util_Environment::is_using_master_config() &&
 			Cdn_Util::is_engine_push( $engine ) ) {
-			// in common config files are uploaded for network home url
+			// in common config mode files are uploaded for network home url
 			// so mirror will not contain /subblog/ path in uri
+			//
+			// since upload process is not blog-specific and
+			// wp-content/plugins/../*.jpg files are common
 			$home = trim( home_url( '', 'relative' ), '/' ) . '/';
 			$network_home = trim( network_home_url( '', 'relative' ), '/' ) . '/';
 

@@ -36,6 +36,6 @@
 			e.preventDefault();
 		})
 	</script>
-	<?php show_admin_bar( false ); ?>
 	<?php wp_footer(); ?>
+	<style type="text/css">#wpadminbar {display: none;}</style>
 </html>

@@ -11,9 +11,18 @@ wp_print_request_filesystem_credentials_modal();
 
 
 <div class="mka-cp-pane-box <?php echo $is_registered; ?>" id="mk-cp-templates">
+	<h3><?php
+		if ( ! function_exists( 'jupiter_core' ) || ! function_exists( 'jupiter_donut' ) ) {
+			printf(
+				__( 'Please <a href="%s">install/activate</a> "Jupiter Core and Jupiter Donut" plugins to enable this feature.', 'mk_framework' ),
+				admin_url( 'themes.php?page=tgmpa-install-plugins' )
+			);
 
+			return;
+		}
+	?></h3>
 
-	<!-- Restore Button wrap -->    
+	<!-- Restore Button wrap -->
 	<div id="js__restore-template-wrap" class="mka-restore-template-wrap">
 		<a class="mka-button mka-button--blue mka-button--medium mka-button--icon mka-button--restore-backup" id="js__restore-template-btn" href="#">
 			<?php esc_html_e( 'Restore from Last Backup', 'mk_framework' ); ?>
@@ -21,7 +30,7 @@ wp_print_request_filesystem_credentials_modal();
 		</a>
 		<div class="mka-restore-template-info-box"><?php esc_html_e( 'Restore database to a backup stored at: ', 'mk_framework' ); ?><span class="js__backup-date"></span></div>
 	</div>
-	<!-- End of Restore Button wrap --> 
+	<!-- End of Restore Button wrap -->
 
 
 

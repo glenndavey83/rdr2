@@ -88,7 +88,7 @@ if ( $class ) {
 if ( '10' === $layout ) {
 	$css .= '@media handheld, only screen and (min-width: ' . $grid_width . 'px) {
 		.mk-product-layout-10 .full-width-layout {
-			padding-left: 5%;
+			padding-left: 15%;
 			padding-right: 5%;
 		}
 	}';

@@ -33,7 +33,13 @@ function mk_detect_count_post_vars() {
 
 		$count = 0;
 		foreach( $_POST as $key => $arr ){
-			$count+= count( $arr );
+			if ( ! is_array( $arr ) ) {
+				$count++;
+
+				continue;
+			}
+
+			$count += count( $arr );
 		}
 
 		update_option( 'mk_detect-post-var-count' , $count );

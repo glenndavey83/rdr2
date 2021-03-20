@@ -83,3 +83,19 @@
 .woocommerce-mini-cart__empty-message {
     margin: 20px 10px;
 }
+
+/**
+ * In WooCommerce Shop page, all WordPress content will be rendered in WooCommerce
+ * Products Header section and VC Row pull the content to left because the margin
+ * left and right is -15px. Problem only happen in Row element and the Full Width
+ * option is disabled.
+ * .woocommerce-page > .woocommerce-products-header > .mk-fullwidth-false.vc_row
+ */
+.woocommerce-page {
+	.woocommerce-products-header {
+		.mk-fullwidth-false.vc_row {
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
+}

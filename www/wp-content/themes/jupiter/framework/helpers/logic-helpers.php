@@ -47,7 +47,7 @@ class Abb_Logic_Helpers {
 		}
 
 		if ( ! $mkfs->exists( $dest_path ) ) {
-			if ( ! $mkfs->mkdir( $dest_path ) ) {
+			if ( ! $mkfs->wp_mkdir( $dest_path ) ) {
 				throw new Exception( __( 'Unzip destination path not exist' , 'mk_framework' ) );
 				return false;
 			}
@@ -98,7 +98,7 @@ class Abb_Logic_Helpers {
 			}
 			return true;
 		} else {
-			if ( ! $mkfs->mkdir( $path, $perm ) ) {
+			if ( ! $mkfs->wp_mkdir( $path, $perm ) ) {
 				throw new Exception( sprintf( __( 'Can\'t create directory %s', 'mk_framework' ) , $path ) );
 				return false;
 			}
@@ -129,7 +129,7 @@ class Abb_Logic_Helpers {
 			return false;
 		}
 
-		$response = wp_remote_get( $url );
+		$response = wp_remote_get( $url, array( 'timeout' => 120 ) );
 
 		if ( is_wp_error( $response ) ) {
 			throw new Exception( $response->get_error_message() );
@@ -415,24 +415,11 @@ class Abb_Logic_Helpers {
 	 */
 
 	static function include_wordpress_importer() {
-		// Avoid redeclare WP_Importer class.
-		if ( ! class_exists( 'WP_Importer' ) ) {
-			defined( 'WP_LOAD_IMPORTERS' ) || define( 'WP_LOAD_IMPORTERS', true );
-			include ABSPATH . '/wp-admin/includes/class-wp-importer.php';
+		if ( ! function_exists( 'jupiter_core_load_importer' ) ) {
+			return;
 		}
 
-		// Avoid redeclare WXR_Importer class and others.
-		if ( class_exists( 'WXR_Importer' ) ) {
-			return true;
-		}
-
-		// Load all needed class.
-		include THEME_CONTROL_PANEL . '/logic/importer/class-logger.php';
-		include THEME_CONTROL_PANEL . '/logic/importer/class-logger-serversentevents.php';
-		include THEME_CONTROL_PANEL . '/logic/importer/class-wxr-import-info.php';
-		include THEME_CONTROL_PANEL . '/logic/importer/class-wxr-importer.php';
-
-		return true;
+		jupiter_core_load_importer();
 	}
 	/**
 	 * It will return permission of directory
@@ -474,9 +461,9 @@ class Abb_Logic_Helpers {
 
 		if ( $action == 'e' ) {
 			$output = openssl_encrypt( $string, $encrypt_method, $key, 0, $iv );
-			$output = base64_encode( $output );
+			$output = mk_encode( $output );
 		} elseif ( $action == 'd' ) {
-			$output = base64_decode( $string );
+			$output = mk_decode( $string );
 			$output = openssl_decrypt( $output, $encrypt_method, $key, 0, $iv );
 		}
 

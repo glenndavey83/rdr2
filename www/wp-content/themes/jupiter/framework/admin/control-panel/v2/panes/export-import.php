@@ -9,6 +9,16 @@
 
 ?>
 <div class="mka-cp-pane-box" id="mk-cp-addons">
+	<h3><?php
+		if ( ! function_exists( 'jupiter_core' ) || ! function_exists( 'jupiter_donut' ) ) {
+			printf(
+				__( 'Please <a href="%s">install/activate</a> "Jupiter Core and Jupiter Donut" plugins to enable this feature.', 'mk_framework' ),
+				admin_url( 'themes.php?page=tgmpa-install-plugins' )
+			);
+
+			return;
+		}
+	?></h3>
 	<div class="mka-cp-export-wrap">
 		<div class="mka-cp-pane-title">
 			<?php esc_html_e( 'Export', 'mk_framework' ); ?>
@@ -55,7 +65,7 @@
 					<span class="mka-tip-ripple"></span>
 				</a>
 				<div class="mka-tip-content">
-					<?php esc_html_e( "Import your website data selectively. This only accepts an exported Zip file from above section. Site Content and Widgets are merged in current data. Theme Options's and Customizer's data are replaced.", 'mk_framework' ); ?>
+					<?php esc_html_e( "Import your website data selectively. This only accepts an exported Zip file from above section. Site Content and Widgets are merged in current data. Theme Options's and Customizer's data are replaced. For installing templates please go to Control Panel -> Templates.", 'mk_framework' ); ?>
 				</div>
 			</div>
 		</div>
@@ -72,4 +82,3 @@
 		</div>
 	</div>
 </div>
-<!-- End of Pane -->

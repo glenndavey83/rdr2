@@ -3,7 +3,7 @@
  * Plugin Name: WP Last Login
  * Plugin URI:  http://en.wp.obenland.it/wp-last-login/#utm_source=wordpress&utm_medium=plugin&utm_campaign=wp-last-login
  * Description: Displays the date of the last login in user lists.
- * Version:     2
+ * Version:     3
  * Author:      Konstantin Obenland
  * Author URI:  http://en.wp.obenland.it/#utm_source=wordpress&utm_medium=plugin&utm_campaign=wp-last-login
  * Text Domain: wp-last-login
@@ -39,6 +39,7 @@ class Obenland_Wp_Last_Login extends Obenland_Wp_Plugins_V4 {
 		load_plugin_textdomain( 'wp-last-login', false, 'wp-last-login/lang' );
 
 		$this->hook( 'wp_login' );
+		$this->hook( 'user_register' );
 
 		/**
 		 * Programmers:
@@ -81,6 +82,19 @@ class Obenland_Wp_Last_Login extends Obenland_Wp_Plugins_V4 {
 	public function wp_login( $user_login ) {
 		$user = get_user_by( 'login', $user_login );
 		update_user_meta( $user->ID, $this->textdomain, time() );
+	}
+
+	/**
+	 * Set default data for new users.
+	 *
+	 * @author Konstantin Obenland
+	 * @since  3 - 12.09.2019
+	 * @access public
+	 *
+	 * @param int $user_id The user ID.
+	 */
+	public function user_register( $user_id ) {
+		update_user_meta( $user_id, $this->textdomain, 0 );
 	}
 
 	/**

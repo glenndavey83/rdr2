@@ -9,7 +9,7 @@
  */
 
 // Steps dialog.
-$wp_customize->add_section(
+$mk_customize->add_section(
 	new MK_Dialog(
 		$wp_customize,
 		'mk_s_cc_s_steps',
@@ -28,7 +28,7 @@ $wp_customize->add_section(
 );
 
 // Step Style.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_stp_style]', array(
 		'type'      => 'option',
 		'default'   => 'number',
@@ -36,7 +36,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Select_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_stp_style]',
@@ -53,13 +53,13 @@ $wp_customize->add_control(
 );
 
 // Active Label.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_stp_active_label]', array(
 		'type' => 'option',
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Label_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_stp_active_label]',
@@ -79,7 +79,7 @@ $wp_customize->add_control(
 );
 
 // Icon size.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_stp_icon_active_icon_size]', array(
 		'type'      => 'option',
 		'default'   => 50,
@@ -87,7 +87,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Input_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_stp_icon_active_icon_size]',
@@ -111,7 +111,7 @@ $wp_customize->add_control(
 );
 
 // Fill Color.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_stp_icon_active_fill_color]', array(
 		'type'      => 'option',
 		'default'   => 'rgba(21, 124, 242, 1)',
@@ -119,7 +119,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_stp_icon_active_fill_color]',
@@ -138,7 +138,7 @@ $wp_customize->add_control(
 );
 
 // Box Model.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_stp_icon_active_box_model]', array(
 		'type'      => 'option',
 		'default'   => array(
@@ -151,7 +151,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Box_Model_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_stp_icon_active_box_model]',
@@ -169,13 +169,13 @@ $wp_customize->add_control(
 );
 
 // Label.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_stp_icon_active_typography_label]', array(
 		'type' => 'option',
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Label_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_stp_icon_active_typography_label]',
@@ -193,7 +193,7 @@ $wp_customize->add_control(
 );
 
 // Typography.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_stp_icon_active_typography]', array(
 		'type'      => 'option',
 		'default'   => array(
@@ -207,7 +207,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Typography_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_stp_icon_active_typography]',
@@ -225,13 +225,13 @@ $wp_customize->add_control(
 );
 
 // Passive Label.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_stp_icon_passive_label]', array(
 		'type' => 'option',
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Label_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_stp_icon_passive_label]',
@@ -251,7 +251,7 @@ $wp_customize->add_control(
 );
 
 // Passive Color Hover.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_stp_icon_passive_text_color]', array(
 		'type'      => 'option',
 		'default'   => '#d8d8d8',
@@ -259,7 +259,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_stp_icon_passive_text_color]',
@@ -278,7 +278,7 @@ $wp_customize->add_control(
 );
 
 // Passive Background Color Hover.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_stp_icon_passive_icon_color]', array(
 		'type'      => 'option',
 		'default'   => '#d8d8d8',
@@ -286,7 +286,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_stp_icon_passive_icon_color]',
@@ -306,13 +306,13 @@ $wp_customize->add_control(
 
 // Number Style --------------------------------------------------------------------
 // Active Label.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_stp_number_active_label]', array(
 		'type' => 'option',
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Label_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_stp_number_active_label]',
@@ -333,13 +333,13 @@ $wp_customize->add_control(
 
 
 // Number Label.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_stp_number_active_number_label]', array(
 		'type' => 'option',
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Label_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_stp_number_active_number_label]',
@@ -357,7 +357,7 @@ $wp_customize->add_control(
 );
 
 // Number Color.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_stp_number_active_number_background_color]', array(
 		'type'      => 'option',
 		'default'   => '#157cf2',
@@ -365,7 +365,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_stp_number_active_number_background_color]',
@@ -384,7 +384,7 @@ $wp_customize->add_control(
 );
 
 // Typography.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_stp_icon_active_number_typography]', array(
 		'type'      => 'option',
 		'default'   => array(
@@ -398,7 +398,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Typography_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_stp_icon_active_number_typography]',
@@ -417,13 +417,13 @@ $wp_customize->add_control(
 
 
 // Title Label.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_stp_number_active_title_label]', array(
 		'type' => 'option',
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Label_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_stp_number_active_title_label]',
@@ -442,7 +442,7 @@ $wp_customize->add_control(
 
 
 // Typography.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_stp_icon_active_title_typography]', array(
 		'type'      => 'option',
 		'default'   => array(
@@ -456,7 +456,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Typography_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_stp_icon_active_title_typography]',
@@ -475,7 +475,7 @@ $wp_customize->add_control(
 
 
 // Box Model.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_stp_number_active_box_model]', array(
 		'type'      => 'option',
 		'default'   => array(
@@ -488,7 +488,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Box_Model_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_stp_number_active_box_model]',
@@ -506,13 +506,13 @@ $wp_customize->add_control(
 );
 
 // Passive Label.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_stp_number_passive_label]', array(
 		'type' => 'option',
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Label_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_stp_number_passive_label]',
@@ -533,13 +533,13 @@ $wp_customize->add_control(
 
 
 // Number Label.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_stp_number_passive_number_label]', array(
 		'type' => 'option',
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Label_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_stp_number_passive_number_label]',
@@ -557,7 +557,7 @@ $wp_customize->add_control(
 );
 
 // Number Background Color.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_stp_number_passive_number_background_color]', array(
 		'type'      => 'option',
 		'default'   => '#d8d8d8',
@@ -565,7 +565,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_stp_number_passive_number_background_color]',
@@ -584,7 +584,7 @@ $wp_customize->add_control(
 );
 
 // Text Color.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_stp_number_passive_number_text_color]', array(
 		'type'      => 'option',
 		'default'   => '#ffffff',
@@ -592,7 +592,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_stp_number_passive_number_text_color]',
@@ -612,13 +612,13 @@ $wp_customize->add_control(
 
 
 // Title Label.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_stp_number_passive_title_label]', array(
 		'type' => 'option',
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Label_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_stp_number_passive_title_label]',
@@ -636,7 +636,7 @@ $wp_customize->add_control(
 );
 
 // Title Color.
-$wp_customize->add_setting(
+$mk_customize->add_setting(
 	'mk_cz[sh_cc_sty_stp_number_passive_title_color]', array(
 		'type'      => 'option',
 		'default'   => '#d8d8d8',
@@ -644,7 +644,7 @@ $wp_customize->add_setting(
 	)
 );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Color_Control(
 		$wp_customize,
 		'mk_cz[sh_cc_sty_stp_number_passive_title_color]',

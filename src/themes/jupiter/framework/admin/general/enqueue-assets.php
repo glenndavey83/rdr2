@@ -56,7 +56,6 @@ class Mk_Theme_Backend_Assets {
 		 add_action( 'admin_enqueue_scripts', array( &$this, 'ui_control_panel' ) );
 
 		if ( NEW_UI_LIBRARY ) {
-			add_action( 'admin_enqueue_scripts', array( &$this, 'tracker' ) );
 			add_action( 'admin_enqueue_scripts', array( &$this, 'ui_page_options' ) );
 		}
 
@@ -300,17 +299,7 @@ class Mk_Theme_Backend_Assets {
 		}
 	}
 
-	/**
-	 * Enqueue assets for Tracker
-	 */
-	function tracker() {
-		// wp_enqueue_script('mk-tracker', $this->controlpanel_assets_js_path .'/mk-tracker.js', array('jquery'), $this->theme_version, true);
-		wp_enqueue_script( 'mk-tracker', THEME_ADMIN_ASSETS_URI . '/js/mk-data-tracker.js', array(), $this->theme_version, true );
-	}
 
-	/**
-	 * Enqueue assets for Tracker
-	 */
 	function alpha_color_picker() {
 		wp_enqueue_style(
 			'mk-alpha-color-picker',

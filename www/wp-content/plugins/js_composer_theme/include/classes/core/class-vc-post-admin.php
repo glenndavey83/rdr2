@@ -24,15 +24,16 @@ class Vc_Post_Admin {
 			$this,
 			'saveAjaxFe',
 		) );
+		add_filter( 'content_save_pre', 'wpb_remove_custom_html' );
 	}
 
 	/**
 	 * @throws \Exception
 	 */
 	public function saveAjaxFe() {
-		vc_user_access()->checkAdminNonce()->validateDie()->wpAny( 'edit_posts', 'edit_pages' )->validateDie();
-
 		$post_id = intval( vc_post_param( 'post_id' ) );
+		vc_user_access()->checkAdminNonce()->validateDie()->wpAny( 'edit_posts', 'edit_pages' )->validateDie()->canEdit( $post_id )->validateDie();
+
 		if ( $post_id > 0 ) {
 			ob_start();
 
@@ -40,7 +41,7 @@ class Vc_Post_Admin {
 			// post_title
 			// content
 			// post_status
-			if ( isset( $_POST['content'] ) ) {
+			if ( vc_post_param( 'content' ) ) {
 				$post = get_post( $post_id );
 				$post->post_content = stripslashes( vc_post_param( 'content' ) );
 				$post_status = vc_post_param( 'post_status' );
@@ -48,7 +49,9 @@ class Vc_Post_Admin {
 				if ( null !== $post_title ) {
 					$post->post_title = $post_title;
 				}
-				kses_remove_filters();
+				if ( vc_user_access()->part( 'unfiltered_html' )->checkStateAny( true, null )->get() ) {
+					kses_remove_filters();
+				}
 				remove_filter( 'content_save_pre', 'balanceTags', 50 );
 				if ( $post_status && 'publish' === $post_status ) {
 					if ( vc_user_access()->wpAll( array(
@@ -75,23 +78,22 @@ class Vc_Post_Admin {
 		}
 
 		wp_send_json_error();
-	}
+	}/** @noinspection PhpDocMissingThrowsInspection */
 
 	/**
 	 * Save generated shortcodes, html and WPBakery Page Builder status in posts meta.
 	 *
 	 * @access public
-	 * @since 4.4
-	 *
 	 * @param $post_id - current post id
 	 *
 	 * @return void
+	 * @since 4.4
+	 *
 	 */
 	public function save( $post_id ) {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE || vc_is_inline() ) {
 			return;
 		}
-
 		$this->setPostMeta( $post_id );
 	}
 
@@ -100,21 +102,18 @@ class Vc_Post_Admin {
 	 *
 	 * If post param 'wpb_vc_js_status' set to true, then methods adds/updated post
 	 * meta option with tag '_wpb_vc_js_status'.
+	 * @param $post_id
 	 * @since 4.4
 	 *
-	 * @param $post_id
 	 */
 	public function setJsStatus( $post_id ) {
 		$value = vc_post_param( 'wpb_vc_js_status' );
 		if ( null !== $value ) {
-			// Add value
 			if ( '' === get_post_meta( $post_id, '_wpb_vc_js_status' ) ) {
 				add_post_meta( $post_id, '_wpb_vc_js_status', $value, true );
-			} // Update value
-			elseif ( get_post_meta( $post_id, '_wpb_vc_js_status', true ) != $value ) {
+			} elseif ( get_post_meta( $post_id, '_wpb_vc_js_status', true ) !== $value ) {
 				update_post_meta( $post_id, '_wpb_vc_js_status', $value );
-			} // Delete value
-			elseif ( '' === $value ) {
+			} elseif ( '' === $value ) {
 				delete_post_meta( $post_id, '_wpb_vc_js_status', get_post_meta( $post_id, '_wpb_vc_js_status', true ) );
 			}
 		}
@@ -122,27 +121,24 @@ class Vc_Post_Admin {
 
 	/**
 	 * Saves VC interface version which is used for building post content.
-	 * @deprecated not needed anywhere
+	 * @param $post_id
 	 * @since 4.4
 	 * @todo check is it used everywhere and is it needed?!
-	 * @param $post_id
+	 * @deprecated not needed anywhere
 	 */
 	public function setInterfaceVersion( $post_id ) {
 		_deprecated_function( '\Vc_Post_Admin::setInterfaceVersion', '4.4', '' );
-		if ( null !== ( $value = vc_post_param( 'wpb_vc_js_interface_version' ) ) ) {
-			update_post_meta( $post_id, '_wpb_vc_js_interface_version', $value );
-		}
 	}
 
 	/**
 	 * Set Post Settings for VC.
 	 *
 	 * It is possible to add any data to post settings by adding filter with tag 'vc_hooks_vc_post_settings'.
+	 * @param $post_id
 	 * @since 4.4
 	 * vc_filter: vc_hooks_vc_post_settings - hook to override post meta settings for WPBakery Page Builder (used in grid for
 	 *     example)
 	 *
-	 * @param $post_id
 	 */
 	public function setSettings( $post_id ) {
 		$settings = array();
@@ -155,31 +151,41 @@ class Vc_Post_Admin {
 	}
 
 	/**
-	 * @param $post_id
+	 * @param $id
+	 * @throws \Exception
 	 */
-	protected function setPostMeta( $post_id ) {
+	protected function setPostMeta( $id ) {
 		if ( ! vc_user_access()->wpAny( array(
 			'edit_post',
-			$post_id,
+			$id,
 		) )->get() ) {
 			return;
 		}
-		$this->setJsStatus( $post_id );
-		if ( ! ( isset( $_POST['wp-preview'] ) && 'dopreview' === $_POST['wp-preview'] ) ) {
 
-			$this->setSettings( $post_id );
+		$this->setJsStatus( $id );
+		if ( 'dopreview' === vc_post_param( 'wp-preview' ) && wp_revisions_enabled( get_post( $id ) ) ) {
+			$latest_revision = wp_get_post_revisions( $id );
+			if ( ! empty( $latest_revision ) ) {
+				$array_values = array_values( $latest_revision );
+				$id = $array_values[0]->ID;
+			}
 		}
+
+		if ( 'dopreview' !== vc_post_param( 'wp-preview' ) ) {
+			$this->setSettings( $id );
+		}
+
 		/**
 		 * vc_filter: vc_base_save_post_custom_css
 		 * @since 4.4
 		 */
-		$post_custom_css = apply_filters( 'vc_base_save_post_custom_css', vc_post_param( 'vc_post_custom_css' ) );
+		$post_custom_css = apply_filters( 'vc_base_save_post_custom_css', vc_post_param( 'vc_post_custom_css' ), $id );
 		if ( null !== $post_custom_css && empty( $post_custom_css ) ) {
-			delete_post_meta( $post_id, '_wpb_post_custom_css' );
+			delete_metadata( 'post', $id, '_wpb_post_custom_css' );
 		} elseif ( null !== $post_custom_css ) {
-			$post_custom_css = strip_tags( $post_custom_css );
-			update_post_meta( $post_id, '_wpb_post_custom_css', $post_custom_css );
+			$post_custom_css = wp_strip_all_tags( $post_custom_css );
+			update_metadata( 'post', $id, '_wpb_post_custom_css', $post_custom_css );
 		}
-		visual_composer()->buildShortcodesCustomCss( $post_id );
+		visual_composer()->buildShortcodesCustomCss( $id );
 	}
 }

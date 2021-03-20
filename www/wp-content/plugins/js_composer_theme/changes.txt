@@ -1,3 +1,137 @@
+16.12.2020 - ver 6.5.0
+  - Update: Compatibility with WordPress 5.6
+  - Update: Compatibility with PHP8
+  - Fix: Template saving works properly
+  - Fix: Super admin editor access in multisite works properly
+  - Fix: setPost() method do_action_ref_array passes arguments correctly
+  - Fix: Modify with selected grid template loads properly
+  - Fix: Edit with WPBakery in Gutenberg control appears correctly
+  - Fix: Edit form loading spinner displayed correctly
+
+17.11.2020 - ver 6.4.2
+  - Fix: WooCommerce 4.7 compatibility issues resolved
+
+24.09.2020 - ver 6.4.1
+  - Fix: Role manager unfiltered html access improved
+  - Fix: Role manager Frontend editor access improved
+  - Update: German translation updated
+
+11.09.2020 - ver 6.4.0
+  - New: Rank Math SEO compatibility introduced
+  - New: Option to exclude categories in the loop parameters
+  - New: Option to ignore sticky posts in the loop parameters
+  - Update: jquery updated to jquery-core
+  - Update: show_in_rest is checked for Gutenberg compatibility
+  - Update: setTitle allows HTML entities
+  - Update: Role manager access improved for WordPress user roles
+  - Fix: Multisite setup works properly for super admin user role
+  - Fix: Yoast SEO latest version is fully compatible with the editor
+  - Fix: Autocomplete works properly
+
+21.08.2020 - ver 6.3.0
+  - Added: Role manager for unfiltered_html available
+  - Update: Filter for screen sizes in the navigation bar
+  - Update: Trigger event to prepare tab content
+  - Update: Description for the limit in WooCommerce shortcodes
+  - Update: LiteSpeed cache compatibility updated
+  - Update: Flickr element render API
+  - Update: HTML for image captions enabled
+  - Fix: Posts grid elements with "load more" option animates properly
+  - Fix: Dependency for not_empty in vc_link attribute type
+  - Fix: Target blank link selector
+  - Fix: Entity characters in french language
+  - Fix: Class vc_tta-o-non-responsive on parent nodes
+  - Fix: Undo/redo content disappearing with edit-only access
+
+20.04.2020 - ver 6.2.0
+  - Update: Performance improvements for the editor
+  - Update: Filter for ajax grid rendering added
+  - Update: Filters for post_custom_css and shortcodes_custom_css added
+  - Update: NL translation added for the plugin
+  - Update: BR translation added for the plugin
+  - Update: Standards and code styles updated
+  - Update: Classic and Gutenberg editor toggle updated
+  - Update: Portrait video support added
+  - Compatibility: Rank Math SEO compatibility improved
+  - Fix: Ajax add to cart works properly
+  - Fix: Plugin update works properly with multi-language version
+  - Fix: Sorted_list attribute works properly
+  - Fix: Shop Manager role works properly with the plugin
+  - Fix: Post id works properly in the preview mode
+  - Fix: Loading configuration works properly
+  - Fix: Order by post works properly
+  - Fix: oEmbed works properly in text blocks
+  - Fix: addShortcodesCustomCss works properly
+
+13.12.2019 - ver 6.1.0
+  - Added: Catalan, Ukrainian, Hungarian translations
+  - Update: WordPress 5.3 Compatibility
+  - Update: FontAwesome update to 5.10.2
+  - Update: loop attribute not found rows and order by relevance
+  - Update: PrettyPhoto https support
+  - Fix: RTL controls on backend
+  - Fix: RTL column reverse
+  - Fix: Disabled post revisions desing options
+  - Fix: Save row/section as template
+  - Fix: HoverBox improvements
+  - Remove: IE9 support
+
+17.07.2019 - ver 6.0.5
+  - Fix: LESS vendor folder available
+  - Fix: All Media in Text Block works properly
+
+15.07.2019 - ver 6.0.4
+  - Fix: Element API works properly for 3rd party elements
+  - Fix: Post grid filter displayed properly
+  - Fix: Custom CSS editor does not remove "\"
+  - Fix: Directory name typo for Instagram filter files corrected
+  - Fix: Templates import API does work correctly
+  - Fix: Row design options settings for elements in templates works properly
+  - Fix: WooCommerce cart element works properly
+  - Fix: Option "Save as a template" for a row is available
+  - Fix: Elements edit form displayed correctly
+  - Fix: Warning message for PHP function `htmlspecialchars`
+  - Fix: Custom post types taxonomies work in Post Grid element
+  - Fix: Revolution Slider output content properly
+
+31.05.2019 - ver 6.0.3
+  - Update: Init action priority is changed from 9 to 11
+  - Update: Allow return in shortcode templates
+  - Update: Coding standards improvements
+  - Fix: Param Group clone
+  - Fix: Checkbox value display in edit form
+  - Fix: Loop attribute tax_query render
+  - Fix: Attach image typo
+  - Fix: Removed notice when shortcode template file missing
+  - Fix: Map meta cap warning on custom post types
+
+17.05.2019 - ver 6.0.2
+  - Fix: Container elements controls in Backend Editor
+
+15.05.2019 - ver 6.0.1
+  - Fix: Tour element class error
+
+15.05.2019 - ver 6.0
+  - Update: Compliance with coding standards
+  - Update: jQuery Waypoints update to the latest version
+  - Update: Fallback for previews added
+  - Fix: Pageable container autoplay
+  - Fix: Hover box does not flip on iOS devices
+  - Fix: Responsive media queries work properly
+  - Fix: WooCommerce products pages in preview mode
+  - Fix: Data source for Post Grid works with correct taxonomies
+  - Fix: Design options for elements work in preview mode
+  - Fix: The Editor got broken after adding many images
+  - Fix: The posts source got broken in Post Grid after importing data
+
+13.02.2019 - ver 5.7
+  - Update: Compatibility with PHP 7.3
+  - Fix: WooCommerce corrected editable role
+  - Fix: Page preview styles independent from view page
+
+27.11.2018 - ver 5.6
+  - Update: Compatibility with Wordpress 5.0
+
 11.10.2018 - ver 5.5.5
   - Fix: SSL issues for fonts
   - Fix: Gutenberg improvements
@@ -250,7 +384,7 @@
    - Fixed: PrettyPhoto navigation in Image Carousel
    - Fixed: Loop builder in grid
    - Fixed: Woo Commerce product settings
-   
+
 15.04.2016 - ver 4.11.2.1
    - # is properly escaped for updated jQuery
 
@@ -479,7 +613,7 @@
 
 16.06.2015 - ver 4.5.3
    - prettyPhoto updated to 3.1.6 - latest stable and secure version
-   
+
 18.05.2015 - ver 4.5.2
    - Performance: Removed call to get taxonomies from vc_map and now it is called via ajax only when it is needed
    - Fixed: slug changing when Yoast SEO plugin activated
@@ -660,7 +794,7 @@
    - Custom CSS in Settings->WPBakery Page Builder->Custom CSS fixed
    - CSS editor accept css3 units
    - Removed "Activation notice" if vc_set_as_theme() called
-   - front_enqueue_css and front_enqueue_js added in vc_map() http://kb.wpbakery.com/index.php?title=Vc_map
+   - front_enqueue_css and front_enqueue_js added in vc_map() https://kb.wpbakery.com/index.php?title=Vc_map
    - edit_post_link() caused problems in some themes - fixed
    - Template has the html tags for rich text formatting double encoded fixed
    - std param in maps improved logic
@@ -800,7 +934,7 @@
    - New: Fine tune margins and paddings within a row
    - New: Single image alignment added
    - New: Custom CSS for singular pages. Add Custom CSS code to particular pages only
-   - New: Now third party developers can easily create nested shortcodes Eg: [items][single_item][single_item][/items] More: http://kb.wpbakery.com/index.php?title=Nested_Shortcodes_%28container%29
+   - New: Now third party developers can easily create nested shortcodes Eg: [items][single_item][single_item][/items] More: https://kb.wpbakery.com/index.php?title=Nested_Shortcodes_%28container%29
    - New: Weight attribute for content elements added
    - Conflict with Gantry framework fixed
    - Conflict with QuForm plugin fixed
@@ -857,7 +991,7 @@
 
 03.07.2013 - ver 3.6.7
    - Navigation for Accordion added, now you can link to specific section directly
-   - Inner API extended. More details http://kb.wpbakery.com/index.php?title=Inner_API
+   - Inner API extended. More details https://kb.wpbakery.com/index.php?title=Inner_API
    - PHP code formatted for PHP Strict standards
    - default.po and .mo files updated
 
@@ -869,7 +1003,7 @@
    - "Show only WPBakery Page Builder" permission fixed
 
 17.06.2013 - ver 3.6.5
-   - New: Shortcode Template logic. More here: http://kb.wpbakery.com/index.php?title=Shortcode_Templates_(markup)
+   - New: Shortcode Template logic. More here: https://kb.wpbakery.com/index.php?title=Shortcode_Templates_(markup)
    - New: Link param type
    - New: Updates notifier now "hooks" into the WP Updates system
    - New helper function added for easier param adding to existing content elements wpb_add_param($shortcode, $param)
@@ -966,7 +1100,7 @@
    - WP 3.5 compatibility fixes added
 
 29.12.2012 - ver 3.4.9
-   - Introduced developers methods more info http://kb.wpbakery.com/index.php?title=Category:Visual_Composer
+   - Introduced developers methods more info https://kb.wpbakery.com/index.php?title=Category:Visual_Composer
    - Exceprts now are working for posts/pages created with WPBakery Page Builder
    - Nivo slider updated (ver. 3.1)
    - Responsive css can be turned off from WPBakery Page Builder settings page
@@ -1052,7 +1186,7 @@
    - Extra class name for containers added
    - .js files outputs in footer
    - If user switch WPBakery Page Builder mode when there's text already, then this text is wrapped in text block.
-   - Administrator now can set user roles related settings in Visual Compsoer->Settings
+   - Administrator now can set user roles related settings in WPBakery Page Builder->Settings
    - Administrator now can set WPBakery Page Builder as default editor (per user role)
    - Image gallery: link target added
    - Single image element: link option added

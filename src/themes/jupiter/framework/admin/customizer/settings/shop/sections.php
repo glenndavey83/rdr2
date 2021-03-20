@@ -9,7 +9,7 @@
 
 // Shop section.
 // @codingStandardsIgnoreStart
-$wp_customize->add_section( 'mk_shop' , array(
+$mk_customize->add_section( 'mk_shop' , array(
 	'title' => __( 'Shop','mk-framework' ),
 	'priority' => 500,
 	'description_hidden' => true,
@@ -20,11 +20,11 @@ $wp_customize->add_section( 'mk_shop' , array(
 ) );
 
 // Shop notice.
-$wp_customize->add_setting( 'mk_shop_notice', array(
+$mk_customize->add_setting( 'mk_shop_notice', array(
 	'type' => 'option',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_Alert_Control(
 		$wp_customize,
 		'mk_shop_notice',
@@ -44,11 +44,11 @@ $wp_customize->add_control(
 // @codingStandardsIgnoreEnd
 
 // Shop pages dialogs.
-$wp_customize->add_setting( 'mk_shop_pages', array(
+$mk_customize->add_setting( 'mk_shop_pages', array(
 	'type' => 'option',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_dialog_Control(
 		$wp_customize,
 		'mk_shop_pages',
@@ -67,11 +67,11 @@ $wp_customize->add_control(
 );
 
 // Widgets Styles dialog shortcut.
-$wp_customize->add_setting( 'mk_shop_widgets_styles', array(
+$mk_customize->add_setting( 'mk_shop_widgets_styles', array(
 	'type' => 'option',
 ) );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_dialog_Control(
 		$wp_customize,
 		'mk_shop_widgets_styles',

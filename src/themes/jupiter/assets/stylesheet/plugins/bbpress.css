@@ -64,6 +64,9 @@
 	margin: 0;
 	padding: 0;
 }
+#bbpress-forums ul.bbp-threaded-replies {
+	margin-left: 50px;
+}
 #bbpress-forums li {
 	margin: 0;
 	list-style: none;
@@ -93,7 +96,7 @@
 	text-align: center;
 }
 #bbpress-forums li.bbp-header {
-	
+
 	margin-bottom: 20px;
 }
 #bbpress-forums li.bbp-footer {
@@ -173,7 +176,7 @@ li.bbp-header div.bbp-topic-content span#subscription-toggle, li.bbp-header div.
 #bbpress-forums div.bbp-topic-author, #bbpress-forums div.bbp-reply-author {
 	float: left;
 	text-align: left;
-	
+
 }
 #bbpress-forums div.bbp-reply-author img{
 	border-radius: 100px;

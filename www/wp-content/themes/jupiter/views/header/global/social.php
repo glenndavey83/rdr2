@@ -84,8 +84,8 @@ if (strlen(implode('', $urls)) != 0) {
         } else { 
             $icon_name = $icon_style . $name; 
         }
-        
-        $output.= '<li><a class="' . esc_attr( $icon_style_css ) . esc_attr( $name ) . '-hover ' . esc_attr( $header_icon_size ) . '" target="_blank" href="' . esc_url( $url ) . '">'.Mk_SVG_Icons::get_svg_icon_by_class_name(false, $icon_name, 16).'</i></a></li>';
+
+        $output.= '<li><a class="' . esc_attr( $icon_style_css ) . esc_attr( $name ) . '-hover ' . esc_attr( $header_icon_size ) . '" target="_blank" rel="noreferrer noopener" href="' . esc_url( $url ) . '">'.Mk_SVG_Icons::get_svg_icon_by_class_name(false, $icon_name, 16).'</i></a></li>';
     }
     $output.= '</ul>';
     

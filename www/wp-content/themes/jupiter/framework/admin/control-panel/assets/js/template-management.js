@@ -587,7 +587,7 @@ function mkTemplateGenerator(data) {
             '<a class="abb_template_install mk-template-item-btn mk-template-item-btn-action" data-name="' + data.name + '" data-slug="' + data.name + '">' +
             mk_cp_textdomain.install +
             '</a>' +
-            '<a class="mk-template-item-btn mk-template-item-btn-preview" href="http://demos.artbees.net/jupiter5/' + sanitized_template_name + '/" target="_blank">' +
+            '<a class="mk-template-item-btn mk-template-item-btn-preview" href="http://demos.artbees.net/jupiter/' + sanitized_template_name + '/" target="_blank">' +
             mk_cp_textdomain.preview +
             '</a>';
     } else {
@@ -595,7 +595,7 @@ function mkTemplateGenerator(data) {
             '<a class="mk-template-item-btn mk-template-item-btn-action abb_template_uninstall" data-name="' + data.name + '" data-slug="' + data.name + '">' +
             mk_cp_textdomain.uninstall +
             '</a>' +
-            '<a class="mk-template-item-btn mk-template-item-btn-preview" href="http://demos.artbees.net/jupiter5/' + sanitized_template_name + '/" target="_blank">' +
+            '<a class="mk-template-item-btn mk-template-item-btn-preview" href="http://demos.artbees.net/jupiter/' + sanitized_template_name + '/" target="_blank">' +
             mk_cp_textdomain.preview +
             '</a>';
     }

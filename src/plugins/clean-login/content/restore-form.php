@@ -1,6 +1,4 @@
-<?php
-	if ( ! defined( 'ABSPATH' ) ) exit; 
-?>
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
 
 <div class="cleanlogin-container">
 	<form class="cleanlogin-form" method="post" action="#">
@@ -8,7 +6,7 @@
 		<fieldset>
 		
 			<div class="cleanlogin-field">
-				<input class="cleanlogin-field-username" type="text" name="username" value="" placeholder="<?php echo __( 'Username (or E-mail)', 'clean-login' ) ; ?>">
+				<input class="cleanlogin-field-username" type="text" name="username" value="" placeholder="<?php echo __( 'Username (or E-mail)', 'clean-login' ) ; ?>" aria-label="<?php echo __( 'Username (or E-mail)', 'clean-login' ) ; ?>">
 			</div>
 
 			<div class="cleanlogin-field-website">

@@ -78,7 +78,9 @@
 			    current.addClass( 'mkhb-sticky--active' );
 			} else {
 				current.css({ 'top': -curHeight });
-			    current.removeClass( 'mkhb-sticky--active' );
+				current.removeClass( 'mkhb-sticky--active' );
+				current.find( '.mkhb-search-el__overlay' )
+					.removeClass( 'mkhb-search-el__overlay--show' );
 			    mkhbHideRespBurger();
 			}
 		};
@@ -98,7 +100,9 @@
 			    current.addClass( 'mkhb-sticky--active' );
 			} else {
 				current.css({ 'top': -curHeight });
-			    current.removeClass( 'mkhb-sticky--active' );
+				current.removeClass( 'mkhb-sticky--active' );
+				current.find( '.mkhb-search-el__overlay' )
+					.removeClass( 'mkhb-search-el__overlay--show' );
 			    mkhbHideRespBurger();
 			}
 			lastScrollPos = scrollPos;

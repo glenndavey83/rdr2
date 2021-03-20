@@ -1,0 +1,753 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Jupiter v4.0.9\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2017-04-04 16:17+0200\n"
+"Last-Translator: \n"
+"Language-Team: Artbees <info@artbees.net>\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.0\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Poedit-Basepath: /Applications/MAMP/htdocs/jupiter/wp-content/themes/"
+"jupiter\n"
+"X-Textdomain-Support: yes\n"
+"X-Poedit-SearchPath-0: /Applications/MAMP/htdocs/jupiter/wp-content/themes/"
+"jupiter\n"
+
+msgid " Remember Me"
+msgstr "Ricordami"
+
+msgid " has been subscribed."
+msgstr " è stato aggiunto alla newsletter. Riceverai un e-mail di conferma."
+
+msgid "$custom_archive_title"
+msgstr "$custom_archive_title"
+
+msgctxt "%1$d = first, %2$d = last, %3$d = total"
+msgid "Showing %1$d–%2$d of %3$d results"
+msgstr "Visualizzati %1$d–%2$d di %3$d risultati"
+
+msgid "%s customer review"
+msgid_plural "%s customer reviews"
+msgstr[0] "%s recensione dai clienti"
+msgstr[1] ""
+
+msgid "404"
+msgstr "404"
+
+msgid "ALL PRODUCTS"
+msgstr "TUTTI I PRODOTTI"
+
+msgid "About"
+msgstr "Su di noi"
+
+msgid "Additional Information"
+msgstr "Altre informazioni"
+
+msgid "Address"
+msgstr "Indirizzo"
+
+msgid "Address:"
+msgstr "Indirizzo:"
+
+msgid "Align:"
+msgstr "Allineamento:"
+
+msgid "All"
+msgstr "Tutti"
+
+msgid "Already have an account?"
+msgstr "Ha già un Account?"
+
+msgid "Anti-spam"
+msgstr "Anti-spam"
+
+msgid "Apply Coupon"
+msgstr "Applica Coupon"
+
+msgid "Archives"
+msgstr "Archivi"
+
+msgid "Author:"
+msgstr "Autore:"
+
+msgid "Authors"
+msgstr "Autori"
+
+msgid "Available on backorder"
+msgstr "Disponibile su prenotazione"
+
+msgid "Back to News"
+msgstr "Ritorna alle news"
+
+msgid "Billing Address"
+msgstr "Indirizzo di fatturazione"
+
+msgid "Billing Email"
+msgstr "Email di Fatturazione"
+
+msgid "By"
+msgstr "Di"
+
+msgid "Calculate Shipping"
+msgstr "Calcola la Spedizione"
+
+msgid "Cart Subtotal"
+msgstr "Subtotale Carrello"
+
+msgid "Category:"
+msgid_plural "Categories:"
+msgstr[0] "Categoria:"
+msgstr[1] ""
+
+msgid "Checkout"
+msgstr "Vai alla Cassa"
+
+msgid "Choose Sites:"
+msgstr "Scegliere sito:"
+
+msgid "Circle"
+msgstr "Cerchio"
+
+msgid "City"
+msgstr "Città"
+
+msgid "Click here to enter your code"
+msgstr "Clicca qui per inserire il tuo codice"
+
+msgid "Clip Id:"
+msgstr "Clip Id:"
+
+msgid "Color:"
+msgstr "Colore:"
+
+msgid "Company"
+msgstr "Azienda"
+
+msgid "Company:"
+msgstr "Azienda:"
+
+msgid "Confirm New Password"
+msgstr "Conferma la Nuova Password"
+
+msgid "Coupon"
+msgstr "Coupon"
+
+msgid "Coupon code"
+msgstr "Codice Promozionale"
+
+msgid "Create Account"
+msgstr "Creare un Account"
+
+msgid "Current Password (leave blank to leave unchanged)"
+msgstr "Password attuale (lascia in bianco per non cambiarla)"
+
+msgid "Daily Archive for: \"%s\""
+msgstr "Archivio Giornaliero per: \"%s\""
+
+msgid "Dailymotion"
+msgstr "Dailymotion"
+
+msgid "Displays google map."
+msgstr "Vedere in Google Maps"
+
+msgid "Edit Profile"
+msgstr "Editare profilo"
+
+msgid "Email address"
+msgstr "Indirizzo email"
+
+msgid "Email you used during checkout."
+msgstr "Email usata durante il pagamento."
+
+msgid "Email*"
+msgstr "Email*"
+
+msgid "Email:"
+msgstr "E-mail:"
+
+msgid "Email: "
+msgstr "Email: "
+
+msgid "Enable Draggable"
+msgstr "Enable trascinabili"
+
+msgid "Enable Map Type Control"
+msgstr "Attivare il controllo di Pan"
+
+msgid "Enable Pan Control"
+msgstr "Attivare il controllo di Pan"
+
+msgid "Enable Scale Control"
+msgstr "Attivare il controllo di scala"
+
+msgid "Enable Scroll Wheel"
+msgstr "Attivare la rotellina di scorrimento"
+
+msgid "Enable Zoom Control"
+msgstr "Attivare il controllo dello Zoom"
+
+msgid "Enter Captcha"
+msgstr "Inserisci il Captcha"
+
+msgid "Enter a new password below."
+msgstr "Inserisci la nuova password."
+
+msgid "Exclude:"
+msgstr "Escludi:"
+
+msgid "Favorites are no longer active."
+msgstr "I preferiti non sono più attivi."
+
+msgid "Fax:"
+msgstr "Fax:"
+
+msgid "First Name*"
+msgstr "Nome*"
+
+msgid ""
+"First Please refer to Theme Options > Advanced > Twitter API and complete "
+"the process in order to authenticate."
+msgstr ""
+"In primo luogo, fare riferimento a Masterkey Impostazioni> Avanzate> Twitter "
+"API e completare il processo per autenticare."
+
+msgid "First name"
+msgstr "Nome"
+
+msgid "Follow me on Facebook"
+msgstr "Seguici su Facebook"
+
+msgid "Follow me on Google+"
+msgstr "Seguici su Google+"
+
+msgid "Follow me on Twitter"
+msgstr "Seguici su Twitter"
+
+msgid "For Dark Backgrounds"
+msgstr "Per sfondo scuro"
+
+msgid "For Light Backgrounds"
+msgstr "Per Sfondo chiaro"
+
+msgid "Forget your password?"
+msgstr "Password dimenticata?"
+
+msgid "Forget?"
+msgstr "Password dimenticata?"
+
+msgid "Found in your order confirmation email."
+msgstr "Trovato nella mail di conferma dell’ordine."
+
+msgid "Get New Password"
+msgstr "Imposta una nuova Password"
+
+msgid "Get in touch with me via email"
+msgstr "Entra in contatto com noi via em-mail"
+
+msgid "Have a coupon?"
+msgstr "Hai un coupon?"
+
+msgid "Height:"
+msgstr "Altezza:"
+
+msgid "Home"
+msgstr "Inizio"
+
+msgid "How many custom icons to add?"
+msgstr "Quante icone personalizzate aggiungere?"
+
+msgid "Icon Alt Title:"
+msgstr "Titolo:"
+
+msgid "Icon Background Color:"
+msgstr "Colore Sfondo Icona:"
+
+msgid "Icon Border Color:"
+msgstr "Colore Bordo Icona:"
+
+msgid "Icon Color:"
+msgstr "Colore icona:"
+
+msgid "Icon Hover Background Color:"
+msgstr "Colore sfondo al passaggio del mouse:"
+
+msgid "Icon Hover Color:"
+msgstr "Colore sfondo al passaggio del mouse:"
+
+msgid "Icons Margin (px):"
+msgstr "Margine icona (px):"
+
+msgid "Image height"
+msgstr "Altezza immagine"
+
+msgid "Image width"
+msgstr "Larghezza immagine"
+
+msgid "In"
+msgstr "In"
+
+msgid "It looks like you are lost! Try searching here"
+msgstr "A quanto pare ti sei perso! Prova ad effettuare una ricerca qui."
+
+msgid "Items"
+msgstr "Articoli"
+
+msgid "LOG IN"
+msgstr "LOG IN"
+
+msgid "Language"
+msgstr "Lingua"
+
+msgid "Languages"
+msgstr "Lingue"
+
+msgid "Last Name*"
+msgstr "Cognome*"
+
+msgid "Last name"
+msgstr "Cognome"
+
+msgid "Latitude:"
+msgstr "Latitudine:"
+
+msgid "Load More"
+msgstr "Carica altro contenuto"
+
+msgid "Login"
+msgstr "Accedere"
+
+msgid "Logout"
+msgstr "Uscire"
+
+msgid "Longitude:"
+msgstr "Longitudine:"
+
+msgid "Lost your password?"
+msgstr "Hai dimenticato la password?"
+
+msgid ""
+"Lost your password? Please enter your username or email address. You will "
+"receive a link to create a new password via email."
+msgstr ""
+"Hai dimenticato la password? Inserisci il tuo username o il tuo indirizzo e-"
+"mail. Riceverai via e-mail un link per creare una nuova password."
+
+msgid "Mail (will not be published) (required):"
+msgstr "Mail (non verrà pubblicato) (richiesto):"
+
+msgid "Mailchimp Subscribe Form"
+msgstr "Form Iscrizione Mailchimp"
+
+msgid "Message"
+msgstr "Messaggio"
+
+msgid "Message*"
+msgstr "Messaggio*"
+
+msgid "Messages: "
+msgstr "Messaggi: "
+
+msgid "Monthly Archive for: \"%s\""
+msgstr "Archivio Mensile per: \"%s\""
+
+msgid "Most Recent Projects"
+msgstr "Progetti più recenti"
+
+msgid "N/A"
+msgstr "NA"
+
+msgid "Name"
+msgstr "Nome"
+
+msgid "Name (Required)"
+msgstr "Nome (richiesto)"
+
+msgid "Name (required):"
+msgstr "Nome (richiesto):"
+
+msgid "Name*"
+msgstr "Nome*"
+
+msgid "Name:"
+msgstr "Nome: "
+
+msgid "Name: "
+msgstr "Nome: "
+
+msgid "New Password (leave blank to leave unchanged)"
+msgstr "Nuova Password (lascia in bianco per non cambiarla)"
+
+msgid "New password"
+msgstr "Nuova password"
+
+msgid "No products found which match your selection."
+msgstr "Nessun prodotto trovato corrispondente alla tua selezione."
+
+msgid "No products in the cart."
+msgstr "Nessun prodotto nel carrello"
+
+msgid "Not readable? Change text."
+msgstr "Illeggibile? Cambia il testo."
+
+msgid "Not so happy with results? Search for a new keyword "
+msgstr "Non sei contento dei risultati? Cerca di nuovo con altre parole chiave"
+
+msgid "Number of News"
+msgstr "Numero di News"
+
+msgid "Number of Testimonials:"
+msgstr "Numero di Testimonials:"
+
+msgid "Number of photo to show:"
+msgstr "Numero di foto da mostrare:"
+
+msgid "Number of posts:"
+msgstr "Numero di Post:"
+
+msgid "OUT OF STOCK"
+msgstr "ESAURITO"
+
+msgid "Open links in new tab?"
+msgstr "Apre in una nuova scheda"
+
+msgid "Order ID"
+msgstr "ID ordine"
+
+msgid "Order Total"
+msgstr "Totale Ordine"
+
+msgid "Page"
+msgstr "Pagina"
+
+msgid "Page ID"
+msgstr "ID pagina"
+
+msgid "Page IDs, Separate with a comma (eg: 12,34,543,98)"
+msgstr "ID della pagina, separata con una virgola (es: 12,34,543,98)"
+
+msgid "Page order"
+msgstr "Ordine pagine:"
+
+msgid "Page title"
+msgstr "Titolo di pagina:"
+
+msgid "Pages"
+msgstr "Pagine"
+
+msgid "Pages:"
+msgstr "Pagine"
+
+msgid "Password Change"
+msgstr "Cambio Password"
+
+msgid "Person"
+msgstr "Persona"
+
+msgid "Person:"
+msgstr "Persona:"
+
+msgid "Phone"
+msgstr "Telefono"
+
+msgid "Phone Number"
+msgstr "Numero di telefono"
+
+msgid "Phone Number: "
+msgstr "Numero di telefono: "
+
+msgid "Phone:"
+msgstr "Telefono:"
+
+msgid "Photos per each row:"
+msgstr "Foto per ogni riga:"
+
+msgid "Postcode / Zip"
+msgstr "CAP / ZIP"
+
+msgid "Posted"
+msgstr "Inserito il"
+
+msgid "Posted in:"
+msgstr "Inserito in:"
+
+msgid "Price"
+msgstr "Prezzo"
+
+msgid "Print"
+msgstr "Stampa"
+
+msgid "Product"
+msgstr "Prodotto"
+
+msgid "Product Description"
+msgstr "Descrizione del prodotto"
+
+msgctxt "Product quantity input tooltip"
+msgid "Qty"
+msgstr "Quantità"
+
+msgid "Quantity"
+msgstr "Quantità"
+
+msgid "READ MORE"
+msgstr "LEGGI IL RESTO"
+
+msgid "Re-enter new password"
+msgstr "Inserisci nuovamente la password"
+
+msgid "Read More"
+msgstr "Leggi il resto"
+
+msgid "Read more"
+msgstr "Leggi il resto"
+
+msgid "Recent Posts"
+msgstr "Post recenti"
+
+msgid "Recommended Posts"
+msgstr "Post suggeriti"
+
+msgid "Related Products"
+msgstr "Prodotti correlati"
+
+msgid "Related Projects"
+msgstr "Prodotti correlati"
+
+msgid "Remember Password?"
+msgstr "Ricordare la password?"
+
+msgid "Remember me"
+msgstr "Ricordami"
+
+msgid "Remove this item"
+msgstr "Rimuovi questo prodotto"
+
+msgid "Reset Password"
+msgstr "Imposta una nuova Password"
+
+msgid "Return To Shop"
+msgstr "Torna al Negozio"
+
+msgid "SKU:"
+msgstr "SKU:"
+
+msgid "Save"
+msgstr "Salva"
+
+msgid "Save Address"
+msgstr "Salva Indirizzo"
+
+msgid "Save changes"
+msgstr "Salva le modifiche"
+
+msgid "Search Results for: \"%s\""
+msgstr "Ricerca risultati per: \"%s\""
+
+msgid "Search results for &ldquo;"
+msgstr "Risultati di ricerca per &ldquo;"
+
+msgid "Search site"
+msgstr "Cerca nel sito"
+
+msgid "Search.."
+msgstr "Cerca..."
+
+msgid "Select a country&hellip;"
+msgstr "Selezionare un Paese&hellip;"
+
+msgid "Select a state&hellip;"
+msgstr "Selleziona il Cantone&hellip;"
+
+msgid "Send"
+msgstr "Invia"
+
+msgid "Send message"
+msgstr "Invia messaggio"
+
+msgid "Sends a 'click to subscribe' mail"
+msgstr "Invia una mail del tipo “clicca per iscriverti”"
+
+msgid "Shipping Address"
+msgstr "Indirizzo di spedizione"
+
+msgid "Shop"
+msgstr "Shop"
+
+msgid "Show Captcha?"
+msgstr "Mostra Captcha?"
+
+msgid "Show Date"
+msgstr "Mostra Data"
+
+msgid "Showing all %d results"
+msgstr "Mostra tutti i risultati %d"
+
+msgid "Showing the single result"
+msgstr "Mostra il risultato singolo"
+
+msgid "Simple Outline"
+msgstr "Contorno semplice"
+
+msgid "Site: "
+msgstr "Sito: "
+
+msgid "Size:"
+msgstr "Dimensione:"
+
+msgid "Skin:"
+msgstr "Pelle:"
+
+msgid "Skype Username:"
+msgstr "Skype:"
+
+msgid "Something went wrong. Refresh your browser and try again."
+msgstr ""
+"Qualcosa è andato storto. Effettua un refresh del browser e riprova di nuovo."
+
+msgid "Sort by:"
+msgstr "Ordina per:"
+
+msgid "Start typing and press Enter to search"
+msgstr "Inizia a digitare e premi Enter per effettuare una ricerca"
+
+msgid "State / county"
+msgstr "Cantone"
+
+msgid "Style:"
+msgstr "Stilo:"
+
+msgid "Subscribe"
+msgstr "Iscriviti"
+
+msgid "Subscribe to newsletter"
+msgstr "Iscriviti alla newsletter"
+
+msgid "Subtotal"
+msgstr "Sottotale"
+
+msgid "Tag &ldquo;"
+msgstr "Tag &ldquo;"
+
+msgid "Tag Archives for: \"%s\""
+msgstr "Archivi Tag per: \"%s\""
+
+msgid "Tag:"
+msgid_plural "Tags:"
+msgstr[0] "Tag:"
+msgstr[1] ""
+
+msgid ""
+"This post is password protected. Enter the password to view any comments."
+msgstr ""
+"IL post è protetto da password. Inserisci la password per vedere i commenti."
+
+msgid "Title:"
+msgstr "Titolo:"
+
+msgid ""
+"To track your order please enter your Order ID in the box below and press "
+"return. This was given to you on your receipt and in the confirmation email "
+"you should have received."
+msgstr ""
+"Per rintracciare il tuo ordine, inserisci il tuo numero d’ordine (ID) nella "
+"casella qui sotto e premere invio. Tale numero è stato inviato nella e-mail "
+"di conferma che avresti dovuto ricevere al momento dell’ordine."
+
+msgid "Total"
+msgstr "Totale"
+
+msgid "Track"
+msgstr "Traccia"
+
+msgid "Type your message..."
+msgstr "Scrivi il tuo messaggio..."
+
+msgid "Type:"
+msgstr "Tipo:"
+
+msgid "Update Cart"
+msgstr "Aggiorna carrello"
+
+msgid "Update Totals"
+msgstr "Aggiorna Totale"
+
+msgid "Username or E-mail"
+msgstr "Utente o Email"
+
+msgid "Username or email"
+msgstr "Username o e-mail"
+
+msgid "Username or email address"
+msgstr "Nome utente o indirizzo email"
+
+msgid "Username:"
+msgstr "Username:"
+
+msgid "View Cart"
+msgstr "Vedi carrello"
+
+msgid "WHOOPS!"
+msgstr "WHOOPS!"
+
+msgid "Website:"
+msgstr "Sito web:"
+
+msgid "Which Categories to show?"
+msgstr "Quali categorie mostrare?"
+
+msgid "Yearly Archive for: \"%s\""
+msgstr "Archivio Annuale per: \"%s\""
+
+msgid "You may also like&hellip;"
+msgstr "Ti potrebbe interessare anche &hellip;"
+
+msgid "Your Email"
+msgstr "Email"
+
+msgid "Your Message"
+msgstr "Scrivi il Messaggio"
+
+msgid "Your Name"
+msgstr "Nome e cognome"
+
+msgid "Your Phone Number"
+msgstr "Numero di telefono"
+
+msgid ""
+"Your UserId must be digits, review your widget options and resolve the "
+"issues!"
+msgstr ""
+"L'ID utente deve essere cifre, rivedere le opzioni del widget e risolvere i "
+"problemi!"
+
+msgid "Your cart is currently empty."
+msgstr "Il carrello è vuoto."
+
+msgid "Your comment is awaiting moderation."
+msgstr "IL tuo commento è in coda di moderazione."
+
+msgid "Your email"
+msgstr "Email"
+
+msgid "Your information:"
+msgstr "Dati personali:"
+
+msgid "bbPress Default"
+msgstr "bbPress Default"
+
+msgid "bliptv"
+msgstr "BlipTV"
+
+msgid "pingbacks / trackbacks"
+msgstr "pingbacks / trackbacks"
+
+msgid "viddler"
+msgstr "viddler"

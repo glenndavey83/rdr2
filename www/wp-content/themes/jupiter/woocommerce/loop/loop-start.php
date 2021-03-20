@@ -4,7 +4,11 @@
  *
  * @author      WooThemes
  * @package     WooCommerce/Templates
- * @version     2.0.0
+ * @version     3.3.0
+ *
+ * NOTES:
+ * - 3.3.0 Introduce new class columns-{wc_get_loop_prop()} to set the number of
+ *         columns. We ignore it because the class has its own style.
  */
 ?>
 <div class="mk-product-loop compact-layout grid--float">

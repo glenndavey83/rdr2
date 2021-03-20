@@ -1,9 +1,15 @@
 # Custom Login #
-**Contributors:** austyfrosty, frostymedia  
-**Donate link:** https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7431290  
+
+[![WordPress plugin](https://img.shields.io/wordpress/plugin/dt/custom-login.svg?style=flat)](https://wordpress.org/plugins/custom-login/) 
+[![WordPress plugin](https://img.shields.io/wordpress/plugin/v/custom-login.svg?style=flat)](https://wordpress.org/plugins/custom-login/) 
+[![WordPress](https://img.shields.io/wordpress/v/custom-login.svg?style=flat)]() 
+[![License](https://img.shields.io/badge/license-GPL--2.0%2B-red.svg)](https://github.com/thefrosty/custom-login/blob/master/license.txt)
+
+**Contributors:** [austyfrosty](https://profiles.wordpress.org/austyfrosty), [frostymedia](https://profiles.wordpress.org/frostymedia)  
+**Donate link:** [PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7431290)  
 **Tags:** admin, branding, customization, custom login, login, logo, error, login error, custom login pro  
-**Requires at least:** 4.0  
-**Tested up to:** 4.9
+**Requires at least:** 4.9  
+**Tested up to:** 5.6  
 **Stable tag:** trunk  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
@@ -12,7 +18,7 @@ Custom Login allows you to easily customize your admin login page, works great f
 
 ## Description ##
 
-Custom Login 2.0 was 140% faster than version 1.0, and version 3.0 is now even better! *Minimum WordPress version is 4.0*
+Custom Login 2.0 was 140% faster than version 1.0, and version 3.0 is now even better! *Minimum WordPress version is 4.9*
 
 For more information visit the official [Custom Login](https://frosty.media/plugins/custom-login/) page.
 
@@ -26,7 +32,7 @@ For more information visit the official [Custom Login](https://frosty.media/plug
 
 ### Video ###
 
-http://www.youtube.com/watch?v=hZkc-t36xYQ
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/hZkc-t36xYQ/0.jpg)](https://www.youtube.com/watch?v=hZkc-t36xYQ)
 
 ### Extensions ###
 
@@ -89,7 +95,7 @@ Follow the steps below to install the plugin.
 They are additional plugins that add/extend functionality to the Custom Login plugin. You can find all Custom Login extensions on [Frosty.Media](http://frosty.media).
 
 ### My new settings aren't showing up ###
-This plugin caches all settings in a transient, try clicking the new 'Update stylesheet' button to delete and refresh the cache. *This applys to versions < 3.0*.
+This plugin caches all settings in a transient, try clicking the new 'Update stylesheet' button to delete and refresh the cache. *This will apply to versions < 3.0*.
 
 ### Is there a PRO version? ###
 Well, yes and no. Since version 3.0 of Custom Login the [PRO](http://frosty.media/plugins/custom-login-pro/) version is a completely different plugin. Instead of settings to manage your login design there is a new post type where you can create unlimited "designs" and activate each one as needed. Since version 3.0 all Custom Login extensions no longer work with Custom Login Pro, but will be merged into it in the future.
@@ -100,8 +106,8 @@ I created this plugin to allow for custom login of any WordPress login screen. S
 ### Where can I upload and share my cool login screen? ###
 Check out the [Flickr group](http://flickr.com/groups/custom-login/)! Upload and add it to our pool!
 
-### I think i want to uninstall ###
-Just deactive it. Sad panda is sad.
+### I think I want to uninstall ###
+Just deactivate it. Sad panda is sad.
 
 ## Screenshots ##
 
@@ -132,6 +138,24 @@ Custom Login showcase on the [Flickr group](http://flickr.com/groups/custom-logi
 
 
 ## Changelog ##
+
+### Version 3.2.11 (2020/12/07) ###
+* PHP 8 compatibility fixes.
+* Tested on WordPress 5.6
+
+### Version 3.2.10 (2020/08/14) ###
+* Tested up to WordPress 5.5
+* Fix toggle on/off on settings page, incorrect check in AJAX for new installs.
+* Enable on activation hook fixed.
+* Remove ace.js theme call to non existing theme.
+
+### Version 3.2.9 (2019/05/07) ###
+* Tested up to WordPress 5.2.
+* Update deprecated login text filter in WordPress 5.2.
+* Update animate.css to version 3.7.0.
+* Update chosen.js to 1.8.7.
+* Update jQuery Sticky to 1.0.4.
+* Fix spelling error in admin JS on typeof check for ACE JS.
 
 ### Version 3.2.8 (12/11/17) ### 
 

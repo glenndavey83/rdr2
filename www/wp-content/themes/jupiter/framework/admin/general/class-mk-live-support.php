@@ -46,7 +46,10 @@ class Mk_Live_Support {
 	 */
 	public function __construct() {
 		add_action( 'admin_footer', array( &$this, 'enqueue_live_support_script' ), 100 );
-		$this->logger = new Devbees\BeesLog\logger();
+
+		if ( class_exists( 'Devbees\BeesLog\logger' ) ) {
+			$this->logger = new Devbees\BeesLog\logger();
+		}
 	}
 
 	/**
@@ -107,6 +110,7 @@ class Mk_Live_Support {
 	 * @link        http://artbees.net
 	 * @since       Version 5.9.5
 	 * @since       6.1.0 Rename function and transient name.
+	 * @since       6.1.2 Replace how to set theme version.
 	 */
 	private function request_user_info() {
 		$transient_name = 'mk_request_user_info_' . $this->get_api_key();
@@ -115,10 +119,6 @@ class Mk_Live_Support {
 			return $return_result;
 		}
 		$url  = 'https://themes.artbees.net/wp-admin/admin-ajax.php';
-
-		// Get Jupiter version.
-		$theme_data = wp_get_theme( get_option( 'template' ) );
-		$theme_version = $theme_data->Version;
 
 		$args = array(
 			'method'     => 'POST',
@@ -130,7 +130,7 @@ class Mk_Live_Support {
 			'body'       => array(
 				'action'          => 'abb_get_vip_user_by_api_key',
 				'api_key'         => $this->get_api_key(),
-				'jupiter_version' => $theme_version,
+				'jupiter_version' => THEME_VERSION,
 			),
 		);
 
@@ -212,12 +212,15 @@ class Mk_Live_Support {
 	 * @link        http://artbees.net
 	 * @since       Version 5.9.5
 	 * @since       6.1.0 Remove all name and condtions related to vip_user.
+	 * @since       6.1.2 Add Jupiter version on Intercom script.
 	 * @last_update Version 5.9.5
 	 */
 	public function enqueue_live_support_script() {
 		if ( $this->eligible_for_live_support_check() ) {
 			$user_info = $this->user_info();
-			wp_enqueue_script( 'live-support', THEME_ADMIN_ASSETS_URI . '/js/intercom.js', array( 'jquery' ) );
+
+			// Avoid cache isse with updated Jupiter version.
+			wp_enqueue_script( 'live-support', THEME_ADMIN_ASSETS_URI . '/js/intercom.js', array( 'jquery' ), THEME_VERSION );
 
 			$support_active = isset( $user_info['support_active'] ) ? $user_info['support_active'] : false;
 			$user_status    = isset( $user_info['status'] ) ? $user_info['status'] : false;

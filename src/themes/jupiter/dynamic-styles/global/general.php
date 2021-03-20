@@ -2,11 +2,12 @@
 
 global $mk_options;
 
-$body_line_height = isset($mk_options['body_line_height']) ? $mk_options['body_line_height'] : 1.66;
-$p_line_height = isset($mk_options['p_line_height']) ? $mk_options['p_line_height'] : 1.66;
+$body_line_height = isset( $mk_options['body_line_height'] ) ? $mk_options['body_line_height'] : 1.66;
+$p_line_height = isset( $mk_options['p_line_height'] ) ? $mk_options['p_line_height'] : 1.66;
 $headings_line_height = ! empty( $mk_options['headings_line_height'] ) ? $mk_options['headings_line_height'] : 1.3;
 
-Mk_Static_Files::addGlobalStyle("
+Mk_Static_Files::addGlobalStyle(
+	"
 
 body
 {
@@ -94,4 +95,5 @@ a:hover {
 	background-color:{$mk_options['section_preloader_color']} !important;
 }
 
-");
+"
+);

@@ -46,7 +46,6 @@ class MKHB_Main {
 		require_once HB_INCLUDES_DIR . '/helpers/walkers/class-mkhb-walker-nav-burger.php';
 
 		// Load main HB files.
-		require_once HB_INCLUDES_DIR . '/class-mkhb-post-type.php';
 		require_once HB_INCLUDES_DIR . '/class-mkhb-hooks.php';
 		require_once HB_INCLUDES_DIR . '/revision.php';
 
@@ -76,7 +75,6 @@ class MKHB_Main {
 		// Load shortcode files on the frontend only.
 		if ( ! is_admin() ) {
 			// CSS Minifier lib, used by Jupiter.
-			require_once THEME_INCLUDES . '/minify/src/SimpleCssMinifier.php';
 			require_once HB_INCLUDES_DIR . '/shortcodes/mkhb-row.php';
 			require_once HB_INCLUDES_DIR . '/shortcodes/mkhb-column.php';
 			require_once HB_INCLUDES_DIR . '/shortcodes/mkhb-logo.php';
@@ -243,9 +241,11 @@ class MKHB_Main {
 	 *              frontend page or user open Preview page.
 	 * @since 6.0.0 Run additonal hooks for HB Shopping Icon. Add HB_Render initialize to render all
 	 *              shortcodes based on the devices and workspaces.
+	 * @since 6.1.2 Add mkhb_is_po_active in conditional statement based on template
+	 *              setting of Page Options.
 	 */
 	public function hb_grid() {
-		if ( ! is_admin() && ( mkhb_is_to_active() || (bool) get_query_var( 'header-builder-preview' ) ) ) {
+		if ( ! is_admin() && ( mkhb_is_to_active() || (bool) get_query_var( 'header-builder-preview' ) ) && mkhb_is_po_active() ) {
 			new MKHB_Render();
 		}
 

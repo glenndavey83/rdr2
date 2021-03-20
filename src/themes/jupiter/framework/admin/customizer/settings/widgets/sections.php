@@ -8,16 +8,16 @@
  */
 
 // Widgets Styles section (it's hidden by default).
-$wp_customize->add_section( 'mk_widgets_styles' , array(
+$mk_customize->add_section( 'mk_widgets_styles' , array(
 	'title'  => __( 'Styles','mk-framework' ),
 	'panel' => 'widgets',
 	'priority' => 500,
 ) );
 
 // Widgets Styles dialogs.
-$wp_customize->add_setting( 'mk_widgets_styles' );
+$mk_customize->add_setting( 'mk_widgets_styles' );
 
-$wp_customize->add_control(
+$mk_customize->add_control(
 	new MK_dialog_Control(
 		$wp_customize,
 		'mk_widgets_styles',

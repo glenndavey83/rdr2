@@ -3,16 +3,16 @@
  * Plugin Name: Custom Login
  * Plugin URI: https://frosty.media/plugins/custom-login
  * Description: A simple way to customize your WordPress <code>wp-login.php</code> screen! A <a href="https://frosty.media/">Frosty Media</a> plugin.
- * Version: 3.2.8
+ * Version: 3.2.11
  * Author: Austin Passy
- * Author URI: http://austin.passy.co
+ * Author URI: https://austin.passy.co
  * Text Domain: custom-login
  * GitHub Plugin URI: https://github.com/thefrosty/custom-login
  * GitHub Branch: master
  *
- * @copyright 2012 - 2017
+ * @copyright 2012 - 2020
  * @author Austin Passy
- * @link http://austin.passy.co/
+ * @link https://austin.passy.co/
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
  * This program is distributed in the hope that it will be useful,
@@ -39,7 +39,7 @@ if ( ! class_exists( 'Custom_Login' ) ) :
          *
          * @return string
          */
-        var $version = '3.2.8',
+        public $version = '3.2.11',
             $menu_page,
             $prefix;
 
@@ -175,6 +175,10 @@ if ( ! class_exists( 'Custom_Login' ) ) :
          * @since 3.1
          */
         function activate() {
+            $settings = CL_Common::get_options('general');
+            $settings['active'] = 'on';
+
+            update_option(CUSTOM_LOGIN_OPTION . '_general', $settings);
         }
 
         /**
@@ -216,6 +220,7 @@ if ( ! class_exists( 'Custom_Login' ) ) :
          */
         public function load_settings() {
 
+            $fields = $sections = array();
             include trailingslashit( CUSTOM_LOGIN_DIR ) . 'includes/default-settings.php';
             $this->settings_api = new CL_Settings_API(
                 $sections,
@@ -287,8 +292,8 @@ if ( ! class_exists( 'Custom_Login' ) ) :
             $message_url = esc_url( add_query_arg( array( 'get_notifications' => 'true' ), CUSTOM_LOGIN_API_URL) );
 
             $announcement = CL_Common::wp_remote_get(
-                $message_url,
                 $transient_key,
+                $message_url,
                 DAY_IN_SECONDS,
                 'WordPress' // We need our custom $user_agent
             );
@@ -314,8 +319,8 @@ if ( ! class_exists( 'Custom_Login' ) ) :
                 sprintf( '%2$s <span class="alignright">| <a href="%3$s">%1$s</a></span>',
                     __( 'Dismiss', CUSTOM_LOGIN_DIRNAME ),
                     $announcement[0]->message,
-                    esc_url( add_query_arg( $ignore_key, wp_create_nonce( $ignore_key ), admin_url( 'options-general.php?page=custom-login' ) ) ),
-                    esc_url( admin_url( 'options-general.php?page=custom-login#custom_login_general' ) )
+                    esc_url( add_query_arg( $ignore_key, wp_create_nonce( $ignore_key ), admin_url( 'options-general.php?page=custom-login' ) ) )
+//                    esc_url( admin_url( 'options-general.php?page=custom-login#custom_login_general' ) )
                 ) :
                 sprintf( '%s', $announcement[0]->message );
             $html .= '</p></div>';

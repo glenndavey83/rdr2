@@ -1,10 +1,10 @@
 <?php
 	if ( ! defined( 'ABSPATH' ) ) exit; 
-	$login_url = clean_login_get_translated_option_page( 'cl_login_url','');
+	$login_url = CleanLogin_Controller::get_login_url();
 	$current_user = wp_get_current_user();
-	$edit_url = clean_login_get_translated_option_page( 'cl_edit_url', '');
+	$edit_url = CleanLogin_Controller::get_edit_url();
 	
-	$show_user_information = get_option( 'cl_hideuser' ) == 'on' ? false : true;
+	$show_user_information = get_option( 'cl_hideuser' );
 ?>
 
 <div class="cleanlogin-container" >
