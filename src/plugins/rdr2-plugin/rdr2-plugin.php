@@ -1486,7 +1486,7 @@ final class RDR2_ProgressTracker {
 	?>
 	<input type="hidden" name="game_id" id="game_id" value="<?php echo $game_id; ?>" />
 	<div id="PlayerGameController">
-		<div><p>Playthrough number <span class="" id="play_num"><?php echo $game_info["Number"]; ?></span></p></div>
+		<div><p>Playthrough number <span class="" id="play_num"><?php echo $game_info["Number"]; ?></span><?php if ( $game_info["Name" ] ) : ?>: "<?php echo $game_info["Name"]; ?>"<?php endif; ?></p></div>
 		<div class="screen-reader-text">
 			<div>
 				<label for="GameNumber">Playthrough number:</label> <input type="number" name="game_number" id="GameNumber" value="<?php echo $game_info["Number"]; ?>" min="1" max="255">

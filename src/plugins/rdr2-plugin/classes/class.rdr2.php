@@ -424,7 +424,7 @@ class RDR2 {
 	function get_craftables() {
 		
 		$query = '
-			SELECT ID, `Group`, Name 
+			SELECT ID, Craftable_Group, Name 
 			FROM ' . $this->wpdb->craftables . ' 
 			WHERE 1 
 		';

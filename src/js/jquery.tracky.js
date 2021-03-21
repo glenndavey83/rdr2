@@ -969,7 +969,7 @@
 						
 						var 
 							// Get this Group's Craftables
-							groupCraftables = craftables.filter( function( obj ) { return obj.Group == categoryGroups[ g ].ID; } ),
+							groupCraftables = craftables.filter( function( obj ) { return obj.Craftable_Group == categoryGroups[ g ].ID; } ),
 							
 							// Total Crafted starts at 0
 							totalCrafted = 0,
